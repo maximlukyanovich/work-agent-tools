@@ -39,7 +39,7 @@ Produce an estimate. The result is a data module plus a markdown report.
 7. **Write the risks** only where they change the number, and the exclusions
    where the price ends. Collect the open questions.
 
-8. **Emit** the data module and run `scripts/render_md.py <module> <out.md>`.
+8. **Emit** the data module and run `${CLAUDE_PLUGIN_ROOT}/scripts/render_md.py <module> <out.md>`.
 
 9. **Only now compare with the deadline**, if one was named, and report the gap
    as a scope question with concrete lines that could move.

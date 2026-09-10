@@ -34,10 +34,13 @@ profile's issue language — that is a different setting.
    `## Issues`, and tracker credentials. State which of the two are present here
    — one line each, no diagnostics beyond that.
 
-5. **Point at the skill** for the full rules: `skills/issues/SKILL.md`.
+5. **Point at the skill** for the full rules: `${CLAUDE_PLUGIN_ROOT}/skills/issues/SKILL.md`.
 
 ## Hard rules
 
+- **Never search the filesystem for the plugin.** Its files are at
+  `${CLAUDE_PLUGIN_ROOT}` — use that path verbatim. A `find` over the disk is the
+  failure this rule exists to prevent.
 - Read-only. No file is written, no API call changes anything.
 - The command list comes from frontmatter, not from memory.
 - Keep it short: this is an introduction, not the manual.

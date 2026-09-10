@@ -13,7 +13,7 @@ Write the estimate into the company template.
    an output path that is **not** the template. Running twice must give the same
    result, so the input is never the file being produced.
 
-2. **Run** `scripts/build_xlsx.py <module> <template> <output>`. It inserts the
+2. **Run** `${CLAUDE_PLUGIN_ROOT}/scripts/build_xlsx.py <module> <template> <output>`. It inserts the
    rows, shifts the template's formulas and merged ranges to match, sets the
    sheet to recalculate on open, and fills the questions sheet.
 

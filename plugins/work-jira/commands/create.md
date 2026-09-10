@@ -24,7 +24,7 @@ prints what would be created and exits.
    labels from `GET /rest/api/3/label`. Pick labels from what exists; creating
    one is a question for the developer, never a side effect.
 
-4. **Build each description** with `scripts/jira.py`: `h` for section headings,
+4. **Build each description** with `${CLAUDE_PLUGIN_ROOT}/scripts/jira.py`: `h` for section headings,
    `ul` for scope, `checklist` for acceptance criteria, `p` for prose. Sections
    in the order the skill fixes, `Estimate` last.
 

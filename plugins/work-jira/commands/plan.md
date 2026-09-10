@@ -15,7 +15,7 @@ call — ask which part of the estimate to plan, listing what is available.
 
 1. **Load the conventions.** The `issues` skill, then
    `.claude/project-profile.md`. If the profile lacks `## Tracker` or
-   `## Issues`, run the batch from `reference/first-run.md` first and write the
+   `## Issues`, run the batch from `${CLAUDE_PLUGIN_ROOT}/reference/first-run.md` first and write the
    answers — do not plan on guesses.
 
 2. **Read the scope.** From the estimate if there is one: task names, hours for

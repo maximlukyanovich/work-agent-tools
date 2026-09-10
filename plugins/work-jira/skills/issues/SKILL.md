@@ -10,7 +10,7 @@ developer says in the current session overrides both.
 
 Read `.claude/project-profile.md` before anything else. If its `## Tracker` or
 `## Issues` sections are missing, ask the five questions in
-[reference/first-run.md](../../reference/first-run.md) and write the answers
+`${CLAUDE_PLUGIN_ROOT}/reference/first-run.md` and write the answers
 there — the second run must not ask again.
 
 ## Hierarchy
@@ -105,7 +105,7 @@ by side forever, and the wrong one is invisible in a filter.
 ## Writing the text
 
 Descriptions go to the API as ADF through
-[scripts/jira.py](../../scripts/jira.py), not as Markdown through the MCP layer.
+`${CLAUDE_PLUGIN_ROOT}/scripts/jira.py`, not as Markdown through the MCP layer.
 The MCP converter rewrites Markdown into wiki markup and loses formatting on the
 way: a link under bold loses its target, bold inside a list item becomes literal
 asterisks, and task lists do not survive at all.
