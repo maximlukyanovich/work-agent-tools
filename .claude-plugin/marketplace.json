@@ -1,0 +1,29 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "mluk-work-agent-tools",
+  "description": "Shared Claude Code tooling for team projects: repository bootstrap, project estimation, and Jira workflow.",
+  "owner": {
+    "name": "Maxim Lukyanovich",
+    "email": "maximlukyanovich94@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "project-bootstrap",
+      "description": "Initialise or audit a repository's agent harness: AGENTS.md, skills, commands, hooks, MCP, docs. Stack-agnostic.",
+      "source": "./plugins/project-bootstrap",
+      "category": "workflow"
+    },
+    {
+      "name": "estimation",
+      "description": "Estimate a project from a spec and a design handoff: decomposition, provenance audit, markdown report and the company estimate workbook.",
+      "source": "./plugins/estimation",
+      "category": "workflow"
+    },
+    {
+      "name": "jira-workflow",
+      "description": "Create and run Jira work the way the company standard requires: issue hierarchy, description shape, statuses, comments, worklog.",
+      "source": "./plugins/jira-workflow",
+      "category": "workflow"
+    }
+  ]
+}

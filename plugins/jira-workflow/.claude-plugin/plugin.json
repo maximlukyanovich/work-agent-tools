@@ -1,0 +1,8 @@
+{
+  "name": "jira-workflow",
+  "description": "Create and run Jira work the way the company standard requires: issue hierarchy, description shape, statuses, comments, worklog.",
+  "author": {
+    "name": "Maxim Lukyanovich",
+    "email": "maximlukyanovich94@gmail.com"
+  }
+}

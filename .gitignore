@@ -1,0 +1,7 @@
+# Локальные материалы и секреты
+.env
+.mcp.json
+*.local.json
+__pycache__/
+*.pyc
+.DS_Store
