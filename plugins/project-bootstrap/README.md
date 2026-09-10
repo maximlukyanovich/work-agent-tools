@@ -23,4 +23,14 @@ A rule lives on the cheapest layer that can catch it: deterministic checks →
 agent hooks → documents → skills → commands. Duplication across layers is
 sometimes deliberate; duplication within a layer is always a bug.
 
-**Status:** skeleton. Content is being carried over from `agent-setup-playbook.md`.
+## Skill
+
+`skills/layers` — the five layers, what each costs, and the anti-patterns that
+make a harness expensive. Loaded by the agent whenever a rule needs a home.
+
+## Reference
+
+Read one at a time, not as a whole: `questions.md` (the eleven asked in phase 1),
+`layout.md` (target file tree, gitignore, and the two traps that cost a rewrite),
+`templates.md` (skeletons), `project-profile.md` (the file shared plugins read),
+`checklist.md` (the final check).
