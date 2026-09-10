@@ -1,9 +1,9 @@
 ---
-description: What estimation can do — commands, the method it applies, and the data format it expects.
+description: What work-estimation can do — commands, the method it applies, and the data format it expects.
 argument-hint: '[<language code>]'
 ---
 
-# /work-tools-est-help
+# /work-estimation:help
 
 Introduce this plugin. **Read-only.**
 
@@ -14,8 +14,8 @@ Language: the conversation's, unless `$1` gives a code.
 1. **List the commands from their frontmatter** — `description` and
    `argument-hint` out of every `commands/*.md` here. Never typed by hand.
 
-2. **Show the order:** `/work-tools-est-project` produces an estimate, `/work-tools-est-update`
-   recomputes it after the scope changes, `/work-tools-est-export` carries it into the
+2. **Show the order:** `/work-estimation:project` produces an estimate, `/work-estimation:update`
+   recomputes it after the scope changes, `/work-estimation:export` carries it into the
    company workbook.
 
 3. **State the method in five lines**: two rates of work, counting bottom-up

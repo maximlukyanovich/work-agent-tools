@@ -3,7 +3,7 @@ description: Set up a repository's agent harness — inventory, questions, plan,
 argument-hint: '[<language>]'
 ---
 
-# /work-tools-boot-setup
+# /work-bootstrap:setup
 
 Create the agent harness for this repository. Stack-agnostic.
 
@@ -21,7 +21,7 @@ The order is fixed. Steps are not reordered or skipped.
    notes. Integrations: MCP examples, environment templates.
 
    Decide the mode from what you found: nothing or fragments → set up; a harness
-   already there → say so and offer `/work-tools-boot-audit` instead.
+   already there → say so and offer `/work-bootstrap:audit` instead.
 
 2. **Ask what the code cannot answer.** One or two batches, never one question
    per turn, every question with an explicit default. The list is in

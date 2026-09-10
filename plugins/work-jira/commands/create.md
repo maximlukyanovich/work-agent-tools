@@ -3,9 +3,9 @@ description: Create the epics, stories, tasks and sub-tasks from an approved pla
 argument-hint: '[<epic or plan file>] [dry-run]'
 ---
 
-# /work-tools-jira-create
+# /work-jira:create
 
-Create what `/work-tools-jira-plan` proposed and the developer approved.
+Create what `/work-jira:plan` proposed and the developer approved.
 
 **Writes to Jira.** Every creation is confirmed before it happens; `dry-run`
 prints what would be created and exits.
@@ -13,7 +13,7 @@ prints what would be created and exits.
 ## Steps
 
 1. **Refuse without an approved plan.** If this session has no approved tree from
-   `/work-tools-jira-plan`, run that first. A plan approved in another session is re-shown
+   `/work-jira:plan`, run that first. A plan approved in another session is re-shown
    for confirmation, not trusted silently.
 
 2. **Load conventions and coordinates.** The `issues` skill, the profile's

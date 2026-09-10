@@ -1,5 +1,5 @@
 {
-  "name": "project-bootstrap",
+  "name": "work-bootstrap",
   "description": "Initialise or audit a repository's agent harness: AGENTS.md, skills, commands, hooks, MCP, docs. Stack-agnostic.",
   "author": {
     "name": "Maxim Lukyanovich",

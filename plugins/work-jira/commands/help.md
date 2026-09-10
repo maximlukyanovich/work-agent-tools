@@ -1,9 +1,9 @@
 ---
-description: What jira-workflow can do — commands, the order they are applied in, and the conventions it carries.
+description: What work-jira can do — commands, the order they are applied in, and the conventions it carries.
 argument-hint: '[<language code>]'
 ---
 
-# /work-tools-jira-help
+# /work-jira:help
 
 Introduce this plugin. **Read-only**, changes nothing, safe at any time.
 
@@ -19,11 +19,11 @@ profile's issue language — that is a different setting.
 2. **Show the usual order**, since it does not follow from the names:
 
    ```
-   /work-tools-jira-plan      propose the tree, get it approved
-   /work-tools-jira-create    create it
-   /work-tools-jira-questions collect what is still unclear on an issue
-   /work-tools-jira-status    check whether an issue is really done
-   /work-tools-jira-comment   post the result comment, offer a worklog
+   /work-jira:plan      propose the tree, get it approved
+   /work-jira:create    create it
+   /work-jira:questions collect what is still unclear on an issue
+   /work-jira:status    check whether an issue is really done
+   /work-jira:comment   post the result comment, offer a worklog
    ```
 
 3. **Name the conventions it carries**, in two or three lines each: hierarchy

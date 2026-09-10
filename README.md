@@ -13,7 +13,7 @@ Once per machine:
 
 ```bash
 /plugin marketplace add https://github.com/maximlukyanovich/work-agent-tools.git
-/plugin install project-bootstrap estimation jira-workflow
+/plugin install work-bootstrap work-jira work-estimation
 ```
 
 The repository is private, so ordinary git access is required — the same SSH key
@@ -25,16 +25,16 @@ Updating the method everywhere at once:
 /plugin marketplace update mluk-work-agent-tools
 ```
 
-Plugins install separately: `/plugin install estimation` does not pull Jira in.
+Plugins install separately: `/plugin install work-estimation` does not pull Jira in.
 
 ## Where to start
 
 Every plugin can introduce itself:
 
 ```bash
-/work-tools-boot-help          what project-bootstrap can do
-/work-tools-jira-help          what jira-workflow can do
-/work-tools-est-help  ru       what estimation can do, in Russian
+/work-bootstrap:help          what it can do for a repository's harness
+/work-jira:help               what it can do with issues
+/work-estimation:help  ru     what it can do with estimates, in Russian
 ```
 
 Each prints the plugin's surface: its commands with a line on each, the order
@@ -47,9 +47,9 @@ Language follows the conversation; pass a language code to override.
 
 | Plugin | What it does |
 | --- | --- |
-| `project-bootstrap` | Initialise or audit a repository's agent harness: `AGENTS.md`, skills, commands, hooks, MCP, docs. Stack-agnostic. |
-| `estimation` | Estimate a project from a spec and a design handoff: decomposition, provenance audit, a markdown report and the company estimate workbook. |
-| `jira-workflow` | Run Jira work the way the company standard requires: hierarchy, description shape, statuses, comments, worklog. |
+| `work-bootstrap` | Initialise or audit a repository's agent harness: `AGENTS.md`, skills, commands, hooks, MCP, docs. Stack-agnostic. |
+| `work-estimation` | Estimate a project from a spec and a design handoff: decomposition, provenance audit, a markdown report and the company estimate workbook. |
+| `work-jira` | Run Jira work the way the company standard requires: hierarchy, description shape, statuses, comments, worklog. |
 
 ## Two kinds of plugin
 
@@ -57,12 +57,12 @@ A plugin is either a generator or a library, and the choice is deliberate.
 
 **A generator** runs once and writes files into the project. What it produces
 becomes the project's own code: edited locally, never updated from here.
-`project-bootstrap` is a generator — `AGENTS.md`, domain skills and hooks are
+`work-bootstrap` is a generator — `AGENTS.md`, domain skills and hooks are
 about one repository and have no shared version to track.
 
 **A library** keeps its commands and skills here and is invoked from any project.
-The project contributes only a profile that steers them. `jira-workflow` and
-`estimation` are libraries — the method is identical everywhere, and the
+The project contributes only a profile that steers them. `work-jira` and
+`work-estimation` are libraries — the method is identical everywhere, and the
 differences (tracker key, language, prefixes, which description sections apply)
 are data, not code.
 
@@ -115,37 +115,35 @@ plugin follows it.
 
 ## Command naming
 
-Every command starts with `work-tools-`, the marketplace's name, then the
-plugin's area:
+Claude Code prefixes a plugin's commands with the plugin name and a colon by
+itself — `/figma:figma-use`, and so `/work-jira:create` here. So the prefix lives
+in the **plugin name**, and the command name stays short.
 
 | Plugin | Commands |
 | --- | --- |
-| `project-bootstrap` | `/work-tools-boot-setup`, `/work-tools-boot-audit`, `/work-tools-boot-help` |
-| `jira-workflow` | `/work-tools-jira-plan`, `/work-tools-jira-create`, `/work-tools-jira-questions`, `/work-tools-jira-status`, `/work-tools-jira-comment`, `/work-tools-jira-help` |
-| `estimation` | `/work-tools-est-project`, `/work-tools-est-update`, `/work-tools-est-export`, `/work-tools-est-help` |
+| `work-bootstrap` | `/work-bootstrap:setup`, `:audit`, `:help` |
+| `work-jira` | `/work-jira:plan`, `:create`, `:questions`, `:status`, `:comment`, `:help` |
+| `work-estimation` | `/work-estimation:project`, `:update`, `:export`, `:help` |
 
-Two levels of filtering come out of it: `work-tools` lists everything shipped
-from here, `work-tools-jira` narrows to one plugin. The length costs nothing —
-completion fills it in — and it buys an unmistakable signal that the command is
-shared and is changed by a merge here, not by editing a file in the project.
+Two levels of filtering fall out of it: typing `work` lists everything shipped
+from here, `work-jira` narrows to one plugin. Nothing is repeated — the area is
+in the plugin, the verb is in the command.
 
-**A separator, not a colon.** `work-tools:jira-create.md` cannot exist on
-Windows, git refuses to check it out there, and not one of the several hundred
-commands across the installed marketplaces uses a colon in a filename. Claude
-Code also appears to reserve the colon for its own plugin namespace, as in
-`figma:figma-use`.
+**Never put a colon in a filename.** The separator is the harness's; a file named
+`plan:create.md` cannot be checked out on Windows. And never repeat the plugin
+name inside the command name: `/work-jira:jira-create` is what that produces.
 
 Two rules follow.
 
-**A plugin command never takes a name a project is likely to use.** With this
-prefix a collision is nearly impossible, but the rule still holds for what the
-command *does*: `/task`, `/commit`, `/promote`, `/sync`, `/start` are procedures
-that differ between repositories and belong to them. Only the shareable half
-moves here.
+**A plugin command never takes over a job the project owns.** `/task`,
+`/commit`, `/promote`, `/sync`, `/start` are procedures that differ between
+repositories and stay there; only the shareable half moves here. The namespace
+prevents the name clash, but not the confusion of two commands doing the same
+job.
 
-**The prefix is fixed once.** Renaming it breaks muscle memory and every document
-that quotes a command. If a plugin's subject drifts far enough that its area no
-longer fits, that is a new plugin.
+**Plugin names are fixed once.** Renaming one changes every command it ships and
+every document quoting them. If a plugin's subject drifts far enough that its
+name no longer fits, that is a new plugin.
 
 ## Layout
 

@@ -1,4 +1,4 @@
-# jira-workflow
+# work-jira
 
 Run Jira work the way the company standard requires.
 
@@ -6,12 +6,12 @@ Run Jira work the way the company standard requires.
 
 | Command | What it does |
 | --- | --- |
-| `/work-tools-jira-plan` | Proposes a hierarchy and a description shape for the scope at hand, then waits for approval. |
-| `/work-tools-jira-create` | Creates epics and issues from an approved estimate. |
-| `/work-tools-jira-questions` | Open questions on an issue — from Jira, the design and the branch state. |
-| `/work-tools-jira-status` | Checks whether an issue is actually done. Read-only. |
-| `/work-tools-jira-comment` | Drafts and posts a result comment on the issues a branch touched; offers a worklog afterwards. |
-| `/work-tools-jira-help` | What this plugin can do: commands, the order they are applied in, the conventions it carries. Optional language argument. |
+| `/work-jira:plan` | Proposes a hierarchy and a description shape for the scope at hand, then waits for approval. |
+| `/work-jira:create` | Creates epics and issues from an approved estimate. |
+| `/work-jira:questions` | Open questions on an issue — from Jira, the design and the branch state. |
+| `/work-jira:status` | Checks whether an issue is actually done. Read-only. |
+| `/work-jira:comment` | Drafts and posts a result comment on the issues a branch touched; offers a worklog afterwards. |
+| `/work-jira:help` | What this plugin can do: commands, the order they are applied in, the conventions it carries. Optional language argument. |
 
 Starting work on an issue — branch, plan, quality gate — stays a **project**
 command, usually `/task`. That procedure is tied to branch naming and the local
@@ -78,7 +78,7 @@ rather than a mistake.
 
 ## Standing on its own
 
-This plugin does **not** require `project-bootstrap`. It works in a repository
+This plugin does **not** require `work-bootstrap`. It works in a repository
 that has nothing but code.
 
 **Derived, never asked:** Jira URL and project key from `.mcp.json` or `.env`;
@@ -104,8 +104,8 @@ left in the conversation. A second run asks nothing.
 ### The profile is sectioned
 
 That is what keeps the plugins independent. One file, but each plugin owns its
-sections and can create them alone: `project-bootstrap` writes the whole profile,
-`jira-workflow` writes `## Tracker` and `## Issues`, `estimation` writes
+sections and can create them alone: `work-bootstrap` writes the whole profile,
+`work-jira` writes `## Tracker` and `## Issues`, `work-estimation` writes
 `## Estimation`. Install order does not matter.
 
 ### The one hard prerequisite

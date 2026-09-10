@@ -3,7 +3,7 @@ description: Estimate a project from its spec and design handoff — decompositi
 argument-hint: '[<scope hint>]'
 ---
 
-# /work-tools-est-project
+# /work-estimation:project
 
 Produce an estimate. The result is a data module plus a markdown report.
 
@@ -50,4 +50,4 @@ Produce an estimate. The result is a data module plus a markdown report.
 - **Never invent a requirement** to make a line countable. An undefined area is
   estimated coarsely and the reason is written into its risk.
 - **Every line carries a provenance.** No exceptions; "ours" is a valid answer.
-- **Nothing is filed anywhere.** Creating issues from this is `/work-tools-jira-plan`.
+- **Nothing is filed anywhere.** Creating issues from this is `/work-jira:plan`.

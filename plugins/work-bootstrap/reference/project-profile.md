@@ -3,7 +3,7 @@
 `.claude/project-profile.md` — what the shared plugins read before doing
 anything. Committed: it is a project decision, not a personal setting.
 
-It is **sectioned**, and each plugin owns its sections. `project-bootstrap`
+It is **sectioned**, and each plugin owns its sections. `work-bootstrap`
 writes the whole file; another plugin installed on its own creates or appends
 only its own section and never rewrites someone else's.
 

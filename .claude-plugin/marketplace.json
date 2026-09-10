@@ -8,21 +8,21 @@
   },
   "plugins": [
     {
-      "name": "project-bootstrap",
+      "name": "work-bootstrap",
       "description": "Initialise or audit a repository's agent harness: AGENTS.md, skills, commands, hooks, MCP, docs. Stack-agnostic.",
-      "source": "./plugins/project-bootstrap",
+      "source": "./plugins/work-bootstrap",
       "category": "workflow"
     },
     {
-      "name": "estimation",
+      "name": "work-estimation",
       "description": "Estimate a project from a spec and a design handoff: decomposition, provenance audit, markdown report and the company estimate workbook.",
-      "source": "./plugins/estimation",
+      "source": "./plugins/work-estimation",
       "category": "workflow"
     },
     {
-      "name": "jira-workflow",
+      "name": "work-jira",
       "description": "Create and run Jira work the way the company standard requires: issue hierarchy, description shape, statuses, comments, worklog.",
-      "source": "./plugins/jira-workflow",
+      "source": "./plugins/work-jira",
       "category": "workflow"
     }
   ]

@@ -1,4 +1,4 @@
-# project-bootstrap
+# work-bootstrap
 
 Initialise and audit a repository's agent harness. Stack-agnostic: frontend,
 backend, monorepo, library, CLI.
@@ -7,9 +7,9 @@ backend, monorepo, library, CLI.
 
 | Command | What it does |
 | --- | --- |
-| `/work-tools-boot-setup` | Inventories the repository, asks only what the code cannot answer, shows a plan, then creates the harness. |
-| `/work-tools-boot-audit` | Checks an existing harness against the model and reports what drifted. Read-only. |
-| `/work-tools-boot-help` | What this plugin can do: commands, the layer model it applies, what it creates. Optional language argument. |
+| `/work-bootstrap:setup` | Inventories the repository, asks only what the code cannot answer, shows a plan, then creates the harness. |
+| `/work-bootstrap:audit` | Checks an existing harness against the model and reports what drifted. Read-only. |
+| `/work-bootstrap:help` | What this plugin can do: commands, the layer model it applies, what it creates. Optional language argument. |
 
 ## What it creates
 
