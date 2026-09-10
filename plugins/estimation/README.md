@@ -40,5 +40,9 @@ The wording of the report comes from the data module, so its language is the
 project's. The built-in fallbacks are still Russian — they are on the list to be
 replaced with neutral English defaults.
 
-**Status:** scripts carried over from a live project; the command and the skill
-are being written.
+## Skill
+
+`skills/method` — the full method, including why the deadline must not be looked
+at while counting. The agent loads it by itself when an estimate is in play.
+
+`reference/data-format.md` — the module the scripts consume.

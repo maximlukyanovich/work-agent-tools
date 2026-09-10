@@ -125,5 +125,10 @@ and loses part of the formatting — links under bold, bold inside list items; t
 lists do not survive at all. MCP stays for reading, comments, statuses and
 worklog.
 
-**Status:** wrapper carried over from a live project; commands and skills are
-being written.
+## Skill
+
+`skills/issues` — the full conventions: hierarchy, description sections,
+estimates, labels, and the ADF quirks. The agent loads it by itself when the
+conversation touches a Jira issue.
+
+`reference/first-run.md` — the five questions asked once on a fresh project.
