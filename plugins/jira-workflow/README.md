@@ -6,12 +6,12 @@ Run Jira work the way the company standard requires.
 
 | Command | What it does |
 | --- | --- |
-| `/jira-plan` | Proposes a hierarchy and a description shape for the scope at hand, then waits for approval. |
-| `/jira-create` | Creates epics and issues from an approved estimate. |
-| `/jira-questions` | Open questions on an issue — from Jira, the design and the branch state. |
-| `/jira-status` | Checks whether an issue is actually done. Read-only. |
-| `/jira-comment` | Drafts and posts a result comment on the issues a branch touched; offers a worklog afterwards. |
-| `/jira-help` | What this plugin can do: commands, the order they are applied in, the conventions it carries. Optional language argument. |
+| `/work-tools-jira-plan` | Proposes a hierarchy and a description shape for the scope at hand, then waits for approval. |
+| `/work-tools-jira-create` | Creates epics and issues from an approved estimate. |
+| `/work-tools-jira-questions` | Open questions on an issue — from Jira, the design and the branch state. |
+| `/work-tools-jira-status` | Checks whether an issue is actually done. Read-only. |
+| `/work-tools-jira-comment` | Drafts and posts a result comment on the issues a branch touched; offers a worklog afterwards. |
+| `/work-tools-jira-help` | What this plugin can do: commands, the order they are applied in, the conventions it carries. Optional language argument. |
 
 Starting work on an issue — branch, plan, quality gate — stays a **project**
 command, usually `/task`. That procedure is tied to branch naming and the local

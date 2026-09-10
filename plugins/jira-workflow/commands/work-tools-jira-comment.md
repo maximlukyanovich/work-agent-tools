@@ -3,7 +3,7 @@ description: Draft and post a result comment on the issues a branch touched, the
 argument-hint: '[<target branch>]'
 ---
 
-# /jira-comment
+# /work-tools-jira-comment
 
 Close the loop on the issues a branch delivered: what shipped, in their language,
 on their issues.

@@ -3,7 +3,7 @@ description: Carry an estimate into the company workbook, preserving its styles 
 argument-hint: '[<data module>] [<template.xlsx>] [<output.xlsx>]'
 ---
 
-# /est-export
+# /work-tools-est-export
 
 Write the estimate into the company template.
 

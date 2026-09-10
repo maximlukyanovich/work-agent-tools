@@ -32,12 +32,12 @@ Plugins install separately: `/plugin install estimation` does not pull Jira in.
 Every plugin can introduce itself:
 
 ```bash
-/boot-help          what project-bootstrap can do
-/jira-help          what jira-workflow can do
-/est-help  ru       what estimation can do, in Russian
+/work-tools-boot-help          what project-bootstrap can do
+/work-tools-jira-help          what jira-workflow can do
+/work-tools-est-help  ru       what estimation can do, in Russian
 ```
 
-Each one prints the plugin's surface: its commands with a line on each, the order
+Each prints the plugin's surface: its commands with a line on each, the order
 they are normally applied in, the skills it carries, and what it expects from the
 project. Read-only, safe to run at any time.
 
@@ -115,39 +115,37 @@ plugin follows it.
 
 ## Command naming
 
-Every command carries its plugin as a prefix, so a plugin's whole set can be
-filtered by typing the prefix. Full name where it reads well, a short form where
-it does not.
+Every command starts with `work-tools-`, the marketplace's name, then the
+plugin's area:
 
-| Plugin | Prefix | Commands |
-| --- | --- | --- |
-| `project-bootstrap` | `boot-` | `/boot-setup`, `/boot-audit`, `/boot-help` |
-| `jira-workflow` | `jira-` | `/jira-plan`, `/jira-create`, `/jira-questions`, `/jira-status`, `/jira-comment`, `/jira-help` |
-| `estimation` | `est-` | `/est-project`, `/est-update`, `/est-export`, `/est-help` |
+| Plugin | Commands |
+| --- | --- |
+| `project-bootstrap` | `/work-tools-boot-setup`, `/work-tools-boot-audit`, `/work-tools-boot-help` |
+| `jira-workflow` | `/work-tools-jira-plan`, `/work-tools-jira-create`, `/work-tools-jira-questions`, `/work-tools-jira-status`, `/work-tools-jira-comment`, `/work-tools-jira-help` |
+| `estimation` | `/work-tools-est-project`, `/work-tools-est-update`, `/work-tools-est-export`, `/work-tools-est-help` |
 
-The prefix costs nothing in completion — you type it either way — and buys the
-ability to see one plugin's surface at a glance.
+Two levels of filtering come out of it: `work-tools` lists everything shipped
+from here, `work-tools-jira` narrows to one plugin. The length costs nothing —
+completion fills it in — and it buys an unmistakable signal that the command is
+shared and is changed by a merge here, not by editing a file in the project.
+
+**A separator, not a colon.** `work-tools:jira-create.md` cannot exist on
+Windows, git refuses to check it out there, and not one of the several hundred
+commands across the installed marketplaces uses a colon in a filename. Claude
+Code also appears to reserve the colon for its own plugin namespace, as in
+`figma:figma-use`.
 
 Two rules follow.
 
-**A plugin command never takes a name a project is likely to use.** `/task`,
-`/commit`, `/promote`, `/sync`, `/start`, `/code-review`, `/scan-primitives` are
-project territory: these procedures differ between repositories and belong to
-them. The shared half of such a job takes the prefix — `/jira-status`, not
-`/status`.
+**A plugin command never takes a name a project is likely to use.** With this
+prefix a collision is nearly impossible, but the rule still holds for what the
+command *does*: `/task`, `/commit`, `/promote`, `/sync`, `/start` are procedures
+that differ between repositories and belong to them. Only the shareable half
+moves here.
 
-**Every plugin ships a `*-help` command** that describes what the plugin can do:
-its commands with one line each, the order they are applied in, the skills it
-carries, what it expects from the project, and which of that is already in place
-here. The command list is **generated from the frontmatter** of `commands/*.md`,
-never written by hand — a hand-kept copy goes stale within weeks.
-
-Language follows the conversation; a language code as the argument overrides it.
-Not the profile's issue language — that is a different setting.
-
-**One prefix per plugin, fixed once.** Renaming it later breaks muscle memory and
-every document that quotes a command. If a plugin's subject changes enough that
-its prefix stops fitting, that is a new plugin.
+**The prefix is fixed once.** Renaming it breaks muscle memory and every document
+that quotes a command. If a plugin's subject drifts far enough that its area no
+longer fits, that is a new plugin.
 
 ## Layout
 

@@ -3,7 +3,7 @@ description: Check whether an issue is actually done — acceptance criteria aga
 argument-hint: '<KEY-123>'
 ---
 
-# /jira-status
+# /work-tools-jira-status
 
 Answer one question: is this issue really done? **Read-only** — no status is
 moved, no comment posted.

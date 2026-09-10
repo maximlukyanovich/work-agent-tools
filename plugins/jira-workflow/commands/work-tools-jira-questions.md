@@ -3,7 +3,7 @@ description: Collect what is still unclear about an issue — from its own text,
 argument-hint: '<KEY-123>'
 ---
 
-# /jira-questions
+# /work-tools-jira-questions
 
 Surface the open questions on an issue **before** work starts, when answering
 them is cheap. **Read-only.**

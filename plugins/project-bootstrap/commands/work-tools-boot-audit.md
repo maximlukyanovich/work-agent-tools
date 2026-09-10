@@ -3,7 +3,7 @@ description: Audit an existing agent harness against the layer model and report 
 argument-hint: ''
 ---
 
-# /boot-audit
+# /work-tools-boot-audit
 
 The harness exists; the job is to find the gaps, not to rewrite it.
 **Read-only** until a change is approved, and then one group at a time.

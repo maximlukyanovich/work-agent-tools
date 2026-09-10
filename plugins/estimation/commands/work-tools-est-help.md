@@ -3,7 +3,7 @@ description: What estimation can do — commands, the method it applies, and the
 argument-hint: '[<language code>]'
 ---
 
-# /est-help
+# /work-tools-est-help
 
 Introduce this plugin. **Read-only.**
 
@@ -14,8 +14,8 @@ Language: the conversation's, unless `$1` gives a code.
 1. **List the commands from their frontmatter** — `description` and
    `argument-hint` out of every `commands/*.md` here. Never typed by hand.
 
-2. **Show the order:** `/est-project` produces an estimate, `/est-update`
-   recomputes it after the scope changes, `/est-export` carries it into the
+2. **Show the order:** `/work-tools-est-project` produces an estimate, `/work-tools-est-update`
+   recomputes it after the scope changes, `/work-tools-est-export` carries it into the
    company workbook.
 
 3. **State the method in five lines**: two rates of work, counting bottom-up

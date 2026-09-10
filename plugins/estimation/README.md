@@ -6,10 +6,10 @@ Estimate a project from a spec and a design handoff.
 
 | Command | What it does |
 | --- | --- |
-| `/est-project` | Gathers the scope, decomposes it, counts bottom-up, audits where every line came from, and emits the report. |
-| `/est-update` | Re-runs the numbers after the scope changed: recomputes coefficients, keeps per-task hours untouched. |
-| `/est-export` | Carries an existing estimate into the company workbook. |
-| `/est-help` | What this plugin can do: commands, the estimation method it applies, the data format it expects. Optional language argument. |
+| `/work-tools-est-project` | Gathers the scope, decomposes it, counts bottom-up, audits where every line came from, and emits the report. |
+| `/work-tools-est-update` | Re-runs the numbers after the scope changed: recomputes coefficients, keeps per-task hours untouched. |
+| `/work-tools-est-export` | Carries an existing estimate into the company workbook. |
+| `/work-tools-est-help` | What this plugin can do: commands, the estimation method it applies, the data format it expects. Optional language argument. |
 
 ## Method
 

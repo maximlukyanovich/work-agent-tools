@@ -3,7 +3,7 @@ description: Recompute an estimate after the scope changed — coefficients from
 argument-hint: '[<data module>]'
 ---
 
-# /est-update
+# /work-tools-est-update
 
 Re-run the numbers when the composition changes: a module dropped, a line
 returned, a task added.

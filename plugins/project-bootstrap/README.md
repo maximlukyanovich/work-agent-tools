@@ -7,9 +7,9 @@ backend, monorepo, library, CLI.
 
 | Command | What it does |
 | --- | --- |
-| `/boot-setup` | Inventories the repository, asks only what the code cannot answer, shows a plan, then creates the harness. |
-| `/boot-audit` | Checks an existing harness against the model and reports what drifted. Read-only. |
-| `/boot-help` | What this plugin can do: commands, the layer model it applies, what it creates. Optional language argument. |
+| `/work-tools-boot-setup` | Inventories the repository, asks only what the code cannot answer, shows a plan, then creates the harness. |
+| `/work-tools-boot-audit` | Checks an existing harness against the model and reports what drifted. Read-only. |
+| `/work-tools-boot-help` | What this plugin can do: commands, the layer model it applies, what it creates. Optional language argument. |
 
 ## What it creates
 

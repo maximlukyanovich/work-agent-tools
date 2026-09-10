@@ -3,10 +3,10 @@ description: Propose how a scope decomposes into a tree of Jira issues, and the 
 argument-hint: '[<scope name or estimate file>]'
 ---
 
-# /jira-plan
+# /work-tools-jira-plan
 
 Turn a scope into a proposed tree of issues. **Nothing is created here** —
-`/jira-create` does that, and only after this plan is approved.
+`/work-tools-jira-create` does that, and only after this plan is approved.
 
 `$1` names the scope: an epic to plan, or the estimate file to read it from. Bare
 call — ask which part of the estimate to plan, listing what is available.
