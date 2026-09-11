@@ -23,9 +23,11 @@ call — ask which part of the estimate to plan, listing what is available.
    if there is not — and say so, because an estimate-less plan carries no hours.
 
 3. **Derive the tree** by the hierarchy rules. For each node: type, summary,
-   parent, label, estimate, and which technologies it needs. Where a story needs
-   both frontend and backend but only one is estimated, create the story and the
-   estimated sub-task, and say the other is pending — do not invent its hours.
+   parent, label, estimate, which technologies it needs, and which issues it
+   references — existing keys, or summaries from this tree — since every
+   reference becomes a `relates to` link. Where a story needs both frontend and
+   backend but only one is estimated, create the story and the estimated
+   sub-task, and say the other is pending — do not invent its hours.
 
 4. **Check the sizes.** Anything past three working days gets split by
    deliverable, and the split is shown with its arithmetic: the parts must sum to
@@ -33,8 +35,9 @@ call — ask which part of the estimate to plan, listing what is available.
 
 5. **Propose the description shape.** The four required sections, plus which
    optional ones this scope needs and why. Show **one worked example** in full —
-   a real issue from this tree, not a template with placeholders. That is what
-   the developer is actually approving.
+   a real issue from this tree, not a template with placeholders, with other
+   issues written as cards (`[[PROJ-7]]`, `[[@<summary>]]`) and no `Estimate` on
+   the epic. That is what the developer is actually approving.
 
 6. **Report and stop.**
 
@@ -46,7 +49,8 @@ call — ask which part of the estimate to plan, listing what is available.
    ```
 
    Follow it with: the total, how many issues, which are pending a backend
-   estimate, and anything the estimate flagged as a risk on these lines.
+   estimate, the links each issue will get, and anything the estimate flagged as
+   a risk on these lines.
 
 7. **Ask three questions**, each with a recommended answer: is the tree right,
    is the description shape right, and which optional sections to include.

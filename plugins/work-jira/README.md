@@ -25,8 +25,9 @@ estimate basis and the overhead rule, labels taken from the instance, the ADF
 quirks, and what gets written down where. The agent loads it by itself whenever
 the conversation touches a Jira issue. This README does not repeat it.
 
-`reference/first-run.md` — the five questions asked once on a fresh project and
-written to `.claude/project-profile.md`. The plugin does not require
+`reference/first-run.md` — the six questions asked once on a fresh project and
+written to `.claude/project-profile.md`. `reference/batch.md` — the node format
+`jira.batch` takes and the inline notation for references. The plugin does not require
 `work-bootstrap`; it derives what it can, carries the standard itself, and asks
 only what nothing can answer.
 
@@ -34,7 +35,7 @@ only what nothing can answer.
 
 | File | What it does |
 | --- | --- |
-| `scripts/jira.py` | REST v3 wrapper: descriptions assembled directly in ADF (`h`, `p`, `ul`, `checklist`, `doc`), issue creation, estimate setting. Coordinates come from the project profile, credentials from `.mcp.json`. |
+| `scripts/jira.py` | REST v3 wrapper: descriptions assembled directly in ADF (`h`, `p`, `ul`, `checklist`, `doc`, issue cards), `batch` creating a tree in three passes — create, resolve references, link — plus estimates, assignment and issue links. Coordinates come from the project profile, credentials from `.mcp.json`. |
 
 Why REST for writing: the `mcp-atlassian` layer rewrites Markdown into wiki
 markup and loses part of the formatting; task lists do not survive at all. MCP

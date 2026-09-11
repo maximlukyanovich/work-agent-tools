@@ -1,5 +1,5 @@
 ---
-description: Create the epics, stories, tasks and sub-tasks from an approved plan, with descriptions written as ADF.
+description: Create the epics, stories, tasks and sub-tasks from an approved plan, with descriptions written as ADF, references resolved and issues linked.
 argument-hint: '[<epic or plan file>] [dry-run]'
 ---
 
@@ -21,29 +21,50 @@ prints what would be created and exits.
    credentials stop the command with the fix, not with a stack trace.
 
 3. **Read the instance, do not assume it.** Issue type ids from `createmeta`,
-   labels from `GET /rest/api/3/label`. Pick labels from what exists; creating
-   one is a question for the developer, never a side effect.
+   labels from `GET /rest/api/3/label`, link types from
+   `GET /rest/api/3/issueLinkType`. Pick from what exists; creating a label is a
+   question for the developer, never a side effect.
 
-4. **Build each description** with `${CLAUDE_PLUGIN_ROOT}/scripts/jira.py`: `h` for section headings,
-   `ul` for scope, `checklist` for acceptance criteria, `p` for prose. Sections
-   in the order the skill fixes, `Estimate` last.
+4. **Write the batch script** — the node format is
+   `${CLAUDE_PLUGIN_ROOT}/reference/batch.md`. One node per issue, parents
+   first; `blocks` a function of `h`, `p`, `ul`, `checklist` in the section order
+   the skill fixes, `Estimate` last on tasks and absent on epics. Another issue is
+   referenced as a card — `[[PROJ-7]]` when it exists, `[[@<summary>]]` when it is
+   in this batch — and every reference becomes a `relates to` link. The script
+   lives in the project's local notes, next to the earlier ones, and takes
+   `--dry-run`.
 
-5. **Create top-down**, so parents exist before children: epics, then stories,
-   then tasks and sub-tasks. After each issue, set `Original Estimate` with the
-   second request — the field is not on the create screen.
+5. **Decide the assignee.** The profile's `## Issues` says whether tasks go to
+   the developer running the command; if it is silent, ask — tasks, sub-tasks
+   and bugs to the developer, or nobody — and write the answer into the profile
+   so it is not asked again. Epics and stories are never assigned here.
 
-6. **Be idempotent.** Before creating, list the project's existing summaries and
-   skip exact matches, saying which were skipped. A re-run after a partial
-   failure must not double anything.
+6. **Run dry, then confirm.** `--dry-run` shows what would be created, which
+   summaries already exist and are skipped, and the totals. Show the count, the
+   total hours and the assignee, and wait for a yes.
 
-7. **Report** one line per issue: key, type, estimate, summary. Then the totals
-   and the links.
+7. **Run.** `jira.batch` does the three passes: create top-down with estimates
+   and assignee; render every new description again and update the ones whose
+   references resolved; link each issue to the issues it references. A re-run
+   after a partial failure skips existing summaries — `rewrite=True` only when
+   the failure was between the passes, since a rewrite unticks acceptance
+   criteria.
+
+8. **Report** one line per issue: key, type, estimate, summary. Then the
+   descriptions updated in pass two, the links created, the totals and the
+   URLs. A summary that stayed unresolved — still rendered as code — is named as
+   something to fix.
 
 ## Hard rules
 
-- **Confirm before the first write**, showing the count and the total hours.
-- **Never create a label**, a version, or a component without being asked.
+- **Confirm before the first write**, showing the count, the total hours and the
+  assignee.
+- **Never create a label**, a version, a component or a link type without being
+  asked.
 - **Never invent an estimate.** An issue whose hours are unknown is created
-  without them, and that is reported.
+  without them, and that is reported. **An epic never carries one** — the
+  batch refuses it.
+- **Never assign an epic or a story** to the developer; the standard gives them
+  to the manager or the analyst.
 - **On a failure, stop.** Report what was created and what was not; do not
   continue past an error to "finish the batch".

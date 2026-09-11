@@ -25,7 +25,8 @@ on their issues.
    there is something to flag.
 
 4. **Post only on an explicit go-ahead**, applying the formatting rules from the
-   `issues` skill: backticks for inline code, plain links for issue keys, no bold
+   `issues` skill: backticks for inline code, an issue as a link whose text
+   carries key and summary (a comment through MCP cannot carry a card), no bold
    inside list items.
 
 5. **Then, separately, offer a worklog.** Propose one short sentence per issue.
