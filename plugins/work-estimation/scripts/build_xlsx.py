@@ -16,9 +16,10 @@ _MOD = sys.argv[1] if len(sys.argv) > 1 else "data"
 SRC = sys.argv[2]
 OUT = sys.argv[3]
 
-import importlib  # noqa: E402
+from estimate_data import Estimate  # noqa: E402
 
-data = importlib.import_module(_MOD)
+E = Estimate(_MOD)
+data = E.m
 
 COL = {c: i for i, c in enumerate("ABCDEFGHIJKLMNO", start=1)}
 
@@ -114,24 +115,14 @@ TPL_DATA_ROW = rows[35]
 TPL_TEXT_ROW = rows[48]
 
 # ---- numbers -----------------------------------------------------------
-T = data.totals()
-core_o, core_p = T["core"]
-resp_o, resp_p = T["responsive"]
-i18n_o, i18n_p = T["i18n"]
-test_o, test_p = T["tests"]
-DERIVED_HOURS = {"responsive": T["responsive"], "i18n": T["i18n"], "tests": T["tests"]}
-
-ROWS = [(t[0], t[1], t[2], num(t[3]), num(t[4]), t[5], t[6]) for t in data.TASKS]
-for epic, task, desc, key, neg, pos in data.DERIVED:
-    o, p = DERIVED_HOURS[key]
-    ROWS.append((epic, task, desc, num(o), num(p), neg, pos))
-
+# Rows carry their own PART OF; the workbook's summary formulas pick them up by name.
+ROWS = [(r["part"], r["epic"], r["task"], r["description"], r["optimistic"],
+         r["pessimistic"], r["negative"], r["positive"]) for r in E.all_rows()]
 N = len(ROWS)
 DELTA1 = N - 4  # template holds 4 data rows (32..35)
-FE_O = sum(r[3] for r in ROWS)
-FE_P = sum(r[4] for r in ROWS)
-print(f"tasks={N} core={core_o}/{core_p} resp={num(resp_o)}/{num(resp_p)} "
-      f"i18n={num(i18n_o)}/{num(i18n_p)} tests={num(test_o)}/{num(test_p)} FE={FE_O}/{FE_P}")
+core_o, core_p = E.core()
+FE_O, FE_P = E.total()
+print(f"rows={N} parts={E.parts} core={core_o}/{core_p} total={FE_O}/{FE_P}")
 
 # ---- rebuild sheetData -------------------------------------------------
 out, mapping = [], {}
@@ -144,14 +135,14 @@ for n in order:
             for i, r in enumerate(ROWS):
                 rn = 32 + i
                 x = shift_row_xml(TPL_DATA_ROW, rn, 35, rn - 35)
-                x = set_cell(x, "B", "Frontend")
-                x = set_cell(x, "C", r[0])
-                x = set_cell(x, "D", r[1])
-                x = set_cell(x, "E", r[2])
-                x = set_cell(x, "F", r[3], numeric=True)
-                x = set_cell(x, "G", r[4], numeric=True)
-                x = set_cell(x, "H", r[5])
-                x = set_cell(x, "I", r[6])
+                x = set_cell(x, "B", r[0])
+                x = set_cell(x, "C", r[1])
+                x = set_cell(x, "D", r[2])
+                x = set_cell(x, "E", r[3])
+                x = set_cell(x, "F", r[4], numeric=True)
+                x = set_cell(x, "G", r[5], numeric=True)
+                x = set_cell(x, "H", r[6])
+                x = set_cell(x, "I", r[7])
                 out.append((rn, x))
     else:
         nn = n + DELTA1

@@ -32,9 +32,16 @@ Estimate a project from a spec and a design handoff.
 | `scripts/render_md.py <data module> <out.md>` | The markdown report: totals, breakdown, provenance audit, risks, exclusions, questions. |
 | `scripts/build_xlsx.py <data module> <template.xlsx> <out.xlsx>` | Carries the same data into the estimate workbook, preserving its styles and formulas. |
 
-Data lives in a single python module: tasks, coefficients, risks, exclusions,
-questions and the provenance map. Narrowing the scope is a filter module on top
-of the full set, never a hand-edited copy.
+**Inputs** are whatever the client sent, in any form — documents, spreadsheets,
+links, a design bundle. **The deliverable is a markdown report**; the workbook is
+optional and produced by `export`. The user chooses which parts are estimated
+(frontend, backend, analysis, design, DevOps, QA) and may reshape the table's
+columns; the default shape is the company workbook's.
+
+Internally the estimate lives in a python module — tasks, coefficients, risks,
+exclusions, questions, provenance — produced by `project`, never written by
+hand. It exists so that `update` can narrow the scope as a filter over the full
+set and `export` can fill the workbook from the same numbers.
 
 The wording of the report comes from the data module, so its language is the
 project's. The built-in fallbacks are still Russian — they are on the list to be
