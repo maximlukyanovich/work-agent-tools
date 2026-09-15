@@ -14,7 +14,7 @@ Never ask what can be derived. Derive first:
 | Platform, branches | `git remote`, `git branch` |
 | Stack, quality commands | `package.json`, `pyproject.toml`, config files |
 
-## The five questions
+## The six questions
 
 Each carries a recommended default, so the answer can be a nod.
 
@@ -37,6 +37,12 @@ Each carries a recommended default, so the answer can be a nod.
    (automated tests, responsive layout, localisation)?
    *Default: optimistic. If overheads are folded in, name which ones and their
    percentages.*
+
+6. **Assignee.** Do the tasks, sub-tasks and bugs a developer creates go to that
+   developer, or stay unassigned? Epics and stories go to the manager or the
+   analyst either way.
+   *Default: to the developer — the person creating them is the one about to do
+   them.*
 
 ## What to write
 

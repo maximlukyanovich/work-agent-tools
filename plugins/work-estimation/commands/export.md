@@ -24,6 +24,12 @@ Write the estimate into the company template.
 4. **Report** the totals, the file path, and anything the template still expects
    from a human — company name, date, rates.
 
+## Scripts are run, not read
+
+The data module format is documented in `${CLAUDE_PLUGIN_ROOT}/reference/data-format.md`.
+Do not open the scripts to learn it — `render_md.py` alone is five thousand
+tokens, and everything it needs from the module is in that reference.
+
 ## Hard rules
 
 - **The template is read-only.** It is never the output, and it is never

@@ -28,6 +28,12 @@ returned, a task added.
 6. **Regenerate the report** and state the delta plainly: what was, what is,
    which lines moved and why.
 
+## Scripts are run, not read
+
+The data module format is documented in `${CLAUDE_PLUGIN_ROOT}/reference/data-format.md`.
+Do not open the scripts to learn it — `render_md.py` alone is five thousand
+tokens, and everything it needs from the module is in that reference.
+
 ## Hard rules
 
 - **Never re-derive hours that were not questioned.** Changing them while

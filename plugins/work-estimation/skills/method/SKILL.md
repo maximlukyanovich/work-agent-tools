@@ -1,6 +1,6 @@
 ---
 name: method
-description: How to estimate a project from a spec and a design handoff — two rates of work, counting bottom-up, the provenance audit, coefficients and rounding. Use when producing, revising or reviewing an estimate, or when deciding what a task should cost.
+description: How to estimate a project from a spec and a design handoff — two rates of work, counting bottom-up, the provenance audit, coefficients and rounding. Use when producing, revising or reviewing a project estimate. Not for setting a single issue's estimate field — that is the issues skill.
 ---
 
 # Estimation method

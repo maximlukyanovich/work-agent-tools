@@ -31,3 +31,6 @@ moved, no comment posted.
 - **Never move the status.** That is the developer's action, and it follows this
   report rather than replacing it.
 - **Unverifiable is a valid verdict.** Say so instead of guessing.
+- **Remaining time on a Done issue is not a defect.** Report it, never
+  propose zeroing it: the developer may keep a reserve on finished work
+  deliberately.

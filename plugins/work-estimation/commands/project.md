@@ -5,7 +5,16 @@ argument-hint: '[<scope hint>]'
 
 # /work-estimation:project
 
-Produce an estimate. The result is a data module plus a markdown report.
+Produce an estimate. **The deliverable is a markdown report** — totals,
+breakdown table, provenance audit, risks, exclusions, open questions. The
+workbook is a separate, optional step: `/work-estimation:export`.
+
+## Inputs
+
+Whatever the client sent, in whatever form: `.docx`, `.xlsx`, `.pdf`, markdown,
+a Google Docs or Drive link, a slide deck, a design bundle, Figma, screenshots
+with prose. Read all of it; do not ask for a conversion. If a format cannot be
+read, say which one and why, and continue with the rest.
 
 ## Steps
 
@@ -13,7 +22,17 @@ Produce an estimate. The result is a data module plus a markdown report.
    section for rates and coefficients. Missing section: ask for the bands and the
    coefficient rates, then write them there.
 
-2. **Inventory the sources.** The spec: every feature, numbered as it numbers
+2. **Agree the frame before counting.** Two questions, each with a default:
+
+   - **Which parts are estimated?** Frontend, backend, business analysis, design,
+     DevOps, QA — any subset. Each becomes a `PART OF` value in the table with its
+     own rates. Default: ask; never assume frontend-only.
+   - **Which columns?** Default is the company workbook's shape: part of, epic,
+     task, description, optimistic, pessimistic, negative risk, positive risk. The
+     user may add, drop or rename columns; record the chosen shape in the report
+     header so `export` knows what it is looking at.
+
+3. **Inventory the sources.** The spec: every feature, numbered as it numbers
    them. The design handoff: every screen and component, by group. The
    repository: what already exists. Check the bundle version against its source
    before quoting anything from it.
@@ -22,27 +41,37 @@ Produce an estimate. The result is a data module plus a markdown report.
    when the sources are large — the conclusion is what matters, not the file
    dumps.
 
-3. **Decompose into tasks** by product surface. One task is one to three days of
-   work; anything larger is split by deliverable. Every task gets a description
-   written for the client.
+4. **Decompose into tasks** by product surface, within each estimated part. One
+   task is one to three days of work; anything larger is split by deliverable.
+   Every task gets a description written for the client.
 
-4. **Count each task bottom-up.** Which of the two rates applies, and why.
+
+5. **Count each task bottom-up.** Which of the two rates applies, and why.
    Verification in a browser is inside the hours. **Do not look at any named
    deadline while counting.**
 
-5. **Classify every line** — confirmed, thin, design-only, ours — as you go, not
+6. **Classify every line** — confirmed, thin, design-only, ours — as you go, not
    afterwards. Doing it afterwards produces flattering answers.
 
-6. **Add the coefficient rows** from the profile's rates. Whole hours, rounded
+7. **Add the coefficient rows** from the profile's rates. Whole hours, rounded
    up, tests last and computed on the sum.
 
-7. **Write the risks** only where they change the number, and the exclusions
+8. **Write the risks** only where they change the number, and the exclusions
    where the price ends. Collect the open questions.
 
-8. **Emit** the data module and run `${CLAUDE_PLUGIN_ROOT}/scripts/render_md.py <module> <out.md>`.
+9. **Emit the report.** Write the data module — the internal form the scripts
+   consume, so that `update` and `export` work later — and render the markdown
+   with `${CLAUDE_PLUGIN_ROOT}/scripts/render_md.py <module> <out.md>`. Hand the
+   user the markdown; the module is mentioned, not presented.
 
-9. **Only now compare with the deadline**, if one was named, and report the gap
+10. **Only now compare with the deadline**, if one was named, and report the gap
    as a scope question with concrete lines that could move.
+
+## Scripts are run, not read
+
+The data module format is documented in `${CLAUDE_PLUGIN_ROOT}/reference/data-format.md`.
+Do not open the scripts to learn it — `render_md.py` alone is five thousand
+tokens, and everything it needs from the module is in that reference.
 
 ## Hard rules
 

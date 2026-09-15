@@ -19,6 +19,7 @@ System, instance URL, project key, allowed labels, where credentials come from.
 ## Issues
 Language of summaries and descriptions. Prefixes, and the reason if they deviate
 from the standard. Epic granularity. Required and optional description sections.
+Whether tasks are assigned to the developer who creates them.
 
 ## Estimation
 The two work rates and their bands. Coefficients and their percentages. Which

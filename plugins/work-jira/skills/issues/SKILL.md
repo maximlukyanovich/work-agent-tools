@@ -9,7 +9,7 @@ The company standard is the default. The project profile overrides it. What the
 developer says in the current session overrides both.
 
 Read `.claude/project-profile.md` before anything else. If its `## Tracker` or
-`## Issues` sections are missing, ask the five questions in
+`## Issues` sections are missing, ask the six questions in
 `${CLAUDE_PLUGIN_ROOT}/reference/first-run.md` and write the answers
 there — the second run must not ask again.
 
@@ -22,7 +22,9 @@ there — the second run must not ask again.
 | A defect | a separate `Bug`, linked to the issue it came from — never a sub-task |
 
 Epic and Story are assigned to the project manager or the analyst; tasks and
-sub-tasks to the developers who do the work.
+sub-tasks to the developers who do the work. Whether the developer running the
+command takes the tasks they create is asked, once, and the answer goes into the
+profile — the batch never assigns an epic or a story.
 
 **Epic granularity is a project decision.** By product surface (one epic per
 screen or area) or by functional layer — whichever the profile says. Surfaces
@@ -33,6 +35,21 @@ answer instead of a scan across three epics.
 
 **Size.** One task, or a slice of one, is one to three working days. A task that
 does not fit gets split — but split by deliverable, not by "part 1 / part 2".
+
+**A story is a user flow, not a pair.** The standard asks for separate
+sub-tasks per technology; it does not ask them to mirror each other. One story
+— what QA tests and the product owner accepts — may hold three frontend slices
+and one backend slice, or a frontend slice alone with the backend pending.
+Stories grouped by technology ("frontend foundation") are containers with no
+user outcome: their sub-tasks can never be planned into a sprint on their own,
+because a sub-task always follows its parent's sprint. Foundation work stays
+`Epic → Task`.
+
+**Fix Version and Priority are mandatory** before an issue enters a sprint.
+A version mirrors an agreed scope (an estimate document, a release); a
+priority follows a rule the profile states, so a new issue gets the right
+one without a hand-sorted list. Both are asked at creation, never left at the
+default silently.
 
 ## Description
 
@@ -55,6 +72,22 @@ Four are offered before creation and used when they earn their place:
 Foundation and cross-cutting issues legitimately carry a reduced set. That is not
 an omission.
 
+**An epic carries no `Estimate` section and no task count.** Jira sums the
+children on the epic itself; a copy in the text goes stale the first time a
+child changes — it did, within a day. The epic's `Scope` lists the areas, and
+the numbers live on the tasks.
+
+**Another issue is referenced as an inline card**, never as a bare key or a
+plain link: `[[PROJ-7]]` for an existing issue, `[[@<summary>]]` for one in the
+same batch that may not exist yet. Jira renders the card with key, summary and
+status and keeps them current. Where a card cannot be produced — a comment
+posted through MCP — the link text carries key and summary, `PROJ-7 Domain
+components`, so the reader does not have to open it.
+
+**Every issue a description references is also linked to it**, type `relates
+to`, so the relation is visible in the linked-items panel and survives a rewrite
+of the text. A stronger type — `blocks` — is set only when the plan says so.
+
 **Definition of Done is never copied into an issue.** It lives in the company
 standard, and a copy drifts from it. The same goes for anything else that has one
 canonical home.
@@ -73,6 +106,7 @@ in `Out of scope`, not in a preamble about the issue's own life.
   path or a date-stamped copy. Paths rot on the first move.
 - **The design** is referenced by bundle date and screen name. Check the date
   against the source before writing it down — a local copy lags behind.
+- **Another issue** is referenced by card, `[[PROJ-7]]` — see above.
 
 ## Estimates
 
@@ -110,6 +144,11 @@ The MCP converter rewrites Markdown into wiki markup and loses formatting on the
 way: a link under bold loses its target, bold inside a list item becomes literal
 asterisks, and task lists do not survive at all.
 
+A tree is created with `jira.batch`, in three passes — create, resolve the
+references, link — so a description may point at a sibling that does not exist
+yet when it is written. The node format and the inline notation are in
+`${CLAUDE_PLUGIN_ROOT}/reference/batch.md`.
+
 Consequences worth knowing:
 
 - **Acceptance criteria are a real task list** (`checklist(...)`), tickable in
@@ -118,10 +157,14 @@ Consequences worth knowing:
   renders as asterisks in the new editor.
 - **Inline code goes in backticks**, including when it contains braces —
   `/clients/{id}` renders fine. Literal `{{...}}` does not.
-- **Issue keys are plain links.** Bold around a link loses the target.
+- **Issue keys are inline cards** — `[[PROJ-7]]`, or `[[@<summary>]]` for an
+  issue created in the same batch. A plain link shows only the key; bold around
+  a link loses the target.
 
-MCP remains the right tool for reading issues, posting comments, moving statuses
-and logging work.
+MCP remains the right tool for reading issues, moving statuses and logging
+work. Comments go the same way as descriptions — `comment()` / `edit_comment()`
+in the script — as soon as they carry a link or code: posted as Markdown, a URL
+is stored as plain text and Jira does not auto-link it.
 
 ## What gets written down
 
