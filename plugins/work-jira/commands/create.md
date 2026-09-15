@@ -34,10 +34,16 @@ prints what would be created and exits.
    lives in the project's local notes, next to the earlier ones, and takes
    `--dry-run`.
 
-5. **Decide the assignee.** The profile's `## Issues` says whether tasks go to
-   the developer running the command; if it is silent, ask — tasks, sub-tasks
-   and bugs to the developer, or nobody — and write the answer into the profile
-   so it is not asked again. Epics and stories are never assigned here.
+5. **Decide the assignee, the fix version and the priority.** The profile's
+   `## Issues` says whether tasks go to the developer running the command; if
+   it is silent, ask — tasks, sub-tasks and bugs to the developer, or nobody —
+   and write the answer into the profile so it is not asked again. Epics and
+   stories are never assigned here. The standard makes `Fix Version` and
+   `Priority` mandatory before an issue can enter a sprint, so ask for both
+   now rather than leaving the defaults: which version the scope belongs to
+   (one that mirrors the agreed scope, created if missing), and the rule the
+   priorities follow — a rule, written into the profile, survives the next
+   batch; a hand-sorted list does not.
 
 6. **Run dry, then confirm.** `--dry-run` shows what would be created, which
    summaries already exist and are skipped, and the totals. Show the count, the
@@ -68,3 +74,10 @@ prints what would be created and exits.
   to the manager or the analyst.
 - **On a failure, stop.** Report what was created and what was not; do not
   continue past an error to "finish the batch".
+- **A Task does not become a Sub-task through the API.** Restructuring
+  existing issues under new stories is done by the developer in the UI
+  (Bulk change → Move, or Convert to Sub-task), after the stories exist;
+  the command then verifies type, parent, label and estimate of every moved
+  issue instead of assuming. Renaming summaries afterwards breaks every
+  `[[@summary]]` in the batch scripts — update the scripts in the same step,
+  or the next run creates duplicates.

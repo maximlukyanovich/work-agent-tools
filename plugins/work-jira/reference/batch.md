@@ -74,7 +74,8 @@ visible in the result and is the signal to fix it.
    passes, not for routine re-runs.
 3. **Link.** Every issue is linked, type `link_type` (`Relates` by default), to
    every issue its description references as a card. A pair already linked in any
-   way is skipped. A directed type is not derived — `Blocks` is set by hand with
+   way is skipped, and so is the issue's own parent or child — the hierarchy
+   already shows that relation. A directed type is not derived — `Blocks` is set by hand with
    `jira.link(a, b, "Blocks")`, meaning *a blocks b*.
 
 ## Options

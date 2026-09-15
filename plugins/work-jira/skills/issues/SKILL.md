@@ -36,6 +36,21 @@ answer instead of a scan across three epics.
 **Size.** One task, or a slice of one, is one to three working days. A task that
 does not fit gets split — but split by deliverable, not by "part 1 / part 2".
 
+**A story is a user flow, not a pair.** The standard asks for separate
+sub-tasks per technology; it does not ask them to mirror each other. One story
+— what QA tests and the product owner accepts — may hold three frontend slices
+and one backend slice, or a frontend slice alone with the backend pending.
+Stories grouped by technology ("frontend foundation") are containers with no
+user outcome: their sub-tasks can never be planned into a sprint on their own,
+because a sub-task always follows its parent's sprint. Foundation work stays
+`Epic → Task`.
+
+**Fix Version and Priority are mandatory** before an issue enters a sprint.
+A version mirrors an agreed scope (an estimate document, a release); a
+priority follows a rule the profile states, so a new issue gets the right
+one without a hand-sorted list. Both are asked at creation, never left at the
+default silently.
+
 ## Description
 
 Four sections are required:

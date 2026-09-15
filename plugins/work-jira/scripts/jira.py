@@ -292,6 +292,18 @@ def index(project):
     return found
 
 
+def relatives(key):
+    """Parent and children of an issue — relations the hierarchy already carries."""
+    f = call("GET", f"/rest/api/3/issue/{key}?fields=parent,subtasks")["fields"]
+    out = {s["key"] for s in f.get("subtasks") or []}
+    if f.get("parent"):
+        out.add(f["parent"]["key"])
+    # `subtasks` lists only sub-tasks; an epic's stories and tasks hang off `parent`.
+    children = call("GET", f"/rest/api/3/search/jql?jql=parent%3D{key}&fields=key&maxResults=100")
+    out.update(i["key"] for i in children.get("issues", []))
+    return out
+
+
 def linked(key):
     """Keys already linked to the issue, whatever the type or direction."""
     out = []
@@ -413,9 +425,14 @@ def batch(project, nodes, dry_run=False, assignee=None, link_type="Relates", rew
         log(f"{key:8} description {'rewritten' if n['summary'] in existing else 'updated'}: references resolved")
 
     # Pass 3: the links, derived from the references — one relation, visible in the panel.
+    # A card pointing at the issue's own child or parent adds nothing: the hierarchy already
+    # shows that relation, and a duplicate `relates to` only clutters the panel.
     for n in nodes:
         key = created.get(n["summary"]) or existing.get(n["summary"])
+        family = relatives(key)
         for other in refs(doc(*n["blocks"]())):
+            if other in family:
+                continue
             if link(key, other, link_type):
                 log(f"{key:8} {link_type.lower()} {other}")
 
