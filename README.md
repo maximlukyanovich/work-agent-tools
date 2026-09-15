@@ -13,7 +13,7 @@ Once per machine:
 
 ```bash
 /plugin marketplace add https://github.com/maximlukyanovich/work-agent-tools.git
-/plugin install work-bootstrap work-jira work-estimation
+/plugin install work-bootstrap@mluk-work-agent-tools work-jira@mluk-work-agent-tools work-estimation@mluk-work-agent-tools
 ```
 
 The repository is private, so ordinary git access is required — the same SSH key
@@ -25,7 +25,12 @@ Updating the method everywhere at once:
 /plugin marketplace update mluk-work-agent-tools
 ```
 
-Plugins install separately: `/plugin install work-estimation` does not pull Jira in.
+Plugins install separately: `/plugin install work-estimation@mluk-work-agent-tools`
+does not pull Jira in.
+
+The `@mluk-work-agent-tools` suffix names the catalogue. The short form works while
+the plugin name is unique across every catalogue on the machine; the full form
+works always, so it is the one written here.
 
 ## Where to start
 
