@@ -146,8 +146,10 @@ Consequences worth knowing:
   issue created in the same batch. A plain link shows only the key; bold around
   a link loses the target.
 
-MCP remains the right tool for reading issues, posting comments, moving statuses
-and logging work.
+MCP remains the right tool for reading issues, moving statuses and logging
+work. Comments go the same way as descriptions — `comment()` / `edit_comment()`
+in the script — as soon as they carry a link or code: posted as Markdown, a URL
+is stored as plain text and Jira does not auto-link it.
 
 ## What gets written down
 

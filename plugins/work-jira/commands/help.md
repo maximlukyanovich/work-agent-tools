@@ -21,6 +21,7 @@ profile's issue language — that is a different setting.
    ```
    /work-jira:plan      propose the tree, get it approved
    /work-jira:create    create it
+   /work-jira:next      pick what to take next — unblocked, by what it unblocks
    /work-jira:questions collect what is still unclear on an issue
    /work-jira:status    check whether an issue is really done
    /work-jira:comment   post the result comment, offer a worklog

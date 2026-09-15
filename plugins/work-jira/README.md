@@ -8,6 +8,7 @@ Run Jira work the way the company standard requires.
 | --- | --- |
 | `/work-jira:plan` | Proposes a hierarchy and a description shape for the scope at hand, then waits for approval. |
 | `/work-jira:create` | Creates epics and issues from an approved plan. |
+| `/work-jira:next` | Recommends the next issue to take: unblocked first, ordered by what it unblocks, the roadmap and size. Read-only. |
 | `/work-jira:questions` | Open questions on an issue — from Jira, the design and the branch state. |
 | `/work-jira:status` | Checks whether an issue is actually done. Read-only. |
 | `/work-jira:comment` | Drafts and posts a result comment on the issues a branch touched; offers a worklog afterwards. |
@@ -38,8 +39,9 @@ only what nothing can answer.
 | `scripts/jira.py` | REST v3 wrapper: descriptions assembled directly in ADF (`h`, `p`, `ul`, `checklist`, `doc`, issue cards), `batch` creating a tree in three passes — create, resolve references, link — plus estimates, assignment and issue links. Coordinates come from the project profile, credentials from `.mcp.json`. |
 
 Why REST for writing: the `mcp-atlassian` layer rewrites Markdown into wiki
-markup and loses part of the formatting; task lists do not survive at all. MCP
-stays for reading, comments, statuses and worklog.
+markup and loses part of the formatting; task lists do not survive at all, and
+a comment's URL is stored as dead plain text. Descriptions and comments go
+through the script; MCP stays for reading, statuses and worklog.
 
 ## The one hard prerequisite
 

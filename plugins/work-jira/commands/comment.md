@@ -18,16 +18,30 @@ on their issues.
 2. **List them** — one line per issue, `KEY — summary` — and ask which to comment
    on: all, a subset, or none.
 
-3. **Draft each comment** and show it in the chat for review. Shape: a header
-   naming the merge request when one exists, otherwise a plain result line; then
-   a bullet list of what shipped, each starting with the area and focused on the
-   outcome rather than the process. An `Out of scope / follow-ups` block when
-   there is something to flag.
+3. **Draft each comment** and show it in the chat for review. Shape:
 
-4. **Post only on an explicit go-ahead**, applying the formatting rules from the
-   `issues` skill: backticks for inline code, an issue as a link whose text
-   carries key and summary (a comment through MCP cannot carry a card), no bold
-   inside list items.
+   - A header of one readable sentence with the merge request as a link whose
+     text is the whole `MR !N` — «Доставлено в [MR !1](…) (`feat/x` →
+     `develop`)» — never a bare URL. Without a merge request, the header says
+     where the work landed instead («Доставлено в `develop` напрямую
+     (`sha`…`sha`)»).
+   - A bullet list of what shipped, each starting with the area and focused on
+     the outcome rather than the process.
+   - **Deviations are deviations from the spec or the design** — a size off
+     the scale, a colour, a timing, a missing default text: what a designer or
+     QA would notice. Implementation choices (a prop's type, a component API,
+     a library) are the team's own business and belong in the merge request,
+     not here. A deviation the developer decided alone is never labelled
+     "agreed"; the section is "for the designer / product owner to confirm",
+     states what was done and the alternative, and the point stays open.
+   - An `Out of scope / follow-ups` block when there is something to flag.
+
+4. **Post only on an explicit go-ahead**, through `scripts/jira.py` as ADF —
+   `comment(key, doc(p(header), ul([...])))`, `edit_comment` to amend. Not
+   through MCP: a Markdown comment stores a URL as plain text, which Jira does
+   not auto-link, so the merge-request link arrives dead. Formatting rules from
+   the `issues` skill apply: backticks for inline code, `[[KEY-1]]` for an
+   issue card, no bold inside list items.
 
 5. **Then, separately, offer a worklog.** Propose one short sentence per issue.
    The default answer is "text only" — the developer may want the wording but log

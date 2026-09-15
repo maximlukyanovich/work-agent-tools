@@ -224,6 +224,26 @@ def describe(key, document):
     call("PUT", f"/rest/api/3/issue/{key}", {"fields": {"description": document}})
 
 
+def comment(key, document):
+    """Posts a comment as ADF and returns its id.
+
+    Why not through MCP: a comment posted as Markdown stores a bare URL as plain text, and
+    Jira does not auto-link plain text — a merge-request link in the header arrives dead.
+    Built with the same helpers as a description: `doc(p(...), ul([...]))`, with [text](url)
+    for the link and [[PROJ-7]] for a card.
+    """
+    return call("POST", f"/rest/api/3/issue/{key}/comment", {"body": document})["id"]
+
+
+def edit_comment(key, comment_id, document):
+    """Replaces a comment's body. Read it first with
+
+        call("GET", f"/rest/api/3/issue/{key}/comment/{comment_id}")["body"]
+
+    when only one block changes — the rest of the ADF can be kept as Jira holds it."""
+    call("PUT", f"/rest/api/3/issue/{key}/comment/{comment_id}", {"body": document})
+
+
 def resolve(key):
     """Turns unresolved references in a live description into cards, in place.
 
