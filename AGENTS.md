@@ -19,6 +19,13 @@ for working on the repository itself.
 - **`main` is protected.** Work goes through a branch and a merge request. Force
   push is not a tool in normal use; the one time it happened was a deliberate
   rewrite of authorship, agreed in advance, with the protection restored after.
+- **One trunk, no `develop`.** Every branch — `<type>/<slug>`, types as in the
+  commit convention — targets `main`. Contributors hold the Developer role and
+  open merge requests; the maintainer reviews and merges. Testing happens on
+  the merge request's branch, not on a second long-lived branch: check it out
+  here and run the changed command in a real repository before approving.
+  When consumers need to stay on a known state, `main` gets release tags and
+  the catalogue can pin one — still no second branch.
 - **Plugin files are addressed through `${CLAUDE_PLUGIN_ROOT}`**, never found by
   searching the filesystem. An installed plugin lives under
   `~/.claude/plugins/cache/`, not where this repository is checked out.
@@ -55,8 +62,8 @@ for working on the repository itself.
 
 ## 4. Checks before a merge request
 
-No automated gate yet. Before opening a merge request, the author checks by
-hand:
+`scripts/check.py` is the gate, run by CI on every merge request and on
+`main`; run it locally before pushing — `python3 scripts/check.py`. It checks:
 
 - every `commands/*.md` has frontmatter with `description`;
 - every `skills/*/SKILL.md` has `name` and `description`;
@@ -64,11 +71,12 @@ hand:
   exist, or `${CLAUDE_PLUGIN_ROOT}` paths;
 - `marketplace.json` lists every plugin under `plugins/`, and each `plugin.json`
   name matches its catalogue entry;
-- the changed command or skill was run once, in a real repository, and did what
-  its text says.
+- every Python script compiles.
 
-The last item is not optional. A command that has never been executed is a
-draft.
+One check stays with people: **the changed command or skill was run once, in a
+real repository, and did what its text says.** The merge request says where
+and how it was run. This item is not optional. A command that has never been
+executed is a draft.
 
 ## 5. Layout
 
@@ -81,4 +89,6 @@ plugins/<name>/
   reference/*.md                  read one file at a time, on instruction
   scripts/                        executed, never read into context
   README.md                       for people, links to the skill
+scripts/check.py                  the merge-request gate, run by CI
+.gitlab-ci.yml                    runs the gate
 ```

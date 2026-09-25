@@ -1,0 +1,11 @@
+# The mechanical half of AGENTS.md §4, run on every merge request and on main.
+# The half a machine cannot check — the changed command run once in a real
+# repository — stays with the author and the reviewer.
+
+check:
+  image: python:3.13-slim
+  script:
+    - python3 scripts/check.py
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
