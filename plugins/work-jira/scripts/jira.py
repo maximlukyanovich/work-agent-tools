@@ -218,6 +218,20 @@ def set_estimate(key, estimate):
     call("PUT", f"/rest/api/3/issue/{key}", {"fields": {"timetracking": {"originalEstimate": estimate}}})
 
 
+def set_release(key, fix_version=None, priority=None):
+    """Fix Version and Priority — mandatory before a sprint, so set right after creation.
+
+    A separate request, like the estimate: neither field is guaranteed on the create screen.
+    """
+    fields = {}
+    if fix_version:
+        fields["fixVersions"] = [{"name": fix_version}]
+    if priority:
+        fields["priority"] = {"name": priority}
+    if fields:
+        call("PUT", f"/rest/api/3/issue/{key}", {"fields": fields})
+
+
 def describe(key, document):
     """Replaces the description. Every task item gets a fresh id, so ticked acceptance
     criteria come back unticked — fine minutes after creation, not on a live issue."""
@@ -330,6 +344,27 @@ def link(key, other, link_type="Relates"):
     return True
 
 
+def summary_of(key):
+    return call("GET", f"/rest/api/3/issue/{key}?fields=summary")["fields"]["summary"]
+
+
+def block(provider, consumer, dry_run=False, log=print):
+    """`provider` blocks `consumer`: the consumer uses the provider's result and cannot be
+    finished before it. Logged as a sentence, so a reversed pair is visible at a glance —
+    "PROJ-57 Search API blocks PROJ-14 Results grid" reads right, the reverse does not.
+    Returns True when a link was created (or would be, on a dry run).
+    """
+    sentence = f"{provider} {summary_of(provider)}  blocks  {consumer} {summary_of(consumer)}"
+    if dry_run:
+        log(f"would link: {sentence}")
+        return True
+    if link(provider, consumer, "Blocks"):
+        log(f"linked: {sentence}")
+        return True
+    log(f"already linked, skipped: {sentence}")
+    return False
+
+
 def myself():
     """Account id of the credentials in use — the developer running the command."""
     return call("GET", "/rest/api/3/myself")["accountId"]
@@ -360,7 +395,8 @@ def jira_hours(hours):
 _ASSIGNABLE = {"Task", "Sub-task", "Bug"}
 
 
-def batch(project, nodes, dry_run=False, assignee=None, link_type="Relates", rewrite=False, log=print):
+def batch(project, nodes, dry_run=False, assignee=None, link_type="Relates", rewrite=False,
+          fix_version=None, log=print):
     """Creates a tree of issues in three passes; returns summary -> key for the batch.
 
     The node format is documented in reference/batch.md. In short: parents come before
@@ -374,6 +410,12 @@ def batch(project, nodes, dry_run=False, assignee=None, link_type="Relates", rew
     which re-renders it and resets ticked acceptance criteria — for repairing a partial
     run only. Pass 3 links every issue to the issues its description references.
     Epics and stories are never assigned here: the standard gives them to the manager.
+
+    Every node may carry `fix_version` (the batch-wide `fix_version` is its default) and
+    `priority`; both are set right after creation and printed on the node's line, and a
+    node without them is named in the log. `blocked_by` lists the issues a node waits on —
+    keys or summaries from this batch — and pass 3 links them as `Blocks`, provider first,
+    each printed as a sentence.
     """
     existing = index(project)
     created, first_render = {}, {}
@@ -391,8 +433,11 @@ def batch(project, nodes, dry_run=False, assignee=None, link_type="Relates", rew
             raise ValueError(f"epic carries an Estimate section: {n['summary']}")
         first_render[n["summary"]] = json.dumps(document, sort_keys=True)
         estimate = n.get("estimate") or ""
+        version, priority = n.get("fix_version") or fix_version, n.get("priority")
+        release = f"  [{version or 'NO VERSION'} · {priority or 'NO PRIORITY'}]"
         if dry_run:
-            log(f"{'(new)':8} {n['type']:8} {estimate:8} {n['summary']}" + (f"  -> {parent_key}" if parent else ""))
+            log(f"{'(new)':8} {n['type']:8} {estimate:8} {n['summary']}" + (f"  -> {parent_key}" if parent else "")
+                + release)
             created[n["summary"]] = f"(new) {n['summary']}"
             continue
         key = create(project, n["type"], n["summary"], document, labels=n.get("labels"),
@@ -401,11 +446,20 @@ def batch(project, nodes, dry_run=False, assignee=None, link_type="Relates", rew
         created[n["summary"]] = key
         if estimate:
             set_estimate(key, estimate)
+        set_release(key, version, priority)
         if assignee and n["type"] in _ASSIGNABLE:
             assign(key, assignee)
-        log(f"{key:8} {n['type']:8} {estimate:8} {n['summary']}  {url(key)}")
+        log(f"{key:8} {n['type']:8} {estimate:8} {n['summary']}  {url(key)}{release}")
 
     if dry_run:
+        for n in nodes:
+            for dep in n.get("blocked_by") or []:
+                if dep in existing:
+                    dep = existing[dep]
+                dep_name = f"{dep} {summary_of(dep)}" if dep.startswith(f"{project}-") else f"(new) {dep}"
+                node_key = existing.get(n["summary"])
+                node_name = f"{node_key} {n['summary']}" if node_key else f"(new) {n['summary']}"
+                log(f"would link: {dep_name}  blocks  {node_name}")
         return created
 
     # Pass 2: every key is known now — resolve the references written as summaries.
@@ -429,6 +483,11 @@ def batch(project, nodes, dry_run=False, assignee=None, link_type="Relates", rew
     # shows that relation, and a duplicate `relates to` only clutters the panel.
     for n in nodes:
         key = created.get(n["summary"]) or existing.get(n["summary"])
+        # Directed links first: a pair already joined by `relates to` would be skipped,
+        # and the dependency would silently stay a plain relation.
+        for dep in n.get("blocked_by") or []:
+            provider = created.get(dep) or existing.get(dep) or dep
+            block(provider, key, log=log)
         family = relatives(key)
         for other in refs(doc(*n["blocks"]())):
             if other in family:

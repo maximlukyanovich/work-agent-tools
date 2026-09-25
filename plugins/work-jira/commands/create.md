@@ -30,7 +30,9 @@ prints what would be created and exits.
    first; `blocks` a function of `h`, `p`, `ul`, `checklist` in the section order
    the skill fixes, `Estimate` last on tasks and absent on epics. Another issue is
    referenced as a card — `[[PROJ-7]]` when it exists, `[[@<summary>]]` when it is
-   in this batch — and every reference becomes a `relates to` link. The script
+   in this batch — and every reference becomes a `relates to` link. A dependency
+   the plan approved goes into the node's `blocked_by`, never into a hand-made
+   `link()` call: the batch writes it provider first and prints it. The script
    lives in the project's local notes, next to the earlier ones, and takes
    `--dry-run`.
 
@@ -43,11 +45,16 @@ prints what would be created and exits.
    now rather than leaving the defaults: which version the scope belongs to
    (one that mirrors the agreed scope, created if missing), and the rule the
    priorities follow — a rule, written into the profile, survives the next
-   batch; a hand-sorted list does not.
+   batch; a hand-sorted list does not. Both go into the batch — `fix_version`
+   for the whole run, `priority` on each node — so they are written with the
+   issue, not in a later pass that can be forgotten.
 
 6. **Run dry, then confirm.** `--dry-run` shows what would be created, which
-   summaries already exist and are skipped, and the totals. Show the count, the
-   total hours and the assignee, and wait for a yes.
+   summaries already exist and are skipped, and the totals. Each line carries
+   the version and the priority — `NO VERSION` or `NO PRIORITY` on a line is a
+   gap to close before the yes. Check every printed `Blocks` sentence against
+   the skill's `Links` rule. Show the count, the total hours, the assignee and
+   the dependency sentences, and wait for a yes.
 
 7. **Run.** `jira.batch` does the three passes: create top-down with estimates
    and assignee; render every new description again and update the ones whose
@@ -56,9 +63,10 @@ prints what would be created and exits.
    the failure was between the passes, since a rewrite unticks acceptance
    criteria.
 
-8. **Report** one line per issue: key, type, estimate, summary. Then the
-   descriptions updated in pass two, the links created, the totals and the
-   URLs. A summary that stayed unresolved — still rendered as code — is named as
+8. **Report** one line per issue: key, type, estimate, summary, version,
+   priority. Then the descriptions updated in pass two, the `Blocks` links as
+   sentences, the other links created, the totals and the URLs. A summary
+   that stayed unresolved — still rendered as code — is named as
    something to fix.
 
 ## Hard rules

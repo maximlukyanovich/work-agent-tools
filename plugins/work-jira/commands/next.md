@@ -22,7 +22,9 @@ can reach only one of them says so and ranks on what it has.
 
 2. **Read the tracker.** Every open issue in scope — status, assignee, estimate,
    remaining time, issue links, parent — and every issue it links to, since a
-   dependency may sit outside the scope. One JQL, not one call per issue.
+   dependency may sit outside the scope. Read the links of each candidate's
+   story and epic too: a dependency set once on the parent holds for every
+   child. One JQL, not one call per issue.
    Then drop what is not a unit of work: epics and stories (they wait on
    their children and are never «taken»), and hour buckets — issues with no
    estimate that stay `In Progress` to collect time for meetings or analysis.
@@ -43,6 +45,12 @@ can reach only one of them says so and ranks on what it has.
      is not a dependency:** it is symmetric, so reading it as one blocks
      every issue by every other — the direction comes from `Blocks`, the
      description or the roadmap, never from a `relates to` link alone.
+     **A parent's blocker is the child's:** a sub-task whose story or epic
+     `is blocked by` open work waits on it too, even with no link of its own.
+     Name where the block comes from — «waits on KEY-3 through its epic».
+   - **A link that reads backwards** against the `issues` skill's `Links`
+     rule is not used for ranking; it goes to Housekeeping as a link to
+     reverse.
    - **What it unblocks** — how many open issues link to it as a dependency.
    - **Roadmap position** — where the repository's roadmap lists it, if at all.
    - **Signals from the board** — `Selected for Development` outranks
