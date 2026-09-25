@@ -11,7 +11,7 @@ Issue type ids come from the project's createmeta: they differ between instances
 Inline notation understood by every text helper (`p`, `ul`, `checklist`):
   `code`                 inline code
   [text](url)            a link
-  [[PROJ-7]]              an inline card of an existing issue — Jira shows key, summary and status
+  [[PROJ-7]]             an inline card of an existing issue — Jira shows key, summary and status
   [[@<summary>]]         a card of an issue in the same batch, resolved once its key is known;
                          until then it renders as `<summary>` in code
 

@@ -39,7 +39,7 @@ nodes = [
              h("Estimate"), p("…"),
          ]),
 ]
-jira.batch("KUP", nodes, dry_run="--dry-run" in sys.argv, assignee=jira.myself())
+jira.batch("PROJ", nodes, dry_run="--dry-run" in sys.argv, assignee=jira.myself())
 ```
 
 ## Inline notation
