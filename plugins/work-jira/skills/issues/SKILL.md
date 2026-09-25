@@ -86,7 +86,41 @@ components`, so the reader does not have to open it.
 
 **Every issue a description references is also linked to it**, type `relates
 to`, so the relation is visible in the linked-items panel and survives a rewrite
-of the text. A stronger type — `blocks` — is set only when the plan says so.
+of the text. A dependency is a `Blocks` link, set only when the plan says so —
+see `Links`.
+
+## Links
+
+`relates to` is the default — the batch derives it from the references in a
+description. `Blocks` states an order: one issue uses the result of another and
+cannot be finished before it.
+
+- **The provider blocks the consumer.** The issue whose result is used — an
+  API, a component, a contract — `blocks` the issue that uses it; the consumer
+  `is blocked by` it. A frontend sub-task that needs an endpoint to be finished
+  is blocked by the backend sub-task that delivers it. Written the other way
+  round, every tool that reads dependencies shows the work in reverse.
+- **At the level where the dependency is true.** Epic → epic when it holds for
+  the whole epic: one link from the foundation epic to a product epic instead of
+  a link from every task to "project setup". Story → story when one flow needs
+  another as a whole. Sub-task → sub-task when a concrete issue needs a
+  concrete result — the usual level for a frontend–backend pair, since a sprint
+  plans sub-tasks.
+- **Not where it adds nothing.** Not to the issue's own parent or child — the
+  hierarchy already carries that. Not transitively: A blocks B and B blocks C
+  needs no A → C. Not from every task to the foundation — the epic link covers
+  it.
+- **Starting early is not unblocking.** A consumer may start on mocks while
+  its provider is open; the link is about finishing. Say so in the consumer's
+  `Technical notes` when that is the plan.
+- **Other types, when they earn it.** `Issue split` (`split to` / `split
+  from`) when an oversized issue is cut into parts; `Duplicate` to close a
+  duplicate. The instance's other types — clones, incident, Gantt — are not
+  used for planning: the boards and `next` do not read them.
+
+Every `Blocks` link is shown as a sentence before it is written —
+`PROJ-57 Search API blocks PROJ-14 Results grid` — so a reversed pair is
+visible at a glance.
 
 **Definition of Done is never copied into an issue.** It lives in the company
 standard, and a copy drifts from it. The same goes for anything else that has one

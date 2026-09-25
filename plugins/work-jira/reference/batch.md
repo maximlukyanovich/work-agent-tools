@@ -13,6 +13,9 @@ notes and runs it; the script is the record of what was created and how.
 | `parent` | The summary of a node earlier in the list, or the key of an existing issue. Absent on an epic |
 | `labels` | From the instance, never invented |
 | `estimate` | `15h`, `6h 30m` — what `Original Estimate` holds. Absent when the hours are unknown, and **absent on an epic**: Jira sums the children |
+| `fix_version` | The version name; defaults to the batch's `fix_version`. Set right after creation |
+| `priority` | The priority name, by the profile's rule. Set right after creation |
+| `blocked_by` | Keys, or summaries from this batch, of the issues this one waits on. Each becomes a `Blocks` link with the provider first |
 | `blocks` | A **function** returning the description blocks, in the section order the `issues` skill fixes |
 
 `blocks` is a function and not a value because the description is rendered twice:
@@ -60,8 +63,10 @@ visible in the result and is the signal to fix it.
 
 ## The three passes
 
-1. **Create**, parents before children. `Original Estimate` is set with a second
-   request; tasks, sub-tasks and bugs are assigned when `assignee` is given.
+1. **Create**, parents before children. `Original Estimate`, the fix version and
+   the priority are set with follow-up requests; tasks, sub-tasks and bugs are
+   assigned when `assignee` is given. Every line prints `[version · priority]`,
+   and `NO VERSION` / `NO PRIORITY` where one is missing.
    Epics and stories are never assigned by the batch — the standard gives them to
    the manager or the analyst.
 2. **Resolve.** Every new description is rendered again and updated where it
@@ -72,17 +77,21 @@ visible in the result and is the signal to fix it.
    existing issues instead; that gives every task item a fresh id and unticks
    acceptance criteria, so it is for repairing a run that failed between the
    passes, not for routine re-runs.
-3. **Link.** Every issue is linked, type `link_type` (`Relates` by default), to
-   every issue its description references as a card. A pair already linked in any
-   way is skipped, and so is the issue's own parent or child — the hierarchy
-   already shows that relation. A directed type is not derived — `Blocks` is set by hand with
-   `jira.link(a, b, "Blocks")`, meaning *a blocks b*.
+3. **Link.** First the dependencies: every `blocked_by` entry becomes a `Blocks`
+   link, provider first, printed as a sentence — `PROJ-57 Search API blocks
+   PROJ-14 Results grid`. Then every issue is linked, type `link_type` (`Relates`
+   by default), to every issue its description references as a card. A pair
+   already linked in any way is skipped, and so is the issue's own parent or
+   child — the hierarchy already shows that relation. The order matters: a
+   dependency that is also referenced in the text would otherwise stay a plain
+   `relates to`. A dry run prints the dependency sentences too.
 
 ## Options
 
 | Option | Default | Effect |
 | --- | --- | --- |
-| `dry_run` | `False` | Prints the plan, writes nothing, stops after pass one |
+| `dry_run` | `False` | Prints the plan and the dependency sentences, writes nothing, stops after pass one |
+| `fix_version` | `None` | Default version for every node that does not name its own |
 | `assignee` | `None` | Account id for tasks, sub-tasks and bugs; `jira.myself()` is the developer |
 | `link_type` | `"Relates"` | Name from `GET /rest/api/3/issueLinkType` |
 | `rewrite` | `False` | Pass two re-renders existing issues instead of patching them in place |
@@ -95,6 +104,9 @@ epic carries an estimate or an `Estimate` section.
 `jira.index(project)` — every summary → key of the project, also feeding the
 reference registry. `jira.describe(key, doc)` — replace one description;
 `jira.resolve(key)` — patch its unresolved references in place.
+`jira.block(provider, consumer, dry_run=False)` — one `Blocks` link between
+existing issues, printed as a sentence; the way to add or repair a dependency
+outside a batch. `jira.set_release(key, fix_version, priority)`.
 `jira.link(a, b, type)`, `jira.linked(key)`, `jira.assign(key, account_id)`,
 `jira.myself()`, `jira.set_estimate(key, "6h 30m")`, `jira.half_up(hours)`,
 `jira.jira_hours(hours)`, `jira.refs(doc)`, `jira.has_section(doc, title)`.
