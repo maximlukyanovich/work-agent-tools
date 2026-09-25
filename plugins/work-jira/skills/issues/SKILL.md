@@ -119,7 +119,7 @@ cannot be finished before it.
   used for planning: the boards and `next` do not read them.
 
 Every `Blocks` link is shown as a sentence before it is written —
-`PROJ-57 SearchGateway blocks PROJ-14 Results grid` — so a reversed pair is
+`PROJ-57 Search API blocks PROJ-14 Results grid` — so a reversed pair is
 visible at a glance.
 
 **Definition of Done is never copied into an issue.** It lives in the company

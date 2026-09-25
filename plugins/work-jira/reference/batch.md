@@ -78,7 +78,7 @@ visible in the result and is the signal to fix it.
    acceptance criteria, so it is for repairing a run that failed between the
    passes, not for routine re-runs.
 3. **Link.** First the dependencies: every `blocked_by` entry becomes a `Blocks`
-   link, provider first, printed as a sentence — `PROJ-57 SearchGateway blocks
+   link, provider first, printed as a sentence — `PROJ-57 Search API blocks
    PROJ-14 Results grid`. Then every issue is linked, type `link_type` (`Relates`
    by default), to every issue its description references as a card. A pair
    already linked in any way is skipped, and so is the issue's own parent or

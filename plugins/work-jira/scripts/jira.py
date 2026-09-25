@@ -351,7 +351,7 @@ def summary_of(key):
 def block(provider, consumer, dry_run=False, log=print):
     """`provider` blocks `consumer`: the consumer uses the provider's result and cannot be
     finished before it. Logged as a sentence, so a reversed pair is visible at a glance —
-    "PROJ-57 SearchGateway blocks PROJ-14 Results grid" reads right, the reverse does not.
+    "PROJ-57 Search API blocks PROJ-14 Results grid" reads right, the reverse does not.
     Returns True when a link was created (or would be, on a dry run).
     """
     sentence = f"{provider} {summary_of(provider)}  blocks  {consumer} {summary_of(consumer)}"
