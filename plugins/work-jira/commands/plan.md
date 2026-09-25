@@ -25,7 +25,8 @@ call — ask which part of the estimate to plan, listing what is available.
 3. **Derive the tree** by the hierarchy rules. For each node: type, summary,
    parent, label, estimate, which technologies it needs, and which issues it
    references — existing keys, or summaries from this tree — since every
-   reference becomes a `relates to` link. Where a story needs both frontend and
+   reference becomes a `relates to` link; and which issues it waits on, by the
+   `Links` rules of the `issues` skill. Where a story needs both frontend and
    backend but only one is estimated, create the story and the estimated
    sub-task, and say the other is pending — do not invent its hours.
 
@@ -49,8 +50,8 @@ call — ask which part of the estimate to plan, listing what is available.
    ```
 
    Follow it with: the total, how many issues, which are pending a backend
-   estimate, the links each issue will get, and anything the estimate flagged as
-   a risk on these lines.
+   estimate, the links each issue will get — the `Blocks` ones as sentences —
+   and anything the estimate flagged as a risk on these lines.
 
 7. **Ask three questions**, each with a recommended answer: is the tree right,
    is the description shape right, and which optional sections to include.
