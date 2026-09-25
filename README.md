@@ -82,8 +82,8 @@ means five copies of a skill, and a fix to a Jira quirk has to be made five
 times. That is the exact failure this repository exists to prevent.
 
 **When a command still belongs to the project:** when the procedure itself
-differs, not just its parameters. One project has `/prepare-pr-texts`, another has
-`/promote` and `/sync` — different processes around GitLab, too early to unify.
+differs, not just its parameters. One project has `/prepare-pr-texts`, another
+has `/promote` and `/sync` — different processes around GitLab, too early to unify.
 Such commands stay local and coexist with the plugin's.
 
 The test: if the difference fits in a profile line, it is a library. If the
