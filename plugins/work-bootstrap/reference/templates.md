@@ -72,6 +72,32 @@ argument-hint: '[<arg>]'
 Read-only unless stated otherwise. No implicit push, merge or issue creation;
 permission applies to the current turn only.
 
+### A command that merges must offer the closing steps
+
+Merging is the moment a task stops being visible. Whatever is not done in the
+minute after it is done weeks later, from memory, against a branch nobody
+recognises — or never. So a command that merges ends with **one question,
+asked every time**, covering:
+
+- **the result comment** on the issues the branch touched;
+- **the worklog**;
+- **deleting the branch**, locally and on the remote;
+- **anything the work raised for someone else** — a defect belonging to
+  another team, a question for the designer.
+
+All of these are optional and none is done unasked. The obligation is to
+**ask**, not to do. Two rules make the question worth answering:
+
+- **Carry the state into it.** «Log some time?» invites a shrug; «logged 0 of
+  an estimated 8h, nothing logged today» gets an answer. Same for whether the
+  issue already has a comment and where the branch still exists.
+- **Never infer the hours.** Elapsed session time is not worked time. The
+  developer names the number.
+
+Merge without deleting the source branch, so deletion stays a decision and
+not a flag. An unanswered step is reported as still open, never dropped
+silently.
+
 ## .mcp.json.example
 
 Servers with `${VAR}` placeholders, committed. A generator script substitutes
