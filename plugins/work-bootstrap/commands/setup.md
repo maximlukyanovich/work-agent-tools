@@ -30,7 +30,8 @@ The order is fixed. Steps are not reordered or skipped.
    hook set comes out speculative. Wait for the answers.
 
 3. **Show the plan**: which files will be created, which changed, which left
-   alone. Wait for confirmation.
+   alone — in the chat's language, as the `kickoff` skill says. Wait for
+   confirmation.
 
 4. **Create.** Layout and the two traps that cost a rewrite:
    `${CLAUDE_PLUGIN_ROOT}/reference/layout.md`. Skeletons:
