@@ -191,9 +191,13 @@ test. A hook that fires on ordinary edits gets ignored and then removed.
 
 ## Git hooks
 
-- **`pre-push` runs the one gate command.** `pre-commit` stays fast
-  (lint-staged on staged files); a gate that runs only when someone remembers
-  `/commit` lets a red tree leave the machine through a plain `git commit`.
+- **Git hooks stay fast; the full gate does not go into one.** A gate that
+  takes minutes in `pre-push` is bypassed within a week, and a bypassed check
+  is worse than none. The full gate runs in CI, and before that in the commands
+  that commit and push: the commit command runs it and records the tree it
+  passed on (a file under `.git/`), and the push or merge command runs it again
+  only when `HEAD`'s tree is not the recorded one — so the usual push costs
+  nothing extra.
 - **lint-staged: the linter's fixes first, the formatter last** —
   `['eslint --fix', 'prettier --write']`. The reverse order leaves the linter's
   edits unformatted while the hook reports success, and the gate fails a commit

@@ -32,10 +32,11 @@ The harness exists; the job is to find the gaps, not to rewrite it.
    items and critiques the previous pass's fixes, and the finding count grows
    while the code does not change. Does a merging command read that ledger?
 
-6. **Hooks that report success on a red tree.** Does `pre-push` run the gate
-   command, or only part of it? Does lint-staged run the formatter after the
-   linter's fixes? The wrong order leaves linter edits unformatted while the
-   hook passes.
+6. **Where the gate runs.** Does the push command run the gate for a tree the
+   commit command did not validate? Is a git hook running the whole gate —
+   minutes per push, soon bypassed? Does lint-staged run the formatter after
+   the linter's fixes? The wrong order leaves linter edits unformatted while
+   the hook passes.
 
 7. **Gaps.** Layers from the model that are absent. Absence is allowed — but it
    must be deliberate and written down, with the conditions that would fill it.
