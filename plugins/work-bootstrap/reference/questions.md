@@ -34,7 +34,9 @@ direct pushes.
 
 **Q7. Commit convention.** Default `:gitmoji: type(scope): Subject (KEY-123)`,
 body one bullet per point, agent attribution banned. Alternative: `Topic:
-description`. Ask whether there is machine enforcement or only agreement.
+description`. Ask whether there is machine enforcement or only agreement, and
+offer the task-key check in `commit-msg` — the key taken from the branch name,
+a branch without one exempt (`templates.md` → Git hooks).
 
 **Q8. Languages.** Three independent answers: the language of code, identifiers,
 commits and PRs — almost always English; the language of committed

@@ -26,19 +26,30 @@ The harness exists; the job is to find the gaps, not to rewrite it.
 4. **Dead artefacts.** Commands and skills nobody uses, hooks with steady false
    positives, links to files that no longer exist.
 
-5. **Gaps.** Layers from the model that are absent. Absence is allowed — but it
+5. **A review without memory.** Does the review command keep a pass ledger,
+   compare against the last reviewed head, and tag what it finds against the
+   previous passes? Without one, every pass starts cold, re-ranks deferred
+   items and critiques the previous pass's fixes, and the finding count grows
+   while the code does not change. Does a merging command read that ledger?
+
+6. **Hooks that report success on a red tree.** Does `pre-push` run the gate
+   command, or only part of it? Does lint-staged run the formatter after the
+   linter's fixes? The wrong order leaves linter edits unformatted while the
+   hook passes.
+
+7. **Gaps.** Layers from the model that are absent. Absence is allowed — but it
    must be deliberate and written down, with the conditions that would fill it.
 
-6. **A merge that ends in silence.** Does every command that merges offer the
+8. **A merge that ends in silence.** Does every command that merges offer the
    closing steps afterwards — result comment, worklog, branch deletion,
    anything raised for another team? A command that merges and stops is how
    issues end up delivered but undocumented and untracked, and the gap is
    invisible precisely because the code shipped.
 
-7. **Secret hygiene.** Are the generated MCP config and the environment file
+9. **Secret hygiene.** Are the generated MCP config and the environment file
    ignored? Did a token leak into a committed file, or into history?
 
-8. **Cross-agent availability.** Do the rules live in `AGENTS.md` rather than only
+10. **Cross-agent availability.** Do the rules live in `AGENTS.md` rather than only
    in a vendor file? Are the skill symlinks present and unbroken, and pointing the
    right way?
 

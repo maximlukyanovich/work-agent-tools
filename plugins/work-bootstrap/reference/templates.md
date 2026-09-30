@@ -98,6 +98,84 @@ Merge without deleting the source branch, so deletion stays a decision and
 not a flag. An unanswered step is reported as still open, never dropped
 silently.
 
+### A command that reviews keeps a pass ledger
+
+A review that starts cold every time drifts. Each pass re-derives severity,
+raises what the last pass deferred, critiques the fixes the last pass asked
+for, and cannot say whether its verdict agrees with the previous one. Over
+repeated passes the finding count grows while the code barely changes. A pass
+counter does not fix this; a ledger does.
+
+**The ledger.** One file per reviewed target in the gitignored personal space,
+by default `docs/local/reviews/<key>.md`. The key is the first of: the task key
+in the branch name, the MR number (`mr-<n>`), the branch slug. An MR that
+appears later is added to `Aliases:`; the file is not renamed.
+
+```
+# Review ledger — PROJ-12
+Aliases: MR !34, feat/PROJ-12-orders-list
+Trajectory: P1 a1b2c3d 0/2/5/5 changes · P2 e4f5a6b 0/0/1/2 ready
+## Open
+- R3 minor bug src/api/client.ts:114 — error body lost when it is not JSON
+## Pass 2 — <date> — head e4f5a6b · base a1b2c3d · delta — ready to merge
+- R9 minor fix-critique src/api/client.ts:83 — helper duplicated — open
+```
+
+Ids `R<n>` never change. Status: `open`, `fixed`, `deferred (<reason>)`,
+`false-positive (<mechanism>)`, `disputed`. By default only `Trajectory` and
+`Open` are read; pass sections are appended, never rewritten. The command
+writes the ledger itself, without asking — a ledger that waits for a human to
+update it stays empty.
+
+**The procedure the command carries:**
+
+1. **Target from the ledger.** The last reviewed head equals `HEAD` → no new
+   pass; print the recorded verdict. The last head is an ancestor of `HEAD` →
+   review the delta `<last head>..HEAD`. No ledger or `full` → the whole
+   target. An explicit `<sha>..<sha>` argument overrides both — the way to
+   review follow-up fixes on a branch after the original MR was merged.
+2. **Blind first.** The rubric runs without the ledger's findings — reading a
+   previous verdict first anchors the new one. Above the delegation threshold
+   the subagents never receive the ledger.
+3. **Refute before keeping.** Every `blocker` / `major` is checked against the
+   code for a guard or a caller that makes it impossible.
+4. **Reconcile.** Each finding is tagged `new` (code after the last head),
+   `missed` (older code, never raised — honest severity, marked as missed),
+   `escalated` (a deferred finding raised higher — only with a named new cause),
+   or `fix-critique` (aimed at a fix a previous pass requested). A recorded
+   false positive is not raised again without a new mechanism.
+5. **Trajectory in the report.** Stop and ask what a further pass should add
+   when it is pass 3+ with no new commits, when findings grew while the delta
+   is small, or when `escalated` plus `fix-critique` exceed half the findings.
+6. **Append the pass.**
+
+**The rubric additions that repeated passes showed were missing:**
+
+- Run the gate once on the target. A red gate is one finding; what the linter
+  and the git hooks catch is not repeated as judgement.
+- Async code and stateful hooks: walk the lifecycle transitions (A→B mid-event,
+  A→none→A) and a misbehaving peer (a 200 that closes at once). Check a type's
+  documentation against the code instead of trusting it.
+- A behaviour change without a test is its own `major`, unless the diff says
+  why it cannot be tested.
+- A finding names every place with the same mechanism. The fix closes all of
+  them, each with a test that fails when the fix is reverted — a fix for one
+  site of a race routinely leaves its twin.
+
+**Run it in a fresh session.** The session that wrote the code remembers its
+own reasons and tends to confirm them. Everything a review needs from the past
+is in the ledger. When the command runs in a session that edited files in the
+diff, the report says so and recommends a rerun; it does not refuse.
+
+**A merging command reads the ledger** before the merge: no pass on the
+current head, or `major`+ still open → it says so and merges only on an
+explicit yes.
+
+**Cost.** The same head costs nothing; a delta costs a delta. The ledger is one
+line per finding, not a copy of the reports. The rules live in the command
+text, which loads only when invoked — not in `AGENTS.md` or a skill
+description, which every session pays for.
+
 ## .mcp.json.example
 
 Servers with `${VAR}` placeholders, committed. A generator script substitutes
@@ -110,6 +188,23 @@ far from the cause.
 A `PostToolUse` hook receives the tool call, exits **0 and silent** when the file
 is outside its area, and prints an actionable message otherwise. Every hook has a
 test. A hook that fires on ordinary edits gets ignored and then removed.
+
+## Git hooks
+
+- **`pre-push` runs the one gate command.** `pre-commit` stays fast
+  (lint-staged on staged files); a gate that runs only when someone remembers
+  `/commit` lets a red tree leave the machine through a plain `git commit`.
+- **lint-staged: the linter's fixes first, the formatter last** —
+  `['eslint --fix', 'prettier --write']`. The reverse order leaves the linter's
+  edits unformatted while the hook reports success, and the gate fails a commit
+  later.
+- **An optional task-key check in `commit-msg`**, offered at setup. The key
+  comes from the branch name (`<prefix>/PROJ-12-slug` → the subject must carry
+  `PROJ-12`); a branch without a key, a detached `HEAD` and a merge commit are
+  exempt, which is the way to work without a task. With commitlint it is one
+  inline plugin: **commitlint keeps only one inline plugin** — a second one
+  replaces the first, and the config fails with "Found rules without
+  implementation". Put every local rule into the same plugin object.
 
 ## docs/local/README.md
 
