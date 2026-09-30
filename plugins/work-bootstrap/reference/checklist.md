@@ -9,6 +9,10 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       `.agents/skills/`, each with a precise `description`.
 - [ ] Commands: only the ones actually needed, each with frontmatter and a hard-
       rules section; shared rules live in the index, not in every file.
+- [ ] Any command that merges ends by offering the closing steps — result
+      comment, worklog, branch deletion, anything raised for another team —
+      as one question carrying the current state, and merges without deleting
+      the branch.
 - [ ] Hooks: each silent outside its area, each with a test, all wired into
       `settings.json`.
 - [ ] Deterministic layer: linter, formatter, types, tests, git hooks, and one

@@ -29,10 +29,16 @@ The harness exists; the job is to find the gaps, not to rewrite it.
 5. **Gaps.** Layers from the model that are absent. Absence is allowed — but it
    must be deliberate and written down, with the conditions that would fill it.
 
-6. **Secret hygiene.** Are the generated MCP config and the environment file
+6. **A merge that ends in silence.** Does every command that merges offer the
+   closing steps afterwards — result comment, worklog, branch deletion,
+   anything raised for another team? A command that merges and stops is how
+   issues end up delivered but undocumented and untracked, and the gap is
+   invisible precisely because the code shipped.
+
+7. **Secret hygiene.** Are the generated MCP config and the environment file
    ignored? Did a token leak into a committed file, or into history?
 
-7. **Cross-agent availability.** Do the rules live in `AGENTS.md` rather than only
+8. **Cross-agent availability.** Do the rules live in `AGENTS.md` rather than only
    in a vendor file? Are the skill symlinks present and unbroken, and pointing the
    right way?
 
