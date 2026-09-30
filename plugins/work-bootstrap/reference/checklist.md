@@ -16,7 +16,13 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
 - [ ] Hooks: each silent outside its area, each with a test, all wired into
       `settings.json`.
 - [ ] Deterministic layer: linter, formatter, types, tests, git hooks, and one
-      `validate` command that runs them.
+      `validate` command that runs them; the commands that commit and push run
+      it (the push skips a tree already validated), no git hook runs the whole
+      gate, and lint-staged runs the formatter after the linter's fixes.
+- [ ] A review command, if there is one, keeps a pass ledger in the personal
+      space: reviews the delta since the last reviewed head, runs blind before
+      reconciling, tags findings `new` / `missed` / `escalated` /
+      `fix-critique`, and recommends a fresh session.
 - [ ] MCP: the example in git, the generated file and `.env` ignored, generation
       works.
 - [ ] `docs/README.md` and `docs/local/README.md` exist; `docs/local/` is fully
