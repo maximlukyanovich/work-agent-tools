@@ -23,10 +23,14 @@ A rule lives on the cheapest layer that can catch it: deterministic checks →
 agent hooks → documents → skills → commands. Duplication across layers is
 sometimes deliberate; duplication within a layer is always a bug.
 
-## Skill
+## Skills
 
 `skills/layers` — the five layers, what each costs, and the anti-patterns that
 make a harness expensive. Loaded by the agent whenever a rule needs a home.
+
+`skills/kickoff` — how a task is planned before code: exploring before asking,
+the questionnaire rules, a decisions table, a plan in the chat's language,
+approval before code. Loaded when a task needs a plan.
 
 ## Reference
 
