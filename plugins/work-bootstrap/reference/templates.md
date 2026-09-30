@@ -201,10 +201,12 @@ test. A hook that fires on ordinary edits gets ignored and then removed.
 - **An optional task-key check in `commit-msg`**, offered at setup. The key
   comes from the branch name (`<prefix>/PROJ-12-slug` → the subject must carry
   `PROJ-12`); a branch without a key, a detached `HEAD` and a merge commit are
-  exempt, which is the way to work without a task. With commitlint it is one
-  inline plugin: **commitlint keeps only one inline plugin** — a second one
-  replaces the first, and the config fails with "Found rules without
-  implementation". Put every local rule into the same plugin object.
+  exempt, which is the way to work without a task. **commitlint keeps only one
+  inline plugin**, and a second replaces the first — including the one a
+  preset brings: `commitlint-config-gitmoji` ships its rule as an inline
+  plugin, so even the first local plugin disables it and the config fails with
+  "Found rules without implementation: start-with-gitmoji". Spread the preset's
+  plugin rules into the one local plugin object together with your own.
 
 ## docs/local/README.md
 
