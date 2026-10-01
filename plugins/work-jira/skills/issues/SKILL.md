@@ -200,6 +200,14 @@ work. Comments go the same way as descriptions — `comment()` / `edit_comment()
 in the script — as soon as they carry a link or code: posted as Markdown, a URL
 is stored as plain text and Jira does not auto-link it.
 
+## People
+
+Whom to ask and how to mention them lives in the project's team file,
+personal and gitignored — names and account ids stay out of committed files.
+Its shape and why it exists: `${CLAUDE_PLUGIN_ROOT}/reference/team.md`. A
+mention in a comment is an ADF `mention` node with the account id from that
+file; a typed "@Name" notifies no one.
+
 ## What gets written down
 
 - **Into the project profile** — anything the developer decided, and anything
