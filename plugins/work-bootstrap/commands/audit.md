@@ -18,7 +18,9 @@ one row per entry: the entry, its state in this project, the proposed action;
 an entry whose `Applies to:` does not fit is reported as not applicable.
 
 - **No baseline**: the project predates the mechanism — say so and run the
-  full audit, which ends by setting one.
+  full audit, which ends by setting one. `Baseline: off` means the project
+  opted out of the reminder; the audit still runs when asked, and offers to
+  set a real baseline at the end.
 - **Baseline not in `CHANGES.md`**: the installed plugin is older than the
   one that set it — say so; run nothing until the plugin is updated.
 - **`full`**: every check below, then the baseline.

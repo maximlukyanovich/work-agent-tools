@@ -25,6 +25,18 @@ Updating the method everywhere at once:
 /plugin marketplace update mluk-work-agent-tools
 ```
 
+Or let it happen by itself: `/plugin` → **Marketplaces** → `mluk-work-agent-tools`
+→ **Enable auto-update**. Claude Code then refreshes the catalogue and the
+installed plugins in the background after a session starts, and the plugins
+carry no `version`, so every commit on `main` reaches you. The background
+check cannot prompt: the SSH key must be loaded in `ssh-agent` without a
+passphrase prompt, or a stored HTTPS credential must exist — otherwise the
+update fails quietly and the old copy stays.
+
+Auto-update delivers the method; it never edits a project. When a set-up
+project falls behind, `work-bootstrap`'s session-start hook says so and
+`/work-bootstrap:audit` proposes the edits.
+
 Plugins install separately: `/plugin install work-estimation@mluk-work-agent-tools`
 does not pull Jira in.
 

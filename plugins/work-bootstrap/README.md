@@ -27,8 +27,12 @@ A `SessionStart` hook ([hooks/hooks.json](hooks/hooks.json)) runs on every new
 session wherever this plugin is enabled. It is silent unless the project has a
 baseline older than the installed plugin's last entry; then it shows the
 developer one line — never added to the model's context — pointing at
-`/work-bootstrap:audit`, which checks only the newer entries. A project with
-no `## Harness` section never hears from it.
+`/work-bootstrap:audit`, which checks only the newer entries.
+
+A project set up before the mechanism has a profile but no `## Harness`
+section: the hook asks once for `/work-bootstrap:audit full`, which sets the
+baseline. A project without a profile never hears from it, and
+`Baseline: off` in the profile silences it on purpose.
 
 ## The five-layer model
 
