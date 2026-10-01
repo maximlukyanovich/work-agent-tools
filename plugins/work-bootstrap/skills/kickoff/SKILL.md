@@ -26,8 +26,11 @@ around it.
 2. **Explore before asking.** Everything visible from the code, config, git
    history, the issue and its links, and the design source is not a question.
    Use exploration subagents for broad sweeps (one per area, at most three in
-   parallel); read the critical files yourself afterwards. Check library APIs
-   against their docs, not memory.
+   parallel); read the critical files yourself afterwards. A subagent's
+   report locates; it does not stand in for the source. Any contract wording
+   the plan's logic rests on — an API field, an event's semantics, a rule in
+   the spec — is read in the source and quoted in the plan with its path.
+   Check library APIs against their docs, not memory.
 
 3. **Ask what the code cannot answer** — with the questionnaire tool, not as
    prose in chat:

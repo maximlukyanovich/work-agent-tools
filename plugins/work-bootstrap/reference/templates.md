@@ -93,7 +93,10 @@ said so in one line, not silently.
 
 The same command loads the `kickoff` skill before its first question to the
 developer: the questionnaire rules live there, and a command that asks
-without them drops the closing "anything to add?".
+without them drops the closing "anything to add?". And once the plan is approved,
+before the first production edit, it names the project's skills for
+placement, components and tests to load: skills match on context
+unreliably, and the rules they carry are the ones a review finds broken.
 
 ### A command that merges must offer the closing steps
 
