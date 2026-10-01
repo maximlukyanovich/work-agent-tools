@@ -14,7 +14,9 @@ the developer's decisions — recorded, not remembered.
 Any task whose answer is not obvious from one file: a feature, an integration,
 a refactor across modules, a workflow change. A typo, a one-line fix or a
 rename does not need this. When the project has a `/task` command, it collects
-the issue and prepares the branch; this skill governs the planning around it.
+the issue, offers its status transition and prepares the branch (see
+`reference/templates.md`, "opening steps"); this skill governs the planning
+around it.
 
 ## How to do it
 
