@@ -32,6 +32,9 @@ as a copy that lags.
 ## Repository
 Branch chain and platform. Languages: committed, user-facing, conversation. The
 gate command.
+
+## Harness
+Baseline: <id> — the last `work-bootstrap` change (CHANGES.md) applied here.
 ```
 
 Two rules that keep it useful:

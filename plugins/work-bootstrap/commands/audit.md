@@ -1,12 +1,33 @@
 ---
 description: Audit an existing agent harness against the layer model and report what drifted, in priority order.
-argument-hint: ''
+argument-hint: '[full]'
 ---
 
 # /work-bootstrap:audit
 
 The harness exists; the job is to find the gaps, not to rewrite it.
 **Read-only** until a change is approved, and then one group at a time.
+
+## Delta or full
+
+**By default, only what changed in the method.** Read the baseline from
+`.claude/project-profile.md`, section `## Harness`, line `Baseline: <id>`.
+Take the entries of `${CLAUDE_PLUGIN_ROOT}/CHANGES.md` after that id and
+check each one's `Check:` against the project — nothing else. The report is
+one row per entry: the entry, its state in this project, the proposed action;
+an entry whose `Applies to:` does not fit is reported as not applicable.
+
+- **No baseline**: the project predates the mechanism — say so and run the
+  full audit, which ends by setting one.
+- **Baseline not in `CHANGES.md`**: the installed plugin is older than the
+  one that set it — say so; run nothing until the plugin is updated.
+- **`full`**: every check below, then the baseline.
+
+**Moving the baseline is the last step, and it is asked.** Once each entry is
+applied, declined with a recorded reason, or not applicable, offer to set
+`Baseline:` to the last entry. A declined entry stays declined: its reason
+goes into the project's own docs, not into the baseline, so the next delta
+does not raise it again.
 
 ## What to check
 
