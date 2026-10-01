@@ -18,7 +18,9 @@ on their issues.
 2. **List them** — one line per issue, `KEY — summary` — and ask which to comment
    on: all, a subset, or none.
 
-3. **Draft each comment** and show it in the chat for review. Shape:
+3. **Draft each comment** and show it in the chat for review. A comment that
+   addresses or mentions someone takes the person and the account id from the
+   project's team file (`${CLAUDE_PLUGIN_ROOT}/reference/team.md`). Shape:
 
    - A header of one readable sentence with the merge request as a link whose
      text is the whole `MR !N` — «Доставлено в [MR !1](…) (`feat/x` →

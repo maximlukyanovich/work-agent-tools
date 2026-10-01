@@ -28,6 +28,12 @@ them is cheap. **Read-only.**
 
 5. **Report grouped by addressee** — analyst, designer, backend, product — each
    question one line, with what it blocks and a proposed default where one exists.
+   Who holds each role, and how to mention them, comes from the project's
+   team file (`${CLAUDE_PLUGIN_ROOT}/reference/team.md`); missing → offer to
+   create it and ask for every row. A role is never inferred from context.
+   Each group is written in its reader's language: the spec's and the
+   design's terms for a designer or analyst, the backend's own field and
+   endpoint names for the backend — never frontend component names.
 
 ## Hard rules
 
