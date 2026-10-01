@@ -72,6 +72,32 @@ argument-hint: '[<arg>]'
 Read-only unless stated otherwise. No implicit push, merge or issue creation;
 permission applies to the current turn only.
 
+### A command that starts a task must offer the opening steps
+
+The status of an issue is the only thing the rest of the team sees of work
+that has not shipped. A task started without moving it reads as untouched
+for days — and the move, left to memory, is the step that gets skipped. So
+when the profile names a tracker the agent can reach (an MCP server or the
+plugin's script), the command that starts a task (`/task` or its equivalent)
+asks **one question**, once the issue is read and before the branch is cut:
+
+- **the transition to the workflow's in-progress status**, chosen from the
+  transitions the tracker offers for that issue, never a guessed id;
+- **the assignee**, when the issue has none;
+- **the parent story or epic**, when it still sits in a to-do status.
+
+Carry the state into the question — «Backlog, assigned to you, story still in
+Backlog» — and do only what is answered. Hour buckets and issues already in
+progress are left alone. With no reachable tracker the step is skipped and
+said so in one line, not silently.
+
+The same command loads the `kickoff` skill before its first question to the
+developer: the questionnaire rules live there, and a command that asks
+without them drops the closing "anything to add?". And once the plan is approved,
+before the first production edit, it names the project's skills for
+placement, components and tests to load: skills match on context
+unreliably, and the rules they carry are the ones a review finds broken.
+
 ### A command that merges must offer the closing steps
 
 Merging is the moment a task stops being visible. Whatever is not done in the

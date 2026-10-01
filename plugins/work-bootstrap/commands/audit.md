@@ -46,6 +46,9 @@ The harness exists; the job is to find the gaps, not to rewrite it.
    anything raised for another team? A command that merges and stops is how
    issues end up delivered but undocumented and untracked, and the gap is
    invisible precisely because the code shipped.
+   The mirror check: does the command that starts a task offer the opening
+   steps — the in-progress transition, the assignee, the parent's status —
+   when a tracker is reachable, and load `kickoff` before it asks?
 
 9. **Secret hygiene.** Are the generated MCP config and the environment file
    ignored? Did a token leak into a committed file, or into history?
