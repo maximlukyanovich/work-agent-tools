@@ -41,6 +41,11 @@ The order is fixed. Steps are not reordered or skipped.
    Order: `AGENTS.md` first — everything else references it — then `CLAUDE.md`,
    the profile, skills, commands, hooks, MCP, docs.
 
+   The profile gets a `## Harness` section whose `Baseline:` is the id of the
+   last entry in `${CLAUDE_PLUGIN_ROOT}/CHANGES.md`: the harness was built
+   to the method as it stands, and `/work-bootstrap:audit` later checks only
+   what changed after it.
+
 5. **Run the final check** from `${CLAUDE_PLUGIN_ROOT}/reference/checklist.md`
    and report what is green and what is not.
 

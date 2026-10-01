@@ -6,6 +6,8 @@ Checks what a reviewer should never have to read for:
   - every skill has frontmatter with `name` and `description`;
   - every `${CLAUDE_PLUGIN_ROOT}/…` path and every relative Markdown link resolves;
   - marketplace.json lists every plugin under plugins/, sources exist, names match plugin.json;
+  - every CHANGES.md entry is `## YYYY-MM-DD · <id>` with a unique id and What / Check / Applies to;
+  - every plugin hook command points at a script that exists;
   - every Python script compiles.
 
 Standard library only, so CI needs nothing but a Python image. Exit code 1 on any finding.
@@ -86,6 +88,41 @@ for entry in catalogue.get("plugins", []):
 for plugin_dir in sorted(p for p in PLUGINS.iterdir() if p.is_dir()):
     if plugin_dir.resolve() not in listed:
         fail(plugin_dir, "plugin not listed in marketplace.json")
+
+# ---------------------------------------------------------------- harness changes
+# A project's baseline names an entry; the audit and the SessionStart hook read
+# them by id. A malformed or duplicated entry breaks both silently.
+for changes in PLUGINS.glob("*/CHANGES.md"):
+    text = changes.read_text(encoding="utf-8")
+    seen = set()
+    for match in re.finditer(r"^## (.*)$", text, re.M):
+        head = re.fullmatch(r"(\d{4}-\d{2}-\d{2}) · ([a-z0-9][a-z0-9-]*)", match.group(1).strip())
+        if head is None:
+            fail(changes, f"entry heading {match.group(1)!r} is not `YYYY-MM-DD · <id>`")
+            continue
+        entry_id = head.group(2)
+        if entry_id in seen:
+            fail(changes, f"entry id {entry_id!r} is used twice")
+        seen.add(entry_id)
+        body = text[match.end():].split("\n## ", 1)[0]
+        for field in ("What:", "Check:", "Applies to:"):
+            if not re.search(rf"^{field}\s*\S", body, re.M):
+                fail(changes, f"entry {entry_id!r} has no `{field}`")
+
+# ---------------------------------------------------------------- plugin hooks
+for hooks in PLUGINS.glob("*/hooks/hooks.json"):
+    plugin = hooks.parent.parent
+    try:
+        config = json.loads(hooks.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        fail(hooks, f"does not parse: {e}")
+        continue
+    for groups in config.get("hooks", {}).values():
+        for group in groups:
+            for hook in group.get("hooks", []):
+                for ref in re.findall(r"\$\{CLAUDE_PLUGIN_ROOT\}/([A-Za-z0-9_./-]+)", hook.get("command", "")):
+                    if not (plugin / ref).exists():
+                        fail(hooks, f"${{CLAUDE_PLUGIN_ROOT}}/{ref} does not exist in {plugin.name}")
 
 # ---------------------------------------------------------------- scripts
 for script in list(ROOT.rglob("*.py")):

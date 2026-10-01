@@ -1,0 +1,67 @@
+# Harness changes
+
+What `work-bootstrap` changed in the method that an already set-up project
+should carry over. Read by `/work-bootstrap:audit` — which checks only the
+entries after the project's baseline — and by the `SessionStart` hook, which
+says when a project is behind.
+
+**Only changes a project acts on.** A skill or command that runs from this
+plugin reaches every project when the plugin updates and has no entry here;
+neither does a rewording. An entry exists when a project's own files — its
+`AGENTS.md`, commands, skills, hooks — need an edit to match.
+
+**Append-only.** New entries go at the end; an entry is never rewritten or
+removed, because a project's baseline names it. The id after the date is
+unique and is what a baseline records.
+
+Each entry:
+
+- `What:` the change, in one or two sentences, as a project would apply it;
+- `Check:` the checklist item or audit section that verifies it;
+- `Applies to:` which projects — an entry that does not apply is skipped, and
+  the baseline still moves past it.
+
+## 2026-09-30 · closing-steps
+
+What: every command that merges ends with one question offering the result
+comment, the worklog, branch deletion and anything raised for another team,
+carrying the current state; it merges without deleting the branch.
+Check: checklist — "Any command that merges ends by offering the closing
+steps"; audit §8.
+Applies to: projects with a merging command.
+
+## 2026-09-30 · review-ledger
+
+What: the review command keeps a pass ledger in the personal space, reviews
+the delta since the last reviewed head, runs blind before reconciling, tags
+findings, recommends a fresh session; the merging command reads the ledger.
+Check: checklist — "A review command, if there is one, keeps a pass ledger";
+audit §5.
+Applies to: projects with a review command.
+
+## 2026-10-01 · gate-out-of-hooks
+
+What: no git hook runs the whole gate; the commit and push commands run it,
+the push skipping a tree already validated; lint-staged runs the formatter
+after the linter's fixes.
+Check: checklist — "Deterministic layer"; audit §6.
+Applies to: every project.
+
+## 2026-10-01 · opening-steps
+
+What: the task-start command (`/task` or its equivalent) asks once, carrying
+the current state, about the in-progress transition, the assignee and the
+parent's status when a tracker is reachable; it loads `kickoff` before its
+first question and, once the plan is approved, the project's placement,
+component and testing skills before the first production edit.
+Check: checklist — "The command that starts a task, when a tracker is
+reachable, offers the opening steps"; audit §8, the mirror check.
+Applies to: projects with a task-start command.
+
+## 2026-10-01 · review-fix-proof
+
+What: `AGENTS.md` says to load the testing skill before fixing review
+findings, and that skill asks for a reverted-fix test per finding, every state
+the fix touches, and a finding → test table before the commit.
+Check: checklist — "Fixing review findings is a rule in `AGENTS.md`"; audit §5.
+Applies to: every project; the testing skill's name is the project's own.
