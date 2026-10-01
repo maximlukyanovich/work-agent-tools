@@ -31,6 +31,11 @@ The harness exists; the job is to find the gaps, not to rewrite it.
    previous passes? Without one, every pass starts cold, re-ranks deferred
    items and critiques the previous pass's fixes, and the finding count grows
    while the code does not change. Does a merging command read that ledger?
+   And the other half: when findings are fixed — usually in the working
+   session, from a pasted report — does a rule in `AGENTS.md` load the testing
+   skill first, and does that skill ask for a reverted-fix test per finding
+   and for every state the fix touches? Without it, each pass's fixes become
+   the next pass's `major`s.
 
 6. **Where the gate runs.** Does the push command run the gate for a tree the
    commit command did not validate? Is a git hook running the whole gate —

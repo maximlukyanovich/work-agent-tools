@@ -167,6 +167,25 @@ own reasons and tends to confirm them. Everything a review needs from the past
 is in the ledger. When the command runs in a session that edited files in the
 diff, the report says so and recommends a rerun; it does not refuse.
 
+**Fixing the findings has its own discipline**, and the review command cannot
+enforce it: the fixes are usually made in the working session, from a report
+pasted into chat, where no command runs. So the rule lives where every session
+reads it — one line in `AGENTS.md` — and points to the project's testing
+skill, which carries three things:
+
+- **a test per fix that fails with the fix reverted** — an existing test
+  that "covers the area" usually passes either way;
+- **every state the fix touches**, not the one the finding named: a query's
+  pending, error, and error **with stale data**; every mutation in flight,
+  not the last; a stream before its history has replayed. A fix round that
+  closes one state ships the next round's `major` in the state beside it;
+- **the proof handed back** before the commit is asked for: one row per
+  finding — the finding, the test, red with the fix reverted.
+
+Observed on a live project: pass 2 found two new `major`s, both in states
+the pass-1 fixes had touched and not enumerated, and both untested — the
+testing skill held the rule already, and nothing loaded it.
+
 **A merging command reads the ledger** before the merge: no pass on the
 current head, or `major`+ still open → it says so and merges only on an
 explicit yes.
