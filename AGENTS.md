@@ -43,6 +43,11 @@ for working on the repository itself.
   does not restate it. When a rule changes, it changes in one file.
 - **A rule earned on a live project lands here as a merge**, not in that
   project's notes. That is the whole reason this repository exists.
+- **A change a set-up project must carry over gets a `CHANGES.md` entry** in
+  `plugins/work-bootstrap/`, in the same merge request. That is any change to
+  what the checklist or `audit` verifies — the templates, the checklist,
+  `audit` itself. Without the entry no project hears of it: the audit checks
+  the delta after its baseline, and the `SessionStart` hook counts entries.
 
 ## 3. Conventions
 
@@ -76,6 +81,9 @@ for working on the repository itself.
   exist, or `${CLAUDE_PLUGIN_ROOT}` paths;
 - `marketplace.json` lists every plugin under `plugins/`, and each `plugin.json`
   name matches its catalogue entry;
+- every `CHANGES.md` entry is `## YYYY-MM-DD · <id>`, with a unique id and
+  `What:`, `Check:` and `Applies to:`;
+- every plugin hook's command points at a script that exists;
 - every Python script compiles.
 
 One check stays with people: **the changed command or skill was run once, in a
@@ -93,7 +101,9 @@ plugins/<name>/
   skills/<name>/SKILL.md          knowledge the agent loads by itself
   reference/*.md                  read one file at a time, on instruction
   scripts/                        executed, never read into context
+  hooks/hooks.json                plugin hooks — run wherever the plugin is on
   README.md                       for people, links to the skill
+plugins/work-bootstrap/CHANGES.md method changes a set-up project carries over
 scripts/check.py                  the merge-request gate, run by CI
 .gitlab-ci.yml                    runs the gate
 ```
