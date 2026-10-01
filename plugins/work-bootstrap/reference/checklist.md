@@ -26,6 +26,9 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       space: reviews the delta since the last reviewed head, runs blind before
       reconciling, tags findings `new` / `missed` / `escalated` /
       `fix-critique`, and recommends a fresh session.
+- [ ] Fixing review findings is a rule in `AGENTS.md` that loads the testing
+      skill, and that skill asks for a reverted-fix test per finding, every
+      state the fix touches, and a finding → test table before the commit.
 - [ ] MCP: the example in git, the generated file and `.env` ignored, generation
       works.
 - [ ] `docs/README.md` and `docs/local/README.md` exist; `docs/local/` is fully
