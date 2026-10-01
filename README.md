@@ -61,9 +61,13 @@ Language follows the conversation; pass a language code to override.
 A plugin is either a generator or a library, and the choice is deliberate.
 
 **A generator** runs once and writes files into the project. What it produces
-becomes the project's own code: edited locally, never updated from here.
+becomes the project's own code: edited locally, never overwritten from here.
 `work-bootstrap` is a generator — `AGENTS.md`, domain skills and hooks are
-about one repository and have no shared version to track.
+about one repository and have no shared version to track. What does evolve
+is the **method** behind them, and a change a project should carry over is
+an entry in `plugins/work-bootstrap/CHANGES.md`: the project records the last
+entry it applied as its baseline, a `SessionStart` hook says when it is
+behind, and `/work-bootstrap:audit` checks only the entries after it.
 
 **A library** keeps its commands and skills here and is invoked from any project.
 The project contributes only a profile that steers them. `work-jira` and
@@ -159,7 +163,9 @@ plugins/<name>/
   commands/*.md                   slash commands — procedures a human invokes
   skills/<name>/SKILL.md          knowledge the agent loads by itself
   scripts/                        executable parts: generators, API wrappers
+  hooks/hooks.json                plugin hooks, active wherever the plugin is
   reference/                      material read one file at a time, not whole
+  CHANGES.md                      work-bootstrap only: method changes for set-up projects
   README.md                       what the plugin does
 ```
 

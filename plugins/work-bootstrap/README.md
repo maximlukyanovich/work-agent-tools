@@ -8,7 +8,7 @@ backend, monorepo, library, CLI.
 | Command | What it does |
 | --- | --- |
 | `/work-bootstrap:setup` | Inventories the repository, asks only what the code cannot answer, shows a plan, then creates the harness. |
-| `/work-bootstrap:audit` | Checks an existing harness against the model and reports what drifted. Read-only. |
+| `/work-bootstrap:audit` | Checks only the method changes after the project's baseline ([CHANGES.md](CHANGES.md)); `full` checks the whole harness against the model. Read-only until a change is approved. |
 | `/work-bootstrap:help` | What this plugin can do: commands, the layer model it applies, what it creates. Optional language argument. |
 
 ## What it creates
@@ -16,6 +16,19 @@ backend, monorepo, library, CLI.
 `AGENTS.md` as the canonical document, `CLAUDE.md` as a thin vendor layer,
 skills, commands, hooks, `.mcp.json.example`, the `docs/**` skeleton, and the
 project profile that every other plugin reads first.
+
+## Keeping a set-up project current
+
+The method changes after a project is set up. A change the project should
+carry over is an entry in [CHANGES.md](CHANGES.md); `setup` records the last
+entry as the project's `Baseline:` (profile, section `## Harness`).
+
+A `SessionStart` hook ([hooks/hooks.json](hooks/hooks.json)) runs on every new
+session wherever this plugin is enabled. It is silent unless the project has a
+baseline older than the installed plugin's last entry; then it shows the
+developer one line — never added to the model's context — pointing at
+`/work-bootstrap:audit`, which checks only the newer entries. A project with
+no `## Harness` section never hears from it.
 
 ## The five-layer model
 
