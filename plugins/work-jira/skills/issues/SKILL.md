@@ -206,7 +206,9 @@ Whom to ask and how to mention them lives in the project's team file,
 personal and gitignored — names and account ids stay out of committed files.
 Its shape and why it exists: `${CLAUDE_PLUGIN_ROOT}/reference/team.md`. A
 mention in a comment is an ADF `mention` node with the account id from that
-file; a typed "@Name" notifies no one.
+file; a typed "@Name" notifies no one. A follow-up to an existing comment — a
+question it left open, an UPD — is a reply in its thread (`comment(...,
+reply_to=<id>)`, the editor's Reply), not a new top-level comment.
 
 ## What gets written down
 

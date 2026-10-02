@@ -39,7 +39,8 @@ on their issues.
    - An `Out of scope / follow-ups` block when there is something to flag.
 
 4. **Post only on an explicit go-ahead**, through `scripts/jira.py` as ADF —
-   `comment(key, doc(p(header), ul([...])))`, `edit_comment` to amend. Not
+   `comment(key, doc(p(header), ul([...])))`, `edit_comment` to amend,
+   `comment(..., reply_to=<id>)` to answer in an earlier comment's thread. Not
    through MCP: a Markdown comment stores a URL as plain text, which Jira does
    not auto-link, so the merge-request link arrives dead. Formatting rules from
    the `issues` skill apply: backticks for inline code, `[[KEY-1]]` for an

@@ -238,15 +238,28 @@ def describe(key, document):
     call("PUT", f"/rest/api/3/issue/{key}", {"fields": {"description": document}})
 
 
-def comment(key, document):
+def comment(key, document, reply_to=None):
     """Posts a comment as ADF and returns its id.
 
     Why not through MCP: a comment posted as Markdown stores a bare URL as plain text, and
     Jira does not auto-link plain text — a merge-request link in the header arrives dead.
     Built with the same helpers as a description: `doc(p(...), ul([...]))`, with [text](url)
     for the link and [[PROJ-7]] for a card.
+
+    `reply_to` posts the comment as a reply in the thread of that comment — what the
+    editor's Reply button does. Jira stores it as `parentId` on the reply; the field is
+    missing from the published OpenAPI and absent on top-level comments, so it was read
+    off a reply made in the UI. A follow-up to an earlier comment goes there, not as a
+    new top-level comment that only links back.
+
+    Threads are one level deep: `reply_to` must be a top-level comment. Answering a reply
+    means replying to its thread's root (the reply's own `parentId`); a reply's id is
+    refused with "Parent comment not found".
     """
-    return call("POST", f"/rest/api/3/issue/{key}/comment", {"body": document})["id"]
+    payload = {"body": document}
+    if reply_to is not None:
+        payload["parentId"] = int(reply_to)
+    return call("POST", f"/rest/api/3/issue/{key}/comment", payload)["id"]
 
 
 def edit_comment(key, comment_id, document):
