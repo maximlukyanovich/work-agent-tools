@@ -19,6 +19,10 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       as one question carrying the current state, and merges without deleting
       the branch; with `work-jira`, a posted question goes on the waiting list
       and an answered one is closed there.
+- [ ] With a design source: the component skill extends the scale for an
+      off-scale value, invents nothing the design does not draw, and asks for
+      a deviation table in the task report; a layout-measuring script runs in
+      the task's browser check and in the review command's `layout` mode.
 - [ ] Hooks: each silent outside its area, each with a test, all wired into
       `settings.json`.
 - [ ] Deterministic layer: linter, formatter, types, tests, git hooks, and one

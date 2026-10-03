@@ -74,3 +74,13 @@ opening-steps message; the merge command's closing step puts a newly posted
 question on that list and closes one the merge answers.
 Check: checklist — the opening-steps and closing-steps items; audit §8.
 Applies to: projects that use `work-jira`.
+
+## 2026-10-03 · design-fidelity
+
+What: projects that implement a design add to their component skill — an
+off-scale value becomes a new token (no silent snap) and goes to the designer;
+nothing undrawn is invented; the task report lists deviations from the screen.
+A layout-measuring script runs in the task's browser check, and the review
+command gains a `layout` mode that runs it.
+Check: checklist — "With a design source"; audit §11.
+Applies to: projects with a design source.

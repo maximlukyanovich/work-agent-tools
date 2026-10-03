@@ -85,6 +85,12 @@ does not raise it again.
    in a vendor file? Are the skill symlinks present and unbroken, and pointing the
    right way?
 
+11. **Design fidelity.** With a design source: does the component skill extend
+    the scale for an off-scale value instead of snapping, forbid inventing
+    what the design does not draw, and ask for a deviation table in the task
+    report? Is there a layout-measuring script, run in the task's browser
+    check and in the review command's `layout` mode?
+
 ## Report
 
 A table: finding → layer → severity → proposed action. Apply changes after
