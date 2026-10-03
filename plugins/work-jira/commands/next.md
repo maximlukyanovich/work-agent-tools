@@ -72,6 +72,8 @@ can reach only one of them says so and ranks on what it has.
      next step and should go to the designer or the product owner *before*
      the work starts. Hour buckets are not housekeeping — they are meant to
      stay open.
+     Plus the waiting list's open questions, those that block delivery first —
+     read from the file; a sweep of the tracker only if the developer asks.
    - **The next fork**, when nothing is ready but the recommended issue: what
      becomes ready once it lands, and any decision that must be taken before
      that — pulling the mock half of a blocked task forward, say. A decision

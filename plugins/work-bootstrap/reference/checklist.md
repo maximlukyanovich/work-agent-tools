@@ -11,11 +11,14 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       rules section; shared rules live in the index, not in every file.
 - [ ] The command that starts a task, when a tracker is reachable, offers the
       opening steps — in-progress transition, assignee, parent status — as one
-      question carrying the current state, and loads `kickoff` before asking.
+      question carrying the current state, and loads `kickoff` before asking;
+      with `work-jira`, it also names the issue's open questions from the
+      waiting list.
 - [ ] Any command that merges ends by offering the closing steps — result
       comment, worklog, branch deletion, anything raised for another team —
       as one question carrying the current state, and merges without deleting
-      the branch.
+      the branch; with `work-jira`, a posted question goes on the waiting list
+      and an answered one is closed there.
 - [ ] Hooks: each silent outside its area, each with a test, all wired into
       `settings.json`.
 - [ ] Deterministic layer: linter, formatter, types, tests, git hooks, and one

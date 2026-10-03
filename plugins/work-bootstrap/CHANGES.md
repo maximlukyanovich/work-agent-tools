@@ -65,3 +65,12 @@ findings, and that skill asks for a reverted-fix test per finding, every state
 the fix touches, and a finding → test table before the commit.
 Check: checklist — "Fixing review findings is a rule in `AGENTS.md`"; audit §5.
 Applies to: every project; the testing skill's name is the project's own.
+
+## 2026-10-03 · question-waiting-list
+
+What: the task-start command names the issue's open questions from the
+waiting list (`docs/local/questions.md`, `work-jira` `issues` skill) in its
+opening-steps message; the merge command's closing step puts a newly posted
+question on that list and closes one the merge answers.
+Check: checklist — the opening-steps and closing-steps items; audit §8.
+Applies to: projects that use `work-jira`.

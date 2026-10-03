@@ -210,6 +210,29 @@ file; a typed "@Name" notifies no one. A follow-up to an existing comment — a
 question it left open, an UPD — is a reply in its thread (`comment(...,
 reply_to=<id>)`, the editor's Reply), not a new top-level comment.
 
+## Questions waiting for an answer
+
+A posted question is work the developer is waiting on, and its reply lands in
+a thread nobody watches. So each one goes on the waiting list —
+`docs/local/questions.md` in the project, personal and gitignored like the
+team file: one line per question — issue · to whom · comment id · date · what
+it blocks.
+
+- **Remember and remind; do not poll.** Name an issue's open lines when work on
+  it starts, before it is closed, and whenever a status report or a closing
+  step touches it — the ones that block delivery first. Asked what is still
+  pending, answer from the file. A reminder costs a file read; a forgotten
+  question costs a task that cannot be closed.
+- **Check one thread, not the tracker.** The file is a reminder, not the
+  truth — a reply can land unrecorded. When a decision rests on a question —
+  closing the issue, starting work it blocks — read that open line's thread,
+  one call each; closed lines are skipped. A sweep across every issue with an
+  open question is long and costly: offer it, and run it only on a yes.
+- **A question closes on an answer or a decision** — a reply in its thread, an
+  answer the developer relays, or the question dropped. Mark the line with the
+  date and where the answer is. A dropped question is said so in its thread,
+  so the person asked stops working on it.
+
 ## What gets written down
 
 - **Into the project profile** — anything the developer decided, and anything

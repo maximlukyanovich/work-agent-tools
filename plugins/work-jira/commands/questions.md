@@ -40,6 +40,7 @@ them is cheap. **Read-only.**
 - **A vague requirement is a question, not a gap to fill.** Never resolve it with
   a plausible default and move on.
 - **Nothing is posted to Jira** by this command. Posting the questions as a
-  comment is a separate, explicit step.
+  comment is a separate, explicit step — and once posted, each goes on the
+  waiting list (`issues` skill, "Questions waiting for an answer").
 - **Questions with an obvious answer are not asked.** If the code or the design
   answers it, that is a finding, not a question.
