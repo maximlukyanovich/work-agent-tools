@@ -30,7 +30,10 @@ around it.
    report locates; it does not stand in for the source. Any contract wording
    the plan's logic rests on — an API field, an event's semantics, a rule in
    the spec — is read in the source and quoted in the plan with its path.
-   Check library APIs against their docs, not memory.
+   Check library APIs against their docs, not memory. When the task has a
+   design source, read the whole screen it touches, not only the component,
+   and put a table in the plan: each element of the screen → the code that
+   draws it, or why it is left out.
 
 3. **Ask what the code cannot answer** — with the questionnaire tool, not as
    prose in chat:
@@ -52,11 +55,16 @@ around it.
 
 5. **Write the plan**: context (why this change, what prompted it), the
    decisions table, one recommended approach, slices in execution order with
-   the files each touches, assumptions the developer can overturn, open
-   questions, and verification — how the result is proven. **The plan is
+   the files each touches, assumptions, open questions, and verification — how the result is proven. **The plan is
    written in the language of the chat**: the developer reads it in the
    approval dialog. Identifiers and paths stay as they are; committed text —
    commits, MR bodies, code comments — keeps the repository's language.
+
+   **Assumptions are for minor gaps** — a default nobody would notice. Each is
+   one line: what is assumed, on what basis, the alternative — so the
+   developer reviews it rather than accepts it unread. Anything the user or
+   the designer would see differently, and any gap in the spec or the
+   design, is a question in the questionnaire, not an assumption.
 
 6. **Ask for approval** through the plan-approval mechanism, not with a
    question in chat. A plan returned with comments is revised and submitted
@@ -78,6 +86,7 @@ around it.
 - Presenting three approaches without a recommendation.
 - Writing the plan in the commit language when the chat is in another one.
 - Writing code "to show the idea" before the plan is approved.
+- Filing a design decision under assumptions, where it gets approved unread.
 - Treating one approval as permission for the whole chain of commits, pushes
   and merge requests.
 - Recording decisions only in chat, so the next session asks them again.

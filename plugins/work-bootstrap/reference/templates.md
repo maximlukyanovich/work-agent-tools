@@ -101,6 +101,29 @@ before the first production edit, it names the project's skills for
 placement, components and tests to load: skills match on context
 unreliably, and the rules they carry are the ones a review finds broken.
 
+### A project with a design source holds to it
+
+When the project implements a design, its component skill (or equivalent)
+carries these rules; they are where a review finds drift.
+
+- **A value off the design's scale extends the scale.** A size, radius or
+  spacing the design draws between two steps becomes a new token rather than
+  a silent snap to the nearer one — even a 1 px difference is visible across a
+  product. The deviation goes into the project's register and to the
+  designer, in the result comment's "for the designer to confirm" block.
+- **Nothing the design does not draw is invented** — a control, a state, a
+  piece of copy. It becomes a question; a placeholder is tolerated only while
+  the question is open and only if the task report names it.
+- **The task report lists deviations from the screen**, one row each: the
+  design's value, the code's, why, and whether the designer has seen it.
+- **A measurement, not an eyeball.** A project script compares the computed
+  styles of the design's screen with the app's at the target viewport and
+  prints the elements that differ with their values. It runs during the
+  task's browser check, before review, and the review command accepts a
+  `layout` mode that runs it on the branch. The script is the project's; its
+  contract — inputs are the two URLs and a list of selectors, output is one
+  line per differing property — is what the commands rely on.
+
 ### A command that merges must offer the closing steps
 
 Merging is the moment a task stops being visible. Whatever is not done in the
