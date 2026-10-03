@@ -44,7 +44,9 @@ on their issues.
    through MCP: a Markdown comment stores a URL as plain text, which Jira does
    not auto-link, so the merge-request link arrives dead. Formatting rules from
    the `issues` skill apply: backticks for inline code, `[[KEY-1]]` for an
-   issue card, no bold inside list items.
+   issue card, no bold inside list items. A comment that asks someone
+   something goes on the waiting list when it is posted; a reply that answers
+   or drops a listed question closes its line (`issues` skill).
 
 5. **Then, separately, offer a worklog.** Propose one short sentence per issue.
    The default answer is "text only" — the developer may want the wording but log

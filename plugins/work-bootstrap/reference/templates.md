@@ -87,7 +87,10 @@ asks **one question**, once the issue is read and before the branch is cut:
 - **the parent story or epic**, when it still sits in a to-do status.
 
 Carry the state into the question — «Backlog, assigned to you, story still in
-Backlog» — and do only what is answered. Hour buckets and issues already in
+Backlog» — and do only what is answered. When the project keeps a waiting
+list of posted questions (`work-jira`, `issues` skill), name this issue's open
+ones in the same message: an unanswered question is often why the issue is
+still open. Hour buckets and issues already in
 progress are left alone. With no reachable tracker the step is skipped and
 said so in one line, not silently.
 
@@ -109,7 +112,8 @@ asked every time**, covering:
 - **the worklog**;
 - **deleting the branch**, locally and on the remote;
 - **anything the work raised for someone else** — a defect belonging to
-  another team, a question for the designer.
+  another team, a question for the designer. A question that gets posted
+  goes on the waiting list, and one the merge answers is closed there.
 
 All of these are optional and none is done unasked. The obligation is to
 **ask**, not to do. Two rules make the question worth answering:
