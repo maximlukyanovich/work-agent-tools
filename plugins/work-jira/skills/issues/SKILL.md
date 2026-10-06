@@ -227,11 +227,29 @@ it blocks.
   truth — a reply can land unrecorded. When a decision rests on a question —
   closing the issue, starting work it blocks — read that open line's thread,
   one call each; closed lines are skipped. A sweep across every issue with an
-  open question is long and costly: offer it, and run it only on a yes.
+  open question is long and costly: offer it, and run it only on a yes. The
+  tracker's notification feed is no shortcut: read with an API token, it comes
+  back empty.
 - **A question closes on an answer or a decision** — a reply in its thread, an
   answer the developer relays, or the question dropped. Mark the line with the
   date and where the answer is. A dropped question is said so in its thread,
   so the person asked stops working on it.
+- **A processed answer is acknowledged where it was given.** Once a reply has
+  been acted on — in the code, the plan or a new question — its author sees
+  that it landed: a reaction under it, or a reply in its thread when there is
+  something to say (a clarification, a follow-up, a disagreement). Which one is
+  the developer's choice, asked once and recorded in the profile's
+  `## Tracker`: a fixed reaction (offer ✅, "check mark button"), or asking each
+  time whether to react or to reply. An API token cannot set a Jira reaction —
+  the reactions gateway answers 401 and the GraphQL `addReaction` covers
+  Confluence only — so a reaction is the developer's click: hand over the list,
+  issue · comment id · link `…/browse/KEY?focusedCommentId=ID`. Leave out the
+  ones already reacted to: the token can read them — GraphQL
+  `graphStore_userReactedToIssueComment(id: "ari:cloud:identity::user/<accountId>",
+  queryContext: "ari:cloud:platform::site/<cloudId>")` with
+  `@optIn(to: "GraphStoreUserReactedToIssueComment")` returns the comments the
+  developer reacted to, any emoji, as `…:issue-comment/<issueId>/<commentId>`.
+  A reply goes through `comment(..., reply_to=<root id>)`.
 
 ## What gets written down
 

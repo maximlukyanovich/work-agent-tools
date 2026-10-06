@@ -94,3 +94,12 @@ closed only the first was followed by the second in the next review.
 Check: checklist — "Fixing review findings is a rule in `AGENTS.md`", the
 testing skill it points to; audit §5.
 Applies to: projects whose data layer caches query results.
+
+## 2026-10-06 · processed-answer-ack
+
+What: the profile's `## Tracker` records how an answer the agent has acted on
+is acknowledged — a fixed reaction (✅ offered) or asking each time whether to
+react or to reply. The developer sets the reaction by hand: an API token cannot.
+Check: checklist — "With Jira, the profile's `## Tracker` says how a processed
+answer is acknowledged"; audit §7.
+Applies to: projects that use `work-jira` with Jira.

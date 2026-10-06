@@ -15,6 +15,7 @@ plugins ship; only what the developer says in the current session outranks it.
 
 ## Tracker
 System, instance URL, project key, allowed labels, where credentials come from.
+How a processed answer is acknowledged: the reaction, or ask each time.
 
 ## Issues
 Language of summaries and descriptions. Prefixes, and the reason if they deviate
