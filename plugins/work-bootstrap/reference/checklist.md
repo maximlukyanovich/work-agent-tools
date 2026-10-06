@@ -43,6 +43,8 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
 - [ ] `.claude/README.md` is a map with links; the command index is in
       `.claude/COMMANDS.md`; nothing inside `commands/` is not a command.
 - [ ] `.claude/project-profile.md` exists if any shared plugin is installed.
+- [ ] With Jira, the profile's `## Tracker` says how a processed answer is
+      acknowledged — a reaction, or ask each time.
 - [ ] No harness file contains a secret, an absolute path, or a person's name.
 - [ ] The onboarding command runs and prints a green table — or rows with
       concrete actions.

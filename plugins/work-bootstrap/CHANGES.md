@@ -84,3 +84,12 @@ A layout-measuring script runs in the task's browser check, and the review
 command gains a `layout` mode that runs it.
 Check: checklist — "With a design source"; audit §11.
 Applies to: projects with a design source.
+
+## 2026-10-06 · processed-answer-ack
+
+What: the profile's `## Tracker` records how an answer the agent has acted on
+is acknowledged — a fixed reaction (✅ offered) or asking each time whether to
+react or to reply. The developer sets the reaction by hand: an API token cannot.
+Check: checklist — "With Jira, the profile's `## Tracker` says how a processed
+answer is acknowledged"; audit §7.
+Applies to: projects that use `work-jira` with Jira.
