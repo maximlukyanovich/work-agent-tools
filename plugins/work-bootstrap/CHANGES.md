@@ -85,6 +85,16 @@ command gains a `layout` mode that runs it.
 Check: checklist — "With a design source"; audit §11.
 Applies to: projects with a design source.
 
+## 2026-10-06 · stale-cache-state
+
+What: the testing skill's list of a query's states gains success that may be
+out of date — while a refetch is in flight, and while the cache still counts
+as fresh by its stale time, so nothing is read again on mount. A fix that
+closed only the first was followed by the second in the next review.
+Check: checklist — "Fixing review findings is a rule in `AGENTS.md`", the
+testing skill it points to; audit §5.
+Applies to: projects whose data layer caches query results.
+
 ## 2026-10-06 · processed-answer-ack
 
 What: the profile's `## Tracker` records how an answer the agent has acted on
