@@ -229,8 +229,10 @@ skill, which carries three things:
 - **a test per fix that fails with the fix reverted** — an existing test
   that "covers the area" usually passes either way;
 - **every state the fix touches**, not the one the finding named: a query's
-  pending, error, and error **with stale data**; every mutation in flight,
-  not the last; a stream before its history has replayed. A fix round that
+  pending, error, and error **with stale data**; success that may be out of
+  date — while a refetch is in flight, and while the cache still counts as
+  fresh, so nothing is read again on mount; every mutation in flight, not
+  the last; a stream before its history has replayed. A fix round that
   closes one state ships the next round's `major` in the state beside it;
 - **the proof handed back** before the commit is asked for: one row per
   finding — the finding, the test, red with the fix reverted.
