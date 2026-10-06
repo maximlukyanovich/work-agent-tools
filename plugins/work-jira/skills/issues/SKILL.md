@@ -243,8 +243,13 @@ it blocks.
   time whether to react or to reply. An API token cannot set a Jira reaction —
   the reactions gateway answers 401 and the GraphQL `addReaction` covers
   Confluence only — so a reaction is the developer's click: hand over the list,
-  issue · comment id · link `…/browse/KEY?focusedCommentId=ID`. A reply goes
-  through `comment(..., reply_to=<root id>)`.
+  issue · comment id · link `…/browse/KEY?focusedCommentId=ID`. Leave out the
+  ones already reacted to: the token can read them — GraphQL
+  `graphStore_userReactedToIssueComment(id: "ari:cloud:identity::user/<accountId>",
+  queryContext: "ari:cloud:platform::site/<cloudId>")` with
+  `@optIn(to: "GraphStoreUserReactedToIssueComment")` returns the comments the
+  developer reacted to, any emoji, as `…:issue-comment/<issueId>/<commentId>`.
+  A reply goes through `comment(..., reply_to=<root id>)`.
 
 ## What gets written down
 
