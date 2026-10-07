@@ -24,6 +24,39 @@ Rules that keep it cheap: no rule appears twice; anything expressible as lint
 configuration is a one-line reference, not a paragraph; the absence of a layer is
 recorded deliberately, with its reason.
 
+With pnpm 11, §2 says next to how a dependency is added that one with a build
+script — direct or transitive — needs an `allowBuilds` entry in
+`pnpm-workspace.yaml`. A missing entry fails the install with
+`ERR_PNPM_IGNORED_BUILDS`, but only a clean one: a warm `node_modules` hides
+it, and the first to see it is the server. The file's header gives each entry
+its reason and says to prove a new dependency with
+`pnpm install --frozen-lockfile` on a fresh checkout.
+
+## README.md — Deployment
+
+Once the project runs anywhere but a developer machine, the root README has a
+Deployment section. Whoever sets up the server reads README, not `AGENTS.md`,
+and a deployment guessed from `dev` ships the dev server.
+
+```markdown
+## Deployment
+
+`<dev command>` is for local development only. A server runs:
+
+    <install from the lockfile, frozen>
+    <build>
+    <start, with the port>
+
+- Versions are pinned: <runtime> (<file>) and <package manager> (<field>);
+  how a stock image gets them.
+- <VARIABLE>: which steps need it — build, start or both — and whether it is
+  baked into the bundle or read at start. What it means → <env example>.
+```
+
+Every line is proven on a fresh checkout without a local env file before it
+is written: a variable the build validates at import is invisible on the
+machine that has one.
+
 ## CLAUDE.md
 
 ```markdown
