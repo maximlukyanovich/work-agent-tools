@@ -253,6 +253,20 @@ own reasons and tends to confirm them. Everything a review needs from the past
 is in the ledger. When the command runs in a session that edited files in the
 diff, the report says so and recommends a rerun; it does not refuse.
 
+**The commit command hands the review over.** After the last commit of a task,
+or of a round of review fixes, its report ends with the review command ready
+to paste into a fresh session. The command carries:
+
+- the range `<base>..<head>`, from where the branch left its base branch, or
+  from the head the last pass reviewed;
+- what to skip — merge commits, other people's commits;
+- one code block per branch.
+
+Left to the agent's memory, this step is skipped precisely when a task ends
+well. Observed on a live project: a finished task was reported done with
+commits, questions and a library merge request all proposed, and the review
+was not. The rule was already a saved preference.
+
 **Fixing the findings has its own discipline**, and the review command cannot
 enforce it: the fixes are usually made in the working session, from a report
 pasted into chat, where no command runs. So the rule lives where every session

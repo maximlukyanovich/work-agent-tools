@@ -115,3 +115,12 @@ pinned versions, and every variable the build and the start need.
 Check: checklist — "A fresh checkout installs", "Once deployed anywhere";
 audit §12.
 Applies to: projects on pnpm 11; the README part, deployed projects.
+
+## 2026-10-07 · review-handover
+
+What: the commit command, after a task's last commit or a round of review
+fixes, ends its report with the review command ready to paste into a fresh
+session — the range `<base>..<head>`, what to skip, one code block per branch.
+Check: checklist — "The commit command … ends its report with the review
+command"; audit §5.
+Applies to: projects with a commit command and a review command.
