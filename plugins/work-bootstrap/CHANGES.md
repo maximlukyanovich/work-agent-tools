@@ -103,3 +103,15 @@ react or to reply. The developer sets the reaction by hand: an API token cannot.
 Check: checklist — "With Jira, the profile's `## Tracker` says how a processed
 answer is acknowledged"; audit §7.
 Applies to: projects that use `work-jira` with Jira.
+
+## 2026-10-07 · clean-install-deploy
+
+What: with pnpm 11, `AGENTS.md` §2 says a new dependency with a build script
+needs an `allowBuilds` entry, and the `pnpm-workspace.yaml` header says to
+prove it with a frozen install on a fresh checkout — a warm `node_modules`
+hid a missing entry until the server's install failed. Once the project is
+deployed, the root README gains a Deployment section: production commands,
+pinned versions, and every variable the build and the start need.
+Check: checklist — "A fresh checkout installs", "Once deployed anywhere";
+audit §12.
+Applies to: projects on pnpm 11; the README part, deployed projects.

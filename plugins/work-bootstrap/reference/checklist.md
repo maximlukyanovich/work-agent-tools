@@ -36,6 +36,12 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
 - [ ] Fixing review findings is a rule in `AGENTS.md` that loads the testing
       skill, and that skill asks for a reverted-fix test per finding, every
       state the fix touches, and a finding → test table before the commit.
+- [ ] A fresh checkout installs: with pnpm 11, `allowBuilds` lists every
+      dependency build script with its reason, `AGENTS.md` §2 says a new one
+      needs an entry, and `pnpm install --frozen-lockfile` passes.
+- [ ] Once deployed anywhere: the root README has a Deployment section —
+      production commands from a frozen install, pinned versions, every
+      variable the build and the start need — proven on a fresh checkout.
 - [ ] MCP: the example in git, the generated file and `.env` ignored, generation
       works.
 - [ ] `docs/README.md` and `docs/local/README.md` exist; `docs/local/` is fully
