@@ -147,6 +147,12 @@ carries these rules; they are where a review finds drift.
 - **Nothing the design does not draw is invented** — a control, a state, a
   piece of copy. It becomes a question; a placeholder is tolerated only while
   the question is open and only if the task report names it.
+- **Know which copy is the source.** A design export can carry the same
+  component twice — the files the screens import and an older bundled copy.
+  Before reading, establish which one the rendered screens actually use, and
+  write it into the project's design-source document; a whole pass was once
+  briefed from the stale copy. When a rendered screen and a component
+  source still disagree, the screen wins and the gap goes to the designer.
 - **Every state from the source, read each time.** Hover, focus, pressed,
   selected, disabled, invalid, open, loading — and the design's global
   stylesheet (link and title hovers, the focus ring, scrollbars) — are part
