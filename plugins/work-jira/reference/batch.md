@@ -103,7 +103,8 @@ epic carries an estimate or an `Estimate` section.
 ## Other helpers
 
 `jira.index(project)` — every summary → key of the project, also feeding the
-reference registry. `jira.describe(key, doc)` — replace one description;
+reference registry. `jira.expand(title, blocks)` — a collapsed section, e.g.
+`Scope changes`. `jira.describe(key, doc)` — replace one description;
 `jira.resolve(key)` — patch its unresolved references in place.
 `jira.block(provider, consumer, dry_run=False)` — one `Blocks` link between
 existing issues, printed as a sentence; the way to add or repair a dependency

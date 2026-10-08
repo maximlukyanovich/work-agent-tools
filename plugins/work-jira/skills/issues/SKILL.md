@@ -88,9 +88,17 @@ components`, so the reader does not have to open it.
 it, and a description that still promises what moved elsewhere — or omits what
 the answers to its questions added — sends them testing stale requirements.
 Check it at the transition to testing and again when a result comment is
-posted: what is in, what moved out and where (cards), known limits. A record of
-what changed since the issue was written — a collapsed `Changes` section (ADF
-`expand`) — is welcome but optional; the requirement is that the text is true.
+posted: what is in, what moved out and where (cards), known limits — the
+last as a `Known limitations` section: what behaves so for now, and the
+question it waits on.
+
+What changed since the issue was written goes in `Scope changes`, collapsed
+(`expand(title, blocks)`) right after the acceptance criteria, so QA reads
+the two together: one line per **decision** that changed the scope — an
+answer, a part carved out to another issue — with the date and a link to
+where it was decided. Not a log of merge requests: a reader cannot tell from
+"MR !N" what is now different, and the merge requests are in the result
+comments already. Optional; the requirement is that the text is true.
 
 **Every issue a description references is also linked to it**, type `relates
 to`, so the relation is visible in the linked-items panel and survives a rewrite
