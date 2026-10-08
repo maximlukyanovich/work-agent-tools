@@ -180,6 +180,11 @@ def checklist(items):
     ]}
 
 
+def expand(title, blocks):
+    """A collapsed section — ADF `expand`; the reader opens it on demand."""
+    return {"type": "expand", "attrs": {"title": title}, "content": list(blocks)}
+
+
 def doc(*blocks):
     return {"type": "doc", "version": 1, "content": list(blocks)}
 
