@@ -124,3 +124,13 @@ session — the range `<base>..<head>`, what to skip, one code block per branch.
 Check: checklist — "The commit command … ends its report with the review
 command"; audit §5.
 Applies to: projects with a commit command and a review command.
+
+## 2026-10-08 · real-content-layout
+
+What: a project with a design source adds to its component skill — lay out for
+real content rather than the mock's (clamp what can grow with the full text
+reachable, wrap what must wrap, check narrow widths), and name that work in
+the result comment as work the design did not contain. Remove any leftover
+"snap to the nearest token" wording.
+Check: checklist — "With a design source"; audit §11.
+Applies to: projects with a design source.

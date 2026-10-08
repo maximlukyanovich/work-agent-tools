@@ -89,8 +89,10 @@ does not raise it again.
 
 11. **Design fidelity.** With a design source: does the component skill extend
     the scale for an off-scale value instead of snapping, forbid inventing
-    what the design does not draw, and ask for a deviation table in the task
-    report? Is there a layout-measuring script, run in the task's browser
+    what the design does not draw, require a layout for real content (long
+    names, empty and long lists, narrow widths), and ask for a deviation
+    table in the task report? Does the project's own component skill still
+    say to snap — a rule an older template left behind? Is there a layout-measuring script, run in the task's browser
     check and in the review command's `layout` mode?
 
 12. **A server's first install.** Does `pnpm install --frozen-lockfile` pass

@@ -147,6 +147,14 @@ carries these rules; they are where a review finds drift.
 - **Nothing the design does not draw is invented** — a control, a state, a
   piece of copy. It becomes a question; a placeholder is tolerated only while
   the question is open and only if the task report names it.
+- **Real content, not the mock's.** A design's data is short and tidy; real
+  names run six lines, prices carry two currencies, lists come empty or long,
+  and the layout gets a narrower width than the mock. Lay out for that within
+  the design's rules — clamp what can grow, keeping the full text reachable;
+  wrap what must wrap; check the narrow widths. This is the team's to solve,
+  not a question for every case, and it is work the design did not contain:
+  the result comment names it, so it counts toward time over the optimistic
+  estimate.
 - **The task report lists deviations from the screen**, one row each: the
   design's value, the code's, why, and whether the designer has seen it.
 - **A measurement, not an eyeball.** A project script compares the computed
