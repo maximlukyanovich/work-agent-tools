@@ -35,12 +35,22 @@ them is cheap. **Read-only.**
    design's terms for a designer or analyst, the backend's own field and
    endpoint names for the backend — never frontend component names.
 
+6. **Re-check every draft right before it is posted.** A draft ages: the plan
+   moves on, a decision lands, a source is read more closely. Hold each
+   question against the spec, the design source (the whole bundle, not the one
+   screen — another screen, a component card or a `.d.ts` often draws the
+   missing piece) and the backend's code and contract. A question a source
+   answers is dropped and reported as a finding with its pointer; a question
+   the plan no longer needs — the feature it served was cut or decided another
+   way — is dropped too. What survives is posted.
+
 ## Hard rules
 
 - **A vague requirement is a question, not a gap to fill.** Never resolve it with
   a plausible default and move on.
 - **Nothing is posted to Jira** by this command. Posting the questions as a
   comment is a separate, explicit step — and once posted, each goes on the
-  waiting list (`issues` skill, "Questions waiting for an answer").
+  waiting list (`issues` skill, "Questions waiting for an answer"). That step
+  starts with step 6, even for drafts written in an earlier session.
 - **Questions with an obvious answer are not asked.** If the code or the design
   answers it, that is a finding, not a question.
