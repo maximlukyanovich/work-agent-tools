@@ -84,6 +84,14 @@ status and keeps them current. Where a card cannot be produced — a comment
 posted through MCP — the link text carries key and summary, `PROJ-7 Domain
 components`, so the reader does not have to open it.
 
+**The description is current when the issue goes to testing.** QA tests against
+it, and a description that still promises what moved elsewhere — or omits what
+the answers to its questions added — sends them testing stale requirements.
+Check it at the transition to testing and again when a result comment is
+posted: what is in, what moved out and where (cards), known limits. A record of
+what changed since the issue was written — a collapsed `Changes` section (ADF
+`expand`) — is welcome but optional; the requirement is that the text is true.
+
 **Every issue a description references is also linked to it**, type `relates
 to`, so the relation is visible in the linked-items panel and survives a rewrite
 of the text. A dependency is a `Blocks` link, set only when the plan says so —
@@ -113,6 +121,12 @@ cannot be finished before it.
 - **Starting early is not unblocking.** A consumer may start on mocks while
   its provider is open; the link is about finishing. Say so in the consumer's
   `Technical notes` when that is the plan.
+- **Blocked by something outside the team** — a backend issue in the backlog,
+  a design not delivered, a decision not taken: Jira's flag (`flag(key)`, the
+  "Impediment" the board draws in red) plus an `is blocked by` link to the
+  cause. Agree this convention with the developer once per project and record
+  it in the profile's `## Tracker` — a project may prefer a status of its own.
+  Clear the flag when the cause is gone.
 - **Other types, when they earn it.** `Issue split` (`split to` / `split
   from`) when an oversized issue is cut into parts; `Duplicate` to close a
   duplicate. The instance's other types — clones, incident, Gantt — are not
@@ -164,6 +178,20 @@ section rather than leaving the reader to wonder.
 `Original Estimate` is set by a **second request**: the field is absent from the
 create screen.
 
+**The pessimistic estimate is the ceiling.** Time over the optimistic estimate
+needs concrete functionality the estimate did not contain, named in the result
+comment; work bounced back from testing is the extreme case, not a budget line.
+Going over the pessimistic estimate is asked of the developer, never decided
+alone — it can be right when the requirements change radically or the risks
+the estimate priced in come true.
+
+**Carving a piece out of an issue is the exception**, agreed with the developer
+each time. When a part is blocked from outside and the rest can ship, the part
+becomes its own issue with a small budget taken from the original: the
+original's estimate (both scenarios) goes down by it, so the parent's total does
+not grow. Show the numbers — original estimate, time logged, new estimate,
+carved budget — before changing anything.
+
 ## Labels
 
 Pick from the labels the instance already has — `GET /rest/api/3/label`. Never
@@ -206,7 +234,10 @@ Whom to ask and how to mention them lives in the project's team file,
 personal and gitignored — names and account ids stay out of committed files.
 Its shape and why it exists: `${CLAUDE_PLUGIN_ROOT}/reference/team.md`. A
 mention in a comment is an ADF `mention` node with the account id from that
-file; a typed "@Name" notifies no one. A follow-up to an existing comment — a
+file; a typed "@Name" notifies no one — `mention(name)` and `header(title, *names)` in
+the script read the id from the file. A comment handed to the developer is a
+link, `comment_url(key, id)`, never a bare id: they open it and forward it. A
+thread is read with `thread(key, root_id)`. A follow-up to an existing comment — a
 question it left open, an UPD — is a reply in its thread (`comment(...,
 reply_to=<id>)`, the editor's Reply), not a new top-level comment.
 
