@@ -147,6 +147,15 @@ carries these rules; they are where a review finds drift.
 - **Nothing the design does not draw is invented** — a control, a state, a
   piece of copy. It becomes a question; a placeholder is tolerated only while
   the question is open and only if the task report names it.
+- **Every state from the source, read each time.** Hover, focus, pressed,
+  selected, disabled, invalid, open, loading — and the design's global
+  stylesheet (link and title hovers, the focus ring, scrollbars) — are part
+  of the component as much as its size. Before implementing or changing a
+  component, open its source in the design and the global CSS and carry
+  every state over as written; never fill a state in from memory, from the
+  library the component is built on (a stock focus ring, a hover wash), or
+  from a similar component. A state the design does not draw is a
+  question, not a default.
 - **Real content, not the mock's.** A design's data is short and tidy; real
   names run six lines, prices carry two currencies, lists come empty or long,
   and the layout gets a narrower width than the mock. Lay out for that within

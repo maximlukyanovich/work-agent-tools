@@ -134,3 +134,14 @@ the result comment as work the design did not contain. Remove any leftover
 "snap to the nearest token" wording.
 Check: checklist — "With a design source"; audit §11.
 Applies to: projects with a design source.
+
+## 2026-10-09 · states-from-source
+
+What: a project with a design source adds to its component skill — every
+interactive state (hover, focus, pressed, selected, disabled, invalid, open,
+loading) and every rule of the design's global stylesheet is read from the
+source each time a component is built or changed and carried over as written;
+nothing is filled in from memory, from the underlying library's defaults or
+from a similar component.
+Check: checklist — "With a design source"; audit §11.
+Applies to: projects with a design source.

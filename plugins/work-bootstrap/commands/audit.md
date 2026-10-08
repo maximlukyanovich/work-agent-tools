@@ -89,7 +89,8 @@ does not raise it again.
 
 11. **Design fidelity.** With a design source: does the component skill extend
     the scale for an off-scale value instead of snapping, forbid inventing
-    what the design does not draw, require a layout for real content (long
+    what the design does not draw, require every interactive state and the
+    design's global CSS to be carried over from the source, require a layout for real content (long
     names, empty and long lists, narrow widths), and ask for a deviation
     table in the task report? Does the project's own component skill still
     say to snap — a rule an older template left behind? Is there a layout-measuring script, run in the task's browser
