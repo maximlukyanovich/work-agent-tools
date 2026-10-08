@@ -189,7 +189,9 @@ the estimate priced in come true.
 each time. When a part is blocked from outside and the rest can ship, the part
 becomes its own issue with a small budget taken from the original: the
 original's estimate (both scenarios) goes down by it, so the parent's total does
-not grow. Show the numbers — original estimate, time logged, new estimate,
+not grow. The new issue is linked to the original with `Issue split`
+(`split_from` in a batch node) — the original `split to` the new one — and
+to its cause with `is blocked by`. Show the numbers — original estimate, time logged, new estimate,
 carved budget — before changing anything.
 
 ## Labels
