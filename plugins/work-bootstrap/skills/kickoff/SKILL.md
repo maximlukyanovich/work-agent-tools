@@ -33,7 +33,10 @@ around it.
    Check library APIs against their docs, not memory. When the task has a
    design source, read the whole screen it touches, not only the component,
    and put a table in the plan: each element of the screen → the code that
-   draws it, or why it is left out.
+   draws it, or why it is left out. Read each element's states (hover, focus,
+   pressed, selected, disabled, invalid) and the design's global stylesheet
+   from the source as well — they are requirements, and memory of "how such
+   a component usually looks" is not a source.
 
 3. **Ask what the code cannot answer** — with the questionnaire tool, not as
    prose in chat:

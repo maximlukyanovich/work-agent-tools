@@ -59,6 +59,8 @@ Four sections are required:
   Not a retelling of the design.
 - **Scope** — what is included, as a list.
 - **Acceptance criteria** — a checklist of concrete, testable statements.
+  Where the work loads anything, they say what the user sees meanwhile; if
+  the design does not draw it, that is an open question, not a silent gap.
 - **Sources of truth** — the spec with its section, the design by screen name,
   related issues.
 
@@ -189,6 +191,9 @@ create screen.
 **The pessimistic estimate is the ceiling.** Time over the optimistic estimate
 needs concrete functionality the estimate did not contain, named in the result
 comment; work bounced back from testing is the extreme case, not a budget line.
+What the design left out and the code had to solve counts as such
+functionality — real content the mock did not show (long names, empty or long
+lists, a second currency), states it did not draw, narrow widths: name each.
 Going over the pessimistic estimate is asked of the developer, never decided
 alone — it can be right when the requirements change radically or the risks
 the estimate priced in come true.
