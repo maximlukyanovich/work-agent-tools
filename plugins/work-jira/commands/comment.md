@@ -42,6 +42,10 @@ on their issues.
      "agreed"; the section is "for the designer / product owner to confirm",
      states what was done and the alternative, and the point stays open.
    - An `Out of scope / follow-ups` block when there is something to flag.
+   - When the time logged passes the optimistic estimate, a block naming the
+     functionality the estimate did not contain — what justifies the hours
+     (`issues` skill, "Estimates"). Over the pessimistic one, also the
+     developer's decision and its reason.
 
 5. **Post only on an explicit go-ahead**, through `scripts/jira.py` as ADF —
    `comment(key, doc(p(header), ul([...])))`, `edit_comment` to amend,
