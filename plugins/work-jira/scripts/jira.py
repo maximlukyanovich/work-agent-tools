@@ -271,6 +271,83 @@ def edit_comment(key, comment_id, document):
     call("PUT", f"/rest/api/3/issue/{key}/comment/{comment_id}", {"body": document})
 
 
+def comment_url(key, comment_id):
+    """The link to one comment — how a comment is handed to the developer: a bare id
+    cannot be clicked, and the developer forwards these to people in chat."""
+    return f"{url(key)}?focusedCommentId={comment_id}"
+
+
+def text_of(node):
+    """Plain text of an ADF node: paragraphs and list items on their own lines, a mention
+    as @Name, an inline card as its URL. For reading a thread, not for round-trips."""
+    if not isinstance(node, dict):
+        return ""
+    kind = node.get("type")
+    if kind == "mention":
+        return "@" + node.get("attrs", {}).get("text", "").lstrip("@")
+    if kind == "inlineCard":
+        return node.get("attrs", {}).get("url", "")
+    out = node.get("text", "") + "".join(text_of(child) for child in node.get("content", []))
+    return out + "\n" if kind in ("paragraph", "listItem", "heading") else out
+
+
+def thread(key, root_id):
+    """A comment and the replies in its thread, oldest first, as
+    {id, parent, author, created, text}. Threads are one level deep (see `comment`)."""
+    out = []
+    start = 0
+    while True:
+        page = call("GET", f"/rest/api/3/issue/{key}/comment?startAt={start}&maxResults=100"
+                           f"&orderBy=created")
+        for c in page["comments"]:
+            parent = str(c.get("parentId", "")) or None
+            if c["id"] == str(root_id) or parent == str(root_id):
+                out.append({"id": c["id"], "parent": parent,
+                            "author": c["author"]["displayName"], "created": c["created"],
+                            "text": text_of(c["body"]).strip()})
+        start += len(page["comments"])
+        if start >= page["total"] or not page["comments"]:
+            return out
+
+
+def team_mentions():
+    """{name: accountId} from the project's team file, table `## Jira mentions`
+    (`reference/team.md`). Ids never come from memory or from a guess."""
+    import os
+
+    root = Path(os.environ.get("JIRA_PROJECT_ROOT", Path.cwd()))
+    for candidate in [root, *root.parents]:
+        path = candidate / "docs" / "local" / "team.md"
+        if path.exists():
+            found = {}
+            for line in path.read_text().splitlines():
+                cells = [c.strip().strip("`") for c in line.strip().strip("|").split("|")]
+                if len(cells) >= 2 and re.fullmatch(r"[0-9a-f:-]{20,}", cells[1] or ""):
+                    found[cells[0]] = cells[1]
+            return found
+    raise RuntimeError("no docs/local/team.md — create it from reference/team.md first")
+
+
+def mention(name):
+    """An ADF mention of a person by their name in the team file — the only form that
+    notifies; a typed "@Name" does not."""
+    ids = team_mentions()
+    if name not in ids:
+        raise KeyError(f"{name!r} is not in the team file's Jira mentions")
+    return {"type": "mention", "attrs": {"id": ids[name], "text": f"@{name}"}}
+
+
+def header(title, *names):
+    """The first paragraph of a question: "<title> (FYI @A, @B):" with real mentions."""
+    content = [{"type": "text", "text": f"{title} (FYI "}]
+    for i, name in enumerate(names):
+        if i:
+            content.append({"type": "text", "text": ", "})
+        content.append(mention(name))
+    content.append({"type": "text", "text": "):"})
+    return {"type": "paragraph", "content": content}
+
+
 def resolve(key):
     """Turns unresolved references in a live description into cards, in place.
 
@@ -385,6 +462,47 @@ def myself():
 
 def assign(key, account_id):
     call("PUT", f"/rest/api/3/issue/{key}/assignee", {"accountId": account_id})
+
+
+def worklog(key, started, spent, text, leave_remaining=False):
+    """Logs time and returns the worklog id. `started` is a full timestamp with its offset,
+    `2026-10-08T09:00:00.000+0300` — the day the work happened, never today by default.
+    `leave_remaining` keeps Remaining Estimate as it is (`adjustEstimate=leave`), for
+    time spent out of a reserve that must not eat the remainder."""
+    query = "?adjustEstimate=leave" if leave_remaining else ""
+    return call("POST", f"/rest/api/3/issue/{key}/worklog{query}", {
+        "started": started, "timeSpent": spent, "comment": doc(p(text)),
+    })["id"]
+
+
+def transition(key, status):
+    """Moves an issue to the status named `status` and returns it. The transition id is
+    read from the issue, never guessed: ids differ between instances and workflows."""
+    options = call("GET", f"/rest/api/3/issue/{key}/transitions")["transitions"]
+    match = [t for t in options if status.lower() in (t["to"]["name"].lower(), t["name"].lower())]
+    if not match:
+        names = ", ".join(t["to"]["name"] for t in options)
+        raise ValueError(f"{key}: no transition to {status!r}; available: {names}")
+    call("POST", f"/rest/api/3/issue/{key}/transitions", {"transition": {"id": match[0]["id"]}})
+    return match[0]["to"]["name"]
+
+
+_FLAG_FIELD = []
+
+
+def flag(key, on=True):
+    """Sets or clears Jira's flag — the "Impediment" the board draws in red. Marks work
+    that cannot move for a reason outside the team; the reason itself is an `is blocked
+    by` link. The field is custom and its id differs between instances, so it is found
+    by name."""
+    if not _FLAG_FIELD:
+        fields = call("GET", "/rest/api/3/field")
+        found = [f["id"] for f in fields if f["name"] == "Flagged"]
+        if not found:
+            raise RuntimeError("this instance has no Flagged field")
+        _FLAG_FIELD.append(found[0])
+    value = [{"value": "Impediment"}] if on else None
+    call("PUT", f"/rest/api/3/issue/{key}", {"fields": {_FLAG_FIELD[0]: value}})
 
 
 def url(key):
