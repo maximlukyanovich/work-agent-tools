@@ -162,6 +162,12 @@ carries these rules; they are where a review finds drift.
   library the component is built on (a stock focus ring, a hover wash), or
   from a similar component. A state the design does not draw is a
   question, not a default.
+- **Every load shows something.** Wherever something loads — a page, a
+  history, a list, a search, an image, an upload, a retry, a reconnect —
+  decide what is on screen until it arrives and while it is slow. Designs
+  draw few of these; when the design is silent, it is a question for the
+  designer, with a placeholder built from existing primitives (a skeleton,
+  an inline spinner) named in the task report — never a blank area.
 - **Real content, not the mock's.** A design's data is short and tidy; real
   names run six lines, prices carry two currencies, lists come empty or long,
   and the layout gets a narrower width than the mock. Lay out for that within

@@ -145,3 +145,12 @@ nothing is filled in from memory, from the underlying library's defaults or
 from a similar component.
 Check: checklist — "With a design source"; audit §11.
 Applies to: projects with a design source.
+
+## 2026-10-09 · loading-states
+
+What: a project with a design source adds to its component skill — wherever
+something loads, decide what is on screen until it arrives; when the design
+is silent, ask the designer and use a placeholder from existing primitives,
+named in the task report, never a blank area.
+Check: checklist — "With a design source"; audit §11.
+Applies to: projects with a design source.

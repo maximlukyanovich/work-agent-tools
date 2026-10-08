@@ -59,6 +59,8 @@ Four sections are required:
   Not a retelling of the design.
 - **Scope** — what is included, as a list.
 - **Acceptance criteria** — a checklist of concrete, testable statements.
+  Where the work loads anything, they say what the user sees meanwhile; if
+  the design does not draw it, that is an open question, not a silent gap.
 - **Sources of truth** — the spec with its section, the design by screen name,
   related issues.
 

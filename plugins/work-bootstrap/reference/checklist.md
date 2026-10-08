@@ -22,7 +22,7 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
 - [ ] With a design source: the component skill extends the scale for an
       off-scale value, invents nothing the design does not draw, carries
       every interactive state and the design's global CSS over from the
-      source, lays out for real content rather than the mock's, and asks for a deviation table
+      source, shows something wherever anything loads, lays out for real content rather than the mock's, and asks for a deviation table
       in the task report; a layout-measuring script runs in
       the task's browser check and in the review command's `layout` mode.
 - [ ] Hooks: each silent outside its area, each with a test, all wired into
