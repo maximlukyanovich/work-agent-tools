@@ -79,6 +79,14 @@ can reach only one of them says so and ranks on what it has.
      that — pulling the mock half of a blocked task forward, say. A decision
      is named as one, not ranked as work.
 
+7. **End with the prompt that starts it**, in a code block, ready to paste
+   into a fresh session: the project's start command for the recommended
+   issue (`/task KEY` or what the profile names), then one or two lines on
+   what to read first — where the contract and the decisions for it are
+   recorded, the design screen, a related housekeeping item worth doing on
+   the same branch. Only pointers that this run found; nothing to be
+   looked up later.
+
 ## Hard rules
 
 - **Read-only.** No transition, no assignment, no comment, no worklog. The
