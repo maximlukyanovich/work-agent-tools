@@ -278,7 +278,8 @@ it blocks.
   back empty.
 - **A question closes on an answer or a decision** — a reply in its thread, an
   answer the developer relays, or the question dropped. Mark the line with the
-  date and where the answer is. A dropped question is said so in its thread,
+  date and where the answer is, and copy the decision into the decisions file
+  ("Decisions already made"). A dropped question is said so in its thread,
   so the person asked stops working on it.
 - **A processed answer is acknowledged where it was given.** Once a reply has
   been acted on — in the code, the plan or a new question — its author sees
@@ -296,6 +297,30 @@ it blocks.
   `@optIn(to: "GraphStoreUserReactedToIssueComment")` returns the comments the
   developer reacted to, any emoji, as `…:issue-comment/<issueId>/<commentId>`.
   A reply goes through `comment(..., reply_to=<root id>)`.
+
+## Decisions already made
+
+An answer settles more than the question it was asked under: the next
+question, on a neighbouring screen or another issue, often has it already.
+So the decisions are kept too — `docs/local/decisions.md`, personal and
+gitignored like the waiting list — **grouped by topic, not by issue**: one
+line per decision · who decided · a link to the comment
+(`…/browse/KEY?focusedCommentId=ID`) · the date.
+
+- **Written whenever a decision lands**: a question closing on the waiting
+  list, an answer under some other issue, a call the developer relays. A
+  later answer that overrides an earlier one marks it "(replaced by ID)";
+  both stay, so the history still reads.
+- **What the sources settled goes in too.** A drafted question that the spec,
+  the design or the backend's contract turned out to answer is written down
+  with its pointer — file and line — so the same question is not drafted a
+  second time.
+- **Read before any question is drafted** — the topic and its neighbours
+  (`/work-jira:questions`, step 6). Built once from the tracker: export every
+  comment by the people who answer — design, product, backend — and group it
+  by topic; afterwards it is kept by hand. A one-off export of a busy
+  backend's comments is long; delegate the grouping and record the comments
+  the export cut short, to be read in full before anything rests on them.
 
 ## What gets written down
 
