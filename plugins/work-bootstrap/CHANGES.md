@@ -154,3 +154,13 @@ is silent, ask the designer and use a placeholder from existing primitives,
 named in the task report, never a blank area.
 Check: checklist — "With a design source"; audit §11.
 Applies to: projects with a design source.
+
+## 2026-10-09 · task-worktree
+
+What: the command that starts a task takes an optional `worktree` argument
+and, from a live `git status`, offers one when the tree is busy — a folder
+beside the repository, with the ignored files the work reads linked in; the
+command that merges offers `git worktree remove` with the branch deletion.
+Check: checklist — "The command that starts a task takes an optional
+`worktree` argument"; audit §8.
+Applies to: every project with a command that starts a task.

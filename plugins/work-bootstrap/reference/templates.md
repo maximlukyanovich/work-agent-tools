@@ -134,6 +134,28 @@ before the first production edit, it names the project's skills for
 placement, components and tests to load: skills match on context
 unreliably, and the rules they carry are the ones a review finds broken.
 
+### A command that starts a task can open it in a worktree
+
+A task may start while the main working tree holds other work, and switching
+that tree away from it risks the work. So the command that starts a task
+takes an optional `worktree` argument, and offers one itself when its branch
+check finds the tree busy — dirty, or a feature branch with work in flight.
+On a free tree a worktree only adds setup, and is not offered.
+
+- **Read the state live.** A `git status` captured when the session started
+  can be hours old; the check runs it again before deciding.
+- **Beside the repository**, `../<repo>-<key>`, never inside it: the main
+  tree's linters, tests and type-check would pick up a nested copy. The
+  folder is confirmed with the branch name.
+- **Link what git ignores but the work reads** — local notes, env files,
+  tool configs — listed from the main tree's ignored files and confirmed. A
+  folder tracked for one file (a README) is linked entry by entry, not whole.
+  Then install dependencies in the new tree; a second dev server needs a
+  free port.
+- **A worktree is temporary.** The command that merges removes it with its
+  branch (closing steps below); a folder deleted by hand leaves a stale entry
+  that `git worktree prune` clears.
+
 ### A project with a design source holds to it
 
 When the project implements a design, its component skill (or equivalent)
@@ -195,7 +217,8 @@ asked every time**, covering:
 
 - **the result comment** on the issues the branch touched;
 - **the worklog**;
-- **deleting the branch**, locally and on the remote;
+- **deleting the branch**, locally and on the remote — and, for a branch
+  checked out in a worktree, `git worktree remove` first;
 - **anything the work raised for someone else** — a defect belonging to
   another team, a question for the designer. A question that gets posted
   goes on the waiting list, and one the merge answers is closed there.

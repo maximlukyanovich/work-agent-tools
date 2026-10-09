@@ -78,7 +78,9 @@ does not raise it again.
    invisible precisely because the code shipped.
    The mirror check: does the command that starts a task offer the opening
    steps — the in-progress transition, the assignee, the parent's status —
-   when a tracker is reachable, and load `kickoff` before it asks?
+   when a tracker is reachable, and load `kickoff` before it asks? Does it
+   take a `worktree` argument and offer one when a live `git status` finds
+   the tree busy — and does the merge's closing step remove the worktree?
 
 9. **Secret hygiene.** Are the generated MCP config and the environment file
    ignored? Did a token leak into a committed file, or into history?
