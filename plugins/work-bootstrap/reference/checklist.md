@@ -38,7 +38,9 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
 - [ ] A review command, if there is one, keeps a pass ledger in the personal
       space: reviews the delta since the last reviewed head, runs blind before
       reconciling, tags findings `new` / `missed` / `escalated` /
-      `fix-critique`, and recommends a fresh session.
+      `fix-critique`, opens every report with the same block — trajectory,
+      a blocker / major / minor / nit table with zeros, the verdict — and
+      recommends a fresh session.
 - [ ] The commit command, after a task's last commit or a round of review
       fixes, ends its report with the review command ready to paste: the
       range, what to skip, one code block per branch.

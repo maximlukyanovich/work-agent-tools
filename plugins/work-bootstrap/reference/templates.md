@@ -289,9 +289,25 @@ update it stays empty.
    `escalated` (a deferred finding raised higher — only with a named new cause),
    or `fix-critique` (aimed at a fix a previous pass requested). A recorded
    false positive is not raised again without a new mechanism.
-5. **Trajectory in the report.** Stop and ask what a further pass should add
-   when it is pass 3+ with no new commits, when findings grew while the delta
-   is small, or when `escalated` plus `fix-critique` exceed half the findings.
+5. **The report opens with the same block, every pass, zeros included** —
+   the developer compares passes by it, and counts named in a sentence came
+   and went between passes:
+
+   ```
+   **Review `<target>`, pass <N>.** <range>, <commits>, <files / lines>; uncommitted: <yes / no>
+   Trajectory: P1 <head> <b/m/m/n> <verdict> → P2 <head> <b/m/m/n> <verdict>
+
+   | blocker | major | minor | nit |
+   |---|---|---|---|
+   | <n> | <n> | <n> | <n> |
+
+   **Verdict: <blocked / changes requested / ready to merge>.**
+   ```
+
+   The verdict follows from the table; the findings come after it, most
+   severe first. Stop and ask what a further pass should add when it is
+   pass 3+ with no new commits, when findings grew while the delta is small,
+   or when `escalated` plus `fix-critique` exceed half the findings.
 6. **Append the pass.**
 
 **The rubric additions that repeated passes showed were missing:**
