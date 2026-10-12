@@ -164,3 +164,12 @@ command that merges offers `git worktree remove` with the branch deletion.
 Check: checklist — "The command that starts a task takes an optional
 `worktree` argument"; audit §8.
 Applies to: every project with a command that starts a task.
+
+## 2026-10-12 · review-report-block
+
+What: the review command's report opens with the same block on every pass,
+zeros included — target and range, the trajectory, a blocker / major / minor
+/ nit table, and the verdict that follows from it — then the findings.
+Check: checklist — the review command item; audit §5.
+Applies to: projects with a review command that keeps a pass ledger.
+
