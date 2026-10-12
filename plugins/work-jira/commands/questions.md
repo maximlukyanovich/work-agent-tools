@@ -66,7 +66,10 @@ them is cheap. **Read-only.**
    — is not the team's to settle: it is a question, or a decision the
    developer takes explicitly before it can become a notice. A notice states
    done work, so it is posted after that work has landed, together with the
-   questions.
+   questions. In a comment that carries both, they are **two lists, each
+   numbered from 1** — the questions that need an answer, then the notices
+   that need one only if the reader disagrees — so the reader sees at once
+   what waits on them; one running number across both hides it.
 
 ## Hard rules
 
