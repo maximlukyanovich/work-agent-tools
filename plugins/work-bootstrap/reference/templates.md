@@ -173,8 +173,15 @@ carries these rules; they are where a review finds drift.
   component twice — the files the screens import and an older bundled copy.
   Before reading, establish which one the rendered screens actually use, and
   write it into the project's design-source document; a whole pass was once
-  briefed from the stale copy. When a rendered screen and a component
-  source still disagree, the screen wins and the gap goes to the designer.
+  briefed from the stale copy.
+- **The sources take precedence over a screen.** The design's guide, its
+  component sources and its tokens are what the code follows. A screen that
+  disagrees with them is escalated to the developer, not settled by the
+  agent — and the escalation names the likely reading: a designer who
+  updated the screen and not the sources usually means the screen as the
+  final decision. Whatever the developer decides goes into the project's
+  register, and the designer gets the gaps together, in one comment asking
+  for the sources to be brought up to date — not a question in every task.
 - **Every state from the source, read each time.** Hover, focus, pressed,
   selected, disabled, invalid, open, loading — and the design's global
   stylesheet (link and title hovers, the focus ring, scrollbars) — are part

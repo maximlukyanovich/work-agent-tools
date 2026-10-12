@@ -165,6 +165,17 @@ Check: checklist — "The command that starts a task takes an optional
 `worktree` argument"; audit §8.
 Applies to: every project with a command that starts a task.
 
+## 2026-10-12 · sources-first
+
+What: a project with a design source replaces "the screen wins over a
+component source" in its design-source document: the design's guide,
+component sources and tokens take precedence; a screen that disagrees is
+escalated to the developer with the likely reading (a screen updated without
+its sources usually means the screen is final); decisions go to the register
+and the designer gets the gaps in one comment asking to update the sources.
+Check: checklist — "With a design source"; audit §11.
+Applies to: projects with a design source.
+
 ## 2026-10-12 · review-report-block
 
 What: the review command's report opens with the same block on every pass,
