@@ -43,6 +43,16 @@ around it.
    - **The recommendation goes first and is marked** `(Recommended)`. Every
      other option carries a one-line trade-off, so the developer can choose
      without asking back.
+   - **A requirement that names a reference behaviour sets the
+     recommendation.** "As in ChatGPT", "like the old app": the recommended
+     option is the one that behaves as the reference does. A technical
+     blocker narrows that option — say where it cannot follow the reference
+     and why — rather than replacing it; a cheaper option that departs from
+     the reference is offered with what it gives up, never marked
+     recommended. Observed on a live project: a "spinner on each photo until
+     it is uploaded, as in ChatGPT" got "upload on send" as the
+     recommendation, and the developer had to point out that the reference
+     uploads on attach.
    - **At most four questions a round.** More than one round is fine; a wall of
      questions is not.
    - **Multi-select where choices are not exclusive.**
@@ -87,6 +97,8 @@ around it.
 - Asking one question per turn, or asking what `git log` or the issue already
   answers.
 - Presenting three approaches without a recommendation.
+- Recommending the cheaper option over the reference behaviour the
+  requirement names.
 - Writing the plan in the commit language when the chat is in another one.
 - Writing code "to show the idea" before the plan is approved.
 - Filing a design decision under assumptions, where it gets approved unread.
