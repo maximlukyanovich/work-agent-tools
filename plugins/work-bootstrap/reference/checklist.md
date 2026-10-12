@@ -44,6 +44,9 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
 - [ ] The commit command, after a task's last commit or a round of review
       fixes, ends its report with the review command ready to paste: the
       range, what to skip, one code block per branch.
+- [ ] The commit command compares the staged paths with its proposed list
+      right before `git commit`, and after a commit the hook refused commits
+      the same index again instead of staging the next group on top.
 - [ ] Fixing review findings is a rule in `AGENTS.md` that loads the testing
       skill, and that skill asks for a reverted-fix test per finding, every
       state the fix touches, and a finding → test table before the commit.

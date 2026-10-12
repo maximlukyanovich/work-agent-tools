@@ -184,3 +184,11 @@ zeros included — target and range, the trajectory, a blocker / major / minor
 Check: checklist — the review command item; audit §5.
 Applies to: projects with a review command that keeps a pass ledger.
 
+## 2026-10-12 · commit-index-check
+
+What: the commit command, right before `git commit`, compares
+`git diff --cached --name-only` with the paths it proposed and stops on a
+difference; after a commit the `commit-msg` hook refused, it commits the same
+index again with the message fixed instead of staging the next group on top.
+Check: checklist — "The commit command compares the staged paths"; audit §6.
+Applies to: every project with a commit command.

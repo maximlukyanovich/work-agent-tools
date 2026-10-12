@@ -342,6 +342,17 @@ well. Observed on a live project: a finished task was reported done with
 commits, questions and a library merge request all proposed, and the review
 was not. The rule was already a saved preference.
 
+**A commit the hook refuses leaves its paths staged.** A `commit-msg` hook
+that turns the message down — a header over the length limit, a missing task
+key — stops the commit and keeps the index. The next `git add` adds to it,
+and the next commit takes both groups. So the commit command, right before
+`git commit`, compares `git diff --cached --name-only` with the list it
+proposed and stops on a difference; after a refusal it fixes the message and
+commits the same index again — it never stages the next group on top.
+Observed on a live project: a header three characters too long left one
+task's six files staged, the following commit for another task swept them in,
+and the pair had to be split with `git reset --soft` before the push.
+
 **Fixing the findings has its own discipline**, and the review command cannot
 enforce it: the fixes are usually made in the working session, from a report
 pasted into chat, where no command runs. So the rule lives where every session

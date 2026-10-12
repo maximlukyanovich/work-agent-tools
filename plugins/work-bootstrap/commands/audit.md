@@ -66,7 +66,10 @@ does not raise it again.
    commit command did not validate? Is a git hook running the whole gate —
    minutes per push, soon bypassed? Does lint-staged run the formatter after
    the linter's fixes? The wrong order leaves linter edits unformatted while
-   the hook passes.
+   the hook passes. Does the commit command compare the index with its
+   proposed list right before committing? A commit the `commit-msg` hook
+   refused keeps its paths staged, and without the check the next commit
+   carries them in.
 
 7. **Gaps.** Layers from the model that are absent. Absence is allowed — but it
    must be deliberate and written down, with the conditions that would fill it.
