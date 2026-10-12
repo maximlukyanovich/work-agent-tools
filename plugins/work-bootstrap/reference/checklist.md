@@ -16,8 +16,9 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       waiting list.
 - [ ] The command that starts a task takes an optional `worktree` argument
       and offers one when a live `git status` finds the tree busy: beside the
-      repository, with the ignored files the work reads linked in; the merge
-      command's closing steps remove it with its branch.
+      repository, with the ignored files the work reads linked in, generated
+      types produced, and its own port for the dev server and the end-to-end
+      run; the merge command's closing steps remove it with its branch.
 - [ ] Any command that merges ends by offering the closing steps — result
       comment, worklog, branch deletion, anything raised for another team —
       as one question carrying the current state, and merges without deleting
