@@ -105,7 +105,8 @@ around it.
 8. **After a decision worth keeping** — a convention, a rule for how to ask, a
    preset — propose the matching change in `mluk-work-agent-tools` in one line:
    what changes, in which plugin. The developer decides; the change is made as
-   a merge request to that repository, never from the project.
+   a merge request to that repository, never from the project. The same
+   for a mechanism a check finds twice: `layers`, "A finding that comes back".
 
 ## How not to do it
 

@@ -54,6 +54,8 @@ does not raise it again.
    previous passes? Without one, every pass starts cold, re-ranks deferred
    items and critiques the previous pass's fixes, and the finding count grows
    while the code does not change. Does a merging command read that ledger?
+   Does a finding whose mechanism a ledger already holds end the report with
+   a proposal to move it upstream?
    Does the commit command, after a task's last commit, hand over the review
    command with its range — or is the review left to someone's memory?
    And the other half: when findings are fixed — usually in the working
