@@ -247,3 +247,13 @@ reuses a running server otherwise tests the main tree's code.
 Check: checklist — "The command that starts a task takes an optional
 `worktree` argument"; audit §8.
 Applies to: projects whose task command offers a worktree.
+
+## 2026-10-13 · recurring-findings-upstream
+
+What: the review command ends its report with one line proposing to move a
+finding upstream — to the cheapest layer that would have caught it during the
+work — when its mechanism is already in a ledger, this target's or another's;
+the owner decides, the review applies nothing.
+Check: checklist — "A review command, if there is one, keeps a pass ledger";
+audit §5.
+Applies to: projects with a review command.

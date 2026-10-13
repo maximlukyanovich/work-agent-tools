@@ -42,7 +42,8 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       reconciling, tags findings `new` / `missed` / `escalated` /
       `fix-critique`, opens every report with the same block — trajectory,
       a blocker / major / minor / nit table with zeros, the verdict — and
-      recommends a fresh session.
+      recommends a fresh session. A finding whose mechanism a ledger already
+      holds ends the report with a proposal to move it upstream.
 - [ ] Review groups above the delegation threshold go to
       `.claude/agents/review-group.md` (`model: sonnet`, read-only tools,
       findings only), un-ignored in `.gitignore`; the review command passes

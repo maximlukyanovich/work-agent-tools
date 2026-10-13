@@ -30,6 +30,16 @@ result worse. The mechanical layer takes the decision away: a hook fires every
 time, a command runs a fixed procedure with confirmation points. A rule written
 only as prose is obeyed probabilistically.
 
+## A finding that comes back
+
+A review, the gate, the browser check or QA catches a problem after the work
+is done. When one of them finds the same mechanism a second time, propose in
+one line moving it to the cheapest layer that would have caught it during the
+work — in the project or in `mluk-work-agent-tools` — and leave the decision to the
+owner. Name the mechanism ("a fix closed one state of a request and left its
+twin"), not the incident ("the retry button in the feed"). A single occurrence
+is a fix, not a rule: the "just in case" anti-pattern below.
+
 ## Keeping it cheap
 
 The harness is paid for by every session.

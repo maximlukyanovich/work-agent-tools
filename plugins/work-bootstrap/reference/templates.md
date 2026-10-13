@@ -332,7 +332,10 @@ update it stays empty.
    `missed` (older code, never raised — honest severity, marked as missed),
    `escalated` (a deferred finding raised higher — only with a named new cause),
    or `fix-critique` (aimed at a fix a previous pass requested). A recorded
-   false positive is not raised again without a new mechanism.
+   false positive is not raised again without a new mechanism. A finding whose
+   mechanism a ledger already holds — this target's or another's — ends the
+   report with one line proposing to move it upstream (the `layers` skill,
+   "A finding that comes back").
 5. **The report opens with the same block, every pass, zeros included** —
    the developer compares passes by it, and counts named in a sentence came
    and went between passes:
