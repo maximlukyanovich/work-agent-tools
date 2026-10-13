@@ -157,7 +157,7 @@ asks **one question**, once the issue is read and before the branch is cut:
 
 Carry the state into the question — «Backlog, assigned to you, story still in
 Backlog» — and do only what is answered. When the project keeps a waiting
-list of posted questions (`work-jira`, `issues` skill), name this issue's open
+list of posted questions (`work-jira`), name this issue's open
 ones in the same message: an unanswered question is often why the issue is
 still open. Hour buckets and issues already in
 progress are left alone. With no reachable tracker the step is skipped and

@@ -56,7 +56,8 @@ Every plugin can introduce itself:
 
 Each prints the plugin's surface: its commands with a line on each, the order
 they are normally applied in, the skills it carries, and what it expects from the
-project. Read-only, safe to run at any time.
+project. Read-only, safe to run at any time. They are for people: hidden from
+the model (`disable-model-invocation`), they cost no context until typed.
 
 Language follows the conversation; pass a language code to override.
 

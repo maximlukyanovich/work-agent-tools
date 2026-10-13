@@ -51,7 +51,8 @@ on their issues.
    the `issues` skill apply: backticks for inline code, `[[KEY-1]]` for an
    issue card, no bold inside list items. A comment that asks someone
    something goes on the waiting list when it is posted; a reply that answers
-   or drops a listed question closes its line (`issues` skill). Hand each
+   or drops a listed question closes its line
+   (`${CLAUDE_PLUGIN_ROOT}/reference/questions-and-decisions.md`). Hand each
    posted comment back as a link, `comment_url(key, id)`.
 
 6. **Then, separately, offer a worklog.** Propose one short sentence per issue.
