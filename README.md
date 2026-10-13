@@ -27,9 +27,19 @@ committed, so the team runs the same tooling; a teammate's clone runs the same
 command once, and the file does not change. `--scope local` writes
 `.claude/settings.local.json` instead — for a project whose rules keep AI
 settings out of git; `.gitignore` must name it. `/work-bootstrap:setup` asks
-which plugins a project uses and installs them. A new project starts the same
-way: install `work-bootstrap` in its empty folder, start `claude`, run
-`/work-bootstrap:new`.
+which plugins a project uses and installs them.
+
+A new project starts in an empty folder with one line:
+
+```bash
+mkdir my-app && cd my-app
+claude plugin install work-bootstrap --marketplace https://github.com/maximlukyanovich/work-agent-tools.git --scope project && claude "/work-bootstrap:new"
+```
+
+`--marketplace` (Claude Code 2.1.292 or later) adds the catalogue to the user
+settings, or uses it when it is already there. The source is SSH on purpose:
+an HTTPS source without a stored credential fails, as the install cannot ask
+for one.
 
 The default scope, user, enables a plugin in every project on the machine: its
 skill and command descriptions are paid for in every session, including

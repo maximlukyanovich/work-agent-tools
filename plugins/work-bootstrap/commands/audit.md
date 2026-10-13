@@ -128,6 +128,11 @@ does not raise it again.
 A table: finding → layer → severity → proposed action. Apply changes after
 confirmation, one group at a time, never all at once.
 
+End with the next step as a block: changes applied — `/reload-skills` when a
+command or skill changed, the project's commit command in this same session,
+then `/work-bootstrap:handoff`; the report alone — the instruction that
+applies the proposed changes.
+
 ## Hard rules
 
 - **Read-only by default.** Findings first, edits after approval.

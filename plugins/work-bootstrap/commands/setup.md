@@ -62,6 +62,10 @@ The order is fixed. Steps are not reordered or skipped.
    and report what is green and what is not.
 
 6. **Report**: created, changed, deliberately left out and why, still open.
+   End with the next step as a block: `/reload-skills` — the session started
+   before these directories existed — then the project's commit command, in
+   this same session, since the message needs its context; then
+   `/work-bootstrap:handoff`.
 
 ## Hard rules
 
