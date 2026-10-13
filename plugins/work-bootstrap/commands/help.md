@@ -16,7 +16,13 @@ Language: the conversation's, unless `$1` gives a code.
    `argument-hint` out of every file in `${CLAUDE_PLUGIN_ROOT}/commands/`.
    Use that path verbatim — never search the filesystem for the plugin.
 
-2. **Show the order:** `/work-bootstrap:setup` on a repository without a harness,
+2. **Show the order:** `/work-bootstrap:new` in an empty folder
+   (`mkdir my-app && cd my-app`), started by one line that installs the
+   plugin first —
+   `claude plugin install work-bootstrap --marketplace https://github.com/maximlukyanovich/work-agent-tools.git --scope project && claude "/work-bootstrap:new"`
+   (`--scope local` when the project's rules keep AI settings out of git; an
+   HTTPS source fails without a stored credential);
+   `/work-bootstrap:setup` on a repository without a harness;
    `/work-bootstrap:audit` on one that has it.
 
 3. **State the layer model in a few lines** — deterministic checks, hooks,

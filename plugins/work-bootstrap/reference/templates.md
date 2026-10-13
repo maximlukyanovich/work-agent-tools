@@ -24,6 +24,12 @@ Rules that keep it cheap: no rule appears twice; anything expressible as lint
 configuration is a one-line reference, not a paragraph; the absence of a layer is
 recorded deliberately, with its reason.
 
+A generator may have written some of these files first — `create-next-app`
+writes `AGENTS.md`, most generators a `.gitignore`. They are
+extended, never rewritten, and a block the generator marks as its own stays
+where it is: the framework may write it back, and from then on the tree is
+dirty. The stack's recipe in `reference/scaffold/` names the block.
+
 With pnpm 11, §2 says next to how a dependency is added that one with a build
 script — direct or transitive — needs an `allowBuilds` entry in
 `pnpm-workspace.yaml`. A missing entry fails the install with

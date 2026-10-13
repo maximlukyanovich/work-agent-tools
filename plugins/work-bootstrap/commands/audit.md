@@ -117,7 +117,8 @@ does not raise it again.
 
 12. **A server's first install.** Does `pnpm install --frozen-lockfile` pass
     on a fresh checkout — not in the developer's tree, where a warm
-    `node_modules` hides a build script missing from `allowBuilds`? Once the
+    `node_modules` hides a build script missing from `allowBuilds` — and does
+    the type-check pass there, where no generated types exist yet? Once the
     project is deployed, does the root README's Deployment section name the
     production commands, the pinned versions and every variable the build and
     the start need — and does a fresh checkout without an env file agree?
@@ -126,6 +127,11 @@ does not raise it again.
 
 A table: finding → layer → severity → proposed action. Apply changes after
 confirmation, one group at a time, never all at once.
+
+End with the next step as a block: changes applied — `/reload-skills` when a
+command or skill changed, the project's commit command in this same session,
+then `/work-bootstrap:handoff`; the report alone — the instruction that
+applies the proposed changes.
 
 ## Hard rules
 
