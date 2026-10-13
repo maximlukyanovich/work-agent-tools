@@ -10,6 +10,7 @@ CLAUDE.md                     thin layer: @AGENTS.md plus Claude specifics. In g
   settings.json               shared settings: attribution, allowed MCP, hooks. In git
   settings.local.json         personal permissions. Gitignored
   commands/                   slash commands. Command files only — no README here
+  agents/                     subagent definitions, e.g. the review groups. In git
   skills/                     the source of truth for skills. In git
     README.md                 skill index — the subdirectory is not scanned, safe here
     <name>-local/             personal skills. Gitignored by suffix
@@ -34,6 +35,7 @@ Matching `.gitignore`:
 # agent harness: share the project surface, keep the personal part local
 .claude/*
 !.claude/commands/
+!.claude/agents/
 !.claude/skills/
 !.claude/settings.json
 !.claude/hooks/

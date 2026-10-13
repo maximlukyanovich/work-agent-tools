@@ -16,6 +16,7 @@ notes and runs it; the script is the record of what was created and how.
 | `fix_version` | The version name; defaults to the batch's `fix_version`. Set right after creation |
 | `priority` | The priority name, by the profile's rule. Set right after creation |
 | `blocked_by` | Keys, or summaries from this batch, of the issues this one waits on. Each becomes a `Blocks` link with the provider first |
+| `split_from` | Key of the issue this one was carved out of. Becomes an `Issue split` link, the original first: `PROJ-12 split to PROJ-40` |
 | `blocks` | A **function** returning the description blocks, in the section order the `issues` skill fixes |
 
 `blocks` is a function and not a value because the description is rendered twice:
@@ -93,7 +94,7 @@ visible in the result and is the signal to fix it.
 | `dry_run` | `False` | Prints the plan and the dependency sentences, writes nothing, stops after pass one |
 | `fix_version` | `None` | Default version for every node that does not name its own |
 | `assignee` | `None` | Account id for tasks, sub-tasks and bugs; `jira.myself()` is the developer |
-| `link_type` | `"Relates"` | Name from `GET /rest/api/3/issueLinkType` |
+| `link_type` | `"Relates"` | Name from `GET /rest/api/3/issueLinkType`; `None` skips the links derived from references, for a project that links dependencies only |
 | `rewrite` | `False` | Pass two re-renders existing issues instead of patching them in place |
 
 Returns `summary → key` for the batch. Raises before writing anything when an
@@ -102,11 +103,12 @@ epic carries an estimate or an `Estimate` section.
 ## Other helpers
 
 `jira.index(project)` — every summary → key of the project, also feeding the
-reference registry. `jira.describe(key, doc)` — replace one description;
+reference registry. `jira.expand(title, blocks)` — a collapsed section, e.g.
+`Scope changes`. `jira.describe(key, doc)` — replace one description;
 `jira.resolve(key)` — patch its unresolved references in place.
 `jira.block(provider, consumer, dry_run=False)` — one `Blocks` link between
 existing issues, printed as a sentence; the way to add or repair a dependency
 outside a batch. `jira.set_release(key, fix_version, priority)`.
-`jira.link(a, b, type)`, `jira.linked(key)`, `jira.assign(key, account_id)`,
+`jira.link(a, b, type)` — reads left to right, `a blocks b`, `a split to b`; the API's own body names the sides the other way round, and the helper hides that, `jira.linked(key)`, `jira.assign(key, account_id)`,
 `jira.myself()`, `jira.set_estimate(key, "6h 30m")`, `jira.half_up(hours)`,
 `jira.jira_hours(hours)`, `jira.refs(doc)`, `jira.has_section(doc, title)`.

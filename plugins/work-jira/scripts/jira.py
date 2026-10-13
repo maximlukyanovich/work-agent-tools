@@ -180,6 +180,11 @@ def checklist(items):
     ]}
 
 
+def expand(title, blocks):
+    """A collapsed section — ADF `expand`; the reader opens it on demand."""
+    return {"type": "expand", "attrs": {"title": title}, "content": list(blocks)}
+
+
 def doc(*blocks):
     return {"type": "doc", "version": 1, "content": list(blocks)}
 
@@ -421,15 +426,20 @@ def link(key, other, link_type="Relates"):
     """One issue link, skipped when the pair is already linked in any way.
 
     Type names come from GET /rest/api/3/issueLinkType. `Relates` is symmetric. For a
-    directed type the first key is the outward side: link(a, b, "Blocks") means a blocks b.
-    Returns True when a link was created.
+    directed type the sentence reads left to right: link(a, b, "Blocks") means a blocks b,
+    link(a, b, "Issue split") means a split to b. Returns True when a link was created.
+
+    The POST body names its sides against intuition: the issue the type's *outward*
+    phrase is said of ("a blocks …") goes in `inwardIssue`, its object in `outwardIssue`.
+    Swapping them still succeeds and draws every dependency in reverse — check a new
+    link from the consumer's side: it must read "is blocked by" the provider.
     """
     if other == key or other in linked(key):
         return False
     call("POST", "/rest/api/3/issueLink", {
         "type": {"name": link_type},
-        "outwardIssue": {"key": key},
-        "inwardIssue": {"key": other},
+        "inwardIssue": {"key": key},
+        "outwardIssue": {"key": other},
     })
     return True
 
@@ -546,7 +556,11 @@ def batch(project, nodes, dry_run=False, assignee=None, link_type="Relates", rew
     `priority`; both are set right after creation and printed on the node's line, and a
     node without them is named in the log. `blocked_by` lists the issues a node waits on —
     keys or summaries from this batch — and pass 3 links them as `Blocks`, provider first,
-    each printed as a sentence.
+    each printed as a sentence. `split_from` names the issue a node was carved out of; pass
+    3 links it as `Issue split`, the original first ("PROJ-12 split to PROJ-40").
+
+    `link_type=None` creates no links from description references — for a project that
+    links dependencies only; `blocked_by` and `split_from` are written either way.
     """
     existing = index(project)
     created, first_render = {}, {}
@@ -591,6 +605,8 @@ def batch(project, nodes, dry_run=False, assignee=None, link_type="Relates", rew
                 node_key = existing.get(n["summary"])
                 node_name = f"{node_key} {n['summary']}" if node_key else f"(new) {n['summary']}"
                 log(f"would link: {dep_name}  blocks  {node_name}")
+            if n.get("split_from"):
+                log(f"would link: {n['split_from']}  split to  (new) {n['summary']}")
         return created
 
     # Pass 2: every key is known now — resolve the references written as summaries.
@@ -619,6 +635,11 @@ def batch(project, nodes, dry_run=False, assignee=None, link_type="Relates", rew
         for dep in n.get("blocked_by") or []:
             provider = created.get(dep) or existing.get(dep) or dep
             block(provider, key, log=log)
+        source = n.get("split_from")
+        if source and link(source, key, "Issue split"):
+            log(f"linked: {source}  split to  {key}")
+        if not link_type:
+            continue
         family = relatives(key)
         for other in refs(doc(*n["blocks"]())):
             if other in family:

@@ -37,12 +37,40 @@ them is cheap. **Read-only.**
 
 6. **Re-check every draft right before it is posted.** A draft ages: the plan
    moves on, a decision lands, a source is read more closely. Hold each
-   question against the spec, the design source (the whole bundle, not the one
-   screen — another screen, a component card or a `.d.ts` often draws the
-   missing piece) and the backend's code and contract. A question a source
-   answers is dropped and reported as a finding with its pointer; a question
-   the plan no longer needs — the feature it served was cut or decided another
-   way — is dropped too. What survives is posted.
+   question against:
+   - the spec;
+   - the design source — the whole bundle, not the one screen: another
+     screen, a component card, a `.d.ts` or the design's own guide often
+     draws or states the missing piece;
+   - the backend's code and contract;
+   - earlier answers — the decisions file, "Decisions already made" in
+     `${CLAUDE_PLUGIN_ROOT}/reference/questions-and-decisions.md`: the
+     question's topic and its neighbours, since an answer given for a
+     different screen often settles this one;
+   - the project's own written rules — a component or copy rule the team
+     keeps decides a case without the designer.
+
+   A question a source answers is dropped and reported as a finding with its
+   pointer, and written into the decisions file; a question the plan no
+   longer needs — the feature it served was cut or decided another way — is
+   dropped too. On a long draft, split the check by area across a few
+   read-only agents, each returning a verdict per question (answered, partly,
+   open) with the quote that decides it, and verify the decisive quotes
+   yourself before acting on them. What survives is posted.
+
+7. **Split notices from questions.** A notice tells the person about a
+   decision already made by someone entitled to make it, or settled by a
+   source — an answer applied with a change a standing rule requires, a tone
+   taken from the design's own precedent: what was done, why, and an offer to
+   revert. A conflict between two of the person's own sources — the design's
+   guide and one of its screens, two screens drawing the same thing two ways
+   — is not the team's to settle: it is a question, or a decision the
+   developer takes explicitly before it can become a notice. A notice states
+   done work, so it is posted after that work has landed, together with the
+   questions. In a comment that carries both, they are **two lists, each
+   numbered from 1** — the questions that need an answer, then the notices
+   that need one only if the reader disagrees — so the reader sees at once
+   what waits on them; one running number across both hides it.
 
 ## Hard rules
 
@@ -50,7 +78,9 @@ them is cheap. **Read-only.**
   a plausible default and move on.
 - **Nothing is posted to Jira** by this command. Posting the questions as a
   comment is a separate, explicit step — and once posted, each goes on the
-  waiting list (`issues` skill, "Questions waiting for an answer"). That step
-  starts with step 6, even for drafts written in an earlier session.
-- **Questions with an obvious answer are not asked.** If the code or the design
-  answers it, that is a finding, not a question.
+  waiting list
+  (`${CLAUDE_PLUGIN_ROOT}/reference/questions-and-decisions.md`). That step
+  starts with steps 6 and 7, even for drafts written in an earlier session.
+- **Questions with an obvious answer are not asked.** If the code, the design,
+  an earlier answer or the team's own rule answers it, that is a finding, not
+  a question.

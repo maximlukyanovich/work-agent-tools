@@ -59,6 +59,8 @@ Four sections are required:
   Not a retelling of the design.
 - **Scope** — what is included, as a list.
 - **Acceptance criteria** — a checklist of concrete, testable statements.
+  Where the work loads anything, they say what the user sees meanwhile; if
+  the design does not draw it, that is an open question, not a silent gap.
 - **Sources of truth** — the spec with its section, the design by screen name,
   related issues.
 
@@ -88,9 +90,17 @@ components`, so the reader does not have to open it.
 it, and a description that still promises what moved elsewhere — or omits what
 the answers to its questions added — sends them testing stale requirements.
 Check it at the transition to testing and again when a result comment is
-posted: what is in, what moved out and where (cards), known limits. A record of
-what changed since the issue was written — a collapsed `Changes` section (ADF
-`expand`) — is welcome but optional; the requirement is that the text is true.
+posted: what is in, what moved out and where (cards), known limits — the
+last as a `Known limitations` section: what behaves so for now, and the
+question it waits on.
+
+What changed since the issue was written goes in `Scope changes`, collapsed
+(`expand(title, blocks)`) right after the acceptance criteria, so QA reads
+the two together: one line per **decision** that changed the scope — an
+answer, a part carved out to another issue — with the date and a link to
+where it was decided. Not a log of merge requests: a reader cannot tell from
+"MR !N" what is now different, and the merge requests are in the result
+comments already. Optional; the requirement is that the text is true.
 
 **Every issue a description references is also linked to it**, type `relates
 to`, so the relation is visible in the linked-items panel and survives a rewrite
@@ -181,6 +191,9 @@ create screen.
 **The pessimistic estimate is the ceiling.** Time over the optimistic estimate
 needs concrete functionality the estimate did not contain, named in the result
 comment; work bounced back from testing is the extreme case, not a budget line.
+What the design left out and the code had to solve counts as such
+functionality — real content the mock did not show (long names, empty or long
+lists, a second currency), states it did not draw, narrow widths: name each.
 Going over the pessimistic estimate is asked of the developer, never decided
 alone — it can be right when the requirements change radically or the risks
 the estimate priced in come true.
@@ -189,7 +202,9 @@ the estimate priced in come true.
 each time. When a part is blocked from outside and the rest can ship, the part
 becomes its own issue with a small budget taken from the original: the
 original's estimate (both scenarios) goes down by it, so the parent's total does
-not grow. Show the numbers — original estimate, time logged, new estimate,
+not grow. The new issue is linked to the original with `Issue split`
+(`split_from` in a batch node) — the original `split to` the new one — and
+to its cause with `is blocked by`. Show the numbers — original estimate, time logged, new estimate,
 carved budget — before changing anything.
 
 ## Labels
@@ -241,46 +256,15 @@ thread is read with `thread(key, root_id)`. A follow-up to an existing comment �
 question it left open, an UPD — is a reply in its thread (`comment(...,
 reply_to=<id>)`, the editor's Reply), not a new top-level comment.
 
-## Questions waiting for an answer
+## Questions and decisions
 
-A posted question is work the developer is waiting on, and its reply lands in
-a thread nobody watches. So each one goes on the waiting list —
-`docs/local/questions.md` in the project, personal and gitignored like the
-team file: one line per question — issue · to whom · comment id · date · what
-it blocks.
-
-- **Remember and remind; do not poll.** Name an issue's open lines when work on
-  it starts, before it is closed, and whenever a status report or a closing
-  step touches it — the ones that block delivery first. Asked what is still
-  pending, answer from the file. A reminder costs a file read; a forgotten
-  question costs a task that cannot be closed.
-- **Check one thread, not the tracker.** The file is a reminder, not the
-  truth — a reply can land unrecorded. When a decision rests on a question —
-  closing the issue, starting work it blocks — read that open line's thread,
-  one call each; closed lines are skipped. A sweep across every issue with an
-  open question is long and costly: offer it, and run it only on a yes. The
-  tracker's notification feed is no shortcut: read with an API token, it comes
-  back empty.
-- **A question closes on an answer or a decision** — a reply in its thread, an
-  answer the developer relays, or the question dropped. Mark the line with the
-  date and where the answer is. A dropped question is said so in its thread,
-  so the person asked stops working on it.
-- **A processed answer is acknowledged where it was given.** Once a reply has
-  been acted on — in the code, the plan or a new question — its author sees
-  that it landed: a reaction under it, or a reply in its thread when there is
-  something to say (a clarification, a follow-up, a disagreement). Which one is
-  the developer's choice, asked once and recorded in the profile's
-  `## Tracker`: a fixed reaction (offer ✅, "check mark button"), or asking each
-  time whether to react or to reply. An API token cannot set a Jira reaction —
-  the reactions gateway answers 401 and the GraphQL `addReaction` covers
-  Confluence only — so a reaction is the developer's click: hand over the list,
-  issue · comment id · link `…/browse/KEY?focusedCommentId=ID`. Leave out the
-  ones already reacted to: the token can read them — GraphQL
-  `graphStore_userReactedToIssueComment(id: "ari:cloud:identity::user/<accountId>",
-  queryContext: "ari:cloud:platform::site/<cloudId>")` with
-  `@optIn(to: "GraphStoreUserReactedToIssueComment")` returns the comments the
-  developer reacted to, any emoji, as `…:issue-comment/<issueId>/<commentId>`.
-  A reply goes through `comment(..., reply_to=<root id>)`.
+A posted question goes on the waiting list, `docs/local/questions.md`; an
+answer that settles something goes into the decisions file,
+`docs/local/decisions.md` — both personal and gitignored. How they are kept —
+reminding instead of polling, closing a line, acknowledging an answer, reading
+the decisions before a question is drafted — is in
+`${CLAUDE_PLUGIN_ROOT}/reference/questions-and-decisions.md`. Read it when a
+question is drafted, posted or closed, or an answer is acted on.
 
 ## What gets written down
 

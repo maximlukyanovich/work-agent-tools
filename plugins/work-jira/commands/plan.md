@@ -56,6 +56,9 @@ call — ask which part of the estimate to plan, listing what is available.
 7. **Ask three questions**, each with a recommended answer: is the tree right,
    is the description shape right, and which optional sections to include.
 
+8. **End with the next step** once the answers are in:
+   `/work-jira:create <epic or plan file>` as a block ready to paste.
+
 ## Hard rules
 
 - **Creates nothing.** No issue, no field, no comment. Read-only against Jira.
