@@ -21,7 +21,10 @@ Separately: does every behaviour change ship with a test, or is that incidental?
 
 **Q4. Task tracker and key prefix.** Jira (needs the project key), Linear, GitHub
 Issues, none. Affects the commit subject, branch names, the PR body, whether a
-tracker-conventions skill exists, and which MCP is configured.
+tracker-conventions skill exists, and which MCP is configured. With Jira, also:
+how an answer the agent has acted on is acknowledged — a fixed reaction (offer
+✅, "check mark button") or ask each time whether to react or to reply
+(`work-jira`, its waiting list of questions).
 
 **Q5. Source of design** — only if the repository has UI. A handoff bundle,
 Figma, screenshots plus prose, or none. Affects design-reading skills, the

@@ -18,7 +18,12 @@ on their issues.
 2. **List them** — one line per issue, `KEY — summary` — and ask which to comment
    on: all, a subset, or none.
 
-3. **Draft each comment** and show it in the chat for review. A comment that
+3. **Check each issue's description first.** QA tests against it: what shipped,
+   what moved to other issues (cards) and the known limits must be there. A
+   description that has gone stale is offered for an update before the
+   comment — the `issues` skill, "Description".
+
+4. **Draft each comment** and show it in the chat for review. A comment that
    addresses or mentions someone takes the person and the account id from the
    project's team file (`${CLAUDE_PLUGIN_ROOT}/reference/team.md`). Shape:
 
@@ -38,7 +43,7 @@ on their issues.
      states what was done and the alternative, and the point stays open.
    - An `Out of scope / follow-ups` block when there is something to flag.
 
-4. **Post only on an explicit go-ahead**, through `scripts/jira.py` as ADF —
+5. **Post only on an explicit go-ahead**, through `scripts/jira.py` as ADF —
    `comment(key, doc(p(header), ul([...])))`, `edit_comment` to amend,
    `comment(..., reply_to=<id>)` to answer in an earlier comment's thread. Not
    through MCP: a Markdown comment stores a URL as plain text, which Jira does
@@ -46,9 +51,11 @@ on their issues.
    the `issues` skill apply: backticks for inline code, `[[KEY-1]]` for an
    issue card, no bold inside list items. A comment that asks someone
    something goes on the waiting list when it is posted; a reply that answers
-   or drops a listed question closes its line (`issues` skill).
+   or drops a listed question closes its line
+   (`${CLAUDE_PLUGIN_ROOT}/reference/questions-and-decisions.md`). Hand each
+   posted comment back as a link, `comment_url(key, id)`.
 
-5. **Then, separately, offer a worklog.** Propose one short sentence per issue.
+6. **Then, separately, offer a worklog.** Propose one short sentence per issue.
    The default answer is "text only" — the developer may want the wording but log
    the time elsewhere. On a yes, **ask for the duration**; never invent one.
 

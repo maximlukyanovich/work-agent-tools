@@ -59,6 +59,8 @@ Four sections are required:
   Not a retelling of the design.
 - **Scope** — what is included, as a list.
 - **Acceptance criteria** — a checklist of concrete, testable statements.
+  Where the work loads anything, they say what the user sees meanwhile; if
+  the design does not draw it, that is an open question, not a silent gap.
 - **Sources of truth** — the spec with its section, the design by screen name,
   related issues.
 
@@ -83,6 +85,22 @@ same batch that may not exist yet. Jira renders the card with key, summary and
 status and keeps them current. Where a card cannot be produced — a comment
 posted through MCP — the link text carries key and summary, `PROJ-7 Domain
 components`, so the reader does not have to open it.
+
+**The description is current when the issue goes to testing.** QA tests against
+it, and a description that still promises what moved elsewhere — or omits what
+the answers to its questions added — sends them testing stale requirements.
+Check it at the transition to testing and again when a result comment is
+posted: what is in, what moved out and where (cards), known limits — the
+last as a `Known limitations` section: what behaves so for now, and the
+question it waits on.
+
+What changed since the issue was written goes in `Scope changes`, collapsed
+(`expand(title, blocks)`) right after the acceptance criteria, so QA reads
+the two together: one line per **decision** that changed the scope — an
+answer, a part carved out to another issue — with the date and a link to
+where it was decided. Not a log of merge requests: a reader cannot tell from
+"MR !N" what is now different, and the merge requests are in the result
+comments already. Optional; the requirement is that the text is true.
 
 **Every issue a description references is also linked to it**, type `relates
 to`, so the relation is visible in the linked-items panel and survives a rewrite
@@ -113,6 +131,12 @@ cannot be finished before it.
 - **Starting early is not unblocking.** A consumer may start on mocks while
   its provider is open; the link is about finishing. Say so in the consumer's
   `Technical notes` when that is the plan.
+- **Blocked by something outside the team** — a backend issue in the backlog,
+  a design not delivered, a decision not taken: Jira's flag (`flag(key)`, the
+  "Impediment" the board draws in red) plus an `is blocked by` link to the
+  cause. Agree this convention with the developer once per project and record
+  it in the profile's `## Tracker` — a project may prefer a status of its own.
+  Clear the flag when the cause is gone.
 - **Other types, when they earn it.** `Issue split` (`split to` / `split
   from`) when an oversized issue is cut into parts; `Duplicate` to close a
   duplicate. The instance's other types — clones, incident, Gantt — are not
@@ -164,6 +188,25 @@ section rather than leaving the reader to wonder.
 `Original Estimate` is set by a **second request**: the field is absent from the
 create screen.
 
+**The pessimistic estimate is the ceiling.** Time over the optimistic estimate
+needs concrete functionality the estimate did not contain, named in the result
+comment; work bounced back from testing is the extreme case, not a budget line.
+What the design left out and the code had to solve counts as such
+functionality — real content the mock did not show (long names, empty or long
+lists, a second currency), states it did not draw, narrow widths: name each.
+Going over the pessimistic estimate is asked of the developer, never decided
+alone — it can be right when the requirements change radically or the risks
+the estimate priced in come true.
+
+**Carving a piece out of an issue is the exception**, agreed with the developer
+each time. When a part is blocked from outside and the rest can ship, the part
+becomes its own issue with a small budget taken from the original: the
+original's estimate (both scenarios) goes down by it, so the parent's total does
+not grow. The new issue is linked to the original with `Issue split`
+(`split_from` in a batch node) — the original `split to` the new one — and
+to its cause with `is blocked by`. Show the numbers — original estimate, time logged, new estimate,
+carved budget — before changing anything.
+
 ## Labels
 
 Pick from the labels the instance already has — `GET /rest/api/3/label`. Never
@@ -206,32 +249,22 @@ Whom to ask and how to mention them lives in the project's team file,
 personal and gitignored — names and account ids stay out of committed files.
 Its shape and why it exists: `${CLAUDE_PLUGIN_ROOT}/reference/team.md`. A
 mention in a comment is an ADF `mention` node with the account id from that
-file; a typed "@Name" notifies no one. A follow-up to an existing comment — a
+file; a typed "@Name" notifies no one — `mention(name)` and `header(title, *names)` in
+the script read the id from the file. A comment handed to the developer is a
+link, `comment_url(key, id)`, never a bare id: they open it and forward it. A
+thread is read with `thread(key, root_id)`. A follow-up to an existing comment — a
 question it left open, an UPD — is a reply in its thread (`comment(...,
 reply_to=<id>)`, the editor's Reply), not a new top-level comment.
 
-## Questions waiting for an answer
+## Questions and decisions
 
-A posted question is work the developer is waiting on, and its reply lands in
-a thread nobody watches. So each one goes on the waiting list —
-`docs/local/questions.md` in the project, personal and gitignored like the
-team file: one line per question — issue · to whom · comment id · date · what
-it blocks.
-
-- **Remember and remind; do not poll.** Name an issue's open lines when work on
-  it starts, before it is closed, and whenever a status report or a closing
-  step touches it — the ones that block delivery first. Asked what is still
-  pending, answer from the file. A reminder costs a file read; a forgotten
-  question costs a task that cannot be closed.
-- **Check one thread, not the tracker.** The file is a reminder, not the
-  truth — a reply can land unrecorded. When a decision rests on a question —
-  closing the issue, starting work it blocks — read that open line's thread,
-  one call each; closed lines are skipped. A sweep across every issue with an
-  open question is long and costly: offer it, and run it only on a yes.
-- **A question closes on an answer or a decision** — a reply in its thread, an
-  answer the developer relays, or the question dropped. Mark the line with the
-  date and where the answer is. A dropped question is said so in its thread,
-  so the person asked stops working on it.
+A posted question goes on the waiting list, `docs/local/questions.md`; an
+answer that settles something goes into the decisions file,
+`docs/local/decisions.md` — both personal and gitignored. How they are kept —
+reminding instead of polling, closing a line, acknowledging an answer, reading
+the decisions before a question is drafted — is in
+`${CLAUDE_PLUGIN_ROOT}/reference/questions-and-decisions.md`. Read it when a
+question is drafted, posted or closed, or an answer is acted on.
 
 ## What gets written down
 

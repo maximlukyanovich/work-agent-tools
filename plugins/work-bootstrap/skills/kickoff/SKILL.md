@@ -33,13 +33,26 @@ around it.
    Check library APIs against their docs, not memory. When the task has a
    design source, read the whole screen it touches, not only the component,
    and put a table in the plan: each element of the screen → the code that
-   draws it, or why it is left out.
+   draws it, or why it is left out. Read each element's states (hover, focus,
+   pressed, selected, disabled, invalid) and the design's global stylesheet
+   from the source as well — they are requirements, and memory of "how such
+   a component usually looks" is not a source.
 
 3. **Ask what the code cannot answer** — with the questionnaire tool, not as
    prose in chat:
    - **The recommendation goes first and is marked** `(Recommended)`. Every
      other option carries a one-line trade-off, so the developer can choose
      without asking back.
+   - **A requirement that names a reference behaviour sets the
+     recommendation.** "As in ChatGPT", "like the old app": the recommended
+     option is the one that behaves as the reference does. A technical
+     blocker narrows that option — say where it cannot follow the reference
+     and why — rather than replacing it; a cheaper option that departs from
+     the reference is offered with what it gives up, never marked
+     recommended. Observed on a live project: a "spinner on each photo until
+     it is uploaded, as in ChatGPT" got "upload on send" as the
+     recommendation, and the developer had to point out that the reference
+     uploads on attach.
    - **At most four questions a round.** More than one round is fine; a wall of
      questions is not.
    - **Multi-select where choices are not exclusive.**
@@ -55,10 +68,16 @@ around it.
 
 5. **Write the plan**: context (why this change, what prompted it), the
    decisions table, one recommended approach, slices in execution order with
-   the files each touches, assumptions, open questions, and verification — how the result is proven. **The plan is
-   written in the language of the chat**: the developer reads it in the
-   approval dialog. Identifiers and paths stay as they are; committed text —
-   commits, MR bodies, code comments — keeps the repository's language.
+   the files each touches, assumptions, open questions, and verification —
+   how the result is proven. Three more where they apply, and nothing beyond
+   them: **a state table** for work that changes state — state × event →
+   expected → the test that proves it; **the framework behaviour the plan
+   rests on**, with file:line, read before the plan rather than recalled;
+   **one line on the structural option** and why the plan does not take it.
+   **The plan is written in the language of the chat**: the developer reads
+   it in the approval dialog. Identifiers and paths stay as they are;
+   committed text — commits, MR bodies, code comments — keeps the
+   repository's language.
 
    **Assumptions are for minor gaps** — a default nobody would notice. Each is
    one line: what is assumed, on what basis, the alternative — so the
@@ -80,7 +99,12 @@ around it.
 
 7. **After approval**: code in slices, run the gate after each, verify in the
    real environment, commit each slice through the project's commit procedure
-   — only on an explicit go-ahead, and never pushed without its own.
+   — only on an explicit go-ahead, and never pushed without its own. Before
+   an edit to state, the transition table again, each row with a test that
+   fails with the edit reverted. A phase ends at its boundary — after a
+   commit, after a review, before and after a merge — with
+   `/work-bootstrap:handoff`, and the next one starts in a fresh session;
+   inside a long phase, `/compact` with a focus.
 
 8. **After a decision worth keeping** — a convention, a rule for how to ask, a
    preset — propose the matching change in `mluk-work-agent-tools` in one line:
@@ -92,6 +116,8 @@ around it.
 - Asking one question per turn, or asking what `git log` or the issue already
   answers.
 - Presenting three approaches without a recommendation.
+- Recommending the cheaper option over the reference behaviour the
+  requirement names.
 - Writing the plan in the commit language when the chat is in another one.
 - Writing code "to show the idea" before the plan is approved.
 - Filing a design decision under assumptions, where it gets approved unread.
@@ -103,6 +129,8 @@ around it.
 
 ## How it is verified
 
-The plan file has the decisions table, slices and a verification section before
-approval is requested. Each slice ends with the gate green and the real check
-the plan named. Every commit was made on an explicit go-ahead.
+The plan file has the decisions table, slices and a verification section —
+and the state table, the framework pointers and the structural line where
+they apply — before approval is requested. Each slice ends with the gate
+green and the real check the plan named. Every commit was made on an
+explicit go-ahead.

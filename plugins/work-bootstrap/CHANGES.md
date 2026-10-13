@@ -84,3 +84,156 @@ A layout-measuring script runs in the task's browser check, and the review
 command gains a `layout` mode that runs it.
 Check: checklist — "With a design source"; audit §11.
 Applies to: projects with a design source.
+
+## 2026-10-06 · stale-cache-state
+
+What: the testing skill's list of a query's states gains success that may be
+out of date — while a refetch is in flight, and while the cache still counts
+as fresh by its stale time, so nothing is read again on mount. A fix that
+closed only the first was followed by the second in the next review.
+Check: checklist — "Fixing review findings is a rule in `AGENTS.md`", the
+testing skill it points to; audit §5.
+Applies to: projects whose data layer caches query results.
+
+## 2026-10-06 · processed-answer-ack
+
+What: the profile's `## Tracker` records how an answer the agent has acted on
+is acknowledged — a fixed reaction (✅ offered) or asking each time whether to
+react or to reply. The developer sets the reaction by hand: an API token cannot.
+Check: checklist — "With Jira, the profile's `## Tracker` says how a processed
+answer is acknowledged"; audit §7.
+Applies to: projects that use `work-jira` with Jira.
+
+## 2026-10-07 · clean-install-deploy
+
+What: with pnpm 11, `AGENTS.md` §2 says a new dependency with a build script
+needs an `allowBuilds` entry, and the `pnpm-workspace.yaml` header says to
+prove it with a frozen install on a fresh checkout — a warm `node_modules`
+hid a missing entry until the server's install failed. Once the project is
+deployed, the root README gains a Deployment section: production commands,
+pinned versions, and every variable the build and the start need.
+Check: checklist — "A fresh checkout installs", "Once deployed anywhere";
+audit §12.
+Applies to: projects on pnpm 11; the README part, deployed projects.
+
+## 2026-10-07 · review-handover
+
+What: the commit command, after a task's last commit or a round of review
+fixes, ends its report with the review command ready to paste into a fresh
+session — the range `<base>..<head>`, what to skip, one code block per branch.
+Check: checklist — "The commit command … ends its report with the review
+command"; audit §5.
+Applies to: projects with a commit command and a review command.
+
+## 2026-10-08 · real-content-layout
+
+What: a project with a design source adds to its component skill — lay out for
+real content rather than the mock's (clamp what can grow with the full text
+reachable, wrap what must wrap, check narrow widths), and name that work in
+the result comment as work the design did not contain. Remove any leftover
+"snap to the nearest token" wording.
+Check: checklist — "With a design source"; audit §11.
+Applies to: projects with a design source.
+
+## 2026-10-09 · states-from-source
+
+What: a project with a design source adds to its component skill — every
+interactive state (hover, focus, pressed, selected, disabled, invalid, open,
+loading) and every rule of the design's global stylesheet is read from the
+source each time a component is built or changed and carried over as written;
+nothing is filled in from memory, from the underlying library's defaults or
+from a similar component.
+Check: checklist — "With a design source"; audit §11.
+Applies to: projects with a design source.
+
+## 2026-10-09 · loading-states
+
+What: a project with a design source adds to its component skill — wherever
+something loads, decide what is on screen until it arrives; when the design
+is silent, ask the designer and use a placeholder from existing primitives,
+named in the task report, never a blank area.
+Check: checklist — "With a design source"; audit §11.
+Applies to: projects with a design source.
+
+## 2026-10-09 · task-worktree
+
+What: the command that starts a task takes an optional `worktree` argument
+and, from a live `git status`, offers one when the tree is busy — a folder
+beside the repository, with the ignored files the work reads linked in; the
+command that merges offers `git worktree remove` with the branch deletion.
+Check: checklist — "The command that starts a task takes an optional
+`worktree` argument"; audit §8.
+Applies to: every project with a command that starts a task.
+
+## 2026-10-12 · sources-first
+
+What: a project with a design source replaces "the screen wins over a
+component source" in its design-source document: the design's guide,
+component sources and tokens take precedence; a screen that disagrees is
+escalated to the developer with the likely reading (a screen updated without
+its sources usually means the screen is final); decisions go to the register
+and the designer gets the gaps in one comment asking to update the sources.
+Check: checklist — "With a design source"; audit §11.
+Applies to: projects with a design source.
+
+## 2026-10-12 · review-report-block
+
+What: the review command's report opens with the same block on every pass,
+zeros included — target and range, the trajectory, a blocker / major / minor
+/ nit table, and the verdict that follows from it — then the findings.
+Check: checklist — the review command item; audit §5.
+Applies to: projects with a review command that keeps a pass ledger.
+
+## 2026-10-12 · commit-index-check
+
+What: the commit command, right before `git commit`, compares
+`git diff --cached --name-only` with the paths it proposed and stops on a
+difference; after a commit the `commit-msg` hook refused, it commits the same
+index again with the message fixed instead of staging the next group on top.
+Check: checklist — "The commit command compares the staged paths"; audit §6.
+Applies to: every project with a commit command.
+
+## 2026-10-13 · command-target
+
+What: the commands that commit, review and merge take an optional target — a
+branch or a worktree path, recognised by shape — and run there from the main
+workspace: git calls as `git -C <tree>`, the gate in that tree, shared
+records such as the validated tree in its git directory. A branch checked out
+nowhere is reviewed by its refs, with the gate reported as not run.
+Check: checklist — "The commands that commit, review and merge take a
+target"; audit §6.
+Applies to: projects with a commit, review or merge command.
+
+## 2026-10-13 · next-step-handoff
+
+What: every command ends with its next step as a block ready to paste, one
+per option; at a phase boundary — a task's last commit, a review, before and
+after a merge — through `/work-bootstrap:handoff`, for a fresh session. The
+review ends with the fix-round prompt naming the pass, the ids, the ledger,
+the plan and the target, or with the merge command when it reads ready; the
+merge ends with the start of the next task.
+Check: checklist — "Every command ends with its next step"; audit §5, §6.
+Applies to: every project with commands.
+
+## 2026-10-13 · review-group-agent
+
+What: review groups above the delegation threshold go to a project agent,
+`.claude/agents/review-group.md` (`model: sonnet`, read-only tools, findings
+only, no ledger and no verdict), and `.gitignore` un-ignores
+`.claude/agents/`. The review command takes `model=<name>` and passes it as
+the Agent call's model; the synthesis, the refutation of every blocker and
+major, and the ledger stay with the session's model.
+Check: checklist — "Review groups above the delegation threshold"; audit §5.
+Applies to: projects with a review command that delegates file groups.
+
+## 2026-10-13 · plan-state-table
+
+What: the task command's plan carries the three sections the `kickoff` skill
+names — a state table (state × event → expected → test) for work that
+changes state, the framework behaviour it rests on with file:line, one line
+on the structural option. The testing skill asks for a transition table
+before any edit to state, a fix or not, each row's test red with the edit
+reverted; the commit command shows those rows before it asks.
+Check: checklist — the task command item and "Fixing review findings";
+audit §5, §8.
+Applies to: every project with a task command or a testing skill.
