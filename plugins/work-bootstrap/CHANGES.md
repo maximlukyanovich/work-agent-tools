@@ -237,3 +237,13 @@ reverted; the commit command shows those rows before it asks.
 Check: checklist — the task command item and "Fixing review findings";
 audit §5, §8.
 Applies to: every project with a task command or a testing skill.
+
+## 2026-10-13 · worktree-typegen-port
+
+What: the worktree setup in the command that starts a task runs the
+framework's type generation when its generated types are ignored, and gives
+the second dev server and the end-to-end run their own port — a runner that
+reuses a running server otherwise tests the main tree's code.
+Check: checklist — "The command that starts a task takes an optional
+`worktree` argument"; audit §8.
+Applies to: projects whose task command offers a worktree.

@@ -188,8 +188,13 @@ On a free tree a worktree only adds setup, and is not offered.
 - **Link what git ignores but the work reads** — local notes, env files,
   tool configs — listed from the main tree's ignored files and confirmed. A
   folder tracked for one file (a README) is linked entry by entry, not whole.
-  Then install dependencies in the new tree; a second dev server needs a
-  free port.
+  Then install dependencies in the new tree, and run the framework's type
+  generation when its generated types are ignored — without them a fresh
+  tree fails its type-check on the route types.
+- **Its own port, for the dev server and for end-to-end tests.** A second
+  dev server needs a free port, and so does an end-to-end run: a runner that
+  reuses an already running server would otherwise test the main tree's code
+  on the default port, and pass.
 - **A worktree is temporary.** The command that merges removes it with its
   branch (closing steps below); a folder deleted by hand leaves a stale entry
   that `git worktree prune` clears.
