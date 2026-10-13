@@ -142,8 +142,8 @@ in the **plugin name**, and the command name stays short.
 
 | Plugin | Commands |
 | --- | --- |
-| `work-bootstrap` | `/work-bootstrap:setup`, `:audit`, `:help` |
-| `work-jira` | `/work-jira:plan`, `:create`, `:questions`, `:status`, `:comment`, `:help` |
+| `work-bootstrap` | `/work-bootstrap:setup`, `:audit`, `:handoff`, `:help` |
+| `work-jira` | `/work-jira:plan`, `:create`, `:questions`, `:status`, `:comment`, `:next`, `:help` |
 | `work-estimation` | `/work-estimation:project`, `:update`, `:export`, `:help` |
 
 Two levels of filtering fall out of it: typing `work` lists everything shipped
