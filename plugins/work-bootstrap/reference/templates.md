@@ -135,6 +135,12 @@ merge — the block is for a fresh session and comes from
 `/work-bootstrap:handoff`: the session that did the work is the most
 expensive place for the next phase, and a review must not run there at all.
 
+**`model:` in a command's frontmatter** switches only the turn the command
+runs in: the session's model is back with the next prompt, and that turn
+re-reads the whole context uncached — each model has its own cache. So it
+pays only on a command that runs in one turn without a question, in a fresh
+session; never on commit, review or merge, whose first question ends it.
+
 ### A command that starts a task must offer the opening steps
 
 The status of an issue is the only thing the rest of the team sees of work
@@ -358,6 +364,31 @@ update it stays empty.
 - A finding names every place with the same mechanism. The fix closes all of
   them, each with a test that fails when the fix is reverted — a fix for one
   site of a race routinely leaves its twin.
+
+**Review groups run on a cheaper model.** Above the delegation threshold the
+groups are most of a review's cost, and their job — one file group against a
+rubric they are given — does not need the strongest model. So they go to a
+project agent, `.claude/agents/review-group.md`:
+
+```markdown
+---
+name: review-group
+description: Reviews one file group of a diff against the rubric in its prompt and returns anchored findings. Used by the review command; not for a whole review.
+model: sonnet
+tools: Read, Grep, Glob, Bash
+---
+
+You review one group of files from a diff; the prompt gives the range, the
+files and the rubric. Read-only: diffs, logs and files are read, nothing is
+written. No ledger, no verdict — findings only, one line each: severity ·
+class · file:line · the mechanism, or input → bad output. A `blocker` or
+`major` without that anchor is written as a `nit`.
+```
+
+The review command takes `model=<name>` and passes it as the Agent call's
+`model`, which outranks the definition — for a branch whose groups need the
+stronger model. The synthesis, the refutation of every `blocker` and
+`major`, and the ledger stay with the session's model.
 
 **Run it in a fresh session.** The session that wrote the code remembers its
 own reasons and tends to confirm them. Everything a review needs from the past

@@ -214,3 +214,14 @@ the plan and the target, or with the merge command when it reads ready; the
 merge ends with the start of the next task.
 Check: checklist — "Every command ends with its next step"; audit §5, §6.
 Applies to: every project with commands.
+
+## 2026-10-13 · review-group-agent
+
+What: review groups above the delegation threshold go to a project agent,
+`.claude/agents/review-group.md` (`model: sonnet`, read-only tools, findings
+only, no ledger and no verdict), and `.gitignore` un-ignores
+`.claude/agents/`. The review command takes `model=<name>` and passes it as
+the Agent call's model; the synthesis, the refutation of every blocker and
+major, and the ledger stay with the session's model.
+Check: checklist — "Review groups above the delegation threshold"; audit §5.
+Applies to: projects with a review command that delegates file groups.

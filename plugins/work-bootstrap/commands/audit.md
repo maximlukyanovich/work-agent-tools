@@ -62,7 +62,9 @@ does not raise it again.
    and for every state the fix touches? Without it, each pass's fixes become
    the next pass's `major`s. Does the review end with the next step — the
    fix-round prompt that names the ledger, or the merge command — through
-   `/work-bootstrap:handoff`, rather than a report to paste back?
+   `/work-bootstrap:handoff`, rather than a report to paste back? Do review
+   groups go to `.claude/agents/review-group.md` on a cheaper model, with
+   `model=` to override it and refutation left to the session?
 
 6. **Where the gate runs.** Does the push command run the gate for a tree the
    commit command did not validate? Is a git hook running the whole gate —
