@@ -67,6 +67,10 @@ read, say which one and why, and continue with the rest.
 10. **Only now compare with the deadline**, if one was named, and report the gap
    as a scope question with concrete lines that could move.
 
+11. **End with the next step** as blocks ready to paste:
+    `/work-estimation:export <data module>`, and `/work-estimation:update
+    <data module>` as a second block when the scope is about to change.
+
 ## Scripts are run, not read
 
 The data module format is documented in `${CLAUDE_PLUGIN_ROOT}/reference/data-format.md`.
