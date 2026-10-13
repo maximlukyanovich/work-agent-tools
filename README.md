@@ -9,12 +9,31 @@ everywhere; only keys, rates and the domain differ, and those stay in the projec
 
 ## Installing
 
-Once per machine:
+The catalogue, once per machine — it loads nothing into a session:
 
 ```bash
-/plugin marketplace add https://github.com/maximlukyanovich/work-agent-tools.git
-/plugin install work-bootstrap@mluk-work-agent-tools work-jira@mluk-work-agent-tools work-estimation@mluk-work-agent-tools
+claude plugin marketplace add https://github.com/maximlukyanovich/work-agent-tools.git
 ```
+
+The plugins, per project, from its root:
+
+```bash
+claude plugin install work-bootstrap@mluk-work-agent-tools --scope project
+claude plugin install work-jira@mluk-work-agent-tools --scope project
+```
+
+`--scope project` records the plugin in `.claude/settings.json`, which is
+committed, so the team runs the same tooling; a teammate's clone runs the same
+command once, and the file does not change. `--scope local` writes
+`.claude/settings.local.json` instead — for a project whose rules keep AI
+settings out of git; `.gitignore` must name it. `/work-bootstrap:setup` asks
+which plugins a project uses and installs them. A new project starts the same
+way: install `work-bootstrap` in its empty folder, start `claude`, run
+`/work-bootstrap:new`.
+
+The default scope, user, enables a plugin in every project on the machine: its
+skill and command descriptions are paid for in every session, including
+projects that never use it.
 
 The repository is private, so ordinary git access is required — the same SSH key
 or token you clone work projects with. Nothing extra to hand out.
@@ -36,9 +55,6 @@ update fails quietly and the old copy stays.
 Auto-update delivers the method; it never edits a project. When a set-up
 project falls behind, `work-bootstrap`'s session-start hook says so and
 `/work-bootstrap:audit` proposes the edits.
-
-Plugins install separately: `/plugin install work-estimation@mluk-work-agent-tools`
-does not pull Jira in.
 
 The `@mluk-work-agent-tools` suffix names the catalogue. The short form works while
 the plugin name is unique across every catalogue on the machine; the full form
@@ -65,7 +81,7 @@ Language follows the conversation; pass a language code to override.
 
 | Plugin | What it does |
 | --- | --- |
-| `work-bootstrap` | Initialise or audit a repository's agent harness: `AGENTS.md`, skills, commands, hooks, MCP, docs. Stack-agnostic. |
+| `work-bootstrap` | Start a project in an empty folder; initialise or audit a repository's agent harness: `AGENTS.md`, skills, commands, hooks, MCP, docs. Stack-agnostic. |
 | `work-estimation` | Estimate a project from a spec and a design handoff: decomposition, provenance audit, a markdown report and the company estimate workbook. |
 | `work-jira` | Run Jira work the way the company standard requires: hierarchy, description shape, statuses, comments, worklog. |
 
@@ -143,7 +159,7 @@ in the **plugin name**, and the command name stays short.
 
 | Plugin | Commands |
 | --- | --- |
-| `work-bootstrap` | `/work-bootstrap:setup`, `:audit`, `:handoff`, `:help` |
+| `work-bootstrap` | `/work-bootstrap:new`, `:setup`, `:audit`, `:handoff`, `:help` |
 | `work-jira` | `/work-jira:plan`, `:create`, `:questions`, `:status`, `:comment`, `:next`, `:help` |
 | `work-estimation` | `/work-estimation:project`, `:update`, `:export`, `:help` |
 

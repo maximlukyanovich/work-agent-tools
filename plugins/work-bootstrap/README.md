@@ -1,12 +1,13 @@
 # work-bootstrap
 
-Initialise and audit a repository's agent harness. Stack-agnostic: frontend,
-backend, monorepo, library, CLI.
+Start a project in an empty folder; initialise and audit a repository's agent
+harness. Stack-agnostic: frontend, backend, monorepo, library, CLI.
 
 ## Commands
 
 | Command | What it does |
 | --- | --- |
+| `/work-bootstrap:new` | In an empty folder: asks the stack, runs its official generator by the stack's recipe, pins the versions, initialises git, offers the first commit and the remote. Then `setup`. |
 | `/work-bootstrap:setup` | Inventories the repository, asks only what the code cannot answer, shows a plan, then creates the harness. |
 | `/work-bootstrap:audit` | Checks only the method changes after the project's baseline ([CHANGES.md](CHANGES.md)); `full` checks the whole harness against the model. Read-only until a change is approved. |
 | `/work-bootstrap:handoff` | Ends a phase of work: prints the next step as a prompt for a fresh session — the review, the fix round, the merge, the next task — and `/compact` where staying is cheaper. The agent runs it itself at a phase boundary. |
@@ -55,4 +56,6 @@ approval before code. Loaded when a task needs a plan.
 Read one at a time, not as a whole: `questions.md` (the eleven asked in phase 1),
 `layout.md` (target file tree, gitignore, and the two traps that cost a rewrite),
 `templates.md` (skeletons), `project-profile.md` (the file shared plugins read),
-`checklist.md` (the final check).
+`checklist.md` (the final check), `scaffold/<stack>.md` (one recipe per stack:
+the generator's options and traps for `new`, what the harness keeps for
+`setup`).
