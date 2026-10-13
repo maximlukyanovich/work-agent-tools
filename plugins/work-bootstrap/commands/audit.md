@@ -59,12 +59,13 @@ does not raise it again.
    And the other half: when findings are fixed — usually in the working
    session, from a pasted report — does a rule in `AGENTS.md` load the testing
    skill first, and does that skill ask for a reverted-fix test per finding
-   and for every state the fix touches? Without it, each pass's fixes become
-   the next pass's `major`s. Does the review end with the next step — the
-   fix-round prompt that names the ledger, or the merge command — through
-   `/work-bootstrap:handoff`, rather than a report to paste back? Do review
-   groups go to `.claude/agents/review-group.md` on a cheaper model, with
-   `model=` to override it and refutation left to the session?
+   and for every state the fix touches, with a transition table before any
+   edit to state that the commit command shows? Without it, each pass's
+   fixes become the next pass's `major`s. Does the review end with the next
+   step — the fix-round prompt that names the ledger, or the merge command —
+   through `/work-bootstrap:handoff`, rather than a report to paste back?
+   Do review groups go to `.claude/agents/review-group.md` on a cheaper
+   model, with `model=` to override it and refutation left to the session?
 
 6. **Where the gate runs.** Does the push command run the gate for a tree the
    commit command did not validate? Is a git hook running the whole gate —
@@ -87,7 +88,9 @@ does not raise it again.
    invisible precisely because the code shipped.
    The mirror check: does the command that starts a task offer the opening
    steps — the in-progress transition, the assignee, the parent's status —
-   when a tracker is reachable, and load `kickoff` before it asks? Does it
+   when a tracker is reachable, and load `kickoff` before it asks — and does
+   its plan carry the state table, the framework pointers and the structural
+   line? Does it
    take a `worktree` argument and offer one when a live `git status` finds
    the tree busy — and does the merge's closing step remove the worktree?
 

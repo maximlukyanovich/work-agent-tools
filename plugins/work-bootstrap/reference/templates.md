@@ -168,7 +168,9 @@ developer: the questionnaire rules live there, and a command that asks
 without them drops the closing "anything to add?". And once the plan is approved,
 before the first production edit, it names the project's skills for
 placement, components and tests to load: skills match on context
-unreliably, and the rules they carry are the ones a review finds broken.
+unreliably, and the rules they carry are the ones a review finds broken. Its
+plan carries the sections `kickoff` names — the state table, the framework
+behaviour with file:line, the line on the structural option.
 
 ### A command that starts a task can open it in a worktree
 
@@ -435,12 +437,19 @@ skill, which carries three things:
   fresh, so nothing is read again on mount; every mutation in flight, not
   the last; a stream before its history has replayed. A fix round that
   closes one state ships the next round's `major` in the state beside it;
-- **the proof handed back** before the commit is asked for: one row per
-  finding — the finding, the test, red with the fix reverted.
+- **a transition table before any edit to state**, a fix or not: state ×
+  event → expected → test, each row's test red with the edit reverted. The
+  states an edit touches are listed before the code, not found by the next
+  review;
+- **the proof handed back** before the commit is asked for, and shown by the
+  commit command: one row per finding, or per transition of a state edit —
+  the test, red with the change reverted.
 
 Observed on a live project: pass 2 found two new `major`s, both in states
 the pass-1 fixes had touched and not enumerated, and both untested — the
-testing skill held the rule already, and nothing loaded it.
+testing skill held the rule already, and nothing loaded it. Later, a fix that
+reworked a hand-over between two screens dropped a guard one transition
+away from the one it fixed; a transition table lists that row.
 
 **A merging command reads the ledger** before the merge: no pass on the
 current head, or `major`+ still open → it says so and merges only on an

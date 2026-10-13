@@ -225,3 +225,15 @@ the Agent call's model; the synthesis, the refutation of every blocker and
 major, and the ledger stay with the session's model.
 Check: checklist — "Review groups above the delegation threshold"; audit §5.
 Applies to: projects with a review command that delegates file groups.
+
+## 2026-10-13 · plan-state-table
+
+What: the task command's plan carries the three sections the `kickoff` skill
+names — a state table (state × event → expected → test) for work that
+changes state, the framework behaviour it rests on with file:line, one line
+on the structural option. The testing skill asks for a transition table
+before any edit to state, a fix or not, each row's test red with the edit
+reverted; the commit command shows those rows before it asks.
+Check: checklist — the task command item and "Fixing review findings";
+audit §5, §8.
+Applies to: every project with a task command or a testing skill.

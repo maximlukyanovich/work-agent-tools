@@ -68,10 +68,16 @@ around it.
 
 5. **Write the plan**: context (why this change, what prompted it), the
    decisions table, one recommended approach, slices in execution order with
-   the files each touches, assumptions, open questions, and verification — how the result is proven. **The plan is
-   written in the language of the chat**: the developer reads it in the
-   approval dialog. Identifiers and paths stay as they are; committed text —
-   commits, MR bodies, code comments — keeps the repository's language.
+   the files each touches, assumptions, open questions, and verification —
+   how the result is proven. Three more where they apply, and nothing beyond
+   them: **a state table** for work that changes state — state × event →
+   expected → the test that proves it; **the framework behaviour the plan
+   rests on**, with file:line, read before the plan rather than recalled;
+   **one line on the structural option** and why the plan does not take it.
+   **The plan is written in the language of the chat**: the developer reads
+   it in the approval dialog. Identifiers and paths stay as they are;
+   committed text — commits, MR bodies, code comments — keeps the
+   repository's language.
 
    **Assumptions are for minor gaps** — a default nobody would notice. Each is
    one line: what is assumed, on what basis, the alternative — so the
@@ -85,7 +91,12 @@ around it.
 
 7. **After approval**: code in slices, run the gate after each, verify in the
    real environment, commit each slice through the project's commit procedure
-   — only on an explicit go-ahead, and never pushed without its own.
+   — only on an explicit go-ahead, and never pushed without its own. Before
+   an edit to state, the transition table again, each row with a test that
+   fails with the edit reverted. A phase ends at its boundary — after a
+   commit, after a review, before and after a merge — with
+   `/work-bootstrap:handoff`, and the next one starts in a fresh session;
+   inside a long phase, `/compact` with a focus.
 
 8. **After a decision worth keeping** — a convention, a rule for how to ask, a
    preset — propose the matching change in `mluk-work-agent-tools` in one line:
@@ -108,6 +119,8 @@ around it.
 
 ## How it is verified
 
-The plan file has the decisions table, slices and a verification section before
-approval is requested. Each slice ends with the gate green and the real check
-the plan named. Every commit was made on an explicit go-ahead.
+The plan file has the decisions table, slices and a verification section —
+and the state table, the framework pointers and the structural line where
+they apply — before approval is requested. Each slice ends with the gate
+green and the real check the plan named. Every commit was made on an
+explicit go-ahead.

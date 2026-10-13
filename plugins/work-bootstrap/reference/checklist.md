@@ -13,7 +13,8 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       opening steps — in-progress transition, assignee, parent status — as one
       question carrying the current state, and loads `kickoff` before asking;
       with `work-jira`, it also names the issue's open questions from the
-      waiting list.
+      waiting list. Its plan carries `kickoff`'s state table, framework
+      pointers and structural line.
 - [ ] The command that starts a task takes an optional `worktree` argument
       and offers one when a live `git status` finds the tree busy: beside the
       repository, with the ignored files the work reads linked in; the merge
@@ -61,7 +62,9 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       the same index again instead of staging the next group on top.
 - [ ] Fixing review findings is a rule in `AGENTS.md` that loads the testing
       skill, and that skill asks for a reverted-fix test per finding, every
-      state the fix touches, and a finding → test table before the commit.
+      state the fix touches, a transition table before any edit to state,
+      and a finding or transition → test table that the commit command shows
+      before it asks.
 - [ ] A fresh checkout installs: with pnpm 11, `allowBuilds` lists every
       dependency build script with its reason, `AGENTS.md` §2 says a new one
       needs an entry, and `pnpm install --frozen-lockfile` passes.
