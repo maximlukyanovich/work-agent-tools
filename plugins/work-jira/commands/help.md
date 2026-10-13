@@ -1,6 +1,7 @@
 ---
 description: What work-jira can do — commands, the order they are applied in, and the conventions it carries.
 argument-hint: '[<language code>]'
+disable-model-invocation: true
 ---
 
 # /work-jira:help

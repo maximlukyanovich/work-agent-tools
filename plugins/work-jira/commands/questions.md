@@ -43,8 +43,9 @@ them is cheap. **Read-only.**
      screen, a component card, a `.d.ts` or the design's own guide often
      draws or states the missing piece;
    - the backend's code and contract;
-   - earlier answers — the decisions file (`issues` skill, "Decisions already
-     made"), the question's topic and its neighbours: an answer given for a
+   - earlier answers — the decisions file, "Decisions already made" in
+     `${CLAUDE_PLUGIN_ROOT}/reference/questions-and-decisions.md`: the
+     question's topic and its neighbours, since an answer given for a
      different screen often settles this one;
    - the project's own written rules — a component or copy rule the team
      keeps decides a case without the designer.
@@ -77,7 +78,8 @@ them is cheap. **Read-only.**
   a plausible default and move on.
 - **Nothing is posted to Jira** by this command. Posting the questions as a
   comment is a separate, explicit step — and once posted, each goes on the
-  waiting list (`issues` skill, "Questions waiting for an answer"). That step
+  waiting list
+  (`${CLAUDE_PLUGIN_ROOT}/reference/questions-and-decisions.md`). That step
   starts with steps 6 and 7, even for drafts written in an earlier session.
 - **Questions with an obvious answer are not asked.** If the code, the design,
   an earlier answer or the team's own rule answers it, that is a finding, not

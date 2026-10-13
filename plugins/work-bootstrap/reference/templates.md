@@ -105,6 +105,42 @@ argument-hint: '[<arg>]'
 Read-only unless stated otherwise. No implicit push, merge or issue creation;
 permission applies to the current turn only.
 
+### A command acts on a target, wherever it is checked out
+
+Work in a worktree should not need a second editor window. So the commands
+that commit, review and merge take an optional target — a branch or a
+worktree path — and run there from the main workspace:
+
+- **Recognise it by shape.** An existing directory is a worktree; a name that
+  `git rev-parse --verify` resolves is a branch, and
+  `git worktree list --porcelain` says where it is checked out.
+- **Run there.** Every git call as `git -C <tree>`, the gate as
+  `cd <tree> && <gate>`; a record the commands share, such as a validated
+  tree, goes in that tree's own git directory
+  (`git -C <tree> rev-parse --git-dir`).
+- **A branch checked out nowhere** has no tree for the gate: the review reads
+  it by refs and reports the gate as not run; commit and merge stop and say
+  which worktree to create.
+
+### A command ends with its next step
+
+A report that ends on "done" leaves the next step to memory, and it is
+skipped exactly when the work went well. So every command ends with what
+comes next as a code block ready to paste, one block per option. A next step
+that is an answer in this session — a yes to a commit, a choice of closing
+steps — stays a question, not a block.
+
+At a phase boundary — a task's last commit, a review, before and after a
+merge — the block is for a fresh session and comes from
+`/work-bootstrap:handoff`: the session that did the work is the most
+expensive place for the next phase, and a review must not run there at all.
+
+**`model:` in a command's frontmatter** switches only the turn the command
+runs in: the session's model is back with the next prompt, and that turn
+re-reads the whole context uncached — each model has its own cache. So it
+pays only on a command that runs in one turn without a question, in a fresh
+session; never on commit, review or merge, whose first question ends it.
+
 ### A command that starts a task must offer the opening steps
 
 The status of an issue is the only thing the rest of the team sees of work
@@ -121,7 +157,7 @@ asks **one question**, once the issue is read and before the branch is cut:
 
 Carry the state into the question — «Backlog, assigned to you, story still in
 Backlog» — and do only what is answered. When the project keeps a waiting
-list of posted questions (`work-jira`, `issues` skill), name this issue's open
+list of posted questions (`work-jira`), name this issue's open
 ones in the same message: an unanswered question is often why the issue is
 still open. Hour buckets and issues already in
 progress are left alone. With no reachable tracker the step is skipped and
@@ -132,7 +168,9 @@ developer: the questionnaire rules live there, and a command that asks
 without them drops the closing "anything to add?". And once the plan is approved,
 before the first production edit, it names the project's skills for
 placement, components and tests to load: skills match on context
-unreliably, and the rules they carry are the ones a review finds broken.
+unreliably, and the rules they carry are the ones a review finds broken. Its
+plan carries the sections `kickoff` names — the state table, the framework
+behaviour with file:line, the line on the structural option.
 
 ### A command that starts a task can open it in a worktree
 
@@ -241,7 +279,8 @@ All of these are optional and none is done unasked. The obligation is to
 
 Merge without deleting the source branch, so deletion stays a decision and
 not a flag. An unanswered step is reported as still open, never dropped
-silently.
+silently. After the closing steps, `/work-bootstrap:handoff` prints the start
+of the next task for a fresh session.
 
 ### A command that reviews keeps a pass ledger
 
@@ -309,6 +348,11 @@ update it stays empty.
    pass 3+ with no new commits, when findings grew while the delta is small,
    or when `escalated` plus `fix-critique` exceed half the findings.
 6. **Append the pass.**
+7. **Hand the next step over** through `/work-bootstrap:handoff`. Open
+   findings → a prompt for the fix round naming the pass, the ids, the
+   ledger's path, the plan and the target — never the report: the fix
+   session reads the ledger. Ready → the merge command with the target, and
+   the fix prompt as a second block while minors stay open.
 
 **The rubric additions that repeated passes showed were missing:**
 
@@ -323,14 +367,40 @@ update it stays empty.
   them, each with a test that fails when the fix is reverted — a fix for one
   site of a race routinely leaves its twin.
 
+**Review groups run on a cheaper model.** Above the delegation threshold the
+groups are most of a review's cost, and their job — one file group against a
+rubric they are given — does not need the strongest model. So they go to a
+project agent, `.claude/agents/review-group.md`:
+
+```markdown
+---
+name: review-group
+description: Reviews one file group of a diff against the rubric in its prompt and returns anchored findings. Used by the review command; not for a whole review.
+model: sonnet
+tools: Read, Grep, Glob, Bash
+---
+
+You review one group of files from a diff; the prompt gives the range, the
+files and the rubric. Read-only: diffs, logs and files are read, nothing is
+written. No ledger, no verdict — findings only, one line each: severity ·
+class · file:line · the mechanism, or input → bad output. A `blocker` or
+`major` without that anchor is written as a `nit`.
+```
+
+The review command takes `model=<name>` and passes it as the Agent call's
+`model`, which outranks the definition — for a branch whose groups need the
+stronger model. The synthesis, the refutation of every `blocker` and
+`major`, and the ledger stay with the session's model.
+
 **Run it in a fresh session.** The session that wrote the code remembers its
 own reasons and tends to confirm them. Everything a review needs from the past
 is in the ledger. When the command runs in a session that edited files in the
 diff, the report says so and recommends a rerun; it does not refuse.
 
 **The commit command hands the review over.** After the last commit of a task,
-or of a round of review fixes, its report ends with the review command ready
-to paste into a fresh session. The command carries:
+or of a round of review fixes, its report ends — through
+`/work-bootstrap:handoff` — with the review command ready to paste into a
+fresh session. The command carries:
 
 - the range `<base>..<head>`, from where the branch left its base branch, or
   from the head the last pass reviewed;
@@ -367,12 +437,19 @@ skill, which carries three things:
   fresh, so nothing is read again on mount; every mutation in flight, not
   the last; a stream before its history has replayed. A fix round that
   closes one state ships the next round's `major` in the state beside it;
-- **the proof handed back** before the commit is asked for: one row per
-  finding — the finding, the test, red with the fix reverted.
+- **a transition table before any edit to state**, a fix or not: state ×
+  event → expected → test, each row's test red with the edit reverted. The
+  states an edit touches are listed before the code, not found by the next
+  review;
+- **the proof handed back** before the commit is asked for, and shown by the
+  commit command: one row per finding, or per transition of a state edit —
+  the test, red with the change reverted.
 
 Observed on a live project: pass 2 found two new `major`s, both in states
 the pass-1 fixes had touched and not enumerated, and both untested — the
-testing skill held the rule already, and nothing loaded it.
+testing skill held the rule already, and nothing loaded it. Later, a fix that
+reworked a hand-over between two screens dropped a guard one transition
+away from the one it fixed; a transition table lists that row.
 
 **A merging command reads the ledger** before the merge: no pass on the
 current head, or `major`+ still open → it says so and merges only on an

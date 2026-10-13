@@ -1,6 +1,7 @@
 ---
 description: What work-estimation can do — commands, the method it applies, and the data format it expects.
 argument-hint: '[<language code>]'
+disable-model-invocation: true
 ---
 
 # /work-estimation:help

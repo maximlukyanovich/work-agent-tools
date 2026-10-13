@@ -56,7 +56,8 @@ Every plugin can introduce itself:
 
 Each prints the plugin's surface: its commands with a line on each, the order
 they are normally applied in, the skills it carries, and what it expects from the
-project. Read-only, safe to run at any time.
+project. Read-only, safe to run at any time. They are for people: hidden from
+the model (`disable-model-invocation`), they cost no context until typed.
 
 Language follows the conversation; pass a language code to override.
 
@@ -142,8 +143,8 @@ in the **plugin name**, and the command name stays short.
 
 | Plugin | Commands |
 | --- | --- |
-| `work-bootstrap` | `/work-bootstrap:setup`, `:audit`, `:help` |
-| `work-jira` | `/work-jira:plan`, `:create`, `:questions`, `:status`, `:comment`, `:help` |
+| `work-bootstrap` | `/work-bootstrap:setup`, `:audit`, `:handoff`, `:help` |
+| `work-jira` | `/work-jira:plan`, `:create`, `:questions`, `:status`, `:comment`, `:next`, `:help` |
 | `work-estimation` | `/work-estimation:project`, `:update`, `:export`, `:help` |
 
 Two levels of filtering fall out of it: typing `work` lists everything shipped
