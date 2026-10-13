@@ -192,3 +192,25 @@ difference; after a commit the `commit-msg` hook refused, it commits the same
 index again with the message fixed instead of staging the next group on top.
 Check: checklist — "The commit command compares the staged paths"; audit §6.
 Applies to: every project with a commit command.
+
+## 2026-10-13 · command-target
+
+What: the commands that commit, review and merge take an optional target — a
+branch or a worktree path, recognised by shape — and run there from the main
+workspace: git calls as `git -C <tree>`, the gate in that tree, shared
+records such as the validated tree in its git directory. A branch checked out
+nowhere is reviewed by its refs, with the gate reported as not run.
+Check: checklist — "The commands that commit, review and merge take a
+target"; audit §6.
+Applies to: projects with a commit, review or merge command.
+
+## 2026-10-13 · next-step-handoff
+
+What: every command ends with its next step as a block ready to paste, one
+per option; at a phase boundary — a task's last commit, a review, before and
+after a merge — through `/work-bootstrap:handoff`, for a fresh session. The
+review ends with the fix-round prompt naming the pass, the ids, the ledger,
+the plan and the target, or with the merge command when it reads ready; the
+merge ends with the start of the next task.
+Check: checklist — "Every command ends with its next step"; audit §5, §6.
+Applies to: every project with commands.

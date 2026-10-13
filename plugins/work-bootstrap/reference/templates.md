@@ -105,6 +105,36 @@ argument-hint: '[<arg>]'
 Read-only unless stated otherwise. No implicit push, merge or issue creation;
 permission applies to the current turn only.
 
+### A command acts on a target, wherever it is checked out
+
+Work in a worktree should not need a second editor window. So the commands
+that commit, review and merge take an optional target — a branch or a
+worktree path — and run there from the main workspace:
+
+- **Recognise it by shape.** An existing directory is a worktree; a name that
+  `git rev-parse --verify` resolves is a branch, and
+  `git worktree list --porcelain` says where it is checked out.
+- **Run there.** Every git call as `git -C <tree>`, the gate as
+  `cd <tree> && <gate>`; a record the commands share, such as a validated
+  tree, goes in that tree's own git directory
+  (`git -C <tree> rev-parse --git-dir`).
+- **A branch checked out nowhere** has no tree for the gate: the review reads
+  it by refs and reports the gate as not run; commit and merge stop and say
+  which worktree to create.
+
+### A command ends with its next step
+
+A report that ends on "done" leaves the next step to memory, and it is
+skipped exactly when the work went well. So every command ends with what
+comes next as a code block ready to paste, one block per option. A next step
+that is an answer in this session — a yes to a commit, a choice of closing
+steps — stays a question, not a block.
+
+At a phase boundary — a task's last commit, a review, before and after a
+merge — the block is for a fresh session and comes from
+`/work-bootstrap:handoff`: the session that did the work is the most
+expensive place for the next phase, and a review must not run there at all.
+
 ### A command that starts a task must offer the opening steps
 
 The status of an issue is the only thing the rest of the team sees of work
@@ -241,7 +271,8 @@ All of these are optional and none is done unasked. The obligation is to
 
 Merge without deleting the source branch, so deletion stays a decision and
 not a flag. An unanswered step is reported as still open, never dropped
-silently.
+silently. After the closing steps, `/work-bootstrap:handoff` prints the start
+of the next task for a fresh session.
 
 ### A command that reviews keeps a pass ledger
 
@@ -309,6 +340,11 @@ update it stays empty.
    pass 3+ with no new commits, when findings grew while the delta is small,
    or when `escalated` plus `fix-critique` exceed half the findings.
 6. **Append the pass.**
+7. **Hand the next step over** through `/work-bootstrap:handoff`. Open
+   findings → a prompt for the fix round naming the pass, the ids, the
+   ledger's path, the plan and the target — never the report: the fix
+   session reads the ledger. Ready → the merge command with the target, and
+   the fix prompt as a second block while minors stay open.
 
 **The rubric additions that repeated passes showed were missing:**
 
@@ -329,8 +365,9 @@ is in the ledger. When the command runs in a session that edited files in the
 diff, the report says so and recommends a rerun; it does not refuse.
 
 **The commit command hands the review over.** After the last commit of a task,
-or of a round of review fixes, its report ends with the review command ready
-to paste into a fresh session. The command carries:
+or of a round of review fixes, its report ends — through
+`/work-bootstrap:handoff` — with the review command ready to paste into a
+fresh session. The command carries:
 
 - the range `<base>..<head>`, from where the branch left its base branch, or
   from the head the last pass reviewed;

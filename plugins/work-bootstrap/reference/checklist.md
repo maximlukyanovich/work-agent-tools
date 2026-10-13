@@ -44,6 +44,13 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
 - [ ] The commit command, after a task's last commit or a round of review
       fixes, ends its report with the review command ready to paste: the
       range, what to skip, one code block per branch.
+- [ ] The commands that commit, review and merge take a target — a branch or
+      a worktree path — and run there: `git -C <tree>`, the gate in that
+      tree.
+- [ ] Every command ends with its next step as a block ready to paste, one
+      per option; at a phase boundary through `/work-bootstrap:handoff`. The
+      review's is the fix-round prompt naming the ledger, or the merge
+      command when it reads ready; the merge's is the next task.
 - [ ] The commit command compares the staged paths with its proposed list
       right before `git commit`, and after a commit the hook refused commits
       the same index again instead of staging the next group on top.
