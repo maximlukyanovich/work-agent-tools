@@ -83,15 +83,11 @@ around it.
    one line: what is assumed, on what basis, the alternative — so the
    developer reviews it rather than accepts it unread. Anything the user or
    the designer would see differently, and any gap in the spec or the
-   design, is a question in the questionnaire, not an assumption.
-
-   **A gap neither the spec nor the design closes is not the developer's to
-   settle alone.** Where an error shows, what a field does after a retry, how
-   a failed attempt reads once redone — the answer belongs to whoever owns the
-   spec and the design. The plan says where it was looked for (which screens,
-   which documents) and lists it as an open question for that person; the
-   developer picks only the placeholder behaviour until the answer comes, and
-   the task report and the design-deviation record mark it as a placeholder.
+   design, is a question in the questionnaire, not an assumption. Such a gap
+   is also an open question for whoever owns the spec or the design, never
+   settled with the developer as final: the plan says where it was looked
+   for, and until the answer the developer picks only placeholder behaviour,
+   marked as a placeholder in the task report.
 
 6. **Ask for approval** through the plan-approval mechanism, not with a
    question in chat. A plan returned with comments is revised and submitted
@@ -121,8 +117,6 @@ around it.
 - Writing the plan in the commit language when the chat is in another one.
 - Writing code "to show the idea" before the plan is approved.
 - Filing a design decision under assumptions, where it gets approved unread.
-- Settling a gap in the spec with the developer as if it were final, so the
-  designer never hears the question.
 - Treating one approval as permission for the whole chain of commits, pushes
   and merge requests.
 - Recording decisions only in chat, so the next session asks them again.
