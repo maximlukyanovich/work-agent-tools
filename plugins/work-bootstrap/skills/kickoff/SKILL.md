@@ -83,7 +83,11 @@ around it.
    one line: what is assumed, on what basis, the alternative — so the
    developer reviews it rather than accepts it unread. Anything the user or
    the designer would see differently, and any gap in the spec or the
-   design, is a question in the questionnaire, not an assumption.
+   design, is a question in the questionnaire, not an assumption. Such a gap
+   is also an open question for whoever owns the spec or the design, never
+   settled with the developer as final: the plan says where it was looked
+   for, and until the answer the developer picks only placeholder behaviour,
+   marked as a placeholder in the task report.
 
 6. **Ask for approval** through the plan-approval mechanism, not with a
    question in chat. A plan returned with comments is revised and submitted
