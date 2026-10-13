@@ -1,6 +1,7 @@
 ---
 description: What work-bootstrap can do — commands, the layer model it applies, and what it creates.
 argument-hint: '[<language code>]'
+disable-model-invocation: true
 ---
 
 # /work-bootstrap:help

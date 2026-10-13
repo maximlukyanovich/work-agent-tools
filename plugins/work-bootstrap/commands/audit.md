@@ -59,8 +59,13 @@ does not raise it again.
    And the other half: when findings are fixed — usually in the working
    session, from a pasted report — does a rule in `AGENTS.md` load the testing
    skill first, and does that skill ask for a reverted-fix test per finding
-   and for every state the fix touches? Without it, each pass's fixes become
-   the next pass's `major`s.
+   and for every state the fix touches, with a transition table before any
+   edit to state that the commit command shows? Without it, each pass's
+   fixes become the next pass's `major`s. Does the review end with the next
+   step — the fix-round prompt that names the ledger, or the merge command —
+   through `/work-bootstrap:handoff`, rather than a report to paste back?
+   Do review groups go to `.claude/agents/review-group.md` on a cheaper
+   model, with `model=` to override it and refutation left to the session?
 
 6. **Where the gate runs.** Does the push command run the gate for a tree the
    commit command did not validate? Is a git hook running the whole gate —
@@ -69,7 +74,9 @@ does not raise it again.
    the hook passes. Does the commit command compare the index with its
    proposed list right before committing? A commit the `commit-msg` hook
    refused keeps its paths staged, and without the check the next commit
-   carries them in.
+   carries them in. Do commit, review and merge take a target — a branch or
+   a worktree path — and run their git calls and the gate in that tree?
+   Does every command end with its next step as a block ready to paste?
 
 7. **Gaps.** Layers from the model that are absent. Absence is allowed — but it
    must be deliberate and written down, with the conditions that would fill it.
@@ -81,7 +88,9 @@ does not raise it again.
    invisible precisely because the code shipped.
    The mirror check: does the command that starts a task offer the opening
    steps — the in-progress transition, the assignee, the parent's status —
-   when a tracker is reachable, and load `kickoff` before it asks? Does it
+   when a tracker is reachable, and load `kickoff` before it asks — and does
+   its plan carry the state table, the framework pointers and the structural
+   line? Does it
    take a `worktree` argument and offer one when a live `git status` finds
    the tree busy — does its setup generate the ignored framework types and
    give the dev server and the end-to-end run their own port — and does the

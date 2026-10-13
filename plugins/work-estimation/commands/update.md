@@ -28,6 +28,9 @@ returned, a task added.
 6. **Regenerate the report** and state the delta plainly: what was, what is,
    which lines moved and why.
 
+7. **End with the next step**: `/work-estimation:export <data module>` as a
+   block ready to paste.
+
 ## Scripts are run, not read
 
 The data module format is documented in `${CLAUDE_PLUGIN_ROOT}/reference/data-format.md`.

@@ -13,7 +13,8 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       opening steps — in-progress transition, assignee, parent status — as one
       question carrying the current state, and loads `kickoff` before asking;
       with `work-jira`, it also names the issue's open questions from the
-      waiting list.
+      waiting list. Its plan carries `kickoff`'s state table, framework
+      pointers and structural line.
 - [ ] The command that starts a task takes an optional `worktree` argument
       and offers one when a live `git status` finds the tree busy: beside the
       repository, with the ignored files the work reads linked in, generated
@@ -42,15 +43,29 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       `fix-critique`, opens every report with the same block — trajectory,
       a blocker / major / minor / nit table with zeros, the verdict — and
       recommends a fresh session.
+- [ ] Review groups above the delegation threshold go to
+      `.claude/agents/review-group.md` (`model: sonnet`, read-only tools,
+      findings only), un-ignored in `.gitignore`; the review command passes
+      `model=<name>` as the Agent call's model; synthesis and refutation
+      stay with the session.
 - [ ] The commit command, after a task's last commit or a round of review
       fixes, ends its report with the review command ready to paste: the
       range, what to skip, one code block per branch.
+- [ ] The commands that commit, review and merge take a target — a branch or
+      a worktree path — and run there: `git -C <tree>`, the gate in that
+      tree.
+- [ ] Every command ends with its next step as a block ready to paste, one
+      per option; at a phase boundary through `/work-bootstrap:handoff`. The
+      review's is the fix-round prompt naming the ledger, or the merge
+      command when it reads ready; the merge's is the next task.
 - [ ] The commit command compares the staged paths with its proposed list
       right before `git commit`, and after a commit the hook refused commits
       the same index again instead of staging the next group on top.
 - [ ] Fixing review findings is a rule in `AGENTS.md` that loads the testing
       skill, and that skill asks for a reverted-fix test per finding, every
-      state the fix touches, and a finding → test table before the commit.
+      state the fix touches, a transition table before any edit to state,
+      and a finding or transition → test table that the commit command shows
+      before it asks.
 - [ ] A fresh checkout installs: with pnpm 11, `allowBuilds` lists every
       dependency build script with its reason, `AGENTS.md` §2 says a new one
       needs an entry, and `pnpm install --frozen-lockfile` passes.

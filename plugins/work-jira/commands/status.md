@@ -22,10 +22,11 @@ moved, no comment posted.
    reviewed, deployed to the test environment, verified by QA, are blocking
    defects retested. Say which of these the agent cannot know.
 
-5. **Check the waiting list** (`issues` skill, "Questions waiting for an
-   answer"): read the thread of each open line for this issue — one call
-   each, closed lines skipped. A question still unanswered that a criterion depends on makes that
-   criterion unverifiable, whatever the code says.
+5. **Check the waiting list**
+   (`${CLAUDE_PLUGIN_ROOT}/reference/questions-and-decisions.md`): read
+   the thread of each open line for this issue — one call each, closed lines
+   skipped. A question still unanswered that a criterion depends on makes
+   that criterion unverifiable, whatever the code says.
 
 6. **Report a verdict per criterion** — met, not met, unverifiable — then the
    single line that matters: done, or what remains.
