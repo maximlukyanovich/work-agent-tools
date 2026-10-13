@@ -257,3 +257,35 @@ the owner decides, the review applies nothing.
 Check: checklist — "A review command, if there is one, keeps a pass ledger";
 audit §5.
 Applies to: projects with a review command.
+
+## 2026-10-13 · generator-block
+
+What: a block a generator owns in `AGENTS.md` or `CLAUDE.md` stays intact
+between its markers, and the harness is written around it. Next.js writes
+`nextjs-agent-rules`; removed, it is appended again by `next dev` run by an
+agent, and the tree is dirty from then on.
+Check: checklist — "A block a generator owns in `AGENTS.md` or `CLAUDE.md` is
+intact"; audit §1.
+Applies to: projects whose framework manages such a block — Next.js where
+`node_modules/next/dist/server/lib/generate-agent-files.js` exists.
+
+## 2026-10-13 · plugin-set
+
+What: the `mluk-work-agent-tools` plugins a project uses are recorded in the
+project — `enabledPlugins` in `.claude/settings.json`, or in
+`settings.local.json` when the project's rules keep AI settings out of git —
+through `claude plugin install <plugin>@mluk-work-agent-tools --scope project`
+(or `local`). A plugin installed for one user only is missing for everyone
+else; one installed at user scope loads into every project on that machine.
+Check: checklist — "The plugin set is recorded where Q10 put it".
+Applies to: projects that use any `mluk-work-agent-tools` plugin.
+
+## 2026-10-13 · typegen-type-check
+
+What: in a Next.js project whose code uses the generated route types —
+`LayoutProps`, `PageProps`, `RouteContext` — the type-check script runs
+`next typegen` before `tsc --noEmit`. Those types exist only after type
+generation and `next-env.d.ts` is ignored, so `tsc` alone fails on a clean
+checkout and in a fresh worktree.
+Check: checklist — "A fresh checkout installs"; audit §12.
+Applies to: Next.js projects that use the generated route types.

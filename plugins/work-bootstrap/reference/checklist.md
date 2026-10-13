@@ -5,6 +5,8 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
 - [ ] `AGENTS.md` exists, covers the seven sections, and does not contradict the
       code.
 - [ ] `CLAUDE.md` imports it and duplicates not a single line of it.
+- [ ] A block a generator owns in `AGENTS.md` or `CLAUDE.md` is intact,
+      between its markers.
 - [ ] Skills: real directories under `.claude/skills/`, working symlinks in
       `.agents/skills/`, each with a precise `description`.
 - [ ] Commands: only the ones actually needed, each with frontmatter and a hard-
@@ -69,7 +71,8 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       before it asks.
 - [ ] A fresh checkout installs: with pnpm 11, `allowBuilds` lists every
       dependency build script with its reason, `AGENTS.md` §2 says a new one
-      needs an entry, and `pnpm install --frozen-lockfile` passes.
+      needs an entry, and `pnpm install --frozen-lockfile` passes — and so
+      does the type-check, there, with no generated types left over.
 - [ ] Once deployed anywhere: the root README has a Deployment section —
       production commands from a frozen install, pinned versions, every
       variable the build and the start need — proven on a fresh checkout.
@@ -80,6 +83,8 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
 - [ ] `.claude/README.md` is a map with links; the command index is in
       `.claude/COMMANDS.md`; nothing inside `commands/` is not a command.
 - [ ] `.claude/project-profile.md` exists if any shared plugin is installed.
+- [ ] The plugin set is recorded where Q10 put it — `enabledPlugins` in
+      `.claude/settings.json` or `settings.local.json`.
 - [ ] With Jira, the profile's `## Tracker` says how a processed answer is
       acknowledged — a reaction, or ask each time.
 - [ ] No harness file contains a secret, an absolute path, or a person's name.

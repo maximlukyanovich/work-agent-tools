@@ -8,7 +8,7 @@ argument-hint: '[<language>]'
 Create the agent harness for this repository. Stack-agnostic.
 
 **Writes files.** Nothing is created before the plan is approved, and nothing is
-committed at all.
+committed — apart from rewording the first commit, on a yes (step 4).
 
 ## Steps
 
@@ -20,8 +20,13 @@ The order is fixed. Steps are not reordered or skipped.
    files. Branches, remotes, commit style, git hooks. Documentation and local
    notes. Integrations: MCP examples, environment templates.
 
-   Decide the mode from what you found: nothing or fragments → set up; a harness
-   already there → say so and offer `/work-bootstrap:audit` instead.
+   Decide the mode from what you found: no manifest and nothing but tool
+   configuration → offer `/work-bootstrap:new`, which creates the project
+   first; nothing or fragments → set up — an `AGENTS.md` or `CLAUDE.md` that
+   holds only a generator's block is a fragment; a harness already there →
+   say so and offer `/work-bootstrap:audit` instead. A stack with a recipe in
+   `${CLAUDE_PLUGIN_ROOT}/reference/scaffold/` — read its "For the harness"
+   section.
 
 2. **Ask what the code cannot answer.** One or two batches, never one question
    per turn, every question with an explicit default. The list is in
@@ -45,6 +50,13 @@ The order is fixed. Steps are not reordered or skipped.
    last entry in `${CLAUDE_PLUGIN_ROOT}/CHANGES.md`: the harness was built
    to the method as it stands, and `/work-bootstrap:audit` later checks only
    what changed after it.
+
+   The plugin set goes where Q10 put it:
+   `claude plugin install <plugin>@mluk-work-agent-tools --scope project` — or
+   `local` — for each, from the repository root. When Q7 settled a format
+   the repository's only commit does not follow, and that commit is not
+   pushed, offer to reword it: `git commit --amend --only -m "<message>"`, on
+   a yes.
 
 5. **Run the final check** from `${CLAUDE_PLUGIN_ROOT}/reference/checklist.md`
    and report what is green and what is not.

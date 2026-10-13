@@ -54,6 +54,10 @@ out speculative.
 
 **Q10. External access.** Which MCP servers and CLIs exist or are needed: library
 docs, tracker, design, browser. Whether there are tokens and where they live.
+Which `mluk-work-agent-tools` plugins the project uses, and where the set is
+recorded: `.claude/settings.json` by default — every clone gets the same
+tooling — or `settings.local.json` when the project's rules keep AI settings
+out of git.
 
 **Q11. Local notes.** Does the developer keep local material — specs, excerpts,
 estimates, plans — and where should it live. Default `docs/local/`, fully
