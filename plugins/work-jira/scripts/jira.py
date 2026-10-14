@@ -218,9 +218,16 @@ def create(project, issue_type, summary, description=None, labels=None, parent=N
     return r["key"]
 
 
-def set_estimate(key, estimate):
-    """Original Estimate needs its own request: the field is absent from the create screen."""
-    call("PUT", f"/rest/api/3/issue/{key}", {"fields": {"timetracking": {"originalEstimate": estimate}}})
+def set_estimate(key, estimate, remaining=None):
+    """Original Estimate needs its own request: the field is absent from the create screen.
+
+    Jira copies Original into Remaining only while Remaining is empty. On an issue that
+    already has an estimate, Remaining stays where it was — pass `remaining` whenever an
+    estimate is cut, carved or cancelled, or the issue shows hours nothing backs."""
+    timetracking = {"originalEstimate": estimate}
+    if remaining is not None:
+        timetracking["remainingEstimate"] = remaining
+    call("PUT", f"/rest/api/3/issue/{key}", {"fields": {"timetracking": timetracking}})
 
 
 def set_release(key, fix_version=None, priority=None):

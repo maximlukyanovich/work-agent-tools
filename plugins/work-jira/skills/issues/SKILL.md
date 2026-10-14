@@ -188,6 +188,16 @@ section rather than leaving the reader to wonder.
 `Original Estimate` is set by a **second request**: the field is absent from the
 create screen.
 
+**Re-estimating moves Remaining too.** Jira fills `Remaining Estimate` from
+`Original Estimate` only while Remaining is empty; once set, an edit to the
+original leaves it alone. An estimate cut, carved or cancelled to 0 then keeps
+showing the old hours as work left — set both in the same request
+(`set_estimate(key, new, remaining=…)`). With nothing logged, Remaining equals
+the new original. With time logged it drops by the amount the estimate lost, but
+what Remaining means past that is the project's decision, recorded in the
+profile: some teams keep the leftover as a visible reserve and never zero it,
+so a drop that would reach zero is asked, not made.
+
 **The pessimistic estimate is the ceiling.** Time over the optimistic estimate
 needs concrete functionality the estimate did not contain, named in the result
 comment; work bounced back from testing is the extreme case, not a budget line.
@@ -204,8 +214,8 @@ becomes its own issue with a small budget taken from the original: the
 original's estimate (both scenarios) goes down by it, so the parent's total does
 not grow. The new issue is linked to the original with `Issue split`
 (`split_from` in a batch node) — the original `split to` the new one — and
-to its cause with `is blocked by`. Show the numbers — original estimate, time logged, new estimate,
-carved budget — before changing anything.
+to its cause with `is blocked by`. Show the numbers — original estimate, time logged, new estimate, new
+remaining, carved budget — before changing anything.
 
 ## Labels
 
