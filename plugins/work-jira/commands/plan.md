@@ -22,6 +22,16 @@ call — ask which part of the estimate to plan, listing what is available.
    both scenarios, risks, the provenance of each line. From the spec and design
    if there is not — and say so, because an estimate-less plan carries no hours.
 
+   **Recommended: match the lines against the tracker first.** Search the
+   existing issues by each line's name, and the other technology's descriptions
+   for the line's name — a backend issue often names "the frontend line X" in
+   its scope or out of scope, which is how a pair is found that the summary
+   does not reveal. An issue that already does a line's work under another name
+   — an earlier, narrower estimate cut the same work differently — is edited to
+   carry the line instead of being duplicated; a part carved out of a line
+   (`Issue split`) already holds some of its budget. Skip this when the scope
+   has no issues yet.
+
 3. **Derive the tree** by the hierarchy rules. For each node: type, summary,
    parent, label, estimate, which technologies it needs, and which issues it
    references — existing keys, or summaries from this tree — since every
@@ -50,7 +60,7 @@ call — ask which part of the estimate to plan, listing what is available.
    ```
 
    Follow it with: the total, how many issues, which are pending a backend
-   estimate, the links each issue will get — the `Blocks` ones as sentences —
+   estimate, which existing issues the plan edits and how, the links each issue will get — the `Blocks` ones as sentences —
    and anything the estimate flagged as a risk on these lines.
 
 7. **Ask three questions**, each with a recommended answer: is the tree right,
