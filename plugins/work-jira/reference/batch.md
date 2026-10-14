@@ -9,7 +9,7 @@ notes and runs it; the script is the record of what was created and how.
 | Field | Meaning |
 | --- | --- |
 | `type` | `Epic`, `Story`, `Task`, `Sub-task`, `Bug` — a name from the project's `createmeta` |
-| `summary` | Unique in the project. It is the idempotency key: an existing summary is never created twice |
+| `summary` | Unique in the project. It is the idempotency key: an existing summary is never created twice. An existing issue counts as this node only when its type, parent and the node's labels match; otherwise it is another issue under the same name — the dry run prints `CLASH`, a real run stops before the first write, and the node needs another summary |
 | `parent` | The summary of a node earlier in the list, or the key of an existing issue. Absent on an epic |
 | `labels` | From the instance, never invented |
 | `estimate` | `15h`, `6h 30m` — what `Original Estimate` holds. Absent when the hours are unknown, and **absent on an epic**: Jira sums the children |
