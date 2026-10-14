@@ -52,7 +52,8 @@ prints what would be created and exits.
 6. **Run dry, then confirm.** `--dry-run` shows what would be created, which
    summaries already exist and are skipped, and the totals. Each line carries
    the version and the priority — `NO VERSION` or `NO PRIORITY` on a line is a
-   gap to close before the yes. Check every printed `Blocks` sentence against
+   gap to close before the yes, and so is a `CLASH` line: the summary belongs to
+   another issue, and the node needs a name of its own. Check every printed `Blocks` sentence against
    the skill's `Links` rule. Show the count, the total hours, the assignee and
    the dependency sentences, and wait for a yes.
 

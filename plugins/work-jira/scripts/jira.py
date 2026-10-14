@@ -543,6 +543,36 @@ def jira_hours(hours):
 _ASSIGNABLE = {"Task", "Sub-task", "Bug"}
 
 
+def _clashes(nodes, existing):
+    """Nodes whose summary is already held by an issue that is not this node.
+
+    The summary is the idempotency key: a match is read as "created by an earlier run" and
+    skipped. That holds only when the issue looks like the node — same type, same parent,
+    the node's labels on it. Otherwise it is another issue, such as a backend sub-task with
+    the same name under the same story, and skipping would drop the node silently and point
+    every [[@summary]] and `blocked_by` at the wrong issue.
+    """
+    found = []
+    for n in nodes:
+        key = existing.get(n["summary"])
+        if not key:
+            continue
+        f = call("GET", f"/rest/api/3/issue/{key}?fields=issuetype,parent,labels")["fields"]
+        parent = n.get("parent")
+        want_parent = existing.get(parent, parent) if parent else None
+        has_parent = (f.get("parent") or {}).get("key")
+        differs = []
+        if f["issuetype"]["name"] != n["type"]:
+            differs.append(f"type {f['issuetype']['name']}")
+        if has_parent != want_parent:
+            differs.append(f"parent {has_parent or 'none'}")
+        if set(n.get("labels") or []) - set(f.get("labels") or []):
+            differs.append(f"labels {', '.join(f.get('labels') or []) or 'none'}")
+        if differs:
+            found.append(f"{n['summary']!r} is {key} ({'; '.join(differs)})")
+    return found
+
+
 def batch(project, nodes, dry_run=False, assignee=None, link_type="Relates", rewrite=False,
           fix_version=None, log=print):
     """Creates a tree of issues in three passes; returns summary -> key for the batch.
@@ -571,6 +601,11 @@ def batch(project, nodes, dry_run=False, assignee=None, link_type="Relates", rew
     """
     existing = index(project)
     created, first_render = {}, {}
+    clashes = _clashes(nodes, existing)
+    for line in clashes:
+        log(f"{'CLASH':8} {line}")
+    if clashes and not dry_run:
+        raise ValueError("summaries held by other issues, rename the nodes: " + "; ".join(clashes))
 
     for n in nodes:
         if n["type"] == "Epic" and n.get("estimate"):
