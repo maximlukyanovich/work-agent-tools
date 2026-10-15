@@ -71,9 +71,11 @@ around it.
    the files each touches, assumptions, open questions, and verification —
    how the result is proven. Three more where they apply, and nothing beyond
    them: **a state table** for work that changes state — state × event →
-   expected → the test that proves it; **the framework behaviour the plan
-   rests on**, with file:line, read before the plan rather than recalled;
-   **one line on the structural option** and why the plan does not take it.
+   expected → the test that proves it, the frame's events among them
+   (closed, opened again, remounted while a call is in flight); **the
+   framework behaviour the plan rests on**, with file:line, read before the
+   plan rather than recalled; **one line on the structural option** and why
+   the plan does not take it.
    **The plan is written in the language of the chat**: the developer reads
    it in the approval dialog. Identifiers and paths stay as they are;
    committed text — commits, MR bodies, code comments — keeps the

@@ -328,3 +328,12 @@ written at the commit is for the step after the review and its fixes, and
 says so.
 Check: checklist — "The commit command, after a task's last commit"; audit §5.
 Applies to: projects whose commit command hands the review over.
+
+## 2026-10-15 · state-table-frame-events
+
+What: the testing skill's transition table gives the frame around the state
+its own rows — closed, opened again, asked to open while open, remounted —
+each while a call is still in flight, saying where that call's outcome lands;
+a reset by remount (a new `key`) discards it.
+Check: checklist — "Fixing review findings"; audit §5.
+Applies to: every project with a testing skill.

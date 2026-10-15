@@ -62,7 +62,8 @@ does not raise it again.
    session, from a pasted report — does a rule in `AGENTS.md` load the testing
    skill first, and does that skill ask for a reverted-fix test per finding
    and for every state the fix touches, with a transition table before any
-   edit to state that the commit command shows? Without it, each pass's
+   edit to state — rows for the frame closed, reopened or remounted while a
+   call is in flight among them — that the commit command shows? Without it, each pass's
    fixes become the next pass's `major`s. Does the review end with the next
    step — the fix-round prompt that names the ledger, or the merge command —
    through `/work-bootstrap:handoff`, rather than a report to paste back?
