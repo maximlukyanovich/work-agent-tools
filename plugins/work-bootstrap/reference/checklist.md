@@ -70,9 +70,10 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       the same index again instead of staging the next group on top.
 - [ ] Fixing review findings is a rule in `AGENTS.md` that loads the testing
       skill, and that skill asks for a reverted-fix test per finding, every
-      state the fix touches, a transition table before any edit to state,
-      and a finding or transition → test table that the commit command shows
-      before it asks.
+      state the fix touches, a transition table before any edit to state —
+      with rows for the frame closed, reopened or remounted while a call is
+      in flight — and a finding or transition → test table that the commit
+      command shows before it asks.
 - [ ] A fresh checkout installs: with pnpm 11, `allowBuilds` lists every
       dependency build script with its reason, `AGENTS.md` §2 says a new one
       needs an entry, and `pnpm install --frozen-lockfile` passes — and so

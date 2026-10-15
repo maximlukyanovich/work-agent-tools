@@ -470,7 +470,10 @@ skill, which carries three things:
 - **a transition table before any edit to state**, a fix or not: state ×
   event → expected → test, each row's test red with the edit reverted. The
   states an edit touches are listed before the code, not found by the next
-  review;
+  review. The frame around the state has events too — closed, opened again,
+  asked to open while open, remounted — and each gets a row while a call is
+  still in flight, saying where that call's outcome lands. A reset by
+  remount (a new `key`) throws away whatever the call would still deliver;
 - **the proof handed back** before the commit is asked for, and shown by the
   commit command: one row per finding, or per transition of a state edit —
   the test, red with the change reverted.
@@ -479,7 +482,10 @@ Observed on a live project: pass 2 found two new `major`s, both in states
 the pass-1 fixes had touched and not enumerated, and both untested — the
 testing skill held the rule already, and nothing loaded it. Later, a fix that
 reworked a hand-over between two screens dropped a guard one transition
-away from the one it fixed; a transition table lists that row.
+away from the one it fixed; a transition table lists that row. And a dialog
+reset by remount on every opening lost a sign-in finishing behind a close:
+the outcome reached an unmounted component, and the reopened card showed its
+first step to a user the service had just signed in.
 
 **A merging command reads the ledger** before the merge: no pass on the
 current head, or `major`+ still open → it says so and merges only on an
