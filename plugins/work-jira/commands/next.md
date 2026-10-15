@@ -56,6 +56,11 @@ can reach only one of them says so and ranks on what it has.
    - **Signals from the board** — `Selected for Development` outranks
      `Backlog`; an issue already `In Progress` with nothing left is
      housekeeping, not work.
+   - **Nothing left is read from the issue, not from its status.** Open its
+     acceptance criteria and its `is blocked by` links: every criterion
+     delivered makes it housekeeping; criteria still open on other work make
+     it Blocked, with what each one waits on. A merged branch or a review
+     that read ready closes only the criteria it delivered.
 
 5. **Rank the unblocked candidates**: first the roadmap order, then the number
    of issues each one unblocks, then the smaller estimate. When two are equal,

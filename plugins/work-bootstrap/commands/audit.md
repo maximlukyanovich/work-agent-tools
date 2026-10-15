@@ -66,8 +66,14 @@ does not raise it again.
    fixes become the next pass's `major`s. Does the review end with the next
    step — the fix-round prompt that names the ledger, or the merge command —
    through `/work-bootstrap:handoff`, rather than a report to paste back?
-   Do review groups go to `.claude/agents/review-group.md` on a cheaper
-   model, with `model=` to override it and refutation left to the session?
+   Does a ready verdict read the plan and the task's notes before the merge
+   command, and print "continue the task" while work is left? Does the
+   review command say that no new work lands on a branch while its fix round
+   is open, and does the commit command hand over the review alone, leaving
+   what follows to the review?
+   Do review groups go to `.claude/agents/review-group.md` with
+   `model: inherit` — not pinned to a cheaper model — with `model=` to
+   override it and refutation left to the session?
 
 6. **Where the gate runs.** Does the push command run the gate for a tree the
    commit command did not validate? Is a git hook running the whole gate —

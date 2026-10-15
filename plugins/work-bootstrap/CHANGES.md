@@ -289,3 +289,42 @@ generation and `next-env.d.ts` is ignored, so `tsc` alone fails on a clean
 checkout and in a fresh worktree.
 Check: checklist — "A fresh checkout installs"; audit §12.
 Applies to: Next.js projects that use the generated route types.
+
+## 2026-10-14 · review-group-inherit-model
+
+What: `.claude/agents/review-group.md` carries `model: inherit` instead of
+`model: sonnet`, so review groups run on the model the developer chose for
+the review session. The session's refutation removes false findings but
+never recovers a missed one, and above the delegation threshold the groups
+are where the diff is read. `model=<name>` still overrides it for one run.
+Check: checklist — "Review groups above the delegation threshold"; audit §5.
+Applies to: projects that carry `review-group-agent`.
+
+## 2026-10-15 · ready-closes-range
+
+What: a review that reads ready closes the range it read, not the task.
+Before the merge command, the review command reads the plan and the task's
+notes in the personal space; work the branch has not done yet makes the next
+step "continue the task" — `Read <NEXT.md> and continue`, or the plan's next
+step — and the merge waits. A review after the task's last commit goes to the
+merge as before.
+Check: checklist — "Every command ends with its next step"; audit §5.
+Applies to: projects with a review command.
+
+## 2026-10-15 · review-frozen-range
+
+What: the review command says, next to "run it in a fresh session", that
+while the branch's findings have a fix round open no new work lands on it —
+the fixes, the repeat review, then the plan goes on. One tree, one writer.
+Check: checklist — "A review command, if there is one, keeps a pass ledger";
+audit §5.
+Applies to: projects with a review command.
+
+## 2026-10-15 · review-prints-what-follows
+
+What: the commit command hands over the review command alone. The fix-round
+prompt or the merge command is the review's to print at its end; a `NEXT.md`
+written at the commit is for the step after the review and its fixes, and
+says so.
+Check: checklist — "The commit command, after a task's last commit"; audit §5.
+Applies to: projects whose commit command hands the review over.

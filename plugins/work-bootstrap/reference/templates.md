@@ -365,8 +365,14 @@ update it stays empty.
 7. **Hand the next step over** through `/work-bootstrap:handoff`. Open
    findings → a prompt for the fix round naming the pass, the ids, the
    ledger's path, the plan and the target — never the report: the fix
-   session reads the ledger. Ready → the merge command with the target, and
-   the fix prompt as a second block while minors stay open.
+   session reads the ledger. Ready closes the range, not the task: first read
+   the plan and the task's notes — work the branch has not done yet makes the
+   block "continue the task" (`Read <NEXT.md> and continue`, or the plan's
+   next step), and the merge waits. The task done → the merge command with
+   the target, and the fix prompt as a second block while minors stay open.
+   Observed on a live project: a clean repeat pass in the middle of a task
+   would have printed the merge command with two slices and the live check
+   still ahead.
 
 **The rubric additions that repeated passes showed were missing:**
 
@@ -381,16 +387,18 @@ update it stays empty.
   them, each with a test that fails when the fix is reverted — a fix for one
   site of a race routinely leaves its twin.
 
-**Review groups run on a cheaper model.** Above the delegation threshold the
-groups are most of a review's cost, and their job — one file group against a
-rubric they are given — does not need the strongest model. So they go to a
-project agent, `.claude/agents/review-group.md`:
+**Review groups run on the session's model.** Above the delegation threshold
+the groups are where the diff is actually read, and the session's refutation
+removes false findings but never recovers a missed one — so a group on a
+weaker model costs exactly the defects a large diff is reviewed for. The
+groups go to a project agent, `.claude/agents/review-group.md`, which
+inherits the model the developer chose for the review session:
 
 ```markdown
 ---
 name: review-group
 description: Reviews one file group of a diff against the rubric in its prompt and returns anchored findings. Used by the review command; not for a whole review.
-model: sonnet
+model: inherit
 tools: Read, Grep, Glob, Bash
 ---
 
@@ -402,14 +410,19 @@ class · file:line · the mechanism, or input → bad output. A `blocker` or
 ```
 
 The review command takes `model=<name>` and passes it as the Agent call's
-`model`, which outranks the definition — for a branch whose groups need the
-stronger model. The synthesis, the refutation of every `blocker` and
-`major`, and the ledger stay with the session's model.
+`model`, which outranks the definition — a one-off choice for a single run.
+`inherit` is written out rather than left implicit: an omitted `model` falls
+back to a default subagent model when one is configured. The synthesis, the
+refutation of every `blocker` and `major`, and the ledger stay with the
+session.
 
 **Run it in a fresh session.** The session that wrote the code remembers its
 own reasons and tends to confirm them. Everything a review needs from the past
 is in the ledger. When the command runs in a session that edited files in the
-diff, the report says so and recommends a rerun; it does not refuse.
+diff, the report says so and recommends a rerun; it does not refuse. And on a
+frozen range: while the branch's findings have a fix round open, no new work
+lands on it — the fixes, the repeat review, then the plan goes on. One tree,
+one writer.
 
 **The commit command hands the review over.** After the last commit of a task,
 or of a round of review fixes, its report ends — through
@@ -419,7 +432,10 @@ fresh session. The command carries:
 - the range `<base>..<head>`, from where the branch left its base branch, or
   from the head the last pass reviewed;
 - what to skip — merge commits, other people's commits;
-- one code block per branch.
+- one code block per branch;
+- no prompt for what follows the review: the fix round or the merge is the
+  review's to print at its end. A `NEXT.md` written now is for the step after
+  the review and its fixes, and says so.
 
 Left to the agent's memory, this step is skipped precisely when a task ends
 well. Observed on a live project: a finished task was reported done with

@@ -44,23 +44,27 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       reconciling, tags findings `new` / `missed` / `escalated` /
       `fix-critique`, opens every report with the same block — trajectory,
       a blocker / major / minor / nit table with zeros, the verdict — and
-      recommends a fresh session. A finding whose mechanism a ledger already
-      holds ends the report with a proposal to move it upstream.
+      recommends a fresh session; while its findings have a fix round open,
+      no new work lands on the branch. A finding whose mechanism a ledger
+      already holds ends the report with a proposal to move it upstream.
 - [ ] Review groups above the delegation threshold go to
-      `.claude/agents/review-group.md` (`model: sonnet`, read-only tools,
+      `.claude/agents/review-group.md` (`model: inherit`, read-only tools,
       findings only), un-ignored in `.gitignore`; the review command passes
       `model=<name>` as the Agent call's model; synthesis and refutation
       stay with the session.
 - [ ] The commit command, after a task's last commit or a round of review
       fixes, ends its report with the review command ready to paste: the
-      range, what to skip, one code block per branch.
+      range, what to skip, one code block per branch — and no prompt for
+      what follows the review, which the review prints itself.
 - [ ] The commands that commit, review and merge take a target — a branch or
       a worktree path — and run there: `git -C <tree>`, the gate in that
       tree.
 - [ ] Every command ends with its next step as a block ready to paste, one
       per option; at a phase boundary through `/work-bootstrap:handoff`. The
-      review's is the fix-round prompt naming the ledger, or the merge
-      command when it reads ready; the merge's is the next task.
+      review's is the fix-round prompt naming the ledger, or, when it reads
+      ready, the merge command — once the plan and the task's notes show no
+      work left, and "continue the task" while they do; the merge's is the
+      next task.
 - [ ] The commit command compares the staged paths with its proposed list
       right before `git commit`, and after a commit the hook refused commits
       the same index again instead of staging the next group on top.

@@ -34,12 +34,25 @@ the context this session holds.
 
    | Boundary | Fresh session | `/compact` here |
    |---|---|---|
-   | a task's last commit, or a fix round's | the review command with its range, flags and what to skip | no — a review runs fresh |
+   | a task's last commit, or a fix round's | the review command with its range, flags and what to skip — and no prompt for what follows it | no — a review runs fresh |
    | a review with open findings | "Fix the open findings of pass N from `<ledger>` (R…). Plan — `<path>`. Target — `<branch or worktree>`." | no |
-   | a review that reads ready | the merge command with the target; with minors still open, the fix prompt as a second block | no |
+   | a review that reads ready | the task done: the merge command with the target; with minors still open, the fix prompt as a second block. Work left in the plan: "continue the task" | no |
    | before promoting | the merge command with the target | no |
    | after a merge | the start of the next task — `/work-jira:next` or the project's start command; findings the ledger still holds open are named, to fix or to defer | no |
-   | the next slice of a long phase | the goal, what is done, where the decisions are, the next step | `/compact <focus>`, then go on |
+   | the next slice of a long phase | the goal, what is done, where the decisions are, the next step; findings the ledger holds open come before the slice | `/compact <focus>`, then go on |
+
+   **Ready closes the range, not the task.** A verdict speaks for the commits
+   the review read. Before the merge command, read the plan and the task's
+   notes: work the branch has not done yet — a slice, a live check — makes
+   the block "continue the task" (`Read <path>/NEXT.md and continue`, or the
+   plan's next step), and the merge waits for the task's end. A review after
+   the task's last commit, the usual case, goes to the merge as before.
+
+   **The review prints what follows it.** When the next step is a review,
+   the block is the review command. It may name what comes after, but the
+   fix-round prompt or the merge command is the review's to print at its
+   end, and the task's notes do not argue with it: a `NEXT.md` written now
+   is for the step after the chain of review and fixes, and says so.
 
 4. **Print one code block per option**, ready to paste, in the chat's
    language; identifiers, paths and commands verbatim. A prompt longer than
@@ -57,4 +70,7 @@ the context this session holds.
 - **Never before a commit.**
 - **A review always gets a fresh session.** The session that wrote the code
   confirms its own reasons; `/compact` does not make it forget them.
+- **A review freezes its range.** While the branch's findings have a fix
+  round open, no new work lands on it — the fixes, the repeat review, then
+  the plan goes on. One tree, one writer.
 - **Pointers, never a summary** of a report, a plan or a ledger.
