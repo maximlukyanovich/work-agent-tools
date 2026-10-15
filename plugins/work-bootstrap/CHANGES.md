@@ -289,3 +289,13 @@ generation and `next-env.d.ts` is ignored, so `tsc` alone fails on a clean
 checkout and in a fresh worktree.
 Check: checklist — "A fresh checkout installs"; audit §12.
 Applies to: Next.js projects that use the generated route types.
+
+## 2026-10-14 · review-group-inherit-model
+
+What: `.claude/agents/review-group.md` carries `model: inherit` instead of
+`model: sonnet`, so review groups run on the model the developer chose for
+the review session. The session's refutation removes false findings but
+never recovers a missed one, and above the delegation threshold the groups
+are where the diff is read. `model=<name>` still overrides it for one run.
+Check: checklist — "Review groups above the delegation threshold"; audit §5.
+Applies to: projects that carry `review-group-agent`.

@@ -381,16 +381,18 @@ update it stays empty.
   them, each with a test that fails when the fix is reverted — a fix for one
   site of a race routinely leaves its twin.
 
-**Review groups run on a cheaper model.** Above the delegation threshold the
-groups are most of a review's cost, and their job — one file group against a
-rubric they are given — does not need the strongest model. So they go to a
-project agent, `.claude/agents/review-group.md`:
+**Review groups run on the session's model.** Above the delegation threshold
+the groups are where the diff is actually read, and the session's refutation
+removes false findings but never recovers a missed one — so a group on a
+weaker model costs exactly the defects a large diff is reviewed for. The
+groups go to a project agent, `.claude/agents/review-group.md`, which
+inherits the model the developer chose for the review session:
 
 ```markdown
 ---
 name: review-group
 description: Reviews one file group of a diff against the rubric in its prompt and returns anchored findings. Used by the review command; not for a whole review.
-model: sonnet
+model: inherit
 tools: Read, Grep, Glob, Bash
 ---
 
@@ -402,9 +404,11 @@ class · file:line · the mechanism, or input → bad output. A `blocker` or
 ```
 
 The review command takes `model=<name>` and passes it as the Agent call's
-`model`, which outranks the definition — for a branch whose groups need the
-stronger model. The synthesis, the refutation of every `blocker` and
-`major`, and the ledger stay with the session's model.
+`model`, which outranks the definition — a one-off choice for a single run.
+`inherit` is written out rather than left implicit: an omitted `model` falls
+back to a default subagent model when one is configured. The synthesis, the
+refutation of every `blocker` and `major`, and the ledger stay with the
+session.
 
 **Run it in a fresh session.** The session that wrote the code remembers its
 own reasons and tends to confirm them. Everything a review needs from the past

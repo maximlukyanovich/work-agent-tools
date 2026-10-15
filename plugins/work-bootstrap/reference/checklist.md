@@ -47,7 +47,7 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       recommends a fresh session. A finding whose mechanism a ledger already
       holds ends the report with a proposal to move it upstream.
 - [ ] Review groups above the delegation threshold go to
-      `.claude/agents/review-group.md` (`model: sonnet`, read-only tools,
+      `.claude/agents/review-group.md` (`model: inherit`, read-only tools,
       findings only), un-ignored in `.gitignore`; the review command passes
       `model=<name>` as the Agent call's model; synthesis and refutation
       stay with the session.
