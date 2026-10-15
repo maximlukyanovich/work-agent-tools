@@ -326,9 +326,14 @@ update it stays empty.
 
 1. **Target from the ledger.** The last reviewed head equals `HEAD` → no new
    pass; print the recorded verdict. The last head is an ancestor of `HEAD` →
-   review the delta `<last head>..HEAD`. No ledger or `full` → the whole
+   review the delta `<last head>..HEAD`. The last head is not an ancestor
+   because the fixes went into the commits it reviewed (below) → review
+   `git diff <last head> HEAD`, which the reflog keeps resolvable, and name
+   the rewritten commits in the pass header; a last head the repository no
+   longer has → the whole target. No ledger or `full` → the whole
    target. An explicit `<sha>..<sha>` argument overrides both — the way to
-   review follow-up fixes on a branch after the original MR was merged.
+   review follow-up fixes on a branch after the original MR was merged — and
+   a base that is no longer an ancestor reads the same way.
 2. **Blind first.** The rubric runs without the ledger's findings — reading a
    previous verdict first anchors the new one. Above the delegation threshold
    the subagents never receive the ledger.
@@ -453,6 +458,25 @@ Observed on a live project: a header three characters too long left one
 task's six files staged, the following commit for another task swept them in,
 and the pair had to be split with `git reset --soft` before the push.
 
+**A fix to a commit not yet pushed goes into that commit.** A review finding
+— or a bug a fix round brought in — whose cause is a commit no remote holds
+yet (`git branch -r --contains <sha>` prints nothing) is fixed inside it:
+`git commit --amend` when it is `HEAD`, otherwise `git commit --fixup=<sha>`
+and `git rebase --autosquash <sha>~` — before git 2.44 a rebase without
+`-i` ignores `--autosquash` and says nothing, so there it is
+`GIT_SEQUENCE_EDITOR=true git rebase -i --autosquash <sha>~`. The message is
+reworded when the fix changes what it says. A rebase that stops on a
+conflict — a later commit changed the same lines — is aborted
+(`git rebase --abort`) and the fix becomes a new commit: a conflict resolved
+inside history the gate never sees again is how a fold breaks a commit. A
+pushed commit takes a new commit, never a force push. A branch merges with its history, and "fix",
+then "fix the fix" tells a later reader nothing the corrected commit does
+not; the review's story is in the ledger, which reads a rewritten head
+(step 1 above). So the push waits for the review and its fixes, not the
+other way round. Observed on a live project: a fourteen-commit branch
+carried five commits that only fixed its other commits, after six review
+passes.
+
 **Fixing the findings has its own discipline**, and the review command cannot
 enforce it: the fixes are usually made in the working session, from a report
 pasted into chat, where no command runs. So the rule lives where every session
@@ -517,7 +541,10 @@ test. A hook that fires on ordinary edits gets ignored and then removed.
   that commit and push: the commit command runs it and records the tree it
   passed on (a file under `.git/`), and the push or merge command runs it again
   only when `HEAD`'s tree is not the recorded one — so the usual push costs
-  nothing extra.
+  nothing extra. The commit command does not run it a second time either:
+  when the session ran it green after its last edit and the commit takes the
+  whole diff, it names that run and commits. A gate of a few minutes, run
+  twice on the same tree, makes every small fix cost minutes of waiting.
 - **lint-staged: the linter's fixes first, the formatter last** —
   `['eslint --fix', 'prettier --write']`. The reverse order leaves the linter's
   edits unformatted while the hook reports success, and the gate fails a commit

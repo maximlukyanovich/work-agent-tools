@@ -37,7 +37,8 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       `settings.json`.
 - [ ] Deterministic layer: linter, formatter, types, tests, git hooks, and one
       `validate` command that runs them; the commands that commit and push run
-      it (the push skips a tree already validated), no git hook runs the whole
+      it (the commit skips a gate the session already ran green after its last
+      edit, the push a tree already validated), no git hook runs the whole
       gate, and lint-staged runs the formatter after the linter's fixes.
 - [ ] A review command, if there is one, keeps a pass ledger in the personal
       space: reviews the delta since the last reviewed head, runs blind before
@@ -65,6 +66,10 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       ready, the merge command — once the plan and the task's notes show no
       work left, and "continue the task" while they do; the merge's is the
       next task.
+- [ ] A fix to a commit not yet pushed goes into that commit — `--amend`, or
+      `--fixup` and `--autosquash`; a pushed one takes a new commit. The
+      review command reads a head rewritten that way as
+      `git diff <last head> HEAD`.
 - [ ] The commit command compares the staged paths with its proposed list
       right before `git commit`, and after a commit the hook refused commits
       the same index again instead of staging the next group on top.
