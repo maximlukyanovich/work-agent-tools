@@ -337,3 +337,22 @@ each while a call is still in flight, saying where that call's outcome lands;
 a reset by remount (a new `key`) discards it.
 Check: checklist — "Fixing review findings"; audit §5.
 Applies to: every project with a testing skill.
+
+## 2026-10-15 · fold-unpushed-fixes
+
+What: a fix to a commit no remote holds yet — a review finding, or a bug a
+fix round brought in — goes into that commit (`--amend`, or `--fixup` and
+`--autosquash`; a conflicting rebase is aborted and the fix is a new commit),
+a pushed one takes a new commit; the commit command and the
+commit conventions allow it, and the review command reads a head rewritten
+that way as `git diff <last head> HEAD`.
+Check: checklist — "A fix to a commit not yet pushed"; audit §6.
+Applies to: projects with a commit command or commit conventions.
+
+## 2026-10-15 · commit-skips-validated-gate
+
+What: the commit command does not run the gate again when the session ran it
+green after its last edit and the commit takes the whole diff; it names that
+run and commits.
+Check: checklist — "Deterministic layer"; audit §6.
+Applies to: projects whose commit command runs the gate.

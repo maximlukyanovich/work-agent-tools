@@ -77,7 +77,11 @@ does not raise it again.
    override it and refutation left to the session?
 
 6. **Where the gate runs.** Does the push command run the gate for a tree the
-   commit command did not validate? Is a git hook running the whole gate —
+   commit command did not validate? Does the commit command skip a gate the
+   session already ran green after its last edit, rather than wait minutes
+   for the same result? Does a fix to a commit not yet pushed go into that
+   commit, and does the review command read a head rewritten that way as
+   `git diff <last head> HEAD`? Is a git hook running the whole gate —
    minutes per push, soon bypassed? Does lint-staged run the formatter after
    the linter's fixes? The wrong order leaves linter edits unformatted while
    the hook passes. Does the commit command compare the index with its
