@@ -1,72 +1,111 @@
 # work-agent-tools
 
-Shared Claude Code tooling for team projects. One repository: it is both the
-marketplace and the home of the plugins.
+Claude Code plugins for a software project run by a team through a tracker:
+setting up the agent harness with the project's own workflow commands, Jira work
+to one standard, and estimates from a spec and a design. One author's toolkit,
+grown on commercial projects and open to anyone — the rules are opinionated,
+and each project tunes them through its own profile.
+
+One repository: it is both the marketplace (`mluk-work-agent-tools`) and the
+home of the plugins.
 
 Why it exists: the method must not live as copies in every repository. Estimation
 rules, the shape of a Jira issue and the order of project bootstrap are the same
 everywhere; only keys, rates and the domain differ, and those stay in the project.
 
-## Installing
+## Does it fit your project
 
-The catalogue, once per machine — it loads nothing into a session:
+Each plugin is enabled on its own, so a project takes only what fits.
+
+- `work-bootstrap` — any repository, any stack: frontend, backend, monorepo,
+  library, CLI. It writes the harness into the project, including workflow
+  commands shaped to its branch chain, its forge (GitHub, or GitLab including
+  self-hosted) and its tracker, and keeps it current with the method.
+- `work-jira` — work tracked in Jira Cloud: issues created to one standard,
+  statuses, comments, worklog.
+- `work-estimation` — a project estimated before it starts, from a spec and a
+  design handoff.
+
+A solo project on GitHub without a tracker fits
+[agent-tools](https://github.com/maximlukyanovich/agent-tools) better: there the
+workflow commands ship in a plugin instead of being written into the project.
+
+## Requirements
+
+- Claude Code; 2.1.292 or later for the one-line start from scratch.
+- `git`, and `gh` or `glab` signed in for the steps that open a pull or merge
+  request.
+- Python 3 — the plugins' scripts and the `work-bootstrap` session-start hook.
+- For `work-jira`: a Jira Cloud site and a working `.mcp.json` with its
+  credentials; without one the commands stop and say what is missing.
+- For `/work-estimation:export`: the `.xlsx` workbook template to fill.
+
+## Quick start
+
+Once per machine — it adds the source and loads nothing into sessions:
 
 ```bash
 claude plugin marketplace add maximlukyanovich/work-agent-tools
 ```
 
-The plugins, per project, from its root:
+In an existing repository — install, then run `setup`:
 
 ```bash
 claude plugin install work-bootstrap@mluk-work-agent-tools --scope project
-claude plugin install work-jira@mluk-work-agent-tools --scope project
+claude "/work-bootstrap:setup"
 ```
 
-`--scope project` records the plugin in `.claude/settings.json`, which is
-committed, so the team runs the same tooling; a teammate's clone runs the same
-command once, and the file does not change. `--scope local` writes
-`.claude/settings.local.json` instead — for a project whose rules keep AI
-settings out of git; `.gitignore` must name it. `/work-bootstrap:setup` asks
-which plugins a project uses and installs them.
+`setup` looks at the code, asks only what the code cannot answer — including
+which other plugins the project uses — shows a plan and, once you approve it,
+writes the harness: `AGENTS.md`, the project profile, the workflow commands, and
+the plugins in `.claude/settings.json`.
 
-A new project starts in an empty folder with one line:
+`--scope project` records a plugin in `.claude/settings.json`, which is
+committed, so the team runs the same tooling; a teammate's clone runs the same
+command once, and the file does not change. `--scope local` writes the
+gitignored `.claude/settings.local.json` instead, for a project whose rules keep
+AI settings out of git. `--scope user` works too, at a price: the plugins'
+descriptions join every session on the machine, in unrelated projects as well.
+
+From scratch, in an empty folder — `--marketplace` adds the marketplace when it
+is not there yet:
 
 ```bash
 mkdir my-app && cd my-app
-claude plugin install work-bootstrap --marketplace https://github.com/maximlukyanovich/work-agent-tools.git --scope project && claude "/work-bootstrap:new"
+claude plugin install work-bootstrap --marketplace maximlukyanovich/work-agent-tools --scope project && claude "/work-bootstrap:new"
 ```
 
-`--marketplace` (Claude Code 2.1.292 or later) adds the catalogue to the user
-settings, or uses it when it is already there. The repository is public, so
-the HTTPS source needs no credential.
+`new` asks the stack, runs its generator, pins the versions, and makes the first
+commit and the remote on your yes; `setup` follows in a fresh session.
 
-The default scope, user, enables a plugin in every project on the machine: its
-skill and command descriptions are paid for in every session, including
-projects that never use it.
+Which plugins to enable:
 
-Updating the method everywhere at once:
+| Project | Plugins |
+| --- | --- |
+| any repository | `work-bootstrap` |
+| issues in Jira | + `work-jira` |
+| estimated before it starts | + `work-estimation` |
+
+An installed plugin is a copy in `~/.claude/plugins/cache/`. To pick up a new
+version:
 
 ```bash
-/plugin marketplace update mluk-work-agent-tools
+claude plugin marketplace update mluk-work-agent-tools
+claude plugin update work-jira@mluk-work-agent-tools     # each installed plugin, then restart the session
 ```
 
 Or let it happen by itself: `/plugin` → **Marketplaces** → `mluk-work-agent-tools`
-→ **Enable auto-update**. Claude Code then refreshes the catalogue and the
-installed plugins in the background after a session starts, and the plugins
-carry no `version`, so every commit on `main` reaches you. The repository is
-public, so the background check needs no credential.
+→ **Enable auto-update**. The plugins carry no `version`, so every commit on
+`main` reaches you; the repository is public, so the background check needs no
+credential.
 
-Auto-update delivers the method; it never edits a project. When a set-up
-project falls behind, `work-bootstrap`'s session-start hook says so and
+Updating delivers the method; it never edits a project. When a set-up project
+falls behind, `work-bootstrap`'s session-start hook says so and
 `/work-bootstrap:audit` proposes the edits.
-
-The `@mluk-work-agent-tools` suffix names the catalogue. The short form works while
-the plugin name is unique across every catalogue on the machine; the full form
-works always, so it is the one written here.
 
 ## Where to start
 
-Every plugin can introduce itself:
+Every plugin can introduce itself — read-only, safe to run at any time:
 
 ```bash
 /work-bootstrap:help          what it can do for a repository's harness
@@ -74,143 +113,52 @@ Every plugin can introduce itself:
 /work-estimation:help  ru     what it can do with estimates, in Russian
 ```
 
-Each prints the plugin's surface: its commands with a line on each, the order
-they are normally applied in, the skills it carries, and what it expects from the
-project. Read-only, safe to run at any time. They are for people: hidden from
-the model (`disable-model-invocation`), they cost no context until typed.
+Language follows the conversation; pass a language code to override. The help
+commands are hidden from the model (`disable-model-invocation`), so they cost
+no context until typed.
 
-Language follows the conversation; pass a language code to override.
+## Everyday use
+
+The workflow commands are the project's own — `setup` writes them, and their
+names and steps differ between repositories; the plugins supply the shared
+half. A task in a Jira project typically runs in phases, each in a fresh
+session:
+
+```bash
+/work-jira:next          what to take next from the board
+/task PROJ-12            the project's command: branch, plan, open questions; no code before your yes
+/commit                  the project's command: stage, run the gate, message by its convention
+/code-review             the project's command: findings by severity, each with file:line
+/promote                 the project's command: merge along the branch chain, then the result comment and the worklog
+```
+
+Every command ends with the next step as a block ready to copy;
+`/work-bootstrap:handoff` prints it at a phase boundary. An estimate starts with
+`/work-estimation:project`, with the spec and the design handoff at hand.
 
 ## Plugins
 
-| Plugin | What it does |
-| --- | --- |
-| `work-bootstrap` | Start a project in an empty folder; initialise or audit a repository's agent harness: `AGENTS.md`, skills, commands, hooks, MCP, docs. Stack-agnostic. |
-| `work-estimation` | Estimate a project from a spec and a design handoff: decomposition, provenance audit, a markdown report and the estimate workbook. |
-| `work-jira` | Run Jira work to one standard: hierarchy, description shape, statuses, comments, worklog. |
-
-## Two kinds of plugin
-
-A plugin is either a generator or a library, and the choice is deliberate.
-
-**A generator** runs once and writes files into the project. What it produces
-becomes the project's own code: edited locally, never overwritten from here.
-`work-bootstrap` is a generator — `AGENTS.md`, domain skills and hooks are
-about one repository and have no shared version to track. What does evolve
-is the **method** behind them, and a change a project should carry over is
-an entry in `plugins/work-bootstrap/CHANGES.md`: the project records the last
-entry it applied as its baseline, a `SessionStart` hook says when it is
-behind, and `/work-bootstrap:audit` checks only the entries after it.
-
-**A library** keeps its commands and skills here and is invoked from any project.
-The project contributes only a profile that steers them. `work-jira` and
-`work-estimation` are libraries — the method is identical everywhere, and the
-differences (tracker key, language, prefixes, which description sections apply)
-are data, not code.
-
-| | Generator | Library |
+| Plugin | Kind | What it does |
 | --- | --- | --- |
-| Appears in the project | `AGENTS.md`, domain skills, hooks, the profile | profile lines only |
-| Commands come from | the project | the plugin |
-| Updating the method | not updated; it is project code now | `/plugin marketplace update` |
+| [`work-bootstrap`](plugins/work-bootstrap/README.md) | generator + audit | Start a project in an empty folder; initialise or audit a repository's agent harness: `AGENTS.md`, the project profile, workflow commands, skills, hooks, MCP, docs. A session-start hook says when a set-up project is behind the method. |
+| [`work-jira`](plugins/work-jira/README.md) | library | Jira work to one standard: `plan`, `create`, `questions`, `status`, `comment`, `next` — hierarchy, description shape, statuses, comments, worklog. Reads the project profile. |
+| [`work-estimation`](plugins/work-estimation/README.md) | library | Estimate a project from a spec and a design handoff: `project`, `update`, `export` — decomposition, provenance audit, a markdown report and the estimate workbook. |
 
-The reason to prefer a library wherever possible: five projects using a generator
-means five copies of a skill, and a fix to a Jira quirk has to be made five
-times. That is the exact failure this repository exists to prevent.
+## How it's built
 
-**When a command still belongs to the project:** when the procedure itself
-differs, not just its parameters. One project has `/prepare-pr-texts`, another
-has `/promote` and `/sync` — different processes around GitLab, too early to unify.
-Such commands stay local and coexist with the plugin's.
+`work-bootstrap` generates: what `setup` writes, the workflow commands included,
+becomes the project's own code, and a method change reaches it as an entry in
+[`CHANGES.md`](plugins/work-bootstrap/CHANGES.md) that `audit` applies.
+`work-jira` and `work-estimation` are libraries: the procedure stays here, and
+the project contributes a profile, `.claude/project-profile.md`, that every
+command reads first. The model — generator versus library, what lives here and
+what in the project, precedence, command naming — is in
+[`docs/design.md`](docs/design.md).
 
-The test: if the difference fits in a profile line, it is a library. If the
-procedure differs, it is a local command.
+## Contributing
 
-## Method here, project there
+Issues and pull requests are welcome — see [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
-**Here — the method.** How to estimate, which sections an issue description
-carries, how to work around the Jira editor's quirks, templates for `AGENTS.md`
-and skills, wrappers over the APIs.
+## License
 
-**In the project — the profile and the domain.** Tracker key, hourly rates,
-coefficients, links to the spec and the design, domain skills (design system,
-layer boundaries, localisation), hooks.
-
-The rule of thumb: if a rule survives a change of project, it belongs here. If it
-names concrete paths, keys or a design system, it belongs to the project.
-
-### Precedence
-
-Every skill in this repository reads the project profile before it does anything,
-and treats it as authoritative. Order, strongest first:
-
-1. What the developer says in the current session.
-2. The project profile — `.claude/project-profile.md`.
-3. The project's own `AGENTS.md` and skills.
-4. The defaults in this repository.
-
-A plugin never dictates the language of issue descriptions, the naming of
-branches or the shape of a summary. It supplies a recommended default, reads the
-profile, and asks when the profile is silent. A project that deviates from the
-plugin's standard — with a reason — records the deviation in its profile, and the
-plugin follows it.
-
-## Command naming
-
-Claude Code prefixes a plugin's commands with the plugin name and a colon by
-itself — `/figma:figma-use`, and so `/work-jira:create` here. So the prefix lives
-in the **plugin name**, and the command name stays short.
-
-| Plugin | Commands |
-| --- | --- |
-| `work-bootstrap` | `/work-bootstrap:new`, `:setup`, `:audit`, `:handoff`, `:help` |
-| `work-jira` | `/work-jira:plan`, `:create`, `:questions`, `:status`, `:comment`, `:next`, `:help` |
-| `work-estimation` | `/work-estimation:project`, `:update`, `:export`, `:help` |
-
-Two levels of filtering fall out of it: typing `work` lists everything shipped
-from here, `work-jira` narrows to one plugin. Nothing is repeated — the area is
-in the plugin, the verb is in the command.
-
-**Never put a colon in a filename.** The separator is the harness's; a file named
-`plan:create.md` cannot be checked out on Windows. And never repeat the plugin
-name inside the command name: `/work-jira:jira-create` is what that produces.
-
-Two rules follow.
-
-**A plugin command never takes over a job the project owns.** `/task`,
-`/commit`, `/promote`, `/sync`, `/start` are procedures that differ between
-repositories and stay there; only the shareable half moves here. The namespace
-prevents the name clash, but not the confusion of two commands doing the same
-job.
-
-**Plugin names are fixed once.** Renaming one changes every command it ships and
-every document quoting them. If a plugin's subject drifts far enough that its
-name no longer fits, that is a new plugin.
-
-## Layout
-
-```
-.claude-plugin/marketplace.json   the catalogue: lists the plugins below
-plugins/<name>/
-  .claude-plugin/plugin.json      plugin manifest
-  commands/*.md                   slash commands — procedures a human invokes
-  skills/<name>/SKILL.md          knowledge the agent loads by itself
-  scripts/                        executable parts: generators, API wrappers
-  hooks/hooks.json                plugin hooks, active wherever the plugin is
-  reference/                      material read one file at a time, not whole
-  CHANGES.md                      work-bootstrap only: method changes for set-up projects
-  README.md                       what the plugin does
-```
-
-Descriptions surface from three places, and all three matter: the plugin's entry
-in `marketplace.json` is the shop window in `/plugin`; a command's frontmatter
-`description` is what slash-command completion shows; a skill's `description` is
-what the agent uses to decide whether to load it. README files are read by people
-on the web — no tool renders them.
-
-## How this grows
-
-The method comes out of real work. A rule earned on a live project lands here as
-a merge — otherwise three projects from now we have three diverging copies again,
-only this time in notes. Candidates accumulate under `docs/local/` in the working
-repositories.
+[MIT](LICENSE).

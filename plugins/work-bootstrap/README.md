@@ -3,6 +3,14 @@
 Start a project in an empty folder; initialise and audit a repository's agent
 harness. Stack-agnostic: frontend, backend, monorepo, library, CLI.
 
+## Install
+
+```bash
+claude plugin install work-bootstrap --marketplace maximlukyanovich/work-agent-tools --scope project
+```
+
+Other scopes and updating: [Quick start](../../README.md#quick-start).
+
 ## Commands
 
 | Command | What it does |

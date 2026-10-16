@@ -2,6 +2,14 @@
 
 Estimate a project from a spec and a design handoff.
 
+## Install
+
+```bash
+claude plugin install work-estimation --marketplace maximlukyanovich/work-agent-tools --scope project
+```
+
+Other scopes and updating: [Quick start](../../README.md#quick-start).
+
 ## Commands
 
 | Command | What it does |

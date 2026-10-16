@@ -7,8 +7,8 @@ teaches other repositories to have a harness, so it has one of its own.
 
 A Claude Code marketplace and the plugins it lists. Everything in `plugins/` is
 installed into other repositories and runs there; nothing here is an
-application. README.md explains the model — generator versus library plugins,
-the project profile, precedence, command naming. This file holds only the rules
+application. `docs/design.md` explains the model — generator versus library
+plugins, the project profile, precedence, command naming. This file holds only the rules
 for working on the repository itself.
 
 ## 2. Working agreements
@@ -69,6 +69,8 @@ for working on the repository itself.
 - **Descriptions are the loading mechanism.** A skill's `description` decides
   when the agent loads it; a command's decides what completion shows. Both are
   written for that purpose, narrowly, and both are paid for in every session.
+  A plugin's entry in `marketplace.json` is its shop window in `/plugin`;
+  README files are for people on the web, and no tool renders them.
 
 ## 4. Checks before a pull request
 
@@ -104,6 +106,9 @@ plugins/<name>/
   hooks/hooks.json                plugin hooks — run wherever the plugin is on
   README.md                       for people, links to the skill
 plugins/work-bootstrap/CHANGES.md method changes a set-up project carries over
+docs/design.md                    the model behind the plugins
+CONTRIBUTING.md                   for outside contributors; points here
+LICENSE                           MIT
 scripts/check.py                  the pull-request gate, run by CI
 .github/workflows/check.yml       runs the gate
 ```
