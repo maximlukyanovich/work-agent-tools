@@ -1,11 +1,11 @@
 ---
-description: Carry an estimate into the company workbook, preserving its styles and formulas.
+description: Carry an estimate into the workbook template, preserving its styles and formulas.
 argument-hint: '[<data module>] [<template.xlsx>] [<output.xlsx>]'
 ---
 
 # /work-estimation:export
 
-Write the estimate into the company template.
+Write the estimate into the workbook template.
 
 ## Steps
 
@@ -35,6 +35,6 @@ tokens, and everything it needs from the module is in that reference.
 - **The template is read-only.** It is never the output, and it is never
   overwritten "just this once".
 - **Formulas are shifted, not replaced.** The workbook's own arithmetic is what
-  the company checks; a hand-computed total in a formula cell is a defect.
+  the reader checks; a hand-computed total in a formula cell is a defect.
 - **Report the mismatch, do not fix it silently** if the rows and the totals
   disagree.

@@ -1,6 +1,6 @@
 # work-jira
 
-Run Jira work the way the company standard requires.
+Run Jira work to one standard.
 
 ## Commands
 
@@ -20,7 +20,7 @@ gate, and those differ between repositories; only the Jira half is shared.
 
 ## Where the rules live
 
-`skills/issues/SKILL.md` is the single source: hierarchy from the company
+`skills/issues/SKILL.md` is the single source: hierarchy from the
 standard, the four required description sections and the optional ones, the
 estimate basis and the overhead rule, labels taken from the instance, the ADF
 quirks, and what gets written down where. The agent loads it by itself whenever

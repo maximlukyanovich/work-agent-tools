@@ -86,8 +86,8 @@ Language follows the conversation; pass a language code to override.
 | Plugin | What it does |
 | --- | --- |
 | `work-bootstrap` | Start a project in an empty folder; initialise or audit a repository's agent harness: `AGENTS.md`, skills, commands, hooks, MCP, docs. Stack-agnostic. |
-| `work-estimation` | Estimate a project from a spec and a design handoff: decomposition, provenance audit, a markdown report and the company estimate workbook. |
-| `work-jira` | Run Jira work the way the company standard requires: hierarchy, description shape, statuses, comments, worklog. |
+| `work-estimation` | Estimate a project from a spec and a design handoff: decomposition, provenance audit, a markdown report and the estimate workbook. |
+| `work-jira` | Run Jira work to one standard: hierarchy, description shape, statuses, comments, worklog. |
 
 ## Two kinds of plugin
 
@@ -152,7 +152,7 @@ and treats it as authoritative. Order, strongest first:
 A plugin never dictates the language of issue descriptions, the naming of
 branches or the shape of a summary. It supplies a recommended default, reads the
 profile, and asks when the profile is silent. A project that deviates from the
-company standard — with a reason — records the deviation in its profile, and the
+plugin's standard — with a reason — records the deviation in its profile, and the
 plugin follows it.
 
 ## Command naming

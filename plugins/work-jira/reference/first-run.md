@@ -22,7 +22,7 @@ Each carries a recommended default, so the answer can be a nod.
    *Default: English for both.*
 
 2. **Prefixes.** `[FE]` / `[BE]` in summaries — keep or drop?
-   *Default: drop; the company standard leaves direction to the label.*
+   *Default: drop; the standard leaves direction to the label.*
    If kept, record the reason alongside.
 
 3. **Epic granularity.** A product surface, or a functional layer?
@@ -50,7 +50,7 @@ Into `.claude/project-profile.md`, sections `## Tracker` and `## Issues`. Create
 the file if it is absent; append the sections if it exists without them; never
 rewrite sections owned by another plugin.
 
-Record deviations from the company standard together with the reason for them.
+Record deviations from the standard together with the reason for them.
 
 ## The one hard prerequisite
 

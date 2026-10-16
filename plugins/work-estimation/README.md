@@ -8,7 +8,7 @@ Estimate a project from a spec and a design handoff.
 | --- | --- |
 | `/work-estimation:project` | Gathers the scope, decomposes it, counts bottom-up, audits where every line came from, and emits the report. |
 | `/work-estimation:update` | Re-runs the numbers after the scope changed: recomputes coefficients, keeps per-task hours untouched. |
-| `/work-estimation:export` | Carries an existing estimate into the company workbook. |
+| `/work-estimation:export` | Carries an existing estimate into the workbook template. |
 | `/work-estimation:help` | What this plugin can do: commands, the estimation method it applies, the data format it expects. Optional language argument. |
 
 ## Method
@@ -36,7 +36,7 @@ Estimate a project from a spec and a design handoff.
 links, a design bundle. **The deliverable is a markdown report**; the workbook is
 optional and produced by `export`. The user chooses which parts are estimated
 (frontend, backend, analysis, design, DevOps, QA) and may reshape the table's
-columns; the default shape is the company workbook's.
+columns; the default shape is the workbook's.
 
 Internally the estimate lives in a python module — tasks, coefficients, risks,
 exclusions, questions, provenance — produced by `project`, never written by

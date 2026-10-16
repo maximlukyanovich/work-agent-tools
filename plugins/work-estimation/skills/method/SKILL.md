@@ -75,7 +75,7 @@ Rules:
 
 **Rows** carry: part of the project, epic, task, description, optimistic hours,
 pessimistic hours, negative risk, positive risk. That is the shape of the
-company workbook, and the markdown report keeps the same columns so the transfer
+estimate workbook, and the markdown report keeps the same columns so the transfer
 is mechanical.
 
 **Epics are product surfaces**, not functional layers, unless the project says
@@ -107,7 +107,7 @@ is wrong in ways that are invisible until implementation.
 
 ## What is not in these numbers
 
-QA effort is estimated separately, per the company standard, and depends on the
+QA effort is estimated separately and depends on the
 kind of work. Project roles — management, analysis, communication — are computed
 by the workbook from the development sum. Say both plainly in the report: a
 client who reads a frontend total as a project total will be surprised later.

@@ -18,7 +18,7 @@ moved, no comment posted.
 3. **Run the project's quality gate** if the profile names one, and report the
    result rather than summarising it.
 
-4. **Check the Definition of Done** from the company standard: is the change
+4. **Check the Definition of Done** from the team's standard: is the change
    reviewed, deployed to the test environment, verified by QA, are blocking
    defects retested. Say which of these the agent cannot know.
 

@@ -27,7 +27,7 @@ read, say which one and why, and continue with the rest.
    - **Which parts are estimated?** Frontend, backend, business analysis, design,
      DevOps, QA — any subset. Each becomes a `PART OF` value in the table with its
      own rates. Default: ask; never assume frontend-only.
-   - **Which columns?** Default is the company workbook's shape: part of, epic,
+   - **Which columns?** Default is the workbook's shape: part of, epic,
      task, description, optimistic, pessimistic, negative risk, positive risk. The
      user may add, drop or rename columns; record the chosen shape in the report
      header so `export` knows what it is looking at.

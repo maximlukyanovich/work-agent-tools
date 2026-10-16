@@ -44,5 +44,5 @@ Two rules that keep it useful:
 statuses — is fetched, not copied. A copy becomes a second truth that goes stale
 in silence.
 
-**Deviations carry their reason.** A project that departs from the company
+**Deviations carry their reason.** A project that departs from a plugin's
 standard records why, so the next reader sees a decision rather than a mistake.

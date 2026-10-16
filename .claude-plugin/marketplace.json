@@ -15,13 +15,13 @@
     },
     {
       "name": "work-estimation",
-      "description": "Estimate a project from a spec and a design handoff: decomposition, provenance audit, markdown report and the company estimate workbook.",
+      "description": "Estimate a project from a spec and a design handoff: decomposition, provenance audit, markdown report and the estimate workbook.",
       "source": "./plugins/work-estimation",
       "category": "workflow"
     },
     {
       "name": "work-jira",
-      "description": "Create and run Jira work the way the company standard requires: issue hierarchy, description shape, statuses, comments, worklog.",
+      "description": "Create and run Jira work to one standard: issue hierarchy, description shape, statuses, comments, worklog.",
       "source": "./plugins/work-jira",
       "category": "workflow"
     }

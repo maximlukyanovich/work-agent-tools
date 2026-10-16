@@ -18,7 +18,7 @@ Language: the conversation's, unless `$1` gives a code.
 
 2. **Show the order:** `/work-estimation:project` produces an estimate, `/work-estimation:update`
    recomputes it after the scope changes, `/work-estimation:export` carries it into the
-   company workbook.
+   workbook template.
 
 3. **State the method in five lines**: two rates of work, counting bottom-up
    without looking at the deadline, the provenance audit, coefficients as their

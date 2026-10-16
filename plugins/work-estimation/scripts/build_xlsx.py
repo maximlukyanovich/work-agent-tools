@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Fill the company estimate workbook from a data module, preserving the template's styling."""
+"""Fill the estimate workbook template from a data module, preserving the template's styling."""
 
 import re
 import shutil

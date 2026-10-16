@@ -528,7 +528,7 @@ def url(key):
 
 # ------------------------------------------------------------------- hours
 def half_up(hours):
-    """Rounds upwards to the half hour, the company rule for estimates."""
+    """Rounds upwards to the half hour, the rule for estimates."""
     from math import ceil
     return ceil(hours * 2) / 2
 

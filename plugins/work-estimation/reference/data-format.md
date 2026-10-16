@@ -41,7 +41,7 @@ With several parts they are computed from `DERIVED_PART`'s development sum only.
 ## Shape of the report
 
 ```python
-COLUMNS = [                 # default is the company workbook's eight columns
+COLUMNS = [                 # default is the workbook's eight columns
     ("part", "PART OF"), ("epic", "EPIC / FEATURE"), ("task", "TASK / USER STORY"),
     ("description", "DESCRIPTION"), ("optimistic", "OPT"), ("pessimistic", "PESS"),
     ("negative", "RISKS: NEGATIVE"), ("positive", "RISKS: POSITIVE"),
@@ -50,7 +50,7 @@ COLUMNS = [                 # default is the company workbook's eight columns
 
 Drop, reorder or rename freely; keys are fixed, headers are yours. The
 workbook export always writes the eight workbook columns regardless — that
-sheet is the company's, not the report's.
+sheet is the template's, not the report's.
 
 ## Audit and lists
 

@@ -29,7 +29,7 @@ profile's issue language — that is a different setting.
    ```
 
 3. **Name the conventions it carries**, in two or three lines each: hierarchy
-   from the company standard, the four required description sections, estimate
+   from the standard, the four required description sections, estimate
    basis, labels taken from the instance, descriptions written as ADF with other
    issues as cards and linked `relates to`.
 

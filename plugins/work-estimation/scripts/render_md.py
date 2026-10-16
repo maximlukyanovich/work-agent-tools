@@ -39,7 +39,7 @@ L = {
     "grand_total": "Total",
     "timeline": "One developer at {hpm} hours a month — **{weeks} weeks**.",
     "roles_note": "Project roles (QA, management, analysis, communication) are not in "
-                  "these numbers; the company workbook computes them from the "
+                  "these numbers; the workbook computes them from the "
                   "development sum.",
     "method": "How the hours were counted",
     "rates_default": [
@@ -56,7 +56,7 @@ L = {
                     "own: responsive layout {r}%, localisation {i}%, automated tests "
                     "{t}%. Tests are computed last, on the sum.",
     "breakdown": "Breakdown",
-    "breakdown_note": "Column shape follows the company workbook's `ESTIMATE BREAKDOWN` "
+    "breakdown_note": "Column shape follows the workbook's `ESTIMATE BREAKDOWN` "
                       "sheet unless the module says otherwise.",
     "scope": "Scope",
     "scope_default": "Everything the sources describe, within the parts named above.",

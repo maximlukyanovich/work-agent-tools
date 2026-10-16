@@ -5,7 +5,7 @@ description: Conventions for creating and running Jira issues — hierarchy, des
 
 # Jira issues
 
-The company standard is the default. The project profile overrides it. What the
+This standard is the default. The project profile overrides it. What the
 developer says in the current session overrides both.
 
 Read `.claude/project-profile.md` before anything else. If its `## Tracker` or
@@ -146,7 +146,7 @@ Every `Blocks` link is shown as a sentence before it is written —
 `PROJ-57 Search API blocks PROJ-14 Results grid` — so a reversed pair is
 visible at a glance.
 
-**Definition of Done is never copied into an issue.** It lives in the company
+**Definition of Done is never copied into an issue.** It lives in the team's
 standard, and a copy drifts from it. The same goes for anything else that has one
 canonical home.
 
