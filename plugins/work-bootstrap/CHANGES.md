@@ -356,3 +356,14 @@ green after its last edit and the commit takes the whole diff; it names that
 run and commits.
 Check: checklist — "Deterministic layer"; audit §6.
 Applies to: projects whose commit command runs the gate.
+
+## 2026-10-17 · work-prefix
+
+What: the plugins are `work-bootstrap`, `work-jira` and `work-estimation`,
+from the `mluk-work-agent-tools` catalogue at
+github.com/maximlukyanovich/work-agent-tools; a project names them and their
+commands by these names.
+Check: `.claude/settings.json` enables each plugin as
+`<plugin>@mluk-work-agent-tools`; every plugin command the project's own files
+name — `AGENTS.md`, commands, skills — starts with `/work-`.
+Applies to: every project set up before 2026-10-17.

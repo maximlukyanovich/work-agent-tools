@@ -1,4 +1,4 @@
-# agent-tools
+# work-agent-tools
 
 Shared Claude Code tooling for team projects. One repository: it is both the
 marketplace and the home of the plugins.
@@ -12,7 +12,7 @@ everywhere; only keys, rates and the domain differ, and those stay in the projec
 The catalogue, once per machine — it loads nothing into a session:
 
 ```bash
-claude plugin marketplace add https://github.com/maximlukyanovich/work-agent-tools.git
+claude plugin marketplace add maximlukyanovich/work-agent-tools
 ```
 
 The plugins, per project, from its root:
@@ -37,16 +37,12 @@ claude plugin install work-bootstrap --marketplace https://github.com/maximlukya
 ```
 
 `--marketplace` (Claude Code 2.1.292 or later) adds the catalogue to the user
-settings, or uses it when it is already there. The source is SSH on purpose:
-an HTTPS source without a stored credential fails, as the install cannot ask
-for one.
+settings, or uses it when it is already there. The repository is public, so
+the HTTPS source needs no credential.
 
 The default scope, user, enables a plugin in every project on the machine: its
 skill and command descriptions are paid for in every session, including
 projects that never use it.
-
-The repository is private, so ordinary git access is required — the same SSH key
-or token you clone work projects with. Nothing extra to hand out.
 
 Updating the method everywhere at once:
 
@@ -57,10 +53,8 @@ Updating the method everywhere at once:
 Or let it happen by itself: `/plugin` → **Marketplaces** → `mluk-work-agent-tools`
 → **Enable auto-update**. Claude Code then refreshes the catalogue and the
 installed plugins in the background after a session starts, and the plugins
-carry no `version`, so every commit on `main` reaches you. The background
-check cannot prompt: the SSH key must be loaded in `ssh-agent` without a
-passphrase prompt, or a stored HTTPS credential must exist — otherwise the
-update fails quietly and the old copy stays.
+carry no `version`, so every commit on `main` reaches you. The repository is
+public, so the background check needs no credential.
 
 Auto-update delivers the method; it never edits a project. When a set-up
 project falls behind, `work-bootstrap`'s session-start hook says so and

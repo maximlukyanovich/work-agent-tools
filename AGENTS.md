@@ -13,16 +13,16 @@ for working on the repository itself.
 
 ## 2. Working agreements
 
-- **Nothing is pushed, merged, or opened as a merge request without an explicit
+- **Nothing is pushed, merged, or opened as a pull request without an explicit
   instruction on the current turn.** Permission does not carry over to the next
   turn. This rule was broken here once; it exists because of that.
-- **`main` is protected.** Work goes through a branch and a merge request. Force
+- **`main` is protected.** Work goes through a branch and a pull request. Force
   push is not a tool in normal use; the one time it happened was a deliberate
   rewrite of authorship, agreed in advance, with the protection restored after.
 - **One trunk, no `develop`.** Every branch — `<type>/<slug>`, types as in the
-  commit convention — targets `main`. Contributors hold the Developer role and
-  open merge requests; the maintainer reviews and merges. Testing happens on
-  the merge request's branch, not on a second long-lived branch: check it out
+  commit convention — targets `main`. Contributors are collaborators and open
+  pull requests; the maintainer reviews and merges. Testing happens on the
+  pull request's branch, not on a second long-lived branch: check it out
   here and run the changed command in a real repository before approving.
   When consumers need to stay on a known state, `main` gets release tags and
   the catalogue can pin one — still no second branch.
@@ -44,7 +44,7 @@ for working on the repository itself.
 - **A rule earned on a live project lands here as a merge**, not in that
   project's notes. That is the whole reason this repository exists.
 - **A change a set-up project must carry over gets a `CHANGES.md` entry** in
-  `plugins/work-bootstrap/`, in the same merge request. That is any change to
+  `plugins/work-bootstrap/`, in the same pull request. That is any change to
   what the checklist or `audit` verifies — the templates, the checklist,
   `audit` itself. Without the entry no project hears of it: the audit checks
   the delta after its baseline, and the `SessionStart` hook counts entries.
@@ -54,7 +54,7 @@ for working on the repository itself.
 - **Language.** Everything committed here is English — plugin texts, README,
   commit messages, this file.
 - **No client project is named.** Not in plugin texts, examples, commit
-  messages or merge requests — neither its name nor its issue keys; projects
+  messages or pull requests — neither its name nor its issue keys; projects
   may be under NDA, and every installer reads these files. Examples use
   `PROJ-N`; a lesson from a live project is described as one, without saying
   which.
@@ -70,9 +70,9 @@ for working on the repository itself.
   when the agent loads it; a command's decides what completion shows. Both are
   written for that purpose, narrowly, and both are paid for in every session.
 
-## 4. Checks before a merge request
+## 4. Checks before a pull request
 
-`scripts/check.py` is the gate, run by CI on every merge request and on
+`scripts/check.py` is the gate, run by CI on every pull request and on
 `main`; run it locally before pushing — `python3 scripts/check.py`. It checks:
 
 - every `commands/*.md` has frontmatter with `description`;
@@ -87,7 +87,7 @@ for working on the repository itself.
 - every Python script compiles.
 
 One check stays with people: **the changed command or skill was run once, in a
-real repository, and did what its text says.** The merge request says where
+real repository, and did what its text says.** The pull request says where
 and how it was run. This item is not optional. A command that has never been
 executed is a draft.
 
@@ -104,6 +104,6 @@ plugins/<name>/
   hooks/hooks.json                plugin hooks — run wherever the plugin is on
   README.md                       for people, links to the skill
 plugins/work-bootstrap/CHANGES.md method changes a set-up project carries over
-scripts/check.py                  the merge-request gate, run by CI
-.gitlab-ci.yml                    runs the gate
+scripts/check.py                  the pull-request gate, run by CI
+.github/workflows/check.yml       runs the gate
 ```
