@@ -2,6 +2,14 @@
 
 Run Jira work to one standard.
 
+## Install
+
+```bash
+claude plugin install work-jira --marketplace maximlukyanovich/work-agent-tools --scope project
+```
+
+Other scopes and updating: [Quick start](../../README.md#quick-start).
+
 ## Commands
 
 | Command | What it does |
