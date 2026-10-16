@@ -4,5 +4,8 @@
   "author": {
     "name": "Maxim Lukyanovich",
     "email": "maximlukyanovich94@gmail.com"
-  }
+  },
+  "homepage": "https://github.com/maximlukyanovich/work-agent-tools/tree/main/plugins/work-bootstrap",
+  "repository": "https://github.com/maximlukyanovich/work-agent-tools",
+  "license": "MIT"
 }

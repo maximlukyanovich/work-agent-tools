@@ -1,6 +1,10 @@
 ---
 name: kickoff
 description: How a piece of work is planned before code — plan mode, exploring before asking, the questionnaire rules (marked recommendation first, at most four questions a round, a closing "anything to add" in the first round), a decisions table, a plan in the chat's language, approval before code. Use when starting a task that needs a plan or before asking the developer questions. Not for trivial edits.
+license: MIT
+metadata:
+  author: Maxim Lukyanovich
+  source: https://github.com/maximlukyanovich/work-agent-tools
 ---
 
 # kickoff

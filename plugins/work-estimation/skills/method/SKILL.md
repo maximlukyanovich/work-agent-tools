@@ -1,6 +1,10 @@
 ---
 name: method
 description: How to estimate a project from a spec and a design handoff — two rates of work, counting bottom-up, the provenance audit, coefficients and rounding. Use when producing, revising or reviewing a project estimate. Not for setting a single issue's estimate field — that is the issues skill.
+license: MIT
+metadata:
+  author: Maxim Lukyanovich
+  source: https://github.com/maximlukyanovich/work-agent-tools
 ---
 
 # Estimation method
