@@ -1,6 +1,10 @@
 ---
 name: layers
 description: The five layers an instruction can live on — deterministic checks, agent hooks, documents, skills, commands — how to choose between them, what each costs, and the anti-patterns that make a harness expensive. Use when setting up or auditing an agent harness, or deciding which layer a new rule belongs on. Not for ordinary edits to AGENTS.md.
+license: MIT
+metadata:
+  author: Maxim Lukyanovich
+  source: https://github.com/maximlukyanovich/work-agent-tools
 ---
 
 # Five layers

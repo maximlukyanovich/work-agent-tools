@@ -1,6 +1,10 @@
 ---
 name: issues
 description: Conventions for creating and running Jira issues — hierarchy, description shape, estimates, labels, and the formatting quirks of the Atlassian editor. Use when creating, editing or reviewing a Jira issue, or when planning how a scope decomposes into a tree of issues.
+license: MIT
+metadata:
+  author: Maxim Lukyanovich
+  source: https://github.com/maximlukyanovich/work-agent-tools
 ---
 
 # Jira issues
