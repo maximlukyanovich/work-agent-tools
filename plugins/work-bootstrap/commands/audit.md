@@ -89,7 +89,8 @@ does not raise it again.
    refused keeps its paths staged, and without the check the next commit
    carries them in. Do commit, review and merge take a target — a branch or
    a worktree path — and run their git calls and the gate in that tree?
-   Does every command end with its next step as a block ready to paste?
+   Does every command end with its next step as a block ready to paste, and
+   does a stop that sends to another command print that command as one?
 
 7. **Gaps.** Layers from the model that are absent. Absence is allowed — but it
    must be deliberate and written down, with the conditions that would fill it.

@@ -21,7 +21,7 @@ yes on the current turn.
    be there — `.claude/`, `.git/`, `.idea/`, `.vscode/` and the like.
    Anything else — a manifest, sources, `AGENTS.md`, `README.md` — means the
    project exists: stop, and offer `/work-bootstrap:setup`, or
-   `/work-bootstrap:audit` when a harness is there.
+   `/work-bootstrap:audit` when a harness is there, as a code block.
 
 2. **Ask the stack** — `$1`, or one option per recipe in the scaffold
    directory and "another" last.

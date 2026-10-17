@@ -132,9 +132,12 @@ worktree path — and run there from the main workspace:
 
 A report that ends on "done" leaves the next step to memory, and it is
 skipped exactly when the work went well. So every command ends with what
-comes next as a code block ready to paste, one block per option. A next step
-that is an answer in this session — a yes to a commit, a choice of closing
-steps — stays a question, not a block.
+comes next as a code block ready to paste, one block per option. So does a
+step that stops early and sends the developer to another command — a dirty
+tree to the commit command: that command is also given as a block, with the
+target the work needs. Naming it inside a sentence is fine; what the stop
+must not lack is the block. A next step that is an answer in this session — a
+yes to a commit, a choice of closing steps — stays a question, not a block.
 
 At a phase boundary — a task's last commit, a review, before and after a
 merge — the block is for a fresh session and comes from

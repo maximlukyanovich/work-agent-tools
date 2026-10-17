@@ -367,3 +367,12 @@ Check: `.claude/settings.json` enables each plugin as
 `<plugin>@mluk-work-agent-tools`; every plugin command the project's own files
 name — `AGENTS.md`, commands, skills — starts with `/work-`.
 Applies to: every project set up before 2026-10-17.
+
+## 2026-10-18 · next-step-at-a-stop
+
+What: a command that stops early and sends the developer to another command —
+a dirty tree to the commit command, a missing docs update — also prints that
+command as a code block ready to paste, with the target the work needs;
+naming it inside a sentence is fine, the block is what the stop must not lack.
+Check: checklist — "Every command ends with its next step"; audit §6.
+Applies to: every project with its own commands.

@@ -22,9 +22,10 @@ The order is fixed. Steps are not reordered or skipped.
 
    Decide the mode from what you found: no manifest and nothing but tool
    configuration → offer `/work-bootstrap:new`, which creates the project
-   first; nothing or fragments → set up — an `AGENTS.md` or `CLAUDE.md` that
-   holds only a generator's block is a fragment; a harness already there →
-   say so and offer `/work-bootstrap:audit` instead. A stack with a recipe in
+   first, as a code block; nothing or fragments → set up — an `AGENTS.md` or
+   `CLAUDE.md` that holds only a generator's block is a fragment; a harness
+   already there → say so and offer `/work-bootstrap:audit` instead, as a code
+   block. A stack with a recipe in
    `${CLAUDE_PLUGIN_ROOT}/reference/scaffold/` — read its "For the harness"
    section.
 

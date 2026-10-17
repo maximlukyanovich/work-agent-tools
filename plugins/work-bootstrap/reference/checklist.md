@@ -61,7 +61,8 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       a worktree path — and run there: `git -C <tree>`, the gate in that
       tree.
 - [ ] Every command ends with its next step as a block ready to paste, one
-      per option; at a phase boundary through `/work-bootstrap:handoff`. The
+      per option, and so does a stop that sends to another command; at a
+      phase boundary through `/work-bootstrap:handoff`. The
       review's is the fix-round prompt naming the ledger, or, when it reads
       ready, the merge command — once the plan and the task's notes show no
       work left, and "continue the task" while they do; the merge's is the

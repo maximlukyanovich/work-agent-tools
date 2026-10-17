@@ -71,6 +71,10 @@ for working on the repository itself.
   written for that purpose, narrowly, and both are paid for in every session.
   A plugin's entry in `marketplace.json` is its shop window in `/plugin`;
   README files are for people on the web, and no tool renders them.
+- **A plugin command ends the way a project's does** — with its next step as
+  a block ready to paste, a stop that sends to another command included, by
+  "A command ends with its next step" in
+  `plugins/work-bootstrap/reference/templates.md`.
 
 ## 4. Checks before a pull request
 
