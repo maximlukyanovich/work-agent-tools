@@ -388,3 +388,16 @@ files, `help` included.
 Check: checklist — "The plugin set is recorded" and "The onboarding command";
 audit §13.
 Applies to: every project with an onboarding command or enabled plugins.
+
+## 2026-10-18 · worktree-compose-project
+
+What: the command that starts a task in a worktree gives a Compose stack
+there its own `COMPOSE_PROJECT_NAME` beside its port, so `up` in the
+worktree does not recreate the main tree's containers. The name goes into
+the `.env` beside the compose file (or the file `--env-file` names), which
+Compose reads for its own variables — a service's `env_file:` does not set
+it — and a file carrying the port or the name is copied into the tree, not
+linked, since a value written through a link lands in the main tree's file.
+Check: checklist — "The command that starts a task takes an optional
+`worktree` argument"; audit §8.
+Applies to: projects that run a Compose stack and start tasks in worktrees.

@@ -243,16 +243,27 @@ On a free tree a worktree only adds setup, and is not offered.
 - **Beside the repository**, `../<repo>-<key>`, never inside it: the main
   tree's linters, tests and type-check would pick up a nested copy. The
   folder is confirmed with the branch name.
-- **Link what git ignores but the work reads** — local notes, env files,
-  tool configs — listed from the main tree's ignored files and confirmed. A
-  folder tracked for one file (a README) is linked entry by entry, not whole.
-  Then install dependencies in the new tree, and run the framework's type
-  generation when its generated types are ignored — without them a fresh
-  tree fails its type-check on the route types.
+- **Link what git ignores but the work reads** — local notes, env files (one
+  that takes the tree's own port or Compose project name is copied instead,
+  see below), tool configs — listed from the main tree's ignored files and
+  confirmed. A folder tracked for one file (a README) is linked entry by
+  entry, not whole. Then install dependencies in the new tree, and run the
+  framework's type generation when its generated types are ignored —
+  without them a fresh tree fails its type-check on the route types.
 - **Its own port, for the dev server and for end-to-end tests.** A second
   dev server needs a free port, and so does an end-to-end run: a runner that
   reuses an already running server would otherwise test the main tree's code
-  on the default port, and pass.
+  on the default port, and pass. A Compose stack also gets its own
+  `COMPOSE_PROJECT_NAME`: under the main tree's name, `up` in the worktree
+  recreates the running containers with the worktree's code. The port goes
+  into the env file the dev server reads, the name into the `.env` beside the
+  compose file (or the file `--env-file` names) — Compose takes its own
+  variables from there, never from a service's `env_file:`. Either file is
+  copied from the main tree, not linked, since a value written through a link
+  lands in the main tree's file. What the compose file names outright is the
+  same for both stacks even then, and collides or is shared: a host port, a
+  `container_name`, a network or volume with its own `name:` or marked
+  `external`.
 - **A worktree is temporary.** The command that merges removes it with its
   branch (closing steps below); a folder deleted by hand leaves a stale entry
   that `git worktree prune` clears.

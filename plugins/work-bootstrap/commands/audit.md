@@ -106,9 +106,11 @@ does not raise it again.
    its plan carry the state table, the framework pointers and the structural
    line? Does it
    take a `worktree` argument and offer one when a live `git status` finds
-   the tree busy — does its setup generate the ignored framework types and
-   give the dev server and the end-to-end run their own port — and does the
-   merge's closing step remove the worktree?
+   the tree busy — does its setup generate the ignored framework types, give
+   the dev server and the end-to-end run their own port and a Compose stack
+   its own `COMPOSE_PROJECT_NAME` in the `.env` Compose reads, not a
+   service's `env_file:` — each in a file copied into the tree rather than
+   linked — and does the merge's closing step remove the worktree?
 
 9. **Secret hygiene.** Are the generated MCP config and the environment file
    ignored? Did a token leak into a committed file, or into history?
