@@ -54,7 +54,11 @@ The order is fixed. Steps are not reordered or skipped.
 
    The plugin set goes where Q10 put it:
    `claude plugin install <plugin>@mluk-work-agent-tools --scope project` — or
-   `local` — for each, from the repository root. When Q7 settled a format
+   `local` — for each, from the repository root; the same file declares each
+   marketplace the set names in `extraKnownMarketplaces` —
+   `mluk-work-agent-tools` with `autoUpdate` — or a fresh clone has nowhere
+   to install from and no update arrives on its own ("The onboarding command" in
+   `${CLAUDE_PLUGIN_ROOT}/reference/templates.md`). When Q7 settled a format
    the repository's only commit does not follow, and that commit is not
    pushed, offer to reword it: `git commit --amend --only -m "<message>"`, on
    a yes.

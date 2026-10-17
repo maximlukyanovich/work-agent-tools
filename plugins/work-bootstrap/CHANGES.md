@@ -376,3 +376,15 @@ command as a code block ready to paste, with the target the work needs;
 naming it inside a sentence is fine, the block is what the stop must not lack.
 Check: checklist — "Every command ends with its next step"; audit §6.
 Applies to: every project with its own commands.
+
+## 2026-10-18 · onboarding-installs-plugins
+
+What: the settings declare every marketplace `enabledPlugins` names, the
+library's with `autoUpdate`, and the onboarding command installs the declared
+plugins a checkout lacks — at local scope, on a yes, leaving one turned off
+here alone and without adding a marketplace by hand — prints `AGENTS.md`
+§2's commands as code blocks, and lists the plugins' commands from their
+files, `help` included.
+Check: checklist — "The plugin set is recorded" and "The onboarding command";
+audit §13.
+Applies to: every project with an onboarding command or enabled plugins.

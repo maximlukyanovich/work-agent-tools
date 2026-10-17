@@ -7,7 +7,7 @@ CLAUDE.md                     thin layer: @AGENTS.md plus Claude specifics. In g
   README.md                   map of the directory: what is where, who runs it
   COMMANDS.md                 the command index — here, not in commands/ (see below)
   project-profile.md          what the shared plugins read: tracker, rates, links
-  settings.json               shared settings: attribution, allowed MCP, hooks. In git
+  settings.json               shared settings: plugins and their marketplaces, attribution, allowed MCP, hooks. In git
   settings.local.json         personal permissions. Gitignored
   commands/                   slash commands. Command files only — no README here
   agents/                     subagent definitions, e.g. the review groups. In git

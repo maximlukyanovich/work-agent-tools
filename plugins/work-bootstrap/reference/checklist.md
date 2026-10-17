@@ -95,12 +95,17 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       `.claude/COMMANDS.md`; nothing inside `commands/` is not a command.
 - [ ] `.claude/project-profile.md` exists if any shared plugin is installed.
 - [ ] The plugin set is recorded where Q10 put it — `enabledPlugins` in
-      `.claude/settings.json` or `settings.local.json`.
+      `.claude/settings.json` or `settings.local.json` — and the same file
+      declares every marketplace it names in `extraKnownMarketplaces` —
+      `mluk-work-agent-tools` with `autoUpdate`, `claude-plugins-official`
+      when its plugins are on.
 - [ ] With Jira, the profile's `## Tracker` says how a processed answer is
       acknowledged — a reaction, or ask each time.
 - [ ] No harness file contains a secret, an absolute path, or a person's name.
-- [ ] The onboarding command runs and prints a green table — or rows with
-      concrete actions.
+- [ ] The onboarding command installs, on a yes and at local scope, the
+      declared plugins this checkout lacks, prints `AGENTS.md` §2's commands
+      as blocks, lists the plugins' commands from their files, and runs:
+      a green table — or rows with concrete actions.
 
 Then report: what was created, what was changed, what was left out and why, and
 which questions are still open.

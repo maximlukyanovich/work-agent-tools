@@ -135,6 +135,14 @@ does not raise it again.
     production commands, the pinned versions and every variable the build and
     the start need — and does a fresh checkout without an env file agree?
 
+13. **A fresh clone gets its plugins.** Does the settings file declare every
+    marketplace `enabledPlugins` names, the library's with `autoUpdate`?
+    Does the onboarding command install the declared plugins the checkout
+    lacks — at local scope, on a yes, leaving one turned off here alone and
+    never adding a marketplace by hand — print `AGENTS.md` §2's commands as
+    blocks, and list the plugins' commands from their files rather than
+    from the session's list?
+
 ## Report
 
 A table: finding → layer → severity → proposed action. Apply changes after
