@@ -104,8 +104,9 @@ around it.
    — only on an explicit go-ahead, and never pushed without its own. Before
    an edit to state, the transition table again, each row with a test that
    fails with the edit reverted. A phase ends at its boundary — after a
-   commit, after a review, before and after a merge — with
-   `/work-bootstrap:handoff`, and the next one starts in a fresh session;
+   commit, one made outside the project's commit command included, after a
+   review, before and after a merge — with `/work-bootstrap:handoff`, and the
+   next one starts in a fresh session;
    inside a long phase, `/compact` with a focus.
 
 8. **After a decision worth keeping** — a convention, a rule for how to ask, a
