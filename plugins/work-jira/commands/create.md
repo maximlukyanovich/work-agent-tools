@@ -13,7 +13,8 @@ prints what would be created and exits.
 ## Steps
 
 1. **Refuse without an approved plan.** If this session has no approved tree from
-   `/work-jira:plan`, run that first. A plan approved in another session is re-shown
+   `/work-jira:plan`, stop and give `/work-jira:plan` as a code block to run
+   first. A plan approved in another session is re-shown
    for confirmation, not trusted silently.
 
 2. **Load conventions and coordinates.** The `issues` skill, the profile's

@@ -367,3 +367,37 @@ Check: `.claude/settings.json` enables each plugin as
 `<plugin>@mluk-work-agent-tools`; every plugin command the project's own files
 name — `AGENTS.md`, commands, skills — starts with `/work-`.
 Applies to: every project set up before 2026-10-17.
+
+## 2026-10-18 · next-step-at-a-stop
+
+What: a command that stops early and sends the developer to another command —
+a dirty tree to the commit command, a missing docs update — also prints that
+command as a code block ready to paste, with the target the work needs;
+naming it inside a sentence is fine, the block is what the stop must not lack.
+Check: checklist — "Every command ends with its next step"; audit §6.
+Applies to: every project with its own commands.
+
+## 2026-10-18 · onboarding-installs-plugins
+
+What: the settings declare every marketplace `enabledPlugins` names, the
+library's with `autoUpdate`, and the onboarding command installs the declared
+plugins a checkout lacks — at local scope, on a yes, leaving one turned off
+here alone and without adding a marketplace by hand — prints `AGENTS.md`
+§2's commands as code blocks, and lists the plugins' commands from their
+files, `help` included.
+Check: checklist — "The plugin set is recorded" and "The onboarding command";
+audit §13.
+Applies to: every project with an onboarding command or enabled plugins.
+
+## 2026-10-18 · worktree-compose-project
+
+What: the command that starts a task in a worktree gives a Compose stack
+there its own `COMPOSE_PROJECT_NAME` beside its port, so `up` in the
+worktree does not recreate the main tree's containers. The name goes into
+the `.env` beside the compose file (or the file `--env-file` names), which
+Compose reads for its own variables — a service's `env_file:` does not set
+it — and a file carrying the port or the name is copied into the tree, not
+linked, since a value written through a link lands in the main tree's file.
+Check: checklist — "The command that starts a task takes an optional
+`worktree` argument"; audit §8.
+Applies to: projects that run a Compose stack and start tasks in worktrees.

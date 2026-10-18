@@ -132,9 +132,12 @@ worktree path — and run there from the main workspace:
 
 A report that ends on "done" leaves the next step to memory, and it is
 skipped exactly when the work went well. So every command ends with what
-comes next as a code block ready to paste, one block per option. A next step
-that is an answer in this session — a yes to a commit, a choice of closing
-steps — stays a question, not a block.
+comes next as a code block ready to paste, one block per option. So does a
+step that stops early and sends the developer to another command — a dirty
+tree to the commit command: that command is also given as a block, with the
+target the work needs. Naming it inside a sentence is fine; what the stop
+must not lack is the block. A next step that is an answer in this session — a
+yes to a commit, a choice of closing steps — stays a question, not a block.
 
 At a phase boundary — a task's last commit, a review, before and after a
 merge — the block is for a fresh session and comes from
@@ -146,6 +149,55 @@ runs in: the session's model is back with the next prompt, and that turn
 re-reads the whole context uncached — each model has its own cache. So it
 pays only on a command that runs in one turn without a question, in a fresh
 session; never on commit, review or merge, whose first question ends it.
+
+### The onboarding command
+
+The project's start command is the first a newcomer runs, often in a clone
+where nothing is installed yet. Committed `enabledPlugins` turns a plugin on
+in every clone but downloads nothing, and trusting the folder only registers
+the marketplaces the settings declare — so the settings declare every
+marketplace `enabledPlugins` names: `mluk-work-agent-tools` from GitHub with
+`autoUpdate`, so a library change reaches every clone on its own, and
+`claude-plugins-official` when its plugins are on (an interactive first start
+adds that one on its own, a profile used only from the CLI lacks it):
+
+```json
+"extraKnownMarketplaces": {
+  "mluk-work-agent-tools": {
+    "source": { "source": "github", "repo": "maximlukyanovich/work-agent-tools" },
+    "autoUpdate": true
+  }
+}
+```
+
+The command then:
+
+- **Installs what this checkout lacks.** It reads `enabledPlugins` and one
+  `claude plugin list --json`, cut to `id`, `scope`, `enabled`,
+  `projectPath`, `installPath` before it is read. An install counts when its
+  scope is `user` or `managed`, or its `projectPath` is this checkout or
+  another checkout of the same repository — the same
+  `git rev-parse --path-format=absolute --git-common-dir`. A declared plugin
+  with no install that counts is missing; one whose installs all have
+  `enabled: false` is turned off here — a personal switch, left alone. The
+  missing ones are installed on a yes with `--scope local` — the settings
+  already turn them on, and a project-scope install writes into the
+  committed `settings.json` — then `/reload-plugins` and the start command
+  again, each as a code block. A plugin whose marketplace this machine does
+  not know (`claude plugin marketplace list --json`) is not installed: a
+  declared marketplace is registered by starting Claude Code at the
+  repository root and trusting the folder, an undeclared one goes under
+  `extraKnownMarketplaces` first. Neither needs
+  `claude plugin marketplace add`, and at two scopes it does harm:
+  `--scope local` replaces the committed entry and drops its `autoUpdate`,
+  `--scope project` rewrites the committed `settings.json`.
+- **Prints how to run the project** — the commands of `AGENTS.md` §2,
+  verbatim, as code blocks ready to paste, from the repository root.
+- **Lists the commands from their files** — the project's from
+  `.claude/COMMANDS.md`, each enabled plugin's from the `description` line
+  of `<installPath>/commands/*.md`: a command with
+  `disable-model-invocation`, such as `help`, is missing from the session's
+  own list.
 
 ### A command that starts a task must offer the opening steps
 
@@ -191,16 +243,27 @@ On a free tree a worktree only adds setup, and is not offered.
 - **Beside the repository**, `../<repo>-<key>`, never inside it: the main
   tree's linters, tests and type-check would pick up a nested copy. The
   folder is confirmed with the branch name.
-- **Link what git ignores but the work reads** — local notes, env files,
-  tool configs — listed from the main tree's ignored files and confirmed. A
-  folder tracked for one file (a README) is linked entry by entry, not whole.
-  Then install dependencies in the new tree, and run the framework's type
-  generation when its generated types are ignored — without them a fresh
-  tree fails its type-check on the route types.
+- **Link what git ignores but the work reads** — local notes, env files (one
+  that takes the tree's own port or Compose project name is copied instead,
+  see below), tool configs — listed from the main tree's ignored files and
+  confirmed. A folder tracked for one file (a README) is linked entry by
+  entry, not whole. Then install dependencies in the new tree, and run the
+  framework's type generation when its generated types are ignored —
+  without them a fresh tree fails its type-check on the route types.
 - **Its own port, for the dev server and for end-to-end tests.** A second
   dev server needs a free port, and so does an end-to-end run: a runner that
   reuses an already running server would otherwise test the main tree's code
-  on the default port, and pass.
+  on the default port, and pass. A Compose stack also gets its own
+  `COMPOSE_PROJECT_NAME`: under the main tree's name, `up` in the worktree
+  recreates the running containers with the worktree's code. The port goes
+  into the env file the dev server reads, the name into the `.env` beside the
+  compose file (or the file `--env-file` names) — Compose takes its own
+  variables from there, never from a service's `env_file:`. Either file is
+  copied from the main tree, not linked, since a value written through a link
+  lands in the main tree's file. What the compose file names outright is the
+  same for both stacks even then, and collides or is shared: a host port, a
+  `container_name`, a network or volume with its own `name:` or marked
+  `external`.
 - **A worktree is temporary.** The command that merges removes it with its
   branch (closing steps below); a folder deleted by hand leaves a stale entry
   that `git worktree prune` clears.

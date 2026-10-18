@@ -86,18 +86,19 @@ Which plugins to enable:
 | issues in Jira | + `work-jira` |
 | estimated before it starts | + `work-estimation` |
 
-An installed plugin is a copy in `~/.claude/plugins/cache/`. To pick up a new
-version:
+An installed plugin is a copy in `~/.claude/plugins/cache/`. A project set up
+by `setup` declares the marketplace with `autoUpdate`, so a new version arrives
+by itself: the plugins carry no `version`, so every commit on `main` reaches
+you, up to ten minutes after an interactive session's first message, and
+`/reload-plugins` applies it to an open session. Without that declaration,
+turn it on in `/plugin` → **Marketplaces** → `mluk-work-agent-tools` →
+**Enable auto-update**. The repository is public, so the background check
+needs no credential. By hand:
 
 ```bash
 claude plugin marketplace update mluk-work-agent-tools
-claude plugin update work-jira@mluk-work-agent-tools     # each installed plugin, then restart the session
+claude plugin update work-jira@mluk-work-agent-tools --scope project   # each installed plugin at its scope, then /reload-plugins
 ```
-
-Or let it happen by itself: `/plugin` → **Marketplaces** → `mluk-work-agent-tools`
-→ **Enable auto-update**. The plugins carry no `version`, so every commit on
-`main` reaches you; the repository is public, so the background check needs no
-credential.
 
 Updating delivers the method; it never edits a project. When a set-up project
 falls behind, `work-bootstrap`'s session-start hook says so and

@@ -41,6 +41,13 @@ for working on the repository itself.
   project.
 - **One fact, one place.** The skill is the source; README links to it and
   does not restate it. When a rule changes, it changes in one file.
+- **A tool's behaviour is stated only after a check.** What a plugin text or
+  a template says Claude Code, git, Compose or any other tool does — which
+  file a value comes from, what a flag or a scope changes, which entry wins a
+  merge — is checked first: a probe in a scratch directory, the tool's
+  documentation (Context7) or its source, never memory or inference. A claim
+  that holds for some options names them; a reason that names no property
+  ("that copy lacks what the declaration carries") was not checked.
 - **A rule earned on a live project lands here as a merge**, not in that
   project's notes. That is the whole reason this repository exists.
 - **A change a set-up project must carry over gets a `CHANGES.md` entry** in
@@ -71,6 +78,10 @@ for working on the repository itself.
   written for that purpose, narrowly, and both are paid for in every session.
   A plugin's entry in `marketplace.json` is its shop window in `/plugin`;
   README files are for people on the web, and no tool renders them.
+- **A plugin command ends the way a project's does** — with its next step as
+  a block ready to paste, a stop that sends to another command included, by
+  "A command ends with its next step" in
+  `plugins/work-bootstrap/reference/templates.md`.
 
 ## 4. Checks before a pull request
 
