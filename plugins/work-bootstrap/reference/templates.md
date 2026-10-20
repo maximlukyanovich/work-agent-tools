@@ -428,7 +428,12 @@ update it stays empty.
    The verdict follows from the table; the findings come after it, most
    severe first. Stop and ask what a further pass should add when it is
    pass 3+ with no new commits, when findings grew while the delta is small,
-   or when `escalated` plus `fix-critique` exceed half the findings.
+   or when `escalated` plus `fix-critique` exceed half the findings. When the
+   verdict reads ready and the growth is `missed` findings in code older than
+   the delta, the first option offered is to close the range: one fix round
+   on the open ids, then a pass over that round's delta alone, listing minor
+   and above — not another full pass, which on a large range finds a fresh
+   batch of old nits every time.
 6. **Append the pass.**
 7. **Hand the next step over** through `/work-bootstrap:handoff`. Open
    findings → a prompt for the fix round naming the pass, the ids, the
@@ -454,6 +459,11 @@ update it stays empty.
 - A finding names every place with the same mechanism. The fix closes all of
   them, each with a test that fails when the fix is reverted — a fix for one
   site of a race routinely leaves its twin.
+- UI: an element that holds the focus and leaves the page outside a modal's
+  focus scope with nowhere named for the focus to go — the plan's state table
+  names it (`kickoff`); the browser drops it to `<body>`. A `nit`; `minor`
+  only when a keyboard user loses their place in a flow under way, such as a
+  dialog or a form.
 
 **Review groups run on the session's model.** Above the delegation threshold
 the groups are where the diff is actually read, and the session's refutation

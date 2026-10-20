@@ -401,3 +401,23 @@ linked, since a value written through a link lands in the main tree's file.
 Check: checklist — "The command that starts a task takes an optional
 `worktree` argument"; audit §8.
 Applies to: projects that run a Compose stack and start tasks in worktrees.
+
+## 2026-10-21 · review-focus-leaves
+
+What: the review command's rubric checks UI for an element that holds the
+focus and leaves the page outside a modal's focus scope with nowhere named
+for the focus to go, since the browser drops it to `<body>` — a `nit`,
+`minor` only when a keyboard user loses their place in a flow under way. The
+rule itself is written at planning time, as a row of `kickoff`'s state table.
+Check: templates — the review command's rubric additions; audit §5.
+Applies to: projects with a review command and a UI.
+
+## 2026-10-21 · review-close-ready-range
+
+What: when a review reads ready and stops because findings grew on a small
+delta, and the growth is `missed` findings in code older than the delta, the
+first option it offers is to close the range — one fix round on the open ids,
+then a pass over that round's delta alone, listing minor and above — instead
+of another full pass.
+Check: templates — the review command's "Stop and ask"; audit §5.
+Applies to: projects with a review command and a pass ledger.
