@@ -401,3 +401,12 @@ linked, since a value written through a link lands in the main tree's file.
 Check: checklist — "The command that starts a task takes an optional
 `worktree` argument"; audit §8.
 Applies to: projects that run a Compose stack and start tasks in worktrees.
+
+## 2026-10-21 · review-focus-leaves
+
+What: the review command's rubric checks UI for an element that holds the
+focus and leaves the page outside a modal's focus scope — a button replaced
+by its own press, a row a re-read removes — and asks that each names where
+the focus goes, since the browser drops it to `<body>`.
+Check: templates — the review command's rubric additions; audit §5.
+Applies to: projects with a review command and a UI.
