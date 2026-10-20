@@ -428,7 +428,12 @@ update it stays empty.
    The verdict follows from the table; the findings come after it, most
    severe first. Stop and ask what a further pass should add when it is
    pass 3+ with no new commits, when findings grew while the delta is small,
-   or when `escalated` plus `fix-critique` exceed half the findings.
+   or when `escalated` plus `fix-critique` exceed half the findings. When the
+   verdict reads ready and the growth is `missed` findings in code older than
+   the delta, the first option offered is to close the range: one fix round
+   on the open ids, then a pass over that round's delta alone, listing minor
+   and above — not another full pass, which on a large range finds a fresh
+   batch of old nits every time.
 6. **Append the pass.**
 7. **Hand the next step over** through `/work-bootstrap:handoff`. Open
    findings → a prompt for the fix round naming the pass, the ids, the

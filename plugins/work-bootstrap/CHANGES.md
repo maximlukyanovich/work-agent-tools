@@ -410,3 +410,13 @@ by its own press, a row a re-read removes — and asks that each names where
 the focus goes, since the browser drops it to `<body>`.
 Check: templates — the review command's rubric additions; audit §5.
 Applies to: projects with a review command and a UI.
+
+## 2026-10-21 · review-close-ready-range
+
+What: when a review reads ready and stops because findings grew on a small
+delta, and the growth is `missed` findings in code older than the delta, the
+first option it offers is to close the range — one fix round on the open ids,
+then a pass over that round's delta alone, listing minor and above — instead
+of another full pass.
+Check: templates — the review command's "Stop and ask"; audit §5.
+Applies to: projects with a review command and a pass ledger.
