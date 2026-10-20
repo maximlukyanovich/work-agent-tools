@@ -460,10 +460,10 @@ update it stays empty.
   them, each with a test that fails when the fix is reverted — a fix for one
   site of a race routinely leaves its twin.
 - UI: an element that holds the focus and leaves the page outside a modal's
-  focus scope — a button its own press replaces (Try Again under its place's
-  skeleton, an action whose result removes it), a row a re-read takes away —
-  names where the focus goes. Nothing catches it there: the browser drops it
-  to `<body>`, and a keyboard or a screen reader starts over from the top.
+  focus scope with nowhere named for the focus to go — the plan's state table
+  names it (`kickoff`); the browser drops it to `<body>`. A `nit`; `minor`
+  only when a keyboard user loses their place in a flow under way, such as a
+  dialog or a form.
 
 **Review groups run on the session's model.** Above the delegation threshold
 the groups are where the diff is actually read, and the session's refutation

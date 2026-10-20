@@ -76,7 +76,9 @@ around it.
    how the result is proven. Three more where they apply, and nothing beyond
    them: **a state table** for work that changes state — state × event →
    expected → the test that proves it, the frame's events among them
-   (closed, opened again, remounted while a call is in flight); **the
+   (closed, opened again, remounted while a call is in flight) and, in UI,
+   every element that leaves while it may hold the focus — a button its own
+   press replaces, a row a re-read removes — with where the focus goes; **the
    framework behaviour the plan rests on**, with file:line, read before the
    plan rather than recalled; **one line on the structural option** and why
    the plan does not take it.
