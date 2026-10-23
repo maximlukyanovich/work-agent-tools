@@ -482,3 +482,14 @@ blocks to commit, to continue after `/compact <focus>`, or to continue in a
 fresh session.
 Check: checklist — "Every command ends with its next step"; audit §6.
 Applies to: every project with its own commands.
+
+## 2026-10-24 · efficiency-journal
+
+What: the project keeps `docs/local/efficiency-remarks.md`, and one line in
+`AGENTS.md` §6 says that a remark from the developer about the agent's
+speed, cost or quality of work goes there as a row in the same session. The
+audit reads the rows in either mode: a project cause becomes a finding, a
+library cause one depersonalised issue draft, filed only on an explicit yes.
+Check: checklist — "`docs/README.md` and `docs/local/README.md` exist";
+audit §14.
+Applies to: every project.

@@ -24,6 +24,11 @@ Rules that keep it cheap: no rule appears twice; anything expressible as lint
 configuration is a one-line reference, not a paragraph; the absence of a layer is
 recorded deliberately, with its reason.
 
+§6 carries one line for the efficiency journal: a remark from the developer
+about the agent's speed, cost or quality of work goes as a row into
+`docs/local/efficiency-remarks.md` in the same session — date, task, the
+quote, context, a link, no judgement; `/work-bootstrap:audit` reads it.
+
 A generator may have written some of these files first — `create-next-app`
 writes `AGENTS.md`, most generators a `.gitignore`. They are
 extended, never rewritten, and a block the generator marks as its own stays
@@ -735,6 +740,26 @@ test. A hook that fires on ordinary edits gets ignored and then removed.
 ## docs/local/README.md
 
 The only committed file in the personal space. It states what lives there — local
-specs, correspondence, estimates, task notes — and one rule for the agent: this
-material is context, never a source of truth, and is never quoted into committed
-content.
+specs, correspondence, estimates, task notes, the efficiency journal — and one
+rule for the agent: this material is context, never a source of truth, and is
+never quoted into committed content.
+
+## docs/local/efficiency-remarks.md
+
+The developer's remarks about how the agent spends time, tokens and care —
+raw material for `/work-bootstrap:audit`, not decisions. Ignored with the
+rest of `docs/local/`, written in the conversation's language:
+
+```markdown
+# Efficiency remarks
+
+One row per remark about the agent's speed, cost or quality of work, in the
+session it was made: the words as said and what happened. No judgement — the
+audit draws the conclusions and fills the last column.
+
+| Date | Task / phase | Quote | Context | Details | Analysed |
+| --- | --- | --- | --- | --- | --- |
+```
+
+A row may name the project's issues and quote people: the file stays local.
+What leaves it — an issue for the library — is depersonalised by the audit.

@@ -112,7 +112,8 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
 - [ ] MCP: the example in git, the generated file and `.env` ignored, generation
       works.
 - [ ] `docs/README.md` and `docs/local/README.md` exist; `docs/local/` is fully
-      ignored except its README.
+      ignored except its README. `docs/local/efficiency-remarks.md` exists,
+      and `AGENTS.md` §6 has the line that fills it.
 - [ ] `.claude/README.md` is a map with links; the command index is in
       `.claude/COMMANDS.md`; nothing inside `commands/` is not a command.
 - [ ] `.claude/project-profile.md` exists if any shared plugin is installed.

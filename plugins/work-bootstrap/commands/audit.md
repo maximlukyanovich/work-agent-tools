@@ -1,5 +1,5 @@
 ---
-description: Audit an existing agent harness against the layer model and report what drifted, in priority order.
+description: Audit an existing agent harness against the layer model and report what drifted, in priority order; read the project's efficiency journal.
 argument-hint: '[full]'
 ---
 
@@ -24,6 +24,8 @@ an entry whose `Applies to:` does not fit is reported as not applicable.
 - **Baseline not in `CHANGES.md`**: the installed plugin is older than the
   one that set it — say so; run nothing until the plugin is updated.
 - **`full`**: every check below, then the baseline.
+
+**The efficiency journal is read in either mode** — section 14 below.
 
 **Moving the baseline is the last step, and it is asked.** Once each entry is
 applied, declined with a recorded reason, or not applicable, offer to set
@@ -153,6 +155,23 @@ does not raise it again.
     never adding a marketplace by hand — print `AGENTS.md` §2's commands as
     blocks, and list the plugins' commands from their files rather than
     from the session's list?
+
+14. **The efficiency journal.** Do `docs/local/efficiency-remarks.md` and its
+    line in `AGENTS.md` §6 exist? Then read the rows not yet marked analysed
+    and group them by cause:
+    - a cause in this project — a rule, a skill, a command, a hook, a profile
+      key, a check that does not narrow — is a finding of this audit, with
+      its edit;
+    - a cause in a library plugin goes into **one** issue draft for that
+      library's repository (its `plugin.json` `repository`), the whole
+      audit's worth: the mechanism and the proposed change, with no project
+      or company name, issue key, path or quote — the library's issues are
+      public. The draft is shown verbatim and filed with `gh issue create`
+      only on an explicit yes; without `gh`, the draft and the repository's
+      new-issue link are printed. When the session's instructions name
+      another route for library proposals, the draft goes there instead.
+
+    The analysed rows get the audit's date in their last column.
 
 ## Report
 
