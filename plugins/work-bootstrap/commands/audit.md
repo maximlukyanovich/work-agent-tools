@@ -57,16 +57,22 @@ does not raise it again.
    Does a finding whose mechanism a ledger already holds end the report with
    a proposal to move it upstream?
    Does the commit command, after a task's last commit, hand over the review
-   command with its range — or is the review left to someone's memory?
+   command with its range — from the last reviewed head after the first pass
+   — or is the review left to someone's memory? Does a delta pass count, not
+   list, the missed minors and nits in lines it does not change, and mark a
+   cheap and real one `fix-now`?
    And the other half: when findings are fixed — usually in the working
    session, from a pasted report — does a rule in `AGENTS.md` load the testing
-   skill first, and does that skill ask for a reverted-fix test per finding
-   and for every state the fix touches, with a transition table before any
-   edit to state — rows for the frame closed, reopened or remounted while a
-   call is in flight among them — that the commit command shows? Without it, each pass's
-   fixes become the next pass's `major`s. Does the review end with the next
-   step — the fix-round prompt that names the ledger, or the merge command —
-   through `/work-bootstrap:handoff`, rather than a report to paste back?
+   skill first, and does that skill carry the round — a budget that limits
+   added measures, not fixes; the narrow fix; proof by risk; every state the
+   fix touches, with a transition table before any edit to state — rows for
+   the frame closed, reopened or remounted while a call is in flight among
+   them; one read of the round's diff — and a proof table the commit command
+   shows? Without it, each pass's fixes become the next pass's `major`s, or
+   a round on a small task takes hours. Does the review end with the next
+   step — the fix-round prompt that names the ledger, or the merge command
+   first and the `fix-now` round second — through `/work-bootstrap:handoff`,
+   rather than a report to paste back?
    Does a ready verdict read the plan and the task's notes before the merge
    command, and print "continue the task" while work is left? Does the
    review command say that no new work lands on a branch while its fix round
@@ -82,7 +88,8 @@ does not raise it again.
    a tree already recorded green? Does every code path have a targeted row
    whose command narrows, and does a gate of several parts skip a part whose
    content is unchanged? Does a fix to a commit not yet pushed go into that
-   commit, and does the review command read a head rewritten that way as
+   commit, do review fixes go into one fix commit that later rounds amend,
+   and does the review command read a head rewritten that way as
    `git diff <last head> HEAD`? Is a git hook running the whole gate —
    minutes per push, soon bypassed? Does lint-staged run the formatter after
    the linter's fixes? The wrong order leaves linter edits unformatted while

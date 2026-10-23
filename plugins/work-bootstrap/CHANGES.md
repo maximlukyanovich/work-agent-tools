@@ -434,3 +434,51 @@ unchanged since its last green run; timeouts under load are rerun alone
 before the gate is called red.
 Check: checklist — "Deterministic layer" and "The gate is fast"; audit §6.
 Applies to: projects with a commit or review command.
+
+## 2026-10-24 · review-delta-ready-ships
+
+What: a delta pass of the review command writes out a `missed` finding in
+lines the delta does not change only at `major` and above, and counts the
+rest in its opening block and the ledger; a cheap and real minor or nit is
+marked `fix-now`, and the other minors and nits do not hold the merge. A
+ready verdict hands over the merge command first and, when there are
+`fix-now` ids, the fix prompt for them second; closing a ready range offers
+the same. After the first pass, the commit command hands over the review
+from the last reviewed head, never `<base>..<head>`.
+Check: checklist — the review command, the commit command handing the
+review over, "Every command ends with its next step"; audit §5.
+Applies to: projects with a review command and a pass ledger.
+
+## 2026-10-24 · fix-commit-layout
+
+What: the first round of review fixes is one new commit on top of the
+series, and every later round goes into that fix commit while it is unpushed
+— amended, or folded with `--fixup`; the series' own commits are not
+rewritten for a review fix. Any other fix to an unpushed commit still goes
+into the commit it corrects.
+Check: checklist — "A fix to a commit not yet pushed"; audit §6.
+Applies to: projects with a commit command or a commit-conventions skill.
+
+## 2026-10-24 · fix-round-by-risk
+
+What: the testing skill carries the fix round — a budget in proportion to
+the findings that limits the measures added on top, never the fixes; the
+narrow fix, a structural one asked first; proof by risk, a test for money,
+data written or deleted, access, merges, what lets a confirmation through
+and branching logic, a recorded live check for the rest, and a run on the
+old code only for a test that may pass by coincidence; one read of the
+round's diff for side effects. The review rubric follows: a missing test is
+`major` only in a risk class. The fix prompt names the skill's fix round.
+Check: checklist — "Fixing review findings is a rule in `AGENTS.md`"; audit
+§5.
+Applies to: projects with a testing skill or a review command.
+
+## 2026-10-24 · next-step-nearest
+
+What: a command's report and its first block name the same, nearest step: a
+commit still to make is the commit command as a block, and the review
+command comes only after the task's last commit. A finished slice ends with
+blocks to commit, to continue after `/compact <focus>`, or to continue in a
+fresh session.
+Check: checklist — "Every command ends with its next step"; audit §6.
+Applies to: every project with its own commands.

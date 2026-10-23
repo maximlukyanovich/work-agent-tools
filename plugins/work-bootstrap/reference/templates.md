@@ -136,8 +136,12 @@ comes next as a code block ready to paste, one block per option. So does a
 step that stops early and sends the developer to another command — a dirty
 tree to the commit command: that command is also given as a block, with the
 target the work needs. Naming it inside a sentence is fine; what the stop
-must not lack is the block. A next step that is an answer in this session — a
-yes to a commit, a choice of closing steps — stays a question, not a block.
+must not lack is the block. A next step that is an answer in this session —
+a choice of closing steps — stays a question; a commit still to make is the
+commit command as a block, with its target. The text and the first block
+name the same step, the nearest one: while a commit or another step of the
+task is ahead, the block is for it, and the review command comes only after
+the task's last commit, with its head known.
 
 At a phase boundary — a task's last commit, a review, before and after a
 merge — the block is for a fresh session and comes from
@@ -410,12 +414,13 @@ appears later is added to `Aliases:`; the file is not renamed.
 Aliases: MR !34, feat/PROJ-12-orders-list
 Trajectory: P1 a1b2c3d 0/2/5/5 changes · P2 e4f5a6b 0/0/1/2 ready
 ## Open
-- R3 minor bug src/api/client.ts:114 — error body lost when it is not JSON
+- R3 minor bug fix-now src/api/client.ts:114 — error body lost when it is not JSON
 ## Pass 2 — <date> — head e4f5a6b · base a1b2c3d · delta — ready to merge
 - R9 minor fix-critique src/api/client.ts:83 — helper duplicated — open
 ```
 
-Ids `R<n>` never change. Status: `open`, `fixed`, `deferred (<reason>)`,
+Ids `R<n>` never change. A `minor` or `nit` worth fixing before the merge
+carries `fix-now` after its class. Status: `open`, `fixed`, `deferred (<reason>)`,
 `false-positive (<mechanism>)`, `disputed`. By default only `Trajectory` and
 `Open` are read; pass sections are appended, never rewritten. The command
 writes the ledger itself, without asking — a ledger that waits for a human to
@@ -445,7 +450,11 @@ update it stays empty.
    false positive is not raised again without a new mechanism. A finding whose
    mechanism a ledger already holds — this target's or another's — ends the
    report with one line proposing to move it upstream (the `layers` skill,
-   "A finding that comes back").
+   "A finding that comes back"). On a delta pass, a `missed` finding in lines
+   the delta does not change is written out only at `major` and above; the
+   rest are counted in the opening block and the pass, not listed. They
+   survived the passes that read them, and listing them is what kept a large
+   range from converging. The first pass and `full` list everything.
 5. **The report opens with the same block, every pass, zeros included** —
    the developer compares passes by it, and counts named in a sentence came
    and went between passes:
@@ -453,6 +462,7 @@ update it stays empty.
    ```
    **Review `<target>`, pass <N>.** <range>, <commits>, <files / lines>; uncommitted: <yes / no>
    Trajectory: P1 <head> <b/m/m/n> <verdict> → P2 <head> <b/m/m/n> <verdict>
+   Outside the delta, not listed: <n> minor · <n> nit      ← delta passes only
 
    | blocker | major | minor | nit |
    |---|---|---|---|
@@ -462,23 +472,29 @@ update it stays empty.
    ```
 
    The verdict follows from the table; the findings come after it, most
-   severe first. Stop and ask what a further pass should add when it is
+   severe first. A `minor` or `nit` that is cheap and real — a defect a user
+   can meet or a statement that is wrong, fixed in a line or two — is marked
+   `fix-now`; the other minors and nits stay open and do not hold the merge.
+   Observed on a live project: eight passes over one branch, each full one
+   finding ten to twenty-two old minors and nits, while the only delta pass
+   found three. Stop and ask what a further pass should add when it is
    pass 3+ with no new commits, when findings grew while the delta is small,
    or when `escalated` plus `fix-critique` exceed half the findings. When the
    verdict reads ready and the growth is `missed` findings in code older than
-   the delta, the first option offered is to close the range: one fix round
-   on the open ids, then a pass over that round's delta alone, listing minor
-   and above — not another full pass, which on a large range finds a fresh
-   batch of old nits every time.
+   the delta, the first option offered is to close the range: the merge; the
+   second, when there are `fix-now` ids, one fix round on them and a pass
+   over that round's delta alone — not another full pass, which on a large
+   range finds a fresh batch of old nits every time.
 6. **Append the pass.**
-7. **Hand the next step over** through `/work-bootstrap:handoff`. Open
-   findings → a prompt for the fix round naming the pass, the ids, the
+7. **Hand the next step over** through `/work-bootstrap:handoff`. An open
+   `blocker` or `major` → a prompt for the fix round naming the pass, the ids, the
    ledger's path, the plan and the target — never the report: the fix
    session reads the ledger. Ready closes the range, not the task: first read
    the plan and the task's notes — work the branch has not done yet makes the
    block "continue the task" (`Read <NEXT.md> and continue`, or the plan's
    next step), and the merge waits. The task done → the merge command with
-   the target, and the fix prompt as a second block while minors stay open.
+   the target first, and the fix prompt for the `fix-now` ids as a second
+   block when there are any.
    Observed on a live project: a clean repeat pass in the middle of a task
    would have printed the merge command with two slices and the live check
    still ahead.
@@ -492,11 +508,14 @@ update it stays empty.
 - Async code and stateful hooks: walk the lifecycle transitions (A→B mid-event,
   A→none→A) and a misbehaving peer (a 200 that closes at once). Check a type's
   documentation against the code instead of trusting it.
-- A behaviour change without a test is its own `major`, unless the diff says
-  why it cannot be tested.
+- A change in a risk class (below, "proof by risk") without a test is its
+  own `major`, unless the diff says why it cannot be tested; any other
+  behaviour change whose live check the commit or the report records needs
+  no test — a missing one is a `nit` at most — and with neither it is a
+  `minor`.
 - A finding names every place with the same mechanism. The fix closes all of
-  them, each with a test that fails when the fix is reverted — a fix for one
-  site of a race routinely leaves its twin.
+  them, each with its proof — a fix for one site of a race routinely leaves
+  its twin.
 - UI: an element that holds the focus and leaves the page outside a modal's
   focus scope with nowhere named for the focus to go — the plan's state table
   names it (`kickoff`); the browser drops it to `<body>`. A `nit`; `minor`
@@ -545,8 +564,12 @@ or of a round of review fixes, its report ends — through
 `/work-bootstrap:handoff` — with the review command ready to paste into a
 fresh session. The command carries:
 
-- the range `<base>..<head>`, from where the branch left its base branch, or
-  from the head the last pass reviewed;
+- the range — from where the branch left its base branch for the first pass,
+  from the head the last pass reviewed after it. Never `<base>..<head>` once
+  a pass exists: an explicit range outranks the ledger's delta, and a fix
+  round of six files then gets a review of the whole branch — observed on a
+  live project, a pass over 120 files that found nine old minors, which read
+  as bugs of the fixes;
 - what to skip — merge commits, other people's commits;
 - one code block per branch;
 - no prompt for what follows the review: the fix round or the merge is the
@@ -569,9 +592,10 @@ Observed on a live project: a header three characters too long left one
 task's six files staged, the following commit for another task swept them in,
 and the pair had to be split with `git reset --soft` before the push.
 
-**A fix to a commit not yet pushed goes into that commit.** A review finding
-— or a bug a fix round brought in — whose cause is a commit no remote holds
-yet (`git branch -r --contains <sha>` prints nothing) is fixed inside it:
+**A fix to a commit not yet pushed goes into that commit; review fixes go
+into one fix commit.** A bug found while the work goes on, whose cause is a
+commit no remote holds yet (`git branch -r --contains <sha>` prints
+nothing), is fixed inside it:
 `git commit --amend` when it is `HEAD`, otherwise `git commit --fixup=<sha>`
 and `git rebase --autosquash <sha>~` — before git 2.44 a rebase without
 `-i` ignores `--autosquash` and says nothing, so there it is
@@ -580,22 +604,49 @@ reworded when the fix changes what it says. A rebase that stops on a
 conflict — a later commit changed the same lines — is aborted
 (`git rebase --abort`) and the fix becomes a new commit: a conflict resolved
 inside history the gate never sees again is how a fold breaks a commit. A
-pushed commit takes a new commit, never a force push. A branch merges with its history, and "fix",
-then "fix the fix" tells a later reader nothing the corrected commit does
-not; the review's story is in the ledger, which reads a rewritten head
-(step 1 above). So the push waits for the review and its fixes, not the
-other way round. Observed on a live project: a fourteen-commit branch
-carried five commits that only fixed its other commits, after six review
-passes.
+pushed commit takes a new commit, never a force push. A round of review
+fixes is placed differently: the first round after a review is one new
+commit on top of the series, and every later round goes into that fix commit
+while it is unpushed — amended, or folded with `--fixup` when it is not
+`HEAD`. The series' own commits are not rewritten for a review fix. A branch
+merges with its history, and "fix", then "fix the fix" tells a later reader
+nothing the corrected commit does not; the review's story is in the ledger,
+which reads a rewritten head (step 1 above). So the push waits for the
+review and its fixes, not the other way round. Observed on a live project: a
+fourteen-commit branch carried five commits that only fixed its other
+commits, after six review passes; and later, spreading one round of fixes
+over four unpushed slices took blame by hunk, four reworded messages, a
+partial staging the formatter hook mangled and a rebase that stopped on a
+file every slice had touched.
 
 **Fixing the findings has its own discipline**, and the review command cannot
-enforce it: the fixes are usually made in the working session, from a report
-pasted into chat, where no command runs. So the rule lives where every session
-reads it — one line in `AGENTS.md` — and points to the project's testing
-skill, which carries three things:
+enforce it: the fixes are made in a fresh session from the handoff's fix
+prompt, where no command runs. So the rule lives where every session reads
+it — one line in `AGENTS.md` — and points to the project's testing skill,
+which carries the round:
 
-- **a test per fix that fails with the fix reverted** — an existing test
-  that "covers the area" usually passes either way;
+- **a budget in proportion to the findings** — minutes for a document or a
+  one-line fix, about twenty to thirty for a round on a small task; a round
+  that will plainly take longer says why before it starts. The budget limits
+  the measures added on top, never the fixes: every finding taken is closed,
+  or named with what it waits on, and a measure that costs more than the
+  fix — agents critiquing the plan or the delta, a batch of reverts, a
+  repeated gate or build — is asked about with its price, never added by
+  default;
+- **the narrow fix** — a structural one (moving logic out, moving tests, a
+  new convention) is a question first, with the narrow fix and a techdebt
+  entry as the default; a fix that would need its own parser, protocol or
+  format where the code already uses a library for the job takes the
+  library; a mechanism the fix introduces covers every site of its class,
+  not only the sites the finding named;
+- **proof by risk** — a test in the same commit for a change in a risk
+  class: money, data written or deleted, access, a merge of records or
+  accounts, what lets a confirmation through, logic that branches on its
+  input; a live check, recorded, for the rest. A test that may pass by
+  coincidence — the focus, timing, a fake or a mock, an async step — is run
+  once against the code it replaces and goes red there; an existing test
+  that "covers the area" usually passes either way, and a plain input →
+  output test needs no such run;
 - **every state the fix touches**, not the one the finding named: a query's
   pending, error, and error **with stale data**; success that may be out of
   date — while a refetch is in flight, and while the cache still counts as
@@ -603,15 +654,23 @@ skill, which carries three things:
   the last; a stream before its history has replayed. A fix round that
   closes one state ships the next round's `major` in the state beside it;
 - **a transition table before any edit to state**, a fix or not: state ×
-  event → expected → test, each row's test red with the edit reverted. The
+  event → expected → proof, by the same risk rule. The
   states an edit touches are listed before the code, not found by the next
   review. The frame around the state has events too — closed, opened again,
   asked to open while open, remounted — and each gets a row while a call is
   still in flight, saying where that call's outcome lands. A reset by
   remount (a new `key`) throws away whatever the call would still deliver;
+- **one read of the round's own diff** before the commit: what else does
+  each change do — in which states, for which users of the element (mouse,
+  keyboard, screen reader, another order of events)? A precedent is copied
+  whole. A doubt in the reasoning — "if…", "probably…", "fine anyway" —
+  becomes a row, a check or a report line; a changed sentence is reread
+  whole, and a changed rule is searched for across the docs, the harness and
+  the tests;
 - **the proof handed back** before the commit is asked for, and shown by the
   commit command: one row per finding, or per transition of a state edit —
-  the test, red with the change reverted.
+  the test (red on the old code where the rule asks for it) or the live
+  check.
 
 Observed on a live project: pass 2 found two new `major`s, both in states
 the pass-1 fixes had touched and not enumerated, and both untested — the
@@ -620,7 +679,10 @@ reworked a hand-over between two screens dropped a guard one transition
 away from the one it fixed; a transition table lists that row. And a dialog
 reset by remount on every opening lost a sign-in finishing behind a close:
 the outcome reached an unmounted component, and the reopened card showed its
-first step to a user the service had just signed in.
+first step to a user the service had just signed in. Later still, 83 reverts
+in a row went red and found nothing, while the defects the rounds brought —
+five to seven each — were side effects of fixes that worked, which a revert
+cannot see; that time now goes to the read of the diff.
 
 **A merging command reads the ledger** before the merge: no pass on the
 current head, or `major`+ still open → it says so and merges only on an

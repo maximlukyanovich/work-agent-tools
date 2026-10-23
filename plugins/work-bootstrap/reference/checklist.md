@@ -58,7 +58,11 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       a blocker / major / minor / nit table with zeros, the verdict — and
       recommends a fresh session; while its findings have a fix round open,
       no new work lands on the branch. A finding whose mechanism a ledger
-      already holds ends the report with a proposal to move it upstream.
+      already holds ends the report with a proposal to move it upstream. A
+      delta pass counts, not lists, the missed minors and nits in lines the
+      delta does not change; a cheap and real minor or nit is marked
+      `fix-now`, and a ready verdict offers the merge first and the
+      `fix-now` round second.
 - [ ] Review groups above the delegation threshold go to
       `.claude/agents/review-group.md` (`model: inherit`, read-only tools,
       findings only), un-ignored in `.gitignore`; the review command passes
@@ -66,31 +70,38 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       stay with the session.
 - [ ] The commit command, after a task's last commit or a round of review
       fixes, ends its report with the review command ready to paste: the
-      range, what to skip, one code block per branch — and no prompt for
+      range — from the base for the first pass, from the last reviewed head
+      after it — what to skip, one code block per branch, and no prompt for
       what follows the review, which the review prints itself.
 - [ ] The commands that commit, review and merge take a target — a branch or
       a worktree path — and run there: `git -C <tree>`, the gate in that
       tree.
 - [ ] Every command ends with its next step as a block ready to paste, one
-      per option, and so does a stop that sends to another command; at a
-      phase boundary through `/work-bootstrap:handoff`. The
-      review's is the fix-round prompt naming the ledger, or, when it reads
-      ready, the merge command — once the plan and the task's notes show no
-      work left, and "continue the task" while they do; the merge's is the
-      next task.
+      per option, and so does a stop that sends to another command — a
+      commit still to make included; at a phase boundary through
+      `/work-bootstrap:handoff`. The text and the first block name the same,
+      nearest step. The review's is the fix-round prompt naming the ledger,
+      or, when it reads ready, the merge command, with the `fix-now` round as
+      a second block — once the plan and the task's notes show no work left,
+      and "continue the task" while they do; the merge's is the next task.
 - [ ] A fix to a commit not yet pushed goes into that commit — `--amend`, or
-      `--fixup` and `--autosquash`; a pushed one takes a new commit. The
-      review command reads a head rewritten that way as
-      `git diff <last head> HEAD`.
+      `--fixup` and `--autosquash`; review fixes go into one fix commit on
+      top, made by the first round and amended by the later ones; a pushed
+      commit takes a new commit. The review command reads a head rewritten
+      that way as `git diff <last head> HEAD`.
 - [ ] The commit command compares the staged paths with its proposed list
       right before `git commit`, and after a commit the hook refused commits
       the same index again instead of staging the next group on top.
 - [ ] Fixing review findings is a rule in `AGENTS.md` that loads the testing
-      skill, and that skill asks for a reverted-fix test per finding, every
-      state the fix touches, a transition table before any edit to state —
-      with rows for the frame closed, reopened or remounted while a call is
-      in flight — and a finding or transition → test table that the commit
-      command shows before it asks.
+      skill, and that skill carries the round: a budget in proportion to the
+      findings that limits added measures, never fixes; the narrow fix, a
+      structural one asked first; proof by risk — a test for a change in a
+      risk class, a recorded live check for the rest, a run on the old code
+      only for a test that may pass by coincidence; every state the fix
+      touches; a transition table before any edit to state — with rows for
+      the frame closed, reopened or remounted while a call is in flight; one
+      read of the round's diff for side effects; and a finding or transition
+      → proof table that the commit command shows before it asks.
 - [ ] A fresh checkout installs: with pnpm 11, `allowBuilds` lists every
       dependency build script with its reason, `AGENTS.md` §2 says a new one
       needs an entry, and `pnpm install --frozen-lockfile` passes — and so

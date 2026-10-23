@@ -75,10 +75,11 @@ around it.
    the files each touches, assumptions, open questions, and verification —
    how the result is proven. Three more where they apply, and nothing beyond
    them: **a state table** for work that changes state — state × event →
-   expected → the test that proves it, the frame's events among them
-   (closed, opened again, remounted while a call is in flight) and, in UI,
-   every element that leaves while it may hold the focus — a button its own
-   press replaces, a row a re-read removes — with where the focus goes; **the
+   expected → its proof, a test or a recorded live check, the frame's events
+   among them (closed, opened again, remounted while a call is in flight)
+   and, in UI, every element that leaves while it may hold the focus — a
+   button its own press replaces, a row a re-read removes — with where the
+   focus goes; **the
    framework behaviour the plan rests on**, with file:line, read before the
    plan rather than recalled; **one line on the structural option** and why
    the plan does not take it.
@@ -105,13 +106,20 @@ around it.
    after each edit — the full gate runs once per tree, in the review and
    before the push — verify in the real environment, commit each slice
    through the project's commit procedure — only on an explicit go-ahead,
-   and never pushed without its own. Before
-   an edit to state, the transition table again, each row with a test that
-   fails with the edit reverted. A phase ends at its boundary — after a
-   commit, one made outside the project's commit command included, after a
-   review, before and after a merge — with `/work-bootstrap:handoff`, and the
-   next one starts in a fresh session;
-   inside a long phase, `/compact` with a focus.
+   and never pushed without its own. Each change carries its proof by risk,
+   as the project's testing skill says — a test for a change in a risk class
+   (money, data written or deleted, access, merges, what lets a confirmation
+   through, branching logic), a recorded live check for the rest, a run on
+   the old code only for a test that may pass by coincidence — and one read
+   of the slice's diff for what else it changes. Before an edit to state,
+   the transition table again, each row with its proof. A slice ends with
+   its next step as code blocks: the commit command while it is
+   uncommitted; once committed and the plan goes on, continuing here after
+   `/compact <focus>` or in a fresh session. A phase ends at its boundary —
+   after a commit, one made outside the project's commit command included,
+   after a review, before and after a merge — with `/work-bootstrap:handoff`,
+   and the next one starts in a fresh session; inside a long phase,
+   `/compact` with a focus.
 
 8. **After a decision worth keeping** — a convention, a rule for how to ask, a
    preset — propose the matching change in `mluk-work-agent-tools` in one line:
