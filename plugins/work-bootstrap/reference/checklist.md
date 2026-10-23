@@ -39,10 +39,18 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
 - [ ] Hooks: each silent outside its area, each with a test, all wired into
       `settings.json`.
 - [ ] Deterministic layer: linter, formatter, types, tests, git hooks, and one
-      `validate` command that runs them; the commands that commit and push run
-      it (the commit skips a gate the session already ran green after its last
-      edit, the push a tree already validated), no git hook runs the whole
-      gate, and lint-staged runs the formatter after the linter's fixes.
+      `validate` command that runs them; the commit runs the targeted checks
+      of the changed paths — a profile row per path class whose command
+      narrows, tried once — and the full gate only for a path no row covers;
+      the review and the push run the full gate once per tree and skip a tree
+      already recorded green; no git hook runs the whole gate, and lint-staged
+      runs the formatter after the linter's fixes.
+- [ ] The gate is fast: one of several parts skips a part whose content is
+      unchanged since its last green run — fingerprinted before and after its
+      checks, recorded only when the two match — and `--all` runs everything;
+      tests run in parallel only where they share no outside state, the
+      linter keeps a cache when no rule needs type information, the
+      type-check is incremental. CI runs without these caches.
 - [ ] A review command, if there is one, keeps a pass ledger in the personal
       space: reviews the delta since the last reviewed head, runs blind before
       reconciling, tags findings `new` / `missed` / `escalated` /

@@ -76,10 +76,12 @@ does not raise it again.
    `model: inherit` — not pinned to a cheaper model — with `model=` to
    override it and refutation left to the session?
 
-6. **Where the gate runs.** Does the push command run the gate for a tree the
-   commit command did not validate? Does the commit command skip a gate the
-   session already ran green after its last edit, rather than wait minutes
-   for the same result? Does a fix to a commit not yet pushed go into that
+6. **Where the gate runs.** Does the commit command run the targeted checks
+   of the changed paths, with the full gate only for a path no row covers —
+   and do the review and the push run the full gate once per tree, skipping
+   a tree already recorded green? Does every code path have a targeted row
+   whose command narrows, and does a gate of several parts skip a part whose
+   content is unchanged? Does a fix to a commit not yet pushed go into that
    commit, and does the review command read a head rewritten that way as
    `git diff <last head> HEAD`? Is a git hook running the whole gate —
    minutes per push, soon bypassed? Does lint-staged run the formatter after

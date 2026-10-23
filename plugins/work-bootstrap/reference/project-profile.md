@@ -32,7 +32,8 @@ as a copy that lags.
 
 ## Repository
 Branch chain and platform. Languages: committed, user-facing, conversation. The
-gate command.
+gate command, and the targeted checks — a row per path class with a command
+that narrows.
 
 ## Harness
 Baseline: <id> — the last `work-bootstrap` change (CHANGES.md) applied here.

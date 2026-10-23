@@ -144,6 +144,42 @@ merge — the block is for a fresh session and comes from
 `/work-bootstrap:handoff`: the session that did the work is the most
 expensive place for the next phase, and a review must not run there at all.
 
+### The gate runs once per tree
+
+The full gate costs minutes. Run after every edit and again by every command,
+it makes a fix wait longer than the fix. Observed on a live project: the
+commit command and then the review ran a six-minute gate on the same tree,
+and an amend of six files took half an hour. So the commands that commit,
+review, sync and merge share one rule:
+
+- **Between edits, in a commit, after a sync — the targeted checks.** The
+  profile names a row per path class with a command that really narrows:
+  the linter on the changed files, the type-check, the tests related to them
+  (`vitest related <files> --run`, one app's tests with `--keepdb`). A step
+  runs the rows of the paths it changed; a path no row covers — shared
+  configuration among them: the lockfile, the linter's, type-checker's or
+  test runner's config — runs the full gate. A filter that silently runs the
+  whole suite is not a targeted check; it is tried once before it is written
+  down.
+- **The full gate — once per tree.** The review runs it on the head it reads,
+  in the background while the rubric runs; the merge command runs it before
+  the push. Every green full run on a clean tree records the tree —
+  `git rev-parse HEAD^{tree}` into `validated-tree` in that tree's git
+  directory — and every command skips a recorded tree, saying so.
+- **Red under load is not red by code.** When only timeouts fail while the
+  machine is busy, the failing files are rerun alone, and both runs and the
+  load are reported.
+- **A gate of several parts picks them by content.** A part whose content is
+  unchanged since its last green run is skipped — a fingerprint of the part's
+  tree, kept in the git common directory so every worktree shares it, taken
+  before and after the part's checks and recorded only when the two match,
+  since a file edited during the run was checked in its new state — and
+  `--all` runs everything. Tests run in parallel only where they share no
+  outside state: tests that write a Redis-backed config the dev stack also
+  reads race each other's restore and leave the stack's value changed. The
+  linter keeps a cache when no rule needs type information, the type-check
+  is incremental; CI runs without these caches.
+
 **`model:` in a command's frontmatter** switches only the turn the command
 runs in: the session's model is back with the next prompt, and that turn
 re-reads the whole context uncached — each model has its own cache. So it
@@ -449,8 +485,10 @@ update it stays empty.
 
 **The rubric additions that repeated passes showed were missing:**
 
-- Run the gate once on the target. A red gate is one finding; what the linter
-  and the git hooks catch is not repeated as judgement.
+- Run the gate once on the target, in the background while the rubric runs,
+  and skip a tree already recorded green ("The gate runs once per tree"). A
+  red gate is one finding; what the linter and the git hooks catch is not
+  repeated as judgement.
 - Async code and stateful hooks: walk the lifecycle transitions (A→B mid-event,
   A→none→A) and a misbehaving peer (a 200 that closes at once). Check a type's
   documentation against the code instead of trusting it.

@@ -101,9 +101,11 @@ around it.
    question in chat. A plan returned with comments is revised and submitted
    again.
 
-7. **After approval**: code in slices, run the gate after each, verify in the
-   real environment, commit each slice through the project's commit procedure
-   — only on an explicit go-ahead, and never pushed without its own. Before
+7. **After approval**: code in slices, the targeted checks of what changed
+   after each edit — the full gate runs once per tree, in the review and
+   before the push — verify in the real environment, commit each slice
+   through the project's commit procedure — only on an explicit go-ahead,
+   and never pushed without its own. Before
    an edit to state, the transition table again, each row with a test that
    fails with the edit reverted. A phase ends at its boundary — after a
    commit, one made outside the project's commit command included, after a
@@ -135,6 +137,6 @@ around it.
 
 The plan file has the decisions table, slices and a verification section —
 and the state table, the framework pointers and the structural line where
-they apply — before approval is requested. Each slice ends with the gate
-green and the real check the plan named. Every commit was made on an
+they apply — before approval is requested. Each slice ends with its targeted
+checks green and the real check the plan named. Every commit was made on an
 explicit go-ahead.

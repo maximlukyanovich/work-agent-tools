@@ -421,3 +421,16 @@ then a pass over that round's delta alone, listing minor and above — instead
 of another full pass.
 Check: templates — the review command's "Stop and ask"; audit §5.
 Applies to: projects with a review command and a pass ledger.
+
+## 2026-10-24 · gate-once-per-tree
+
+What: between edits, in a commit and after a sync, the project's commands
+run the targeted checks of the changed paths — a profile row per path class
+whose command really narrows, tried once — and the full gate only for a path
+no row covers; the review runs the full gate in the background on its head,
+the merge command before the push, and every command skips a tree already
+recorded green. A gate of several parts skips a part whose content is
+unchanged since its last green run; timeouts under load are rerun alone
+before the gate is called red.
+Check: checklist — "Deterministic layer" and "The gate is fast"; audit §6.
+Applies to: projects with a commit or review command.
