@@ -17,7 +17,7 @@ Other scopes and updating: [Quick start](../../README.md#quick-start).
 | --- | --- |
 | `/work-bootstrap:new` | In an empty folder: asks the stack, runs its official generator by the stack's recipe, pins the versions, initialises git, offers the first commit and the remote. Then `setup`. |
 | `/work-bootstrap:setup` | Inventories the repository, asks only what the code cannot answer, shows a plan, then creates the harness. |
-| `/work-bootstrap:audit` | Checks only the method changes after the project's baseline ([CHANGES.md](CHANGES.md)); `full` checks the whole harness against the model. Read-only until a change is approved. |
+| `/work-bootstrap:audit` | Checks only the method changes after the project's baseline ([CHANGES.md](CHANGES.md)); `full` checks the whole harness against the model. Either way it reads the project's efficiency journal: project causes become findings, library causes one issue draft, filed only on your yes. Read-only until a change is approved. |
 | `/work-bootstrap:handoff` | Ends a phase of work: prints the next step as a prompt for a fresh session — the review, the fix round, the merge, the next task — and `/compact` where staying is cheaper. The agent runs it itself at a phase boundary. |
 | `/work-bootstrap:help` | What this plugin can do: commands, the layer model it applies, what it creates. Optional language argument. |
 

@@ -1,5 +1,5 @@
 ---
-description: Audit an existing agent harness against the layer model and report what drifted, in priority order.
+description: Audit an existing agent harness against the layer model and report what drifted, in priority order; read the project's efficiency journal.
 argument-hint: '[full]'
 ---
 
@@ -24,6 +24,8 @@ an entry whose `Applies to:` does not fit is reported as not applicable.
 - **Baseline not in `CHANGES.md`**: the installed plugin is older than the
   one that set it — say so; run nothing until the plugin is updated.
 - **`full`**: every check below, then the baseline.
+
+**The efficiency journal is read in either mode** — section 14 below.
 
 **Moving the baseline is the last step, and it is asked.** Once each entry is
 applied, declined with a recorded reason, or not applicable, offer to set
@@ -57,16 +59,22 @@ does not raise it again.
    Does a finding whose mechanism a ledger already holds end the report with
    a proposal to move it upstream?
    Does the commit command, after a task's last commit, hand over the review
-   command with its range — or is the review left to someone's memory?
+   command with its range — from the last reviewed head after the first pass
+   — or is the review left to someone's memory? Does a delta pass count, not
+   list, the missed minors and nits in lines it does not change, and mark a
+   cheap and real one `fix-now`?
    And the other half: when findings are fixed — usually in the working
    session, from a pasted report — does a rule in `AGENTS.md` load the testing
-   skill first, and does that skill ask for a reverted-fix test per finding
-   and for every state the fix touches, with a transition table before any
-   edit to state — rows for the frame closed, reopened or remounted while a
-   call is in flight among them — that the commit command shows? Without it, each pass's
-   fixes become the next pass's `major`s. Does the review end with the next
-   step — the fix-round prompt that names the ledger, or the merge command —
-   through `/work-bootstrap:handoff`, rather than a report to paste back?
+   skill first, and does that skill carry the round — a budget that limits
+   added measures, not fixes; the narrow fix; proof by risk; every state the
+   fix touches, with a transition table before any edit to state — rows for
+   the frame closed, reopened or remounted while a call is in flight among
+   them; one read of the round's diff — and a proof table the commit command
+   shows? Without it, each pass's fixes become the next pass's `major`s, or
+   a round on a small task takes hours. Does the review end with the next
+   step — the fix-round prompt that names the ledger, or the merge command
+   first and the `fix-now` round second — through `/work-bootstrap:handoff`,
+   rather than a report to paste back?
    Does a ready verdict read the plan and the task's notes before the merge
    command, and print "continue the task" while work is left? Does the
    review command say that no new work lands on a branch while its fix round
@@ -76,11 +84,14 @@ does not raise it again.
    `model: inherit` — not pinned to a cheaper model — with `model=` to
    override it and refutation left to the session?
 
-6. **Where the gate runs.** Does the push command run the gate for a tree the
-   commit command did not validate? Does the commit command skip a gate the
-   session already ran green after its last edit, rather than wait minutes
-   for the same result? Does a fix to a commit not yet pushed go into that
-   commit, and does the review command read a head rewritten that way as
+6. **Where the gate runs.** Does the commit command run the targeted checks
+   of the changed paths, with the full gate only for a path no row covers —
+   and do the review and the push run the full gate once per tree, skipping
+   a tree already recorded green? Does every code path have a targeted row
+   whose command narrows, and does a gate of several parts skip a part whose
+   content is unchanged? Does a fix to a commit not yet pushed go into that
+   commit, do review fixes go into one fix commit that later rounds amend,
+   and does the review command read a head rewritten that way as
    `git diff <last head> HEAD`? Is a git hook running the whole gate —
    minutes per push, soon bypassed? Does lint-staged run the formatter after
    the linter's fixes? The wrong order leaves linter edits unformatted while
@@ -144,6 +155,23 @@ does not raise it again.
     never adding a marketplace by hand — print `AGENTS.md` §2's commands as
     blocks, and list the plugins' commands from their files rather than
     from the session's list?
+
+14. **The efficiency journal.** Do `docs/local/efficiency-remarks.md` and its
+    line in `AGENTS.md` §6 exist? Then read the rows not yet marked analysed
+    and group them by cause:
+    - a cause in this project — a rule, a skill, a command, a hook, a profile
+      key, a check that does not narrow — is a finding of this audit, with
+      its edit;
+    - a cause in a library plugin goes into **one** issue draft for that
+      library's repository (its `plugin.json` `repository`), the whole
+      audit's worth: the mechanism and the proposed change, with no project
+      or company name, issue key, path or quote — the library's issues are
+      public. The draft is shown verbatim and filed with `gh issue create`
+      only on an explicit yes; without `gh`, the draft and the repository's
+      new-issue link are printed. When the session's instructions name
+      another route for library proposals, the draft goes there instead.
+
+    The analysed rows get the audit's date in their last column.
 
 ## Report
 

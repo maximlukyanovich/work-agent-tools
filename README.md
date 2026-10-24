@@ -128,7 +128,7 @@ session:
 ```bash
 /work-jira:next          what to take next from the board
 /task PROJ-12            the project's command: branch, plan, open questions; no code before your yes
-/commit                  the project's command: stage, run the gate, message by its convention
+/commit                  the project's command: stage, check what changed, message by its convention
 /code-review             the project's command: findings by severity, each with file:line
 /promote                 the project's command: merge along the branch chain, then the result comment and the worklog
 ```

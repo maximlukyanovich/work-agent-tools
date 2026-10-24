@@ -11,8 +11,9 @@ next task costs a fraction in a fresh session that gets a short prompt.
 **Read-only**, apart from `NEXT.md` below.
 
 The agent runs it itself at a phase boundary: after a commit, after a review,
-before promoting, after a merge. Never before a commit — the message needs
-the context this session holds.
+before promoting, after a merge. Before a commit it prints only the project's
+commit command, to run in this session — the message needs the context this
+session holds.
 
 ## Steps
 
@@ -34,9 +35,10 @@ the context this session holds.
 
    | Boundary | Fresh session | `/compact` here |
    |---|---|---|
+   | uncommitted changes | none — the project's commit command with the target, as a block to run here; it hands off after | — |
    | a task's last commit, or a fix round's | the review command with its range, flags and what to skip — and no prompt for what follows it | no — a review runs fresh |
-   | a review with open findings | "Fix the open findings of pass N from `<ledger>` (R…). Plan — `<path>`. Target — `<branch or worktree>`." | no |
-   | a review that reads ready | the task done: the merge command with the target; with minors still open, the fix prompt as a second block. Work left in the plan: "continue the task" | no |
+   | a review with an open `blocker` or `major` | "Fix the open findings of pass N from `<ledger>` (R…) by the testing skill's fix round. Plan — `<path>`. Target — `<branch or worktree>`." | no |
+   | a review that reads ready | the task done: the merge command with the target first; with `fix-now` ids open, the fix prompt for them as a second block, and the other open ids named as staying open. Work left in the plan: "continue the task" | no |
    | before promoting | the merge command with the target | no |
    | after a merge | the start of the next task — `/work-jira:next` or the project's start command; findings the ledger still holds open are named, to fix or to defer | no |
    | the next slice of a long phase | the goal, what is done, where the decisions are, the next step; findings the ledger holds open come before the slice | `/compact <focus>`, then go on |
@@ -55,7 +57,10 @@ the context this session holds.
    is for the step after the chain of review and fixes, and says so.
 
 4. **Print one code block per option**, ready to paste, in the chat's
-   language; identifiers, paths and commands verbatim. A prompt longer than
+   language; identifiers, paths and commands verbatim. The text above the
+   blocks and the first block name the same step, the nearest one: while a
+   commit or another step of the task is ahead, the block is for it, and a
+   review command follows only the task's last commit. A prompt longer than
    about eight lines goes into `NEXT.md` in the task's folder in the personal
    space, and its block becomes "Read `<path>/NEXT.md` and continue."
 
@@ -67,7 +72,7 @@ the context this session holds.
 ## Hard rules
 
 - **Read-only**, except `NEXT.md` in the personal space.
-- **Never before a commit.**
+- **Before a commit, only the commit command.**
 - **A review always gets a fresh session.** The session that wrote the code
   confirms its own reasons; `/compact` does not make it forget them.
 - **A review freezes its range.** While the branch's findings have a fix

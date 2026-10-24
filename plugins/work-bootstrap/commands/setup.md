@@ -45,7 +45,8 @@ The order is fixed. Steps are not reordered or skipped.
    belongs on: the `layers` skill.
 
    Order: `AGENTS.md` first — everything else references it — then `CLAUDE.md`,
-   the profile, skills, commands, agents, hooks, MCP, docs.
+   the profile, skills, commands, agents, hooks, MCP, docs —
+   `docs/local/README.md` and the efficiency journal among them.
 
    The profile gets a `## Harness` section whose `Baseline:` is the id of the
    last entry in `${CLAUDE_PLUGIN_ROOT}/CHANGES.md`: the harness was built
