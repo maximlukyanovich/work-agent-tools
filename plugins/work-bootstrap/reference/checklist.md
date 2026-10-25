@@ -61,8 +61,12 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       already holds ends the report with a proposal to move it upstream. A
       delta pass counts, not lists, the missed minors and nits in lines the
       delta does not change; a cheap and real minor or nit is marked
-      `fix-now`, and a ready verdict offers the merge first and the
-      `fix-now` round second.
+      `fix-now`, and every other one gets its place in the report — a
+      techdebt row or `deferred (accepted: <reason>)`, a security finding
+      only techdebt — so none is `open` at the merge. A ready verdict with
+      `fix-now` ids or techdebt rows to write offers the fix round first, the
+      review of its delta next and the merge last; the merge first only on
+      the developer's word.
 - [ ] Review groups above the delegation threshold go to
       `.claude/agents/review-group.md` (`model: inherit`, read-only tools,
       findings only), un-ignored in `.gitignore`; the review command passes
@@ -80,10 +84,11 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       per option, and so does a stop that sends to another command — a
       commit still to make included; at a phase boundary through
       `/work-bootstrap:handoff`. The text and the first block name the same,
-      nearest step. The review's is the fix-round prompt naming the ledger,
-      or, when it reads ready, the merge command, with the `fix-now` round as
-      a second block — once the plan and the task's notes show no work left,
-      and "continue the task" while they do; the merge's is the next task.
+      nearest step. The review's is the fix-round prompt naming the ledger —
+      when it reads ready too, while `fix-now` ids or techdebt rows are left
+      — and otherwise the merge command, once the plan and the task's notes
+      show no work left, and "continue the task" while they do; the merge's
+      is the next task.
 - [ ] A fix to a commit not yet pushed goes into that commit — `--amend`, or
       `--fixup` and `--autosquash`; review fixes go into one fix commit on
       top, made by the first round and amended by the later ones; a pushed
@@ -100,7 +105,8 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       only for a test that may pass by coincidence; every state the fix
       touches; a transition table before any edit to state — with rows for
       the frame closed, reopened or remounted while a call is in flight; one
-      read of the round's diff for side effects; and a finding or transition
+      read of the round's diff for side effects; the techdebt rows the
+      review placed, written with the fixes; and a finding or transition
       → proof table that the commit command shows before it asks.
 - [ ] The testing skill proves by risk: the risk classes, a costly break
       where nobody looks among them with its condition; a test asserts the

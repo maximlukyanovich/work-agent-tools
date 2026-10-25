@@ -425,8 +425,11 @@ Trajectory: P1 a1b2c3d 0/2/5/5 changes · P2 e4f5a6b 0/0/1/2 ready
 ```
 
 Ids `R<n>` never change. A `minor` or `nit` worth fixing before the merge
-carries `fix-now` after its class. Status: `open`, `fixed`, `deferred (<reason>)`,
-`false-positive (<mechanism>)`, `disputed`. By default only `Trajectory` and
+carries `fix-now` after its class. Status: `open`, `fixed`,
+`deferred (<techdebt file, section>)`, `deferred (accepted: <reason>)`,
+`false-positive (<mechanism>)`, `disputed`. Every other `minor` and `nit`
+gets one of the two `deferred` places in the pass that raises it, and none
+is `open` at the merge (step 5). By default only `Trajectory` and
 `Open` are read; pass sections are appended, never rewritten. The command
 writes the ledger itself, without asking — a ledger that waits for a human to
 update it stays empty.
@@ -479,17 +482,29 @@ update it stays empty.
    The verdict follows from the table; the findings come after it, most
    severe first. A `minor` or `nit` that is cheap and real — a defect a user
    can meet or a statement that is wrong, fixed in a line or two — is marked
-   `fix-now`; the other minors and nits stay open and do not hold the merge.
+   `fix-now`. Every other `minor` and `nit` gets its place in the same
+   report: a row for the project's techdebt file — what breaks, who sees it,
+   the priority — or `deferred (accepted: <reason>)`; a `security` finding
+   goes only to techdebt, or where the developer's word puts it. The ledger
+   records the place as the status, the developer's word overturns it, and
+   the fix round writes the techdebt rows. These do not hold the merge, and
+   none stays `open` past it: the ledger lives outside git, by branch, so an
+   `open` is lost after the merge, and the next task's planning sees only
+   techdebt with a priority.
    Observed on a live project: eight passes over one branch, each full one
    finding ten to twenty-two old minors and nits, while the only delta pass
    found three. Stop and ask what a further pass should add when it is
    pass 3+ with no new commits, when findings grew while the delta is small,
-   or when `escalated` plus `fix-critique` exceed half the findings. When the
-   verdict reads ready and the growth is `missed` findings in code older than
-   the delta, the first option offered is to close the range: the merge; the
-   second, when there are `fix-now` ids, one fix round on them and a pass
-   over that round's delta alone — not another full pass, which on a large
-   range finds a fresh batch of old nits every time.
+   or when `escalated` plus `fix-critique` exceed half the findings. A ready
+   verdict with `fix-now` ids open, or techdebt rows still to write, offers
+   one fix round on them first, a pass over that round's delta alone next,
+   and the merge last; without them, the merge. The merge goes first only on
+   the developer's word to ship now: a fix in the same unmerged branch is one
+   commit, one delta and one MR, and after the merge it is a new branch, an
+   MR, CI and a review. When the verdict reads ready and the growth is
+   `missed` findings in code older than the delta, the range closes that way
+   — not with another full pass, which on a large range finds a fresh batch
+   of old nits every time.
 6. **Append the pass.**
 7. **Hand the next step over** through `/work-bootstrap:handoff`. An open
    `blocker` or `major` → a prompt for the fix round naming the pass, the ids, the
@@ -497,9 +512,11 @@ update it stays empty.
    session reads the ledger. Ready closes the range, not the task: first read
    the plan and the task's notes — work the branch has not done yet makes the
    block "continue the task" (`Read <NEXT.md> and continue`, or the plan's
-   next step), and the merge waits. The task done → the merge command with
-   the target first, and the fix prompt for the `fix-now` ids as a second
-   block when there are any.
+   next step), and the merge waits. The task done → with `fix-now` ids open
+   or techdebt rows to write, the fix prompt for them: the round's commit
+   hands over the review of its delta, and that review the merge. Without
+   them, the merge command with the target. The merge command comes first
+   only on the developer's word to ship now.
    Observed on a live project: a clean repeat pass in the middle of a task
    would have printed the merge command with two slices and the live check
    still ahead.
@@ -683,7 +700,10 @@ which carries the round:
 - **the proof handed back** before the commit is asked for, and shown by the
   commit command: one row per finding, or per transition of a state edit —
   the test (red on the old code where the rule asks for it) or the live
-  check.
+  check;
+- **the techdebt places written** with the fixes — each finding the review
+  placed in techdebt becomes its row (what breaks, who sees it, the
+  priority, the id), in the round's commit when the file is in git.
 
 Observed on a live project: pass 2 found two new `major`s, both in states
 the pass-1 fixes had touched and not enumerated, and both untested — the

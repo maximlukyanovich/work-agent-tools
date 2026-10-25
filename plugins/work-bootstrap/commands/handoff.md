@@ -38,9 +38,9 @@ session holds.
    | uncommitted changes | none — the project's commit command with the target, as a block to run here; it hands off after | — |
    | a task's last commit, or a fix round's | the review command with its range, flags and what to skip — and no prompt for what follows it | no — a review runs fresh |
    | a review with an open `blocker` or `major` | "Fix the open findings of pass N from `<ledger>` (R…) by the testing skill's fix round. Plan — `<path>`. Target — `<branch or worktree>`." | no |
-   | a review that reads ready | the task done: the merge command with the target first; with `fix-now` ids open, the fix prompt for them as a second block, and the other open ids named as staying open. Work left in the plan: "continue the task" | no |
+   | a review that reads ready | the task done: with `fix-now` ids open or techdebt rows to write, the fix prompt for them — the round's commit hands over the review of its delta, and that review the merge; without them, the merge command with the target. The merge command first only on the developer's word to ship now. Work left in the plan: "continue the task" | no |
    | before promoting | the merge command with the target | no |
-   | after a merge | the start of the next task — `/work-jira:next` or the project's start command; findings the ledger still holds open are named, to fix or to defer | no |
+   | after a merge | the start of the next task — `/work-jira:next` or the project's start command. Findings are not listed: by now each has its place; only a gap is named — an id still `open`, or a techdebt place whose row the file lacks | no |
    | the next slice of a long phase | the goal, what is done, where the decisions are, the next step; findings the ledger holds open come before the slice | `/compact <focus>`, then go on |
 
    **Ready closes the range, not the task.** A verdict speaks for the commits

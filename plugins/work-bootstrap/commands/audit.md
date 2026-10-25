@@ -16,6 +16,10 @@ Take the entries of `${CLAUDE_PLUGIN_ROOT}/CHANGES.md` after that id and
 check each one's `Check:` against the project — nothing else. The report is
 one row per entry: the entry, its state in this project, the proposed action;
 an entry whose `Applies to:` does not fit is reported as not applicable.
+An entry whose `Supersedes:` names an earlier one replaces the part it
+names: when the delta holds both, that part is checked against the later
+entry alone, and a project already past the earlier one applies the later
+as a change of its own.
 
 - **No baseline**: the project predates the mechanism — say so and run the
   full audit, which ends by setting one. `Baseline: off` means the project
@@ -61,20 +65,23 @@ does not raise it again.
    Does the commit command, after a task's last commit, hand over the review
    command with its range — from the last reviewed head after the first pass
    — or is the review left to someone's memory? Does a delta pass count, not
-   list, the missed minors and nits in lines it does not change, and mark a
-   cheap and real one `fix-now`?
+   list, the missed minors and nits in lines it does not change, mark a
+   cheap and real one `fix-now`, and give every other one its place — a
+   techdebt row or `deferred (accepted: …)` — so none is `open` at the
+   merge?
    And the other half: when findings are fixed — usually in the working
    session, from a pasted report — does a rule in `AGENTS.md` load the testing
    skill first, and does that skill carry the round — a budget that limits
    added measures, not fixes; the narrow fix; proof by risk; every state the
    fix touches, with a transition table before any edit to state — rows for
    the frame closed, reopened or remounted while a call is in flight among
-   them; one read of the round's diff — and a proof table the commit command
-   shows? Without it, each pass's fixes become the next pass's `major`s, or
-   a round on a small task takes hours. Does the review end with the next
-   step — the fix-round prompt that names the ledger, or the merge command
-   first and the `fix-now` round second — through `/work-bootstrap:handoff`,
-   rather than a report to paste back?
+   them; one read of the round's diff; the techdebt rows written with the
+   fixes — and a proof table the commit command shows? Without it, each
+   pass's fixes become the next pass's `major`s, or a round on a small task
+   takes hours. Does the review end with the next step — the fix-round
+   prompt that names the ledger, a ready verdict included while `fix-now`
+   ids or techdebt rows are left, the merge command only without them —
+   through `/work-bootstrap:handoff`, rather than a report to paste back?
    Does the testing skill hold proof by risk whole — the costly break where
    nobody looks with its condition, what a test asserts, which existing tests
    stay, tests of code conventions — and does the review's `test` lens grade

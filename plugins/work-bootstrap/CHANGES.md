@@ -19,7 +19,10 @@ Each entry:
 - `What:` the change, in one or two sentences, as a project would apply it;
 - `Check:` the checklist item or audit section that verifies it;
 - `Applies to:` which projects — an entry that does not apply is skipped, and
-  the baseline still moves past it.
+  the baseline still moves past it;
+- `Supersedes:` optional — the id of an earlier entry and the part this one
+  replaces. The earlier entry stays as it is; the audit checks that part
+  against the later one.
 
 ## 2026-09-30 · closing-steps
 
@@ -519,3 +522,28 @@ first; and turns a defect it finds into a task of its own. It is asked, with
 its price, before it runs.
 Check: audit §15.
 Applies to: projects with tests.
+
+## 2026-10-25 · review-findings-placed
+
+What: the review report gives every `minor` and `nit` that is not `fix-now`
+its place at once — a techdebt row (what breaks, who sees it, the priority)
+or `deferred (accepted: <reason>)`; a security finding goes only to
+techdebt, or where the developer's word puts it. The ledger records the
+place as the status, the fix round writes the techdebt rows with its fixes,
+and after a merge the handoff names only a finding without a place instead
+of the open ones.
+Check: checklist — the review command, "Fixing review findings is a rule in
+`AGENTS.md`"; audit §5.
+Applies to: projects with a review command and a pass ledger.
+
+## 2026-10-25 · ready-fixes-first
+
+What: a ready verdict with `fix-now` ids open, or techdebt rows to write,
+hands over the fix round first; the round's commit hands over the review of
+its delta, and that review the merge. The merge command comes first only on
+the developer's word to ship now; without such ids, the merge as before.
+Supersedes: review-delta-ready-ships — the order of a ready verdict and of
+closing a ready range (the merge first, the `fix-now` round second).
+Check: checklist — the review command, "Every command ends with its next
+step"; audit §5.
+Applies to: projects with a review command and a pass ledger.
