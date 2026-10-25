@@ -1,5 +1,5 @@
 ---
-description: Audit an existing agent harness against the layer model and report what drifted, in priority order; read the project's efficiency journal.
+description: Audit an existing agent harness against the layer model and report what drifted, in priority order; read the project's efficiency journal and, on a yes, audit the test suite by risk.
 argument-hint: '[full]'
 ---
 
@@ -75,6 +75,10 @@ does not raise it again.
    step — the fix-round prompt that names the ledger, or the merge command
    first and the `fix-now` round second — through `/work-bootstrap:handoff`,
    rather than a report to paste back?
+   Does the testing skill hold proof by risk whole — the costly break where
+   nobody looks with its condition, what a test asserts, which existing tests
+   stay, tests of code conventions — and does the review's `test` lens grade
+   by it, a removed guard and a false claim of coverage `major`?
    Does a ready verdict read the plan and the task's notes before the merge
    command, and print "continue the task" while work is left? Does the
    review command say that no new work lands on a branch while its fix round
@@ -172,6 +176,33 @@ does not raise it again.
       another route for library proposals, the draft goes there instead.
 
     The analysed rows get the audit's date in their last column.
+
+15. **Tests by risk.** Asked as a step of its own, with its price — it reads
+    every test and spends a second reviewer, so the question names the
+    suite's size and an estimate. On a yes, against the project's testing
+    skill (`${CLAUDE_PLUGIN_ROOT}/reference/templates.md`, "The testing skill
+    proves a change by its risk"):
+    - **Every test sorted** A — proves nothing; B — its break shows in the
+      live check of a change; C — it breaks silently or somewhere else. A and
+      B go on the removal list. A second, independent reviewer — a subagent
+      that never receives the first pass's sorting — goes over that list
+      with one question per test: would whoever makes the change see this
+      break? Observed on a live project: the second pass found mistakes of
+      the first.
+    - **What a test costs to keep** — the git history of each test file
+      (`git log --follow --oneline`): a test edited along with its code in
+      most commits is the expensive one.
+    - **What the suite costs to run** — a test class inheriting a working
+      `TestCase` that reruns its parent's tests, a slow password hasher left
+      on in tests. Observed: these alone took a backend suite from 84 s to
+      39 s.
+    - **Gaps** — code in a risk class with no test is the report's first
+      level, the rest the second.
+    - **A defect found** becomes its own task — in the tracker or the
+      roadmap — not an edit inside the audit.
+    - **A researcher's claim** — "these tests send paid requests" — is proven
+      by a run (a spy, a counter) before it enters the plan. Observed: one
+      such claim was refuted by a spy that counted zero requests.
 
 ## Report
 

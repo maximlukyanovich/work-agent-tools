@@ -109,7 +109,8 @@ around it.
    and never pushed without its own. Each change carries its proof by risk,
    as the project's testing skill says — a test for a change in a risk class
    (money, data written or deleted, access, merges, what lets a confirmation
-   through, branching logic), a recorded live check for the rest, a run on
+   through, branching logic, a costly break where nobody looks), a recorded
+   live check for the rest, a run on
    the old code only for a test that may pass by coincidence — and one read
    of the slice's diff for what else it changes. Before an edit to state,
    the transition table again, each row with its proof. A slice ends with

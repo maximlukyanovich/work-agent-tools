@@ -493,3 +493,29 @@ library cause one depersonalised issue draft, filed only on an explicit yes.
 Check: checklist — "`docs/README.md` and `docs/local/README.md` exist";
 audit §14.
 Applies to: every project.
+
+## 2026-10-25 · proof-silent-break
+
+What: the testing skill's proof by risk adds the class of breaks where
+nobody looks — the request a page assembles, what lets a key, a tap or a
+submit reach an action, a contract of shared code, a path the local check
+cannot reach — under one condition: the break costs data, access, a merge or
+a payment, or leaves the user stuck. It says what a test asserts (the
+decision, not the look or a mock's answer), which existing tests an audit
+removes and which stay, and that a test of a code convention is left to the
+convention. The review's `test` lens grades by it: a missing test, a removed
+or weakened guard and a document claiming coverage its test does not assert
+are `major`; the same gap in untouched code is `minor` at most, for
+techdebt; a test of the look is a `nit` to remove.
+Check: checklist — "The testing skill proves by risk"; audit §5.
+Applies to: projects with a testing skill or a review command.
+
+## 2026-10-25 · test-audit-by-risk
+
+What: the audit sorts the project's tests by what they prove, with a second
+reviewer that never sees the first pass's sorting; reads each test file's
+history; measures what the suite costs to run; puts untested risk-class code
+first; and turns a defect it finds into a task of its own. It is asked, with
+its price, before it runs.
+Check: audit §15.
+Applies to: projects with tests.

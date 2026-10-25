@@ -102,6 +102,15 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       the frame closed, reopened or remounted while a call is in flight; one
       read of the round's diff for side effects; and a finding or transition
       → proof table that the commit command shows before it asks.
+- [ ] The testing skill proves by risk: the risk classes, a costly break
+      where nobody looks among them with its condition; a test asserts the
+      decision, not the look or a mock's answer; an audit removes a test that
+      proves nothing or whose break the change's live check shows, and keeps
+      one for a silent break; a test of a code convention is left to the
+      convention. The review's `test` lens grades by it — a missing test, a
+      removed guard and a false claim of coverage `major`, the same gap in
+      untouched code `minor` for techdebt, a test of the look a `nit` to
+      remove.
 - [ ] A fresh checkout installs: with pnpm 11, `allowBuilds` lists every
       dependency build script with its reason, `AGENTS.md` §2 says a new one
       needs an entry, and `pnpm install --frozen-lockfile` passes — and so
