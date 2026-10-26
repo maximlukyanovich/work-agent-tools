@@ -21,8 +21,9 @@ the changed files, the type-check, the tests related to them, each tried once
 to see that it narrows. Whether a manual step is required — a browser, a real
 request, a migration. Separately: which changes need a test — the default
 risk classes are money, data written or deleted, access, merges, what lets a
-confirmation through and branching logic, with a recorded live check for the
-rest.
+confirmation through, branching logic and a costly break where nobody looks
+(`reference/templates.md`, "The testing skill proves a change by its risk"),
+with a recorded live check for the rest.
 
 **Q4. Task tracker and key prefix.** Jira (needs the project key), Linear, GitHub
 Issues, none. Affects the commit subject, branch names, the PR body, whether a

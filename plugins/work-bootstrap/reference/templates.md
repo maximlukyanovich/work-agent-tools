@@ -425,8 +425,11 @@ Trajectory: P1 a1b2c3d 0/2/5/5 changes · P2 e4f5a6b 0/0/1/2 ready
 ```
 
 Ids `R<n>` never change. A `minor` or `nit` worth fixing before the merge
-carries `fix-now` after its class. Status: `open`, `fixed`, `deferred (<reason>)`,
-`false-positive (<mechanism>)`, `disputed`. By default only `Trajectory` and
+carries `fix-now` after its class. Status: `open`, `fixed`,
+`deferred (<techdebt file, section>)`, `deferred (accepted: <reason>)`,
+`false-positive (<mechanism>)`, `disputed`. Every other `minor` and `nit`
+gets one of the two `deferred` places in the pass that raises it, and none
+is `open` at the merge (step 5). By default only `Trajectory` and
 `Open` are read; pass sections are appended, never rewritten. The command
 writes the ledger itself, without asking — a ledger that waits for a human to
 update it stays empty.
@@ -479,17 +482,29 @@ update it stays empty.
    The verdict follows from the table; the findings come after it, most
    severe first. A `minor` or `nit` that is cheap and real — a defect a user
    can meet or a statement that is wrong, fixed in a line or two — is marked
-   `fix-now`; the other minors and nits stay open and do not hold the merge.
+   `fix-now`. Every other `minor` and `nit` gets its place in the same
+   report: a row for the project's techdebt file — what breaks, who sees it,
+   the priority — or `deferred (accepted: <reason>)`; a `security` finding
+   goes only to techdebt, or where the developer's word puts it. The ledger
+   records the place as the status, the developer's word overturns it, and
+   the fix round writes the techdebt rows. These do not hold the merge, and
+   none stays `open` past it: the ledger lives outside git, by branch, so an
+   `open` is lost after the merge, and the next task's planning sees only
+   techdebt with a priority.
    Observed on a live project: eight passes over one branch, each full one
    finding ten to twenty-two old minors and nits, while the only delta pass
    found three. Stop and ask what a further pass should add when it is
    pass 3+ with no new commits, when findings grew while the delta is small,
-   or when `escalated` plus `fix-critique` exceed half the findings. When the
-   verdict reads ready and the growth is `missed` findings in code older than
-   the delta, the first option offered is to close the range: the merge; the
-   second, when there are `fix-now` ids, one fix round on them and a pass
-   over that round's delta alone — not another full pass, which on a large
-   range finds a fresh batch of old nits every time.
+   or when `escalated` plus `fix-critique` exceed half the findings. A ready
+   verdict with `fix-now` ids open, or techdebt rows still to write, offers
+   one fix round on them first, a pass over that round's delta alone next,
+   and the merge last; without them, the merge. The merge goes first only on
+   the developer's word to ship now: a fix in the same unmerged branch is one
+   commit, one delta and one MR, and after the merge it is a new branch, an
+   MR, CI and a review. When the verdict reads ready and the growth is
+   `missed` findings in code older than the delta, the range closes that way
+   — not with another full pass, which on a large range finds a fresh batch
+   of old nits every time.
 6. **Append the pass.**
 7. **Hand the next step over** through `/work-bootstrap:handoff`. An open
    `blocker` or `major` → a prompt for the fix round naming the pass, the ids, the
@@ -497,9 +512,11 @@ update it stays empty.
    session reads the ledger. Ready closes the range, not the task: first read
    the plan and the task's notes — work the branch has not done yet makes the
    block "continue the task" (`Read <NEXT.md> and continue`, or the plan's
-   next step), and the merge waits. The task done → the merge command with
-   the target first, and the fix prompt for the `fix-now` ids as a second
-   block when there are any.
+   next step), and the merge waits. The task done → with `fix-now` ids open
+   or techdebt rows to write, the fix prompt for them: the round's commit
+   hands over the review of its delta, and that review the merge. Without
+   them, the merge command with the target. The merge command comes first
+   only on the developer's word to ship now.
    Observed on a live project: a clean repeat pass in the middle of a task
    would have printed the merge command with two slices and the live check
    still ahead.
@@ -513,11 +530,20 @@ update it stays empty.
 - Async code and stateful hooks: walk the lifecycle transitions (A→B mid-event,
   A→none→A) and a misbehaving peer (a 200 that closes at once). Check a type's
   documentation against the code instead of trusting it.
-- A change in a risk class (below, "proof by risk") without a test is its
-  own `major`, unless the diff says why it cannot be tested; any other
-  behaviour change whose live check the commit or the report records needs
-  no test — a missing one is a `nit` at most — and with neither it is a
-  `minor`.
+- The `test` lens grades by the testing skill (below, "The testing skill
+  proves a change by its risk"). No test for a risk-class break — the last
+  class under its condition — is `major`, unless the diff says why it cannot
+  be tested, and so are a deleted or weakened test that guarded one and a
+  document or a comment that calls a behaviour tested when its test does not
+  assert the decision. The same gap in code the branch did not change or
+  delete and made no claim about is `minor` at most, and its place is
+  techdebt. Any other behaviour change whose live check the commit or the
+  report records needs no test — a missing one is a `nit` at most — and with
+  neither it is a `minor`. A test that asserts the look is a `nit`,
+  "remove". Observed on a live project: a deleted guard of a break that had
+  already happened once, and a document calling a fallback tested while its
+  test skipped the readiness report the text relied on, were graded `minor`
+  and `nit`, and would have gone to techdebt.
 - A finding names every place with the same mechanism. The fix closes all of
   them, each with its proof — a fix for one site of a race routinely leaves
   its twin.
@@ -644,10 +670,9 @@ which carries the round:
   format where the code already uses a library for the job takes the
   library; a mechanism the fix introduces covers every site of its class,
   not only the sites the finding named;
-- **proof by risk** — a test in the same commit for a change in a risk
-  class: money, data written or deleted, access, a merge of records or
-  accounts, what lets a confirmation through, logic that branches on its
-  input; a live check, recorded, for the rest. A test that may pass by
+- **proof by risk**, by the skill's rule (below, "The testing skill proves
+  a change by its risk") — a test in the same commit for a change in a risk
+  class; a live check, recorded, for the rest. A test that may pass by
   coincidence — the focus, timing, a fake or a mock, an async step — is run
   once against the code it replaces and goes red there; an existing test
   that "covers the area" usually passes either way, and a plain input →
@@ -675,7 +700,10 @@ which carries the round:
 - **the proof handed back** before the commit is asked for, and shown by the
   commit command: one row per finding, or per transition of a state edit —
   the test (red on the old code where the rule asks for it) or the live
-  check.
+  check;
+- **the techdebt places written** with the fixes — each finding the review
+  placed in techdebt becomes its row (what breaks, who sees it, the
+  priority, the id), in the round's commit when the file is in git.
 
 Observed on a live project: pass 2 found two new `major`s, both in states
 the pass-1 fixes had touched and not enumerated, and both untested — the
@@ -697,6 +725,48 @@ explicit yes.
 line per finding, not a copy of the reports. The rules live in the command
 text, which loads only when invoked — not in `AGENTS.md` or a skill
 description, which every session pays for.
+
+### The testing skill proves a change by its risk
+
+The project's testing skill holds the rule that the plan, the fix round and
+the review's `test` lens all read, so it is written once:
+
+- **The risk classes.** A change in one ships with its test in the same
+  commit, and the test fails without the change: money; data written or
+  deleted, and what decides which rows; access; a merge of records or
+  accounts; what lets a confirmation through, or blocks it; logic that
+  branches on its input; and what breaks where nobody looks — the request a
+  page assembles (a field's name, a hidden fingerprint, the form a checkbox
+  or a button belongs to, a `formaction`), what lets a key, a tap or a
+  submit reach an action (above all one that deletes or charges), a
+  contract of shared code other screens lean on (a lock taken and released,
+  a queue that moves, a global flag reset, a fallback that never leaves the
+  user stuck), a path the local check cannot reach (the exchange with a
+  provider, a slow or failing network, a first visit, reduced motion,
+  touch). The last class holds on one condition, on any screen: the break
+  costs data, access, a merge or a payment, or leaves the user stuck; a
+  break of the look alone is outside it. Any other behaviour is checked
+  live, and the check is recorded.
+- **What a test asserts** — the decision: the request sent, the handler
+  called, the code or the status returned, a guarding attribute (`inert`,
+  `form=`); not a class, the layout or a text, and not what a mock was told
+  to return. Markup that assembles the next request is a decision, not the
+  look.
+- **An existing test** — an audit removes one that proves nothing, and one
+  whose break the live check of the change itself would show, a break of
+  the look alone among them. A test of a break that happens silently, or
+  somewhere else, stays, even where a new change would not have required it.
+- **A test of a code convention** — the module graph, the language of
+  messages, the number of queries as the data grows — is a deterministic
+  check, like a lint rule: the risk rule neither asks for it nor removes it,
+  and it lives as long as the convention does.
+
+Observed on a live project: a test audit that removed everything outside the
+first six classes would have dropped about a dozen groups of frontend tests
+and several backend ones that guarded silent breaks — an empty choice read
+as the whole history, drafts overwritten without their fingerprints, a page
+hold that leaked, a key reaching a delete button, a scroll lock in every
+dialog — and a rule against checking HTML had pushed its first pass that way.
 
 ## .mcp.json.example
 
