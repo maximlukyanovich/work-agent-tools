@@ -26,6 +26,15 @@ for working on the repository itself.
   here and run the changed command in a real repository before approving.
   When consumers need to stay on a known state, `main` gets release tags and
   the catalogue can pin one — still no second branch.
+- **A pull request raises the `version` of every plugin it changes**, in its
+  `plugin.json`; a change to the plugin's README alone needs none. Major when
+  a project must act or it breaks — a profile or data format, a new required
+  plugin, a removed command; minor for a new rule, command or template
+  section, every `CHANGES.md` entry included; patch for wording or a fix that
+  keeps the behaviour. Claude Code replaces an installed plugin only when its
+  version differs from the installed one, so a change without a raise reaches
+  nobody, the maintainer included. The catalogue carries no `version`:
+  `plugin.json` wins over it, and a second copy drifts.
 - **Plugin files are addressed through `${CLAUDE_PLUGIN_ROOT}`**, never found by
   searching the filesystem. An installed plugin lives under
   `~/.claude/plugins/cache/`, not where this repository is checked out.

@@ -202,9 +202,9 @@ where nothing is installed yet. Committed `enabledPlugins` turns a plugin on
 in every clone but downloads nothing, and trusting the folder only registers
 the marketplaces the settings declare — so the settings declare every
 marketplace `enabledPlugins` names: `mluk-work-agent-tools` from GitHub with
-`autoUpdate`, so a library change reaches every clone on its own, and
-`claude-plugins-official` when its plugins are on (an interactive first start
-adds that one on its own, a profile used only from the CLI lacks it):
+`autoUpdate`, so every raised plugin version reaches every clone on its own,
+and `claude-plugins-official` when its plugins are on (an interactive first
+start adds that one on its own, a profile used only from the CLI lacks it):
 
 ```json
 "extraKnownMarketplaces": {

@@ -86,23 +86,7 @@ Which plugins to enable:
 | issues in Jira | + `work-jira` |
 | estimated before it starts | + `work-estimation` |
 
-An installed plugin is a copy in `~/.claude/plugins/cache/`. A project set up
-by `setup` declares the marketplace with `autoUpdate`, so a new version arrives
-by itself: the plugins carry no `version`, so every commit on `main` reaches
-you, up to ten minutes after an interactive session's first message, and
-`/reload-plugins` applies it to an open session. Without that declaration,
-turn it on in `/plugin` → **Marketplaces** → `mluk-work-agent-tools` →
-**Enable auto-update**. The repository is public, so the background check
-needs no credential. By hand:
-
-```bash
-claude plugin marketplace update mluk-work-agent-tools
-claude plugin update work-jira@mluk-work-agent-tools --scope project   # each installed plugin at its scope, then /reload-plugins
-```
-
-Updating delivers the method; it never edits a project. When a set-up project
-falls behind, `work-bootstrap`'s session-start hook says so and
-`/work-bootstrap:audit` proposes the edits.
+How a new version arrives is in [Versions and updates](#versions-and-updates).
 
 ## Where to start
 
@@ -144,6 +128,31 @@ Every command ends with the next step as a block ready to copy;
 | [`work-bootstrap`](plugins/work-bootstrap/README.md) | generator + audit | Start a project in an empty folder; initialise or audit a repository's agent harness: `AGENTS.md`, the project profile, workflow commands, skills, hooks, MCP, docs. A session-start hook says when a set-up project is behind the method. |
 | [`work-jira`](plugins/work-jira/README.md) | library | Jira work to one standard: `plan`, `create`, `questions`, `status`, `comment`, `next` — hierarchy, description shape, statuses, comments, worklog. Reads the project profile. |
 | [`work-estimation`](plugins/work-estimation/README.md) | library | Estimate a project from a spec and a design handoff: `project`, `update`, `export` — decomposition, provenance audit, a markdown report and the estimate workbook. |
+
+## Versions and updates
+
+Every plugin carries a `version` in its `plugin.json`, and `claude plugin list`
+shows the one you have. A major means your project must act, a minor brings a
+new rule, command or template section, a patch rewords or fixes; the rule is
+in [`AGENTS.md`](AGENTS.md) §2.
+
+An installed plugin is a copy in `~/.claude/plugins/cache/`, replaced only when
+the plugin's version changes. A project set up by `setup` declares the
+marketplace with `autoUpdate` and follows `main`: every raised version arrives
+by itself, up to ten minutes after an interactive session's first message, and
+`/reload-plugins` applies it to an open session. Without that declaration,
+turn it on in `/plugin` → **Marketplaces** → `mluk-work-agent-tools` →
+**Enable auto-update**. The repository is public, so the background check
+needs no credential. By hand:
+
+```bash
+claude plugin marketplace update mluk-work-agent-tools
+claude plugin update work-jira@mluk-work-agent-tools --scope project   # each installed plugin at its scope, then /reload-plugins
+```
+
+Updating delivers the method; it never edits a project. When a set-up project
+falls behind, `work-bootstrap`'s session-start hook says so and
+`/work-bootstrap:audit` proposes the edits.
 
 ## How it's built
 
