@@ -169,11 +169,13 @@ does not raise it again.
     `mluk-work-agent-tools` as well? That declaration wins, so the pin does not
     hold on this machine — report it with the entry to delete. A source without
     `ref` follows `main`: the delta that brings `library-pin` asks Q10's
-    release question once, and following `main` changes nothing. Does the
-    onboarding command install the declared plugins the checkout lacks — at
-    local scope, on a yes, leaving one turned off here alone and never adding a
-    marketplace by hand — print `AGENTS.md` §2's commands as blocks, and list
-    the plugins' commands from their files rather than from the session's list?
+    release question once, and following `main` changes nothing. A project that
+    pins moves its baseline to the last entry at that tag, as `setup` does, not
+    past it. Does the onboarding command install the declared plugins the
+    checkout lacks — at local scope, on a yes, leaving one turned off here
+    alone and never adding a marketplace by hand — print `AGENTS.md` §2's
+    commands as blocks, and list the plugins' commands from their files rather
+    than from the session's list?
 
 14. **The efficiency journal.** Do `docs/local/efficiency-remarks.md` and its
     line in `AGENTS.md` §6 exist? Then read the rows not yet marked analysed

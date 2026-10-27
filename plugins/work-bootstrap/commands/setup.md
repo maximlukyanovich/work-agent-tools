@@ -51,7 +51,11 @@ The order is fixed. Steps are not reordered or skipped.
    The profile gets a `## Harness` section whose `Baseline:` is the id of the
    last entry in `${CLAUDE_PLUGIN_ROOT}/CHANGES.md`: the harness was built
    to the method as it stands, and `/work-bootstrap:audit` later checks only
-   what changed after it.
+   what changed after it. When Q10 pinned a release, it is the last entry at
+   that tag instead —
+   `curl -fsSL https://raw.githubusercontent.com/maximlukyanovich/work-agent-tools/<tag>/plugins/work-bootstrap/CHANGES.md`:
+   a pinned clone installs the plugin from the tag, and its `SessionStart`
+   hook reports a later id as unknown on every start, which no update cures.
 
    The plugin set goes where Q10 put it:
    `claude plugin install <plugin>@mluk-work-agent-tools --scope project` — or
