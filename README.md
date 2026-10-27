@@ -154,6 +154,17 @@ Updating delivers the method; it never edits a project. When a set-up project
 falls behind, `work-bootstrap`'s session-start hook says so and
 `/work-bootstrap:audit` proposes the edits.
 
+### Releases
+
+Each merged batch is released: an annotated tag `vYYYY.MM.DD` on `main` — the
+merge's date, `.2` for a second batch that day — and a GitHub
+[release](https://github.com/maximlukyanovich/work-agent-tools/releases) whose
+notes list every plugin's version against the previous release, then what a
+project must do — a major, a removed plugin, the `CHANGES.md` entries
+`/work-bootstrap:audit` applies — then the merged pull requests. The date says
+which release you run; a plugin's version says whether you must act. A released
+tag is never moved.
+
 ## How it's built
 
 `work-bootstrap` generates: what `setup` writes, the workflow commands included,
