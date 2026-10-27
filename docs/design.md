@@ -26,7 +26,7 @@ are data, not code.
 | --- | --- | --- |
 | Appears in the project | `AGENTS.md`, domain skills, hooks, the profile | profile lines only |
 | Commands come from | the project | the plugin |
-| Updating the method | not updated; it is project code now | a raised version, through `autoUpdate` or `claude plugin update` |
+| Updating the method | not updated; it is project code now | a raised version, through `autoUpdate` or `claude plugin update`; a pinned project moves its `ref` |
 
 The reason to prefer a library wherever possible: five projects using a generator
 means five copies of a skill, and a fix to a Jira quirk has to be made five

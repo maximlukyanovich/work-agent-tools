@@ -165,6 +165,42 @@ project must do — a major, a removed plugin, the `CHANGES.md` entries
 which release you run; a plugin's version says whether you must act. A released
 tag is never moved.
 
+### Pinning a release
+
+A project that follows `main` gets every raised version as it lands. A team
+that moves between releases deliberately pins a tag instead — `ref` inside
+`source`, `autoUpdate` kept:
+
+```json
+"extraKnownMarketplaces": {
+  "mluk-work-agent-tools": {
+    "source": { "source": "github", "repo": "maximlukyanovich/work-agent-tools", "ref": "vYYYY.MM.DD" },
+    "autoUpdate": true
+  }
+}
+```
+
+The latest tag is the first line of
+`git ls-remote --tags --refs --sort=-v:refname https://github.com/maximlukyanovich/work-agent-tools 'v*'`.
+
+Moving to the next tag:
+
+1. A pull request in the project changes `ref`; its reviewer reads the
+   releases between the two tags.
+2. After the merge, each developer starts an interactive session at the
+   repository root: the session fetches the catalogue from the new tag.
+3. The plugins follow through `autoUpdate` after the first message, or at
+   once — `claude plugin update <plugin>@mluk-work-agent-tools --scope <scope>`
+   for each installed plugin; then `/reload-plugins`.
+4. When the releases list `CHANGES.md` entries, `work-bootstrap`'s
+   session-start hook says the project is behind: `/work-bootstrap:audit`.
+
+Rolling back is the same move to an older tag; going back to `main` is
+removing `ref`. Two commands look right and do not do it:
+`claude plugin marketplace update` does not see a changed `ref` — only a
+session start does — and `claude plugin marketplace add` replaces the declared
+source, its `ref` included.
+
 ## How it's built
 
 `work-bootstrap` generates: what `setup` writes, the workflow commands included,
