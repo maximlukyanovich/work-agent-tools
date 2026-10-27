@@ -161,12 +161,12 @@ does not raise it again.
 
 13. **A fresh clone gets its plugins.** Does the settings file declare
     every marketplace `enabledPlugins` names, the library's with `autoUpdate`?
-    When its `source` pins a `ref`, does it name an existing tag, and is a
+    When its `source` pins a `ref`: does it name an existing tag, and is a
     newer one out — the first line of
     `git ls-remote --tags --refs --sort=-v:refname https://github.com/maximlukyanovich/work-agent-tools 'v*'`?
     A newer tag is reported with its release, never moved here — moving is the
-    project's own reviewed change. Does `~/.claude/settings.json` declare
-    `mluk-work-agent-tools` as well? That declaration wins, so the pin does not
+    project's own reviewed change. And does `~/.claude/settings.json` declare
+    `mluk-work-agent-tools` too? That declaration wins, so the pin does not
     hold on this machine — report it with the entry to delete. A source without
     `ref` follows `main`: the delta that brings `library-pin` asks Q10's
     release question once, and following `main` changes nothing. A project that
