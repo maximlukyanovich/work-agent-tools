@@ -100,7 +100,9 @@ for working on the repository itself.
 ## 4. Checks before a pull request
 
 `scripts/check.py` is the gate, run by CI on every pull request and on
-`main`; run it locally before pushing — `python3 scripts/check.py`. It checks:
+`main`; run it locally before pushing, after `git fetch` —
+`python3 scripts/check.py`. It compares versions against `origin/main`, or the
+`--base` you pass, and stops when that ref is missing. It checks:
 
 - every `commands/*.md` has frontmatter with `description`;
 - every `skills/*/SKILL.md` has `name` and `description`;
@@ -111,7 +113,11 @@ for working on the repository itself.
 - every `CHANGES.md` entry is `## YYYY-MM-DD · <id>`, with a unique id and
   `What:`, `Check:` and `Applies to:`;
 - every plugin hook's command points at a script that exists;
-- every Python script compiles.
+- every Python script compiles;
+- every `plugin.json` has a `version` of the form `MAJOR.MINOR.PATCH`, the
+  catalogue has none, and a plugin whose files changed, its README aside, has
+  a version above the base's;
+- a new `CHANGES.md` entry comes with a minor raise of its plugin at least.
 
 One check stays with people: **the changed command or skill was run once, in a
 real repository, and did what its text says.** The pull request says where
