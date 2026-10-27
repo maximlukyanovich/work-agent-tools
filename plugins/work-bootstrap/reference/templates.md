@@ -217,7 +217,9 @@ start adds that one on its own, a profile used only from the CLI lacks it):
 
 When Q10 pinned a release, `source` also carries `"ref": "<tag>"` beside
 `repo`: every clone stays on that tag, and moving to the next one is a
-settings change that the next session start applies.
+settings change that the next session start applies — on a machine whose
+user settings do not declare `mluk-work-agent-tools` too, since a
+declaration there wins over the project's.
 
 The command then:
 

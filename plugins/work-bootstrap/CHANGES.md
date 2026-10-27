@@ -555,7 +555,9 @@ every raised plugin version arrives through `autoUpdate` — or pin a release
 tag with `ref` inside `source`, beside `autoUpdate`; a team pins, and moving
 to the next tag is a reviewed settings change that the next session start
 applies. The marketplace is never added by hand: an add replaces the
-declared source, its `ref` included.
+declared source, its `ref` included. A pin holds only on a machine whose
+user settings do not declare the marketplace, and a pinned project updates
+through `autoUpdate` in its own session.
 Check: checklist — "The plugin set is recorded where Q10 put it"; audit §13.
 Applies to: every project; the audit asks once, and a project that follows
 `main` changes nothing.

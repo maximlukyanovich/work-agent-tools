@@ -159,20 +159,21 @@ does not raise it again.
     production commands, the pinned versions and every variable the build and
     the start need — and does a fresh checkout without an env file agree?
 
-13. **A fresh clone gets its plugins.** Does the settings file declare every
-    marketplace `enabledPlugins` names, the library's with `autoUpdate`?
+13. **A fresh clone gets its plugins.** Does the settings file declare
+    every marketplace `enabledPlugins` names, the library's with `autoUpdate`?
     When its `source` pins a `ref`, does it name an existing tag, and is a
     newer one out — the first line of
     `git ls-remote --tags --refs --sort=-v:refname https://github.com/maximlukyanovich/work-agent-tools 'v*'`?
-    A newer tag is reported with its release, never moved here — moving is
-    the project's own reviewed change. A source without `ref` follows
-    `main`: the delta that brings `library-pin` asks Q10's release question
-    once, and following `main` changes nothing.
-    Does the onboarding command install the declared plugins the checkout
-    lacks — at local scope, on a yes, leaving one turned off here alone and
-    never adding a marketplace by hand — print `AGENTS.md` §2's commands as
-    blocks, and list the plugins' commands from their files rather than
-    from the session's list?
+    A newer tag is reported with its release, never moved here — moving is the
+    project's own reviewed change. Does `~/.claude/settings.json` declare
+    `mluk-work-agent-tools` as well? That declaration wins, so the pin does not
+    hold on this machine — report it with the entry to delete. A source without
+    `ref` follows `main`: the delta that brings `library-pin` asks Q10's
+    release question once, and following `main` changes nothing. Does the
+    onboarding command install the declared plugins the checkout lacks — at
+    local scope, on a yes, leaving one turned off here alone and never adding a
+    marketplace by hand — print `AGENTS.md` §2's commands as blocks, and list
+    the plugins' commands from their files rather than from the session's list?
 
 14. **The efficiency journal.** Do `docs/local/efficiency-remarks.md` and its
     line in `AGENTS.md` §6 exist? Then read the rows not yet marked analysed

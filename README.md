@@ -48,6 +48,10 @@ Once per machine — it adds the source and loads nothing into sessions:
 claude plugin marketplace add maximlukyanovich/work-agent-tools
 ```
 
+The add declares the marketplace in your user settings — skip it on a machine
+that works in a project pinned to a release, see
+[Pinning a release](#pinning-a-release).
+
 In an existing repository — install, then run `setup`:
 
 ```bash
@@ -185,15 +189,35 @@ The latest tag is the first line of
 `setup` asks whether a project follows `main` or pins a release, and writes
 the latest tag itself.
 
+A pin holds on a machine under two conditions:
+
+- **The user settings do not declare the marketplace.** The once-per-machine
+  `claude plugin marketplace add` writes it into `~/.claude/settings.json`
+  without `ref`, and that declaration wins: a session in the pinned project
+  either registers no marketplace at all or installs the plugins from `main`.
+  Skip the add on a machine that works in a pinned project — trusting the
+  folder registers the marketplace from the project's settings — or delete the
+  `mluk-work-agent-tools` entry under `extraKnownMarketplaces` in
+  `~/.claude/settings.json`; a project set up by `setup` declares it in its own
+  settings.
+- **The plugins update in the project's own session.** The catalogue is one
+  clone per machine, and a session in another project fetches it from that
+  project's source. A session start in the pinned project fetches its tag
+  back, and `autoUpdate` then works from it; `claude plugin update` takes the
+  clone as the machine's last session left it, so after a session elsewhere it
+  moves the pinned project to that source.
+
 Moving to the next tag:
 
 1. A pull request in the project changes `ref`; its reviewer reads the
    releases between the two tags.
 2. After the merge, each developer starts an interactive session at the
    repository root: the session fetches the catalogue from the new tag.
-3. The plugins follow through `autoUpdate` after the first message, or at
-   once — `claude plugin update <plugin>@mluk-work-agent-tools --scope <scope>`
-   for each installed plugin; then `/reload-plugins`.
+3. The plugins follow through `autoUpdate`, up to ten minutes after that
+   session's first message, and `/reload-plugins` applies them. To move at
+   once, run `claude plugin update <plugin>@mluk-work-agent-tools --scope <scope>`
+   for each installed plugin right after that start, before a session in
+   another project.
 4. When the releases list `CHANGES.md` entries, `work-bootstrap`'s
    session-start hook says the project is behind: `/work-bootstrap:audit`.
 

@@ -57,19 +57,22 @@ The order is fixed. Steps are not reordered or skipped.
    `claude plugin install <plugin>@mluk-work-agent-tools --scope project` — or
    `local` — for each, from the repository root; the same file declares each
    marketplace the set names in `extraKnownMarketplaces` —
-   `mluk-work-agent-tools` with `autoUpdate` — or a fresh clone has nowhere
-   to install from and no update arrives on its own ("The onboarding command" in
-   `${CLAUDE_PLUGIN_ROOT}/reference/templates.md`). When Q10 pinned a
-   release, its `source` carries `"ref": "<tag>"` beside `repo`, `autoUpdate`
-   kept: the latest tag, the name after `refs/tags/` in the first line of
+   `mluk-work-agent-tools` with `autoUpdate` — or a fresh clone has nowhere to
+   install from and no update arrives on its own ("The onboarding command" in
+   `${CLAUDE_PLUGIN_ROOT}/reference/templates.md`). When Q10 pinned a release,
+   its `source` carries `"ref": "<tag>"` beside `repo`, `autoUpdate` kept: the
+   latest tag, the name after `refs/tags/` in the first line of
    `git ls-remote --tags --refs --sort=-v:refname https://github.com/maximlukyanovich/work-agent-tools 'v*'`.
-   The installs above came from the catalogue this machine already knows;
-   the next session start fetches it from the tag, and
-   `claude plugin update <plugin>@mluk-work-agent-tools --scope <scope>` moves
-   each install there — the report says so. When Q7 settled a format
-   the repository's only commit does not follow, and that commit is not
-   pushed, offer to reword it: `git commit --amend --only -m "<message>"`, on
-   a yes.
+   The pin holds only on a machine whose user settings do not declare the
+   marketplace: when `~/.claude/settings.json` has a `mluk-work-agent-tools`
+   entry under `extraKnownMarketplaces`, the report says to delete it — the
+   project's settings declare it now. The installs above came from the
+   catalogue this machine already knows; the next session start here fetches it
+   from the tag, and `autoUpdate` moves the installs there — or
+   `claude plugin update <plugin>@mluk-work-agent-tools --scope <scope>` right
+   after that start — the report says so. When Q7 settled a format the
+   repository's only commit does not follow, and that commit is not pushed,
+   offer to reword it: `git commit --amend --only -m "<message>"`, on a yes.
 
 5. **Run the final check** from `${CLAUDE_PLUGIN_ROOT}/reference/checklist.md`
    and report what is green and what is not.
