@@ -161,6 +161,13 @@ does not raise it again.
 
 13. **A fresh clone gets its plugins.** Does the settings file declare every
     marketplace `enabledPlugins` names, the library's with `autoUpdate`?
+    When its `source` pins a `ref`, does it name an existing tag, and is a
+    newer one out — the first line of
+    `git ls-remote --tags --refs --sort=-v:refname https://github.com/maximlukyanovich/work-agent-tools 'v*'`?
+    A newer tag is reported with its release, never moved here — moving is
+    the project's own reviewed change. A source without `ref` follows
+    `main`: the delta that brings `library-pin` asks Q10's release question
+    once, and following `main` changes nothing.
     Does the onboarding command install the declared plugins the checkout
     lacks — at local scope, on a yes, leaving one turned off here alone and
     never adding a marketplace by hand — print `AGENTS.md` §2's commands as

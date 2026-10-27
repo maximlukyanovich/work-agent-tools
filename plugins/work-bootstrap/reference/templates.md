@@ -215,6 +215,10 @@ start adds that one on its own, a profile used only from the CLI lacks it):
 }
 ```
 
+When Q10 pinned a release, `source` also carries `"ref": "<tag>"` beside
+`repo`: every clone stays on that tag, and moving to the next one is a
+settings change that the next session start applies.
+
 The command then:
 
 - **Installs what this checkout lacks.** It reads `enabledPlugins` and one
@@ -234,7 +238,8 @@ The command then:
   repository root and trusting the folder, an undeclared one goes under
   `extraKnownMarketplaces` first. Neither needs
   `claude plugin marketplace add`, and at two scopes it does harm:
-  `--scope local` replaces the committed entry and drops its `autoUpdate`,
+  `--scope local` replaces the committed entry, its `autoUpdate` and `ref`
+  included,
   `--scope project` rewrites the committed `settings.json`.
 - **Prints how to run the project** — the commands of `AGENTS.md` §2,
   verbatim, as code blocks ready to paste, from the repository root.

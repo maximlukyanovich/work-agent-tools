@@ -59,7 +59,14 @@ The order is fixed. Steps are not reordered or skipped.
    marketplace the set names in `extraKnownMarketplaces` —
    `mluk-work-agent-tools` with `autoUpdate` — or a fresh clone has nowhere
    to install from and no update arrives on its own ("The onboarding command" in
-   `${CLAUDE_PLUGIN_ROOT}/reference/templates.md`). When Q7 settled a format
+   `${CLAUDE_PLUGIN_ROOT}/reference/templates.md`). When Q10 pinned a
+   release, its `source` carries `"ref": "<tag>"` beside `repo`, `autoUpdate`
+   kept: the latest tag, the name after `refs/tags/` in the first line of
+   `git ls-remote --tags --refs --sort=-v:refname https://github.com/maximlukyanovich/work-agent-tools 'v*'`.
+   The installs above came from the catalogue this machine already knows;
+   the next session start fetches it from the tag, and
+   `claude plugin update <plugin>@mluk-work-agent-tools --scope <scope>` moves
+   each install there — the report says so. When Q7 settled a format
    the repository's only commit does not follow, and that commit is not
    pushed, offer to reword it: `git commit --amend --only -m "<message>"`, on
    a yes.

@@ -182,6 +182,8 @@ that moves between releases deliberately pins a tag instead — `ref` inside
 
 The latest tag is the first line of
 `git ls-remote --tags --refs --sort=-v:refname https://github.com/maximlukyanovich/work-agent-tools 'v*'`.
+`setup` asks whether a project follows `main` or pins a release, and writes
+the latest tag itself.
 
 Moving to the next tag:
 
