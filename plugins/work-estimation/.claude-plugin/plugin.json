@@ -1,5 +1,6 @@
 {
   "name": "work-estimation",
+  "version": "1.0.0",
   "description": "Estimate a project from a spec and a design handoff: decomposition, provenance audit, markdown report and the estimate workbook.",
   "author": {
     "name": "Maxim Lukyanovich",

@@ -10,9 +10,13 @@ trap worth naming, a fix.
 - A change to what a set-up project must carry over — the templates, the
   checklist, `audit` — comes with an entry in
   [`plugins/work-bootstrap/CHANGES.md`](plugins/work-bootstrap/CHANGES.md).
-- Before opening a pull request, run `python3 scripts/check.py`, and run the
-  changed command or skill once in a real repository — say in the pull request
-  where and how. To try a plugin straight from a checkout, without installing:
+- A change to a plugin's files, its README aside, raises that plugin's
+  `version` in `plugin.json` — the levels are in [`AGENTS.md`](AGENTS.md) §2.
+  Without the raise the change reaches nobody.
+- Before opening a pull request, run `python3 scripts/check.py` after
+  `git fetch` — it compares versions against `origin/main`; in a fork, pass
+  `--base upstream/main` — and run the changed command or skill once in a real
+  repository — say in the pull request where and how. To try a plugin straight from a checkout, without installing:
   `claude --plugin-dir <checkout>/plugins`.
 
 The conventions — commit format, command naming, descriptions — are in

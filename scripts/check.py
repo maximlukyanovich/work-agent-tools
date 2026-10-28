@@ -8,20 +8,29 @@ Checks what a reviewer should never have to read for:
   - marketplace.json lists every plugin under plugins/, sources exist, names match plugin.json;
   - every CHANGES.md entry is `## YYYY-MM-DD · <id>` with a unique id and What / Check / Applies to;
   - every plugin hook command points at a script that exists;
-  - every Python script compiles.
+  - every Python script compiles;
+  - every plugin.json has a MAJOR.MINOR.PATCH `version` and the catalogue has none; a plugin whose
+    files differ from the merge base with --base, its README aside, has a version above the one at
+    --base's tip, and one whose CHANGES.md gains an entry is raised by a minor at least.
 
-Standard library only, so CI needs nothing but a Python image. Exit code 1 on any finding.
-Run: python3 scripts/check.py
+Standard library and git only, so CI needs nothing but a Python image. Exit code 1 on any finding.
+Run: git fetch origin main && python3 scripts/check.py [--base <ref>]   (default origin/main)
 """
 
+import argparse
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PLUGINS = ROOT / "plugins"
 problems = []
+
+parser = argparse.ArgumentParser(description="The merge-request gate; see the module docstring.")
+parser.add_argument("--base", default="origin/main", help="the ref versions are raised against (default origin/main)")
+args = parser.parse_args()
 
 
 def fail(path, message):
@@ -132,6 +141,69 @@ for script in list(ROOT.rglob("*.py")):
         compile(script.read_text(encoding="utf-8"), str(script), "exec")
     except SyntaxError as e:
         fail(script, f"does not compile: line {e.lineno}: {e.msg}")
+
+# ---------------------------------------------------------------- versions
+# Claude Code replaces an installed plugin only when its version changes: a
+# change without a raise reaches nobody, and nothing else would say so.
+SEMVER = re.compile(r"(\d+)\.(\d+)\.(\d+)")
+ENTRY_ID = re.compile(r"^## \S+ · (\S+)", re.M)
+
+
+def git(*argv):
+    return subprocess.run(["git", "-C", str(ROOT), *argv], capture_output=True, text=True)
+
+
+def semver(value):
+    m = SEMVER.fullmatch(value) if isinstance(value, str) else None
+    return tuple(int(n) for n in m.groups()) if m else None
+
+
+def shown(version):
+    return ".".join(map(str, version))
+
+
+for entry in catalogue.get("plugins", []):
+    if "version" in entry:
+        fail(ROOT / ".claude-plugin" / "marketplace.json",
+             f"{entry['name']}: a `version` in the catalogue — it belongs in plugin.json alone")
+
+versions = {}
+for manifest in sorted(PLUGINS.glob("*/.claude-plugin/plugin.json")):
+    version = semver(json.loads(manifest.read_text(encoding="utf-8")).get("version"))
+    if version is None:
+        fail(manifest, "no `version` of the form MAJOR.MINOR.PATCH")
+    else:
+        versions[manifest.parent.parent.name] = version
+
+if git("rev-parse", "--verify", "--quiet", f"{args.base}^{{commit}}").returncode != 0:
+    # A skipped comparison would pass the very change this section exists to stop.
+    problems.append(f"versions: base {args.base} not found — git fetch origin main, or pass --base")
+else:
+    fork = git("merge-base", args.base, "HEAD").stdout.strip()
+    changed = git("diff", "--name-only", fork, "--", "plugins/").stdout.splitlines()
+    touched = {Path(p).parts[1] for p in changed
+               if not (len(Path(p).parts) == 3 and Path(p).name == "README.md")}
+    for plugin in sorted(touched & versions.keys()):
+        before = git("show", f"{args.base}:plugins/{plugin}/.claude-plugin/plugin.json")
+        if before.returncode != 0:
+            continue  # new in this change: any version will do
+        try:
+            base_version = semver(json.loads(before.stdout).get("version")) or (0, 0, 0)
+        except json.JSONDecodeError:
+            base_version = (0, 0, 0)
+        manifest = PLUGINS / plugin / ".claude-plugin" / "plugin.json"
+        if versions[plugin] <= base_version:
+            fail(manifest, f"{plugin} changed since {args.base}, but its version {shown(versions[plugin])} "
+                           f"is not above {shown(base_version)} there")
+            continue
+        changes = PLUGINS / plugin / "CHANGES.md"
+        if not changes.exists():
+            continue
+        old_ids = set(ENTRY_ID.findall(git("show", f"{args.base}:plugins/{plugin}/CHANGES.md").stdout))
+        new_ids = [i for i in ENTRY_ID.findall(changes.read_text(encoding="utf-8")) if i not in old_ids]
+        if new_ids and versions[plugin][:2] <= base_version[:2]:
+            fail(manifest, f"CHANGES.md gains {', '.join(new_ids)}: raise {plugin} by a minor at least, "
+                           f"not {shown(base_version)} → {shown(versions[plugin])}")
 
 if problems:
     print("\n".join(problems))

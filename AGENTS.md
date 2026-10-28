@@ -24,8 +24,34 @@ for working on the repository itself.
   pull requests; the maintainer reviews and merges. Testing happens on the
   pull request's branch, not on a second long-lived branch: check it out
   here and run the changed command in a real repository before approving.
-  When consumers need to stay on a known state, `main` gets release tags and
-  the catalogue can pin one — still no second branch.
+  A project that needs to stay on a known state pins a release tag, by the
+  release rule below — still no second branch.
+- **A pull request raises the `version` of every plugin it changes**, in its
+  `plugin.json`; a change to the plugin's README alone needs none. Major when
+  a project must act or it breaks — a profile or data format, a new required
+  plugin, a removed command; minor for a new rule, command or template
+  section, every `CHANGES.md` entry included; patch for wording or a fix that
+  keeps the behaviour. Claude Code replaces an installed plugin only when its
+  version differs from the installed one, so a change without a raise reaches
+  nobody, the maintainer included. The catalogue carries no `version`:
+  `plugin.json` wins over it, and a second copy drifts.
+- **A merged batch is released** on the maintainer's word, like a push: an
+  annotated tag `vYYYY.MM.DD` on the batch's merge commit into `main` — that
+  commit's date, `git log -1 --format=%cs <merge>`; `.2`, `.3` for a second
+  and third batch that day — and a GitHub release whose notes put
+  `scripts/release_notes.py` — the plugin versions and what a project must
+  do — above the merged pull requests:
+
+  ```bash
+  git tag -a <tag> -m <tag> <merge> && git push origin <tag>
+  gh release create <tag> --verify-tag --title <tag> \
+    --notes "$(python3 scripts/release_notes.py <previous tag> <tag>)" \
+    --generate-notes --notes-start-tag <previous tag>
+  ```
+
+  Release immutability is on: a released tag cannot be moved or deleted, so a
+  wrong release is corrected by the next tag. The date says which release a
+  project runs; a plugin's version says whether the project must act.
 - **Plugin files are addressed through `${CLAUDE_PLUGIN_ROOT}`**, never found by
   searching the filesystem. An installed plugin lives under
   `~/.claude/plugins/cache/`, not where this repository is checked out.
@@ -41,6 +67,11 @@ for working on the repository itself.
   project.
 - **One fact, one place.** The skill is the source; README links to it and
   does not restate it. When a rule changes, it changes in one file.
+- **A change corrects every text it makes untrue, in the same commit** —
+  README, `AGENTS.md`, `CONTRIBUTING.md`, `docs/design.md`, a plugin's README
+  and `help`. Before committing, search the repository for the statements the
+  change touches. "One fact, one place" keeps the copies few; this keeps the
+  ones left true.
 - **A tool's behaviour is stated only after a check.** What a plugin text or
   a template says Claude Code, git, Compose or any other tool does — which
   file a value comes from, what a flag or a scope changes, which entry wins a
@@ -86,7 +117,9 @@ for working on the repository itself.
 ## 4. Checks before a pull request
 
 `scripts/check.py` is the gate, run by CI on every pull request and on
-`main`; run it locally before pushing — `python3 scripts/check.py`. It checks:
+`main`; run it locally before pushing, after `git fetch` —
+`python3 scripts/check.py`. It compares versions against `origin/main`, or the
+`--base` you pass, and stops when that ref is missing. It checks:
 
 - every `commands/*.md` has frontmatter with `description`;
 - every `skills/*/SKILL.md` has `name` and `description`;
@@ -97,7 +130,11 @@ for working on the repository itself.
 - every `CHANGES.md` entry is `## YYYY-MM-DD · <id>`, with a unique id and
   `What:`, `Check:` and `Applies to:`;
 - every plugin hook's command points at a script that exists;
-- every Python script compiles.
+- every Python script compiles;
+- every `plugin.json` has a `version` of the form `MAJOR.MINOR.PATCH`, the
+  catalogue has none, and a plugin whose files changed, its README aside, has
+  a version above the base's;
+- a new `CHANGES.md` entry comes with a minor raise of its plugin at least.
 
 One check stays with people: **the changed command or skill was run once, in a
 real repository, and did what its text says.** The pull request says where
@@ -121,5 +158,6 @@ docs/design.md                    the model behind the plugins
 CONTRIBUTING.md                   for outside contributors; points here
 LICENSE                           MIT
 scripts/check.py                  the pull-request gate, run by CI
+scripts/release_notes.py          a release's notes: plugin versions, action needed
 .github/workflows/check.yml       runs the gate
 ```

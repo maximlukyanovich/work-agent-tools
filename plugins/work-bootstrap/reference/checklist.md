@@ -135,8 +135,8 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
 - [ ] The plugin set is recorded where Q10 put it — `enabledPlugins` in
       `.claude/settings.json` or `settings.local.json` — and the same file
       declares every marketplace it names in `extraKnownMarketplaces` —
-      `mluk-work-agent-tools` with `autoUpdate`, `claude-plugins-official`
-      when its plugins are on.
+      `mluk-work-agent-tools` with `autoUpdate` (and `ref` when Q10 pinned a
+      release), `claude-plugins-official` when its plugins are on.
 - [ ] With Jira, the profile's `## Tracker` says how a processed answer is
       acknowledged — a reaction, or ask each time.
 - [ ] No harness file contains a secret, an absolute path, or a person's name.

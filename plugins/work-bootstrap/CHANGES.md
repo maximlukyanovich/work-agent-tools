@@ -547,3 +547,17 @@ closing a ready range (the merge first, the `fix-now` round second).
 Check: checklist — the review command, "Every command ends with its next
 step"; audit §5.
 Applies to: projects with a review command and a pass ledger.
+
+## 2026-10-27 · library-pin
+
+What: the settings that declare `mluk-work-agent-tools` either follow `main` —
+every raised plugin version arrives through `autoUpdate` — or pin a release
+tag with `ref` inside `source`, beside `autoUpdate`; a team pins, and moving
+to the next tag is a reviewed settings change that the next session start
+applies. The marketplace is never added by hand: an add replaces the
+declared source, its `ref` included. A pin holds only on a machine whose
+user settings do not declare the marketplace, and a pinned project updates
+through `autoUpdate` in its own session.
+Check: checklist — "The plugin set is recorded where Q10 put it"; audit §13.
+Applies to: every project; the audit asks once, and a project that follows
+`main` changes nothing.
