@@ -39,8 +39,7 @@ L = {
     "grand_total": "Total",
     "timeline": "One developer at {hpm} hours a month — **{weeks} weeks**.",
     "roles_note": "Project roles (QA, management, analysis, communication) are not in "
-                  "these numbers; the workbook computes them from the "
-                  "development sum.",
+                  "these numbers.",
     "method": "How the hours were counted",
     "rates_default": [
         "- **Routine** — porting components and screens that already exist as working "
@@ -56,8 +55,7 @@ L = {
                     "own: responsive layout {r}%, localisation {i}%, automated tests "
                     "{t}%. Tests are computed last, on the sum.",
     "breakdown": "Breakdown",
-    "breakdown_note": "Column shape follows the workbook's `ESTIMATE BREAKDOWN` "
-                      "sheet unless the module says otherwise.",
+    "breakdown_note": "",  # a line under the heading, for a module that needs one
     "scope": "Scope",
     "scope_default": "Everything the sources describe, within the parts named above.",
     "provenance": "Where each line came from",
@@ -159,8 +157,9 @@ w("")
 # --------------------------------------------------------------- breakdown
 w(f"## {L['breakdown']}")
 w("")
-w(L["breakdown_note"])
-w("")
+if L["breakdown_note"]:
+    w(L["breakdown_note"])
+    w("")
 w("| " + " | ".join(h for _, h in E.columns) + " |")
 w("| " + " | ".join("---:" if k in NUMERIC else "---" for k, _ in E.columns) + " |")
 for r in E.all_rows():

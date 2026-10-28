@@ -111,7 +111,7 @@ is wrong in ways that are invisible until implementation.
 
 ## What is not in these numbers
 
-QA effort is estimated separately and depends on the
-kind of work. Project roles — management, analysis, communication — are computed
-by the workbook from the development sum. Say both plainly in the report: a
-client who reads a frontend total as a project total will be surprised later.
+QA effort is estimated separately and depends on the kind of work. Project
+roles — management, analysis, communication — are not counted here; a workbook
+template may add them from the development sum. Say both plainly in the report:
+a client who reads a frontend total as a project total will be surprised later.
