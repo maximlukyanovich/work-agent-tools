@@ -155,6 +155,13 @@ class WorklogTest(JiraTest):
             "started": self.STARTED, "timeSpent": "3h 30m", "comment": jira.doc(jira.p("Search API")),
         })])
 
+    def test_duration_without_spaces(self):
+        fake = self.fake()
+        for spent, sent in [("3h30m", "3h 30m"), ("1d2h30m", "1d 2h 30m"), (" 2h ", "2h"),
+                            ("3h 30m", "3h 30m"), ("45m", "45m")]:
+            jira.worklog("PROJ-3", self.STARTED, spent, "Search API")
+            self.assertEqual(fake.calls[-1][2]["timeSpent"], sent, spent)
+
     def test_leave_remaining(self):
         fake = self.fake()
         jira.worklog("PROJ-3", self.STARTED, "45m", "Review", leave_remaining=True)

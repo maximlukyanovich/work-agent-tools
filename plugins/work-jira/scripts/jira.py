@@ -493,8 +493,12 @@ def assign(key, account_id):
 def worklog(key, started, spent, text, leave_remaining=False):
     """Logs time and returns the worklog id. `started` is a full timestamp with its offset,
     `2026-10-08T09:00:00.000+0300` — the day the work happened, never today by default.
+    `spent` is a Jira duration, `3h 30m`; `3h30m` is spaced before sending — Jira refuses
+    it with 400 "Invalid time duration", and a worklog is usually the last write of a
+    result script, after the comment and the status.
     `leave_remaining` keeps Remaining Estimate as it is (`adjustEstimate=leave`), for
     time spent out of a reserve that must not eat the remainder."""
+    spent = re.sub(r"(?<=[wdhm])(?=\d)", " ", spent.strip())
     query = "?adjustEstimate=leave" if leave_remaining else ""
     return call("POST", f"/rest/api/3/issue/{key}/worklog{query}", {
         "started": started, "timeSpent": spent, "comment": doc(p(text)),

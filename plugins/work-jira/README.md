@@ -44,12 +44,14 @@ only what nothing can answer.
 
 | File | What it does |
 | --- | --- |
-| `scripts/jira.py` | REST v3 wrapper: descriptions assembled directly in ADF (`h`, `p`, `ul`, `checklist`, `doc`, issue cards), `batch` creating a tree in three passes — create, resolve references, link — plus estimates, assignment and issue links. Coordinates come from the project profile, credentials from `.mcp.json`. |
+| `scripts/jira.py` | REST v3 wrapper: descriptions assembled directly in ADF (`h`, `p`, `ul`, `checklist`, `doc`, issue cards), `batch` creating a tree in three passes — create, resolve references, link — plus estimates, assignment, issue links, transitions and worklogs. Coordinates come from the project profile, credentials from `.mcp.json`. |
 
 Why REST for writing: the `mcp-atlassian` layer rewrites Markdown into wiki
 markup and loses part of the formatting; task lists do not survive at all, and
 a comment's URL is stored as dead plain text. Descriptions and comments go
-through the script; MCP stays for reading, statuses and worklog.
+through the script. MCP stays for reading and is fine for statuses and
+worklogs; a script that posts a result in one run uses `jira.transition` and
+`jira.worklog`.
 
 ## The one hard prerequisite
 
