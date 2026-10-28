@@ -130,12 +130,16 @@ for working on the repository itself.
   name matches its catalogue entry;
 - every `CHANGES.md` entry is `## YYYY-MM-DD · <id>`, with a unique id and
   `What:`, `Check:` and `Applies to:`;
-- every plugin hook's command points at a script that exists;
+- every plugin hook points at a script that exists, in its `command` or its
+  `args`;
 - every Python script compiles;
 - every `plugin.json` has a `version` of the form `MAJOR.MINOR.PATCH`, the
   catalogue has none, and a plugin whose files changed, its README aside, has
   a version above the base's;
 - a new `CHANGES.md` entry comes with a minor raise of its plugin at least.
+
+It also warns, without failing, about a plugin text above 10 KB — any `*.md`
+under `plugins/` but a README: splitting it is a decision, not drift.
 
 The tests under `tests/` pin what the plugins' scripts do, and CI runs them
 after the gate: every test passes — `python3 -m unittest discover -s tests`.
