@@ -5,8 +5,9 @@ trap worth naming, a fix.
 
 - Plugin texts, commits and pull requests are in English.
 - A rule that names your project's paths, keys or design system belongs in
-  your project's profile, not here. No client project is named — neither its
-  name nor its issue keys; examples use `PROJ-N`.
+  your project's profile, not here. No real project is named — not its name,
+  issue keys, paths or quotes, in the change or in the pull request; examples
+  use `PROJ-N`.
 - A change to what a set-up project must carry over — the templates, the
   checklist, `audit` — comes with an entry in
   [`plugins/work-bootstrap/CHANGES.md`](plugins/work-bootstrap/CHANGES.md).

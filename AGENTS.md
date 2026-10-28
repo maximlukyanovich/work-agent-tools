@@ -91,11 +91,12 @@ for working on the repository itself.
 
 - **Language.** Everything committed here is English — plugin texts, README,
   commit messages, this file.
-- **No client project is named.** Not in plugin texts, examples, commit
-  messages or pull requests — neither its name nor its issue keys; projects
-  may be under NDA, and every installer reads these files. Examples use
-  `PROJ-N`; a lesson from a live project is described as one, without saying
-  which.
+- **No real project is named** — a client's or the maintainer's own. Not in
+  plugin texts, examples, commit messages, pull requests or issues: not its
+  name, issue keys, paths, recognisable domain terms or quotes from it.
+  Projects may be under NDA, and every installer reads these files. Examples
+  use `PROJ-N`; a lesson from a live project is described as "observed on a
+  live project", without saying which.
 - **Commits.** `:gitmoji: type(scope): Subject`, body as one bullet per point
   explaining why. Scope is the plugin name (`jira`, `estimation`, `bootstrap`)
   or `readme` / `catalog` for the repository level. No agent attribution.
