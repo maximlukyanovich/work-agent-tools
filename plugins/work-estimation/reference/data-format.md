@@ -80,6 +80,32 @@ HOURS_PER_MONTH = 170
 HOURS_PER_WEEK = 40
 ```
 
+## The workbook
+
+Read by `export` only. The texts are in the workbook's language, which is not
+always the report's: the report's `TIMELINE_NOTE` is not reused.
+
+```python
+WORKBOOK = {
+    "timeline": "13–19 weeks (frontend only)",  # K9; default: the report's weeks, "12–18 weeks"
+    "timeline_note": "…",                        # I10, under the timeline; default: empty
+    "stack": "FRONT-END: …",                     # B56, under TECH STACK; default: empty
+}
+```
+
+A key left out leaves its cell empty, and the script names it —
+`empty: WORKBOOK["stack"] -> B56` — so no cell carries another project's text.
+A key it does not know stops the run before anything is written.
+
+One template layout is supported — the corporate estimate workbook, known by
+its labels: `I9` "Overall Expected Timeline:", `B30` "Development", `B47` "Risks
+which may cause estimation changes:", `B50` "Excludes:", `B55` "TECH STACK".
+The script checks them first; on any other template it names the cell, the
+label expected and the one found, and writes nothing. Under those labels the
+rows go to rows 32 onwards, the eight `COLUMNS` keys to B–I, `RISKS` and
+`EXCLUDES` to the blank rows under their headers — more rows are inserted when
+needed — and `QUESTIONS` to the second sheet.
+
 ## Narrowing the scope
 
 A filter module imports the full one and keeps a named subset:

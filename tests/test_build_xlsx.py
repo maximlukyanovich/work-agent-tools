@@ -1,17 +1,21 @@
-"""build_xlsx.py's row arithmetic on XML fragments: renumbering, formula shifts, cell writes.
+"""build_xlsx.py on XML fragments: row arithmetic, the layout's labels, the WORKBOOK cells.
 
 A workbook is a zip of sheet XML, and every inserted row moves the rows, formulas and
 merged ranges below it. These fragments pin that arithmetic; the whole workbook is
 compared byte for byte on a real template before and after a change to the script.
 """
 
+import io
 import sys
+import tempfile
 import unittest
+import zipfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "plugins" / "work-estimation" / "scripts"))
 
 import build_xlsx as bx  # noqa: E402
+from estimate_data import Estimate  # noqa: E402
 
 
 class ShiftTest(unittest.TestCase):
@@ -77,6 +81,74 @@ class InsertRowsTest(unittest.TestCase):
         self.assertEqual(sheet.mapping, {47: 47, 48: 48, 49: 51, 50: 52})
         self.assertEqual(sheet.extra_merges, ["B49:G49", "B50:G50"])
         self.assertEqual(sheet.tail, '<mergeCells count="1"><mergeCell ref="B52:G52"/></mergeCells>')
+
+
+class LabelsTest(unittest.TestCase):
+    XML = ('<row r="9"><c r="I9" s="1" t="s"><v>0</v></c></row>'
+           '<row r="30"><c r="B30" t="inlineStr"><is><t>R&amp;D</t></is></c></row>'
+           '<row r="55"><c r="B55" s="2" t="s"><v>1</v></c><c r="B56" s="3"/></row>')
+    STRINGS = ["Overall Expected Timeline:", "TECH STACK "]
+
+    def test_cell_text(self):
+        self.assertEqual([bx.cell_text(self.XML, ref, self.STRINGS) for ref in ("I9", "B30", "B56", "Z1")],
+                         ["Overall Expected Timeline:", "R&D", "", ""])
+
+    def test_labels_match(self):
+        self.assertEqual(bx.check_labels(self.XML, self.STRINGS, {
+            "I9": "Overall Expected Timeline:", "B30": "R&D", "B55": "TECH STACK"}), [])
+
+    def test_labels_differ(self):
+        self.assertEqual(bx.check_labels(self.XML, self.STRINGS, {
+            "I9": "Overall Expected Timeline:", "B47": "Excludes:", "B55": "Stack"}),
+            [("B47", "Excludes:", ""), ("B55", "Stack", "TECH STACK")])
+
+    def test_shared_strings(self):
+        buf = io.BytesIO()
+        with zipfile.ZipFile(buf, "w") as z:
+            z.writestr("xl/sharedStrings.xml",
+                       '<sst><si><t>A &amp; B</t></si>'
+                       '<si><r><t>Rich </t></r><r><rPr/><t xml:space="preserve">text</t></r></si></sst>')
+        with zipfile.ZipFile(buf) as z:
+            self.assertEqual(bx.shared_strings(z), ["A & B", "Rich text"])
+
+
+class WorkbookCellsTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.dir = tempfile.TemporaryDirectory()
+        sys.path.insert(0, cls.dir.name)
+
+    @classmethod
+    def tearDownClass(cls):
+        sys.path.remove(cls.dir.name)
+        cls.dir.cleanup()
+
+    def estimate(self, name, hours=(410, 610), extra=""):
+        Path(self.dir.name, f"{name}.py").write_text(
+            f'TASKS = [("Epic", "Task", "Description.", {hours[0]}, {hours[1]}, "", "")]\n{extra}')
+        return Estimate(name)
+
+    def test_weeks(self):
+        self.assertEqual(self.estimate("weeks_default").weeks(), (10, 15))
+        self.assertEqual(self.estimate("weeks_30", extra="HOURS_PER_WEEK = 30\n").weeks(), (14, 20))
+
+    def test_nothing_given(self):
+        self.assertEqual(bx.workbook_cells(self.estimate("wb_none")),
+                         ({"K9": "10–15 weeks", "I10": "", "B56": ""}, ["timeline_note", "stack"]))
+
+    def test_one_week_figure(self):
+        self.assertEqual(bx.workbook_cells(self.estimate("wb_flat", (120, 120)))[0]["K9"], "3 weeks")
+
+    def test_everything_given(self):
+        estimate = self.estimate("wb_all", extra='WORKBOOK = {"timeline": "13-19 weeks", '
+                                                 '"timeline_note": "One developer.", "stack": "React"}\n')
+        self.assertEqual(bx.workbook_cells(estimate),
+                         ({"K9": "13-19 weeks", "I10": "One developer.", "B56": "React"}, []))
+
+    def test_unknown_key(self):
+        estimate = self.estimate("wb_typo", extra='WORKBOOK = {"timline": "13-19 weeks"}\n')
+        with self.assertRaisesRegex(ValueError, "unknown keys timline; known: timeline, timeline_note, stack"):
+            bx.workbook_cells(estimate)
 
 
 if __name__ == "__main__":
