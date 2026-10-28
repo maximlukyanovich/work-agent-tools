@@ -38,7 +38,7 @@ Other scopes and updating: [Quick start](../../README.md#quick-start).
 | File | What it does |
 | --- | --- |
 | `scripts/render_md.py <data module> <out.md>` | The markdown report: totals, breakdown, provenance audit, risks, exclusions, questions. |
-| `scripts/build_xlsx.py <data module> <template.xlsx> <out.xlsx>` | Carries the same data into the estimate workbook, preserving its styles and formulas. |
+| `scripts/build_xlsx.py <data module> <template.xlsx> <map.json> <out.xlsx>` | Fills a workbook template by its map, preserving its styles and formulas. |
 
 **Inputs** are whatever the client sent, in any form — documents, spreadsheets,
 links, a design bundle. **The deliverable is a markdown report**; the workbook is

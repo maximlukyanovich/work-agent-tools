@@ -79,8 +79,8 @@ Rules:
 
 **Rows** carry: part of the project, epic, task, description, optimistic hours,
 pessimistic hours, negative risk, positive risk. Those are the report's columns
-by default, and the workbook, when there is one, takes the same eight, so the
-transfer is mechanical.
+by default, and the workbook, when there is one, takes the columns its map
+names, so the transfer is mechanical.
 
 **Epics are product surfaces**, not functional layers, unless the project says
 otherwise. Then "where is screen X in this estimate?" has one answer.

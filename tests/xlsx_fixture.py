@@ -65,8 +65,10 @@ def cell_xml(ref, value, s, strings):
 
 
 def sheet_xml(rows, merges, tail, strings):
-    body = "".join(f'<row r="{n}">' + "".join(cell_xml(*c, strings) for c in rows[n]) + "</row>"
-                   for n in sorted(rows))
+    """A row with no cells is self-closing, as a spreadsheet application writes an empty
+    row that keeps its height."""
+    body = "".join((f'<row r="{n}">' + "".join(cell_xml(*c, strings) for c in rows[n]) + "</row>")
+                   if rows[n] else f'<row r="{n}" ht="6" customHeight="1"/>' for n in sorted(rows))
     mc = (f'<mergeCells count="{len(merges)}">' + "".join(f'<mergeCell ref="{m}"/>' for m in merges)
           + "</mergeCells>") if merges else ""
     return (f'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<worksheet {NS} {NS_R}>'
@@ -132,7 +134,36 @@ def corporate():
             ("Rates", rates, [], "")]
 
 
-SHAPES = {"corporate": corporate}
+def foreign():
+    """Another user's template: the tasks on the second sheet, other columns in another
+    order, a cost column filled down as one shared formula, an empty row stored
+    self-closing, the questions under the risks on the same sheet, no exclusions and a
+    timeline cell the template does not store."""
+    def task_row(n, cost):
+        return [(f"B{n}", None, 2), (f"C{n}", None, 2), (f"D{n}", None, 3), (f"E{n}", None, 3),
+                (f"F{n}", cost, 3)]
+
+    estimate = {
+        1: [("A1", "Project estimate", 1)],
+        2: [],
+        3: [("B3", "Timeline:", 1)],
+        4: [("B4", "Rate", 1), ("C4", 40, 3)],
+        6: [("B6", "Tasks", 1)],
+        7: [("B7", "Feature", 1), ("C7", "Work", 1), ("D7", "Min h", 1), ("E7", "Max h", 1), ("F7", "Cost", 1)],
+        8: task_row(8, F("E8*$C$4", 't="shared" ref="F8:F9" si="0"')),
+        9: task_row(9, F("", 't="shared" si="0"')),
+        10: [("B10", "Total", 1), ("D10", F("SUM(D8:D9)"), 3), ("E10", F("SUM(E8:E9)"), 3),
+             ("F10", F("SUM(F8:F9)"), 3)],
+        12: [("B12", "Risks:", 1)],
+        13: blank(13, "BCDEF", 2),
+        15: [("B15", "Open questions", 1)],
+        16: blank(16, "BCDEF", 2),
+    }
+    return [("Cover", {1: [("A1", "Estimate for the client", 1)]}, [], ""),
+            ("Estimate", estimate, ["B13:F13", "B16:F16"], "")]
+
+
+SHAPES = {"corporate": corporate, "foreign": foreign}
 
 
 def build(shape):
