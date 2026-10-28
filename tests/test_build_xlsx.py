@@ -37,6 +37,13 @@ class ShiftTest(unittest.TestCase):
         self.assertEqual(bx.fix_shared_refs(moved),
                          '<row r="51"><c r="J51" s="2"><f t="shared" ref="J51:K51" si="1">F51*2</f></c></row>')
 
+    def test_self_closing_formula_leaves_the_next_cells_alone(self):
+        row = ('<row r="42"><c r="G42"><f t="shared" si="2"/></c><c r="H42" s="1"/>'
+               '<c r="J42"><f>SUM(J31:J41)</f></c></row>')
+        self.assertEqual(bx.shift_row_xml(row, 102, 35, 60),
+                         '<row r="102"><c r="G102"><f t="shared" si="2"/></c><c r="H102" s="1"/>'
+                         '<c r="J102"><f>SUM(J31:J101)</f></c></row>')
+
     def test_shared_formula_over_rows_is_kept(self):
         cell = '<c r="J40" s="2"><f t="shared" ref="J32:J40" si="0">F32</f></c>'
         self.assertEqual(bx.fix_shared_refs(cell), cell)

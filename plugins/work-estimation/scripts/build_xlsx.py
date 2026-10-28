@@ -82,7 +82,9 @@ def shift_row_xml(xml, new_n, thr, delta):
     """Renumber a <row> and shift the row references inside its formulas."""
     xml = re.sub(r'(<row\b[^>]*\br=")\d+(")', lambda m: m.group(1) + str(new_n) + m.group(2), xml, count=1)
     xml = re.sub(r'(<c r="([A-Z]{1,3}))\d+(")', lambda m: m.group(1) + str(new_n) + m.group(3), xml)
-    xml = re.sub(r"<f([^>]*)>(.*?)</f>",
+    # A shared formula's other cells hold a self-closing <f .../>: it has no text to shift,
+    # and matching it would run on to the next </f> and shift the cells in between.
+    xml = re.sub(r"<f([^>]*)(?<!/)>(.*?)</f>",
                  lambda m: f"<f{m.group(1)}>{shift_formula(m.group(2), thr, delta)}</f>", xml, flags=re.S)
     return xml
 
