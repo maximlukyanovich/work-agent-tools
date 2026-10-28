@@ -9,8 +9,10 @@ Write the estimate into the workbook template.
 
 ## Steps
 
-1. **Check the inputs.** The data module, an untouched copy of the template, and
-   an output path that is **not** the template. Running twice must give the same
+1. **Check the inputs.** The data module, an untouched copy of the template —
+   from the argument, else the profile's `Workbook template` in
+   `## Estimation`; with neither, ask for its path and offer to record it there —
+   and an output path that is **not** the template. Running twice must give the same
    result, so the input is never the file being produced. One layout is
    supported, known by its labels ("The workbook" in
    `${CLAUDE_PLUGIN_ROOT}/reference/data-format.md`).

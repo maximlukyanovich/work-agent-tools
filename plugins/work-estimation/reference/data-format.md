@@ -41,7 +41,7 @@ With several parts they are computed from `DERIVED_PART`'s development sum only.
 ## Shape of the report
 
 ```python
-COLUMNS = [                 # default is the workbook's eight columns
+COLUMNS = [                 # default: these eight
     ("part", "PART OF"), ("epic", "EPIC / FEATURE"), ("task", "TASK / USER STORY"),
     ("description", "DESCRIPTION"), ("optimistic", "OPT"), ("pessimistic", "PESS"),
     ("negative", "RISKS: NEGATIVE"), ("positive", "RISKS: POSITIVE"),
