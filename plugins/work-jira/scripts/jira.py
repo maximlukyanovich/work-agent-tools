@@ -64,18 +64,27 @@ def coordinates():
     return None, None
 
 
-BASE, USER, TOKEN = _env()
-_AUTH = base64.b64encode(f"{USER}:{TOKEN}".encode()).decode()
+_CONFIG = []
+
+
+def _config():
+    """(base URL, basic-auth token), read from .mcp.json on the first request — so `import jira`
+    works without credentials: in tests, and in a script that only builds ADF."""
+    if not _CONFIG:
+        base, user, token = _env()
+        _CONFIG.append((base, base64.b64encode(f"{user}:{token}".encode()).decode()))
+    return _CONFIG[0]
 
 
 def call(method, path, payload=None):
+    base, auth = _config()
     data = json.dumps(payload).encode() if payload is not None else None
     req = urllib.request.Request(
-        BASE + path,
+        base + path,
         data=data,
         method=method,
         headers={
-            "Authorization": f"Basic {_AUTH}",
+            "Authorization": f"Basic {auth}",
             "Accept": "application/json",
             "Content-Type": "application/json",
         },
@@ -523,7 +532,7 @@ def flag(key, on=True):
 
 
 def url(key):
-    return f"{BASE}/browse/{key}"
+    return f"{_config()[0]}/browse/{key}"
 
 
 # ------------------------------------------------------------------- hours

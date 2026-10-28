@@ -7,6 +7,7 @@ is answered from a dictionary of paths, a POST or a PUT is only recorded.
 
 import json
 import os
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -270,6 +271,25 @@ class BatchTest(JiraTest):
         ])
         self.assertEqual(created, {})
         self.assertEqual(fake.writes(), [])
+
+
+class ConfigTest(unittest.TestCase):
+    """The credentials are read on the first request, not on import — a fresh interpreter each."""
+
+    def run_without_config(self, code):
+        with tempfile.TemporaryDirectory() as empty:
+            env = dict(os.environ, JIRA_PROJECT_ROOT=empty, PYTHONPATH=str(SCRIPTS))
+            return subprocess.run([sys.executable, "-c", code], cwd=empty, env=env,
+                                  capture_output=True, text=True)
+
+    def test_import_and_adf_need_no_config(self):
+        r = self.run_without_config("import jira; print(jira.doc(jira.p('a `b`'))['content'][0]['type'])")
+        self.assertEqual((r.returncode, r.stdout.strip()), (0, "paragraph"), r.stderr)
+
+    def test_first_request_raises_the_same_error(self):
+        r = self.run_without_config("import jira; jira.myself()")
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn("RuntimeError: no .mcp.json found - run the project's mcp:sync first", r.stderr)
 
 
 if __name__ == "__main__":
