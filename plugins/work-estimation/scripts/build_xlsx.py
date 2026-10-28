@@ -176,12 +176,16 @@ def edit_rows(body, edits):
 
 
 # ------------------------------------------------------- the template's text
+def xml_text(s):
+    return unescape(s, {"&quot;": '"', "&apos;": "'"})
+
+
 def shared_strings(zin):
     """The workbook's shared strings as plain text: a label cell holds an index into them."""
     if "xl/sharedStrings.xml" not in zin.namelist():
         return []
     xml = zin.read("xl/sharedStrings.xml").decode("utf-8")
-    return [unescape("".join(re.findall(r"<t(?:\s[^>]*)?>(.*?)</t>", si, re.S)))
+    return [xml_text("".join(re.findall(r"<t(?:\s[^>]*)?>(.*?)</t>", si, re.S)))
             for si in re.findall(r"<si>(.*?)</si>", xml, re.S)]
 
 
@@ -195,13 +199,13 @@ def cells(xml, strings):
     for m in CELL_XML.finditer(xml):
         attrs, inner = m.group(3), m.group(4) or ""
         f = re.search(r"<f\b[^>]*?(?:/>|>(.*?)</f>)", inner, re.S)
-        formula = ("=" + unescape(f.group(1) or "")) if f else ""
+        formula = ("=" + xml_text(f.group(1) or "")) if f else ""
         if re.search(r'\bt="s"', attrs):
             text = strings[int(re.search(r"<v>(\d+)</v>", inner).group(1))]
         else:
             texts = re.findall(r"<t(?:\s[^>]*)?>(.*?)</t>", inner, re.S)
             value = re.search(r"<v>(.*?)</v>", inner)
-            text = unescape("".join(texts)) if texts else unescape(value.group(1)) if value else ""
+            text = xml_text("".join(texts)) if texts else xml_text(value.group(1)) if value else ""
         yield m.group(1), int(m.group(2)), text, formula
 
 
@@ -213,7 +217,7 @@ def sheet_parts(zin):
         targets[rid] = target[1:] if target.startswith("/") else posixpath.normpath("xl/" + target)
     parts = {}
     for sheet in re.findall(r"<sheet\b[^>]*>", zin.read("xl/workbook.xml").decode("utf-8")):
-        name = unescape(re.search(r'\bname="([^"]*)"', sheet).group(1), {"&quot;": '"', "&apos;": "'"})
+        name = xml_text(re.search(r'\bname="([^"]*)"', sheet).group(1))
         parts[name] = targets[re.search(r'\s[\w.-]+:id="([^"]*)"', sheet).group(1)]
     return parts
 

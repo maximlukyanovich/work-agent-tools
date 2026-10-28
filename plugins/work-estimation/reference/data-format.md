@@ -101,7 +101,8 @@ stops the run before anything is written.
 
 Where the estimate goes in one template: a JSON file beside it,
 `<template stem>.map.json`, or the profile's `Workbook map`. The template is
-never adapted to the script; the map is.
+never adapted to the script; the map is. `export` proposes it the first time,
+from `xlsx_outline.py`, and the user confirms it.
 
 ```json
 {

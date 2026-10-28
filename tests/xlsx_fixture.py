@@ -165,6 +165,30 @@ def foreign():
 
 SHAPES = {"corporate": corporate, "foreign": foreign}
 
+# The maps the tests fill each shape by; a live run drafts its own.
+MAPS = {
+    "corporate": {
+        "sheet": "General Estimate",
+        "tasks": {"label": "Development", "down": 2, "rows": 4,
+                  "columns": {"B": "part", "C": "epic", "D": "task", "E": "description",
+                              "F": "optimistic", "G": "pessimistic", "H": "negative", "I": "positive"}},
+        "lists": {"RISKS": {"label": "Risks which may cause estimation changes:", "down": 1, "rows": 2},
+                  "EXCLUDES": {"label": "Excludes:", "down": 1, "rows": 2},
+                  "QUESTIONS": {"sheet": "Q&A", "label": "QUESTIONS", "down": 1, "number": "A"}},
+        "fields": {"timeline": {"label": "Overall Expected Timeline:", "right": 2},
+                   "timeline_note": {"label": "Overall Expected Timeline:", "down": 1},
+                   "stack": {"label": "TECH STACK", "down": 1}},
+    },
+    "foreign": {
+        "sheet": "Estimate",
+        "tasks": {"label": "Tasks", "down": 2, "rows": 2,
+                  "columns": {"B": "epic", "C": "task", "D": "optimistic", "E": "pessimistic"}},
+        "lists": {"RISKS": {"label": "Risks:", "down": 1, "rows": 1},
+                  "QUESTIONS": {"label": "Open questions", "down": 1, "rows": 1, "number": "A"}},
+        "fields": {"timeline": {"label": "Timeline:", "right": 1}},
+    },
+}
+
 
 def build(shape):
     """The workbook of a shape, as bytes of a zip."""

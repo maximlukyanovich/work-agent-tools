@@ -25,7 +25,7 @@ Whether tasks are assigned to the developer who creates them.
 ## Estimation
 The two work rates and their bands. Coefficients and their percentages. Which
 number goes into the estimate field. What is tracked as separate work. The
-workbook template, when estimates go out as a workbook.
+workbook template and its map, when estimates go out as a workbook.
 
 ## Sources of truth
 Spec and design, as durable links. The local copy path, if there is one, marked

@@ -38,7 +38,8 @@ workflow commands ship in a plugin instead of being written into the project.
 - Python 3 — the plugins' scripts and the `work-bootstrap` session-start hook.
 - For `work-jira`: a Jira Cloud site and a working `.mcp.json` with its
   credentials; without one the commands stop and say what is missing.
-- For `/work-estimation:export`: the `.xlsx` workbook template to fill.
+- For `/work-estimation:export`: the `.xlsx` workbook template to fill; its map
+  is proposed on the first export.
 
 ## Quick start
 
