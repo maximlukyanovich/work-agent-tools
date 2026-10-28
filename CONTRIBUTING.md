@@ -16,8 +16,9 @@ trap worth naming, a fix.
   Without the raise the change reaches nobody.
 - Before opening a pull request, run `python3 scripts/check.py` after
   `git fetch` — it compares versions against `origin/main`; in a fork, pass
-  `--base upstream/main` — and run the changed command or skill once in a real
-  repository — say in the pull request where and how. To try a plugin straight from a checkout, without installing:
+  `--base upstream/main` — and the tests, `python3 -m unittest discover -s
+  tests`. Run the changed command or skill once in a real repository, and
+  say in the pull request where and how. To try a plugin straight from a checkout, without installing:
   `claude --plugin-dir <checkout>/plugins`.
 
 The conventions — commit format, command naming, descriptions — are in

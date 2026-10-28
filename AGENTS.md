@@ -137,6 +137,11 @@ for working on the repository itself.
   a version above the base's;
 - a new `CHANGES.md` entry comes with a minor raise of its plugin at least.
 
+The tests under `tests/` pin what the plugins' scripts do, and CI runs them
+after the gate: every test passes — `python3 -m unittest discover -s tests`.
+They live outside the plugins, so a change to a test raises no plugin's
+version.
+
 One check stays with people: **the changed command or skill was run once, in a
 real repository, and did what its text says.** The pull request says where
 and how it was run. This item is not optional. A command that has never been
@@ -160,5 +165,6 @@ CONTRIBUTING.md                   for outside contributors; points here
 LICENSE                           MIT
 scripts/check.py                  the pull-request gate, run by CI
 scripts/release_notes.py          a release's notes: plugin versions, action needed
-.github/workflows/check.yml       runs the gate
+tests/                            the scripts' tests, stdlib unittest, run by CI
+.github/workflows/check.yml       runs the gate and the tests
 ```
