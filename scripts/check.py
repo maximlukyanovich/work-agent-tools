@@ -7,18 +7,26 @@ Checks what a reviewer should never have to read for:
   - every `${CLAUDE_PLUGIN_ROOT}/…` path and every relative Markdown link resolves;
   - marketplace.json lists every plugin under plugins/, sources exist, names match plugin.json;
   - every CHANGES.md entry is `## YYYY-MM-DD · <id>` with a unique id and What / Check / Applies to;
-  - every plugin hook command points at a script that exists;
+  - every plugin hook points at a script that exists, in its `command` or its `args`;
   - every Python script compiles;
+  - every plugin text — a `*.md` under plugins/ but a README — is at most 10 KB, or a warning says
+    so: splitting it is a decision, not drift;
   - every plugin.json has a MAJOR.MINOR.PATCH `version` and the catalogue has none; a plugin whose
     files differ from the merge base with --base, its README aside, has a version above the one at
     --base's tip, and one whose CHANGES.md gains an entry is raised by a minor at least.
 
-Standard library and git only, so CI needs nothing but a Python image. Exit code 1 on any finding.
+The sections are the agent-tools gate's, kept in pairs; that one differs in three: no plugin there
+keeps a CHANGES.md, so it has no section for one; it requires `argument-hint` on commands; it checks
+agents, which no plugin here ships.
+
+Standard library and git only, so CI needs nothing but a Python image. Exit code 1 on any finding;
+a size warning alone leaves it 0, and under GitHub Actions it also becomes an annotation on the file.
 Run: git fetch origin main && python3 scripts/check.py [--base <ref>]   (default origin/main)
 """
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
@@ -27,6 +35,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 PLUGINS = ROOT / "plugins"
 problems = []
+warnings = []
 
 parser = argparse.ArgumentParser(description="The merge-request gate; see the module docstring.")
 parser.add_argument("--base", default="origin/main", help="the ref versions are raised against (default origin/main)")
@@ -129,9 +138,10 @@ for hooks in PLUGINS.glob("*/hooks/hooks.json"):
     for groups in config.get("hooks", {}).values():
         for group in groups:
             for hook in group.get("hooks", []):
-                for ref in re.findall(r"\$\{CLAUDE_PLUGIN_ROOT\}/([A-Za-z0-9_./-]+)", hook.get("command", "")):
-                    if not (plugin / ref).exists():
-                        fail(hooks, f"${{CLAUDE_PLUGIN_ROOT}}/{ref} does not exist in {plugin.name}")
+                for part in [hook.get("command", ""), *hook.get("args", [])]:
+                    for ref in re.findall(r"\$\{CLAUDE_PLUGIN_ROOT\}/([A-Za-z0-9_./-]+)", part):
+                        if not (plugin / ref).exists():
+                            fail(hooks, f"${{CLAUDE_PLUGIN_ROOT}}/{ref} does not exist in {plugin.name}")
 
 # ---------------------------------------------------------------- scripts
 for script in list(ROOT.rglob("*.py")):
@@ -141,6 +151,15 @@ for script in list(ROOT.rglob("*.py")):
         compile(script.read_text(encoding="utf-8"), str(script), "exec")
     except SyntaxError as e:
         fail(script, f"does not compile: line {e.lineno}: {e.msg}")
+
+# ---------------------------------------------------------------- size
+# Every byte of a command, skill or reference is paid for on each turn after the
+# agent reads it; growth past the limit should be a decision, so it is named.
+SIZE_LIMIT = 10 * 1024
+for md in sorted(PLUGINS.rglob("*.md")):
+    size = md.stat().st_size
+    if md.name != "README.md" and size > SIZE_LIMIT:
+        warnings.append((md.relative_to(ROOT), f"{size / 1024:.1f} KB, above {SIZE_LIMIT // 1024} KB"))
 
 # ---------------------------------------------------------------- versions
 # Claude Code replaces an installed plugin only when its version changes: a
@@ -205,8 +224,13 @@ else:
             fail(manifest, f"CHANGES.md gains {', '.join(new_ids)}: raise {plugin} by a minor at least, "
                            f"not {shown(base_version)} → {shown(versions[plugin])}")
 
+for path, message in warnings:
+    print(f"warning: {path}: {message}")
+    if os.environ.get("GITHUB_ACTIONS") == "true":
+        print(f"::warning file={path}::{message}")
+tail = f", {len(warnings)} warning(s)" if warnings else ""
 if problems:
     print("\n".join(problems))
-    print(f"\n{len(problems)} problem(s)")
+    print(f"\n{len(problems)} problem(s){tail}")
     sys.exit(1)
-print("all checks passed")
+print(f"all checks passed{tail}")

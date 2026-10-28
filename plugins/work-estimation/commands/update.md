@@ -29,7 +29,9 @@ returned, a task added.
    which lines moved and why.
 
 7. **End with the next step**: `/work-estimation:export <data module>` as a
-   block ready to paste.
+   block ready to paste — only when the profile's `## Estimation` names a
+   `Workbook template` or the user asked for the workbook. Otherwise the report
+   is the result, and the step says so.
 
 ## Scripts are run, not read
 

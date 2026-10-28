@@ -27,10 +27,10 @@ read, say which one and why, and continue with the rest.
    - **Which parts are estimated?** Frontend, backend, business analysis, design,
      DevOps, QA — any subset. Each becomes a `PART OF` value in the table with its
      own rates. Default: ask; never assume frontend-only.
-   - **Which columns?** Default is the workbook's shape: part of, epic,
-     task, description, optimistic, pessimistic, negative risk, positive risk. The
-     user may add, drop or rename columns; record the chosen shape in the report
-     header so `export` knows what it is looking at.
+   - **Which columns?** Default is the report's eight: part of, epic, task,
+     description, optimistic, pessimistic, negative risk, positive risk. The
+     user may add, drop or rename columns; the choice is recorded as `COLUMNS`
+     in the data module.
 
 3. **Inventory the sources.** The spec: every feature, numbered as it numbers
    them. The design handoff: every screen and component, by group. The
@@ -67,9 +67,11 @@ read, say which one and why, and continue with the rest.
 10. **Only now compare with the deadline**, if one was named, and report the gap
    as a scope question with concrete lines that could move.
 
-11. **End with the next step** as blocks ready to paste:
-    `/work-estimation:export <data module>`, and `/work-estimation:update
-    <data module>` as a second block when the scope is about to change.
+11. **End with the next step** as a block ready to paste:
+    `/work-estimation:update <data module>`, for when the scope changes.
+    `/work-estimation:export <data module>` comes as a block of its own only
+    when the profile's `## Estimation` names a `Workbook template` or the user
+    asked for the workbook.
 
 ## Scripts are run, not read
 

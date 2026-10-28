@@ -89,7 +89,6 @@ L = {
 L.update(E.get("LABELS", {}))
 
 HPM = E.get("HOURS_PER_MONTH", 170)
-HPW = E.get("HOURS_PER_WEEK", 40)
 
 
 def n(x):
@@ -136,7 +135,7 @@ for d in E.derived:
 label = L["part_total"].format(part=E.parts[0]) if len(E.parts) == 1 else L["grand_total"]
 w(f"| **{label}** | **{n(to)}** | **{n(tp)}** |")
 w("")
-wo, wp = round(to / HPW), round(tp / HPW)
+wo, wp = E.weeks()
 weeks = f"{wo}–{wp}" if wo != wp else str(wo)
 w(L["timeline"].format(hpm=HPM, weeks=weeks))
 for line in E.get("TIMELINE_NOTE", []):

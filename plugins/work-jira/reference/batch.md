@@ -112,3 +112,7 @@ outside a batch. `jira.set_release(key, fix_version, priority)`.
 `jira.link(a, b, type)` — reads left to right, `a blocks b`, `a split to b`; the API's own body names the sides the other way round, and the helper hides that, `jira.linked(key)`, `jira.assign(key, account_id)`,
 `jira.myself()`, `jira.set_estimate(key, "6h 30m", remaining=None)` — pass `remaining` when re-estimating, `jira.half_up(hours)`,
 `jira.jira_hours(hours)`, `jira.refs(doc)`, `jira.has_section(doc, title)`.
+`jira.transition(key, status)` — moves an issue to the status of that name, the
+transition id read from the issue. `jira.worklog(key, started, spent, text,
+leave_remaining=False)` — `started` a full timestamp with its offset, `spent` a
+Jira duration, `3h 30m`; `3h30m` is spaced before sending.

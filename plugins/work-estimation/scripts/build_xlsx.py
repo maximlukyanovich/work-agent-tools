@@ -1,27 +1,43 @@
 # -*- coding: utf-8 -*-
-"""Fill the estimate workbook template from a data module, preserving the template's styling."""
+"""Fill the estimate workbook template from a data module, preserving the template's styling.
+
+    build_xlsx.py <data module> <template .xlsx> <output .xlsx>
+
+The empty workbook is the input and is never written to; the filled one is the output.
+Running this twice must give the same result, so the template must not be the file produced.
+"""
 
 import re
 import shutil
-import zipfile
-from xml.sax.saxutils import escape
-
-
 import sys
+import zipfile
+from xml.sax.saxutils import escape, unescape
 
-# The empty workbook is the input and is never written to; the filled one is the output.
-# Running this twice must give the same result, so SRC must not be the file we produce.
-#   build_xlsx.py <data module> <template .xlsx> <output .xlsx>
-_MOD = sys.argv[1] if len(sys.argv) > 1 else "data"
-SRC = sys.argv[2]
-OUT = sys.argv[3]
+from estimate_data import NUMERIC, Estimate
 
-from estimate_data import Estimate  # noqa: E402
-
-E = Estimate(_MOD)
-data = E.m
-
-COL = {c: i for i, c in enumerate("ABCDEFGHIJKLMNO", start=1)}
+# The one layout this script fills: the corporate estimate template. Row numbers are the
+# template's own, before any row is inserted. The labels are checked before anything is
+# written, so another template stops the run instead of being filled in the wrong cells.
+# The questions sheet is the second one: numbers in A and questions in B from row 2.
+LAYOUT = {
+    "labels": {
+        "I9": "Overall Expected Timeline:",
+        "B30": "Development",
+        "B47": "Risks which may cause estimation changes:",
+        "B50": "Excludes:",
+        "B55": "TECH STACK",
+    },
+    # The template's data rows; the last one is cloned for every row of the estimate.
+    "data_rows": (32, 35),
+    "columns": {"B": "part", "C": "epic", "D": "task", "E": "description",
+                "F": "optimistic", "G": "pessimistic", "H": "negative", "I": "positive"},
+    # A blank text row, cloned and merged across for every item past a list's blank rows.
+    "text_row": 48,
+    "text_merge": ("B", "G"),
+    "lists": {"RISKS": (48, 49), "EXCLUDES": (51, 52)},
+    # The cell each WORKBOOK key fills.
+    "fields": {"timeline": "K9", "timeline_note": "I10", "stack": "B56"},
+}
 
 
 # --------------------------------------------------------------- ref helpers
@@ -92,139 +108,98 @@ def set_cell(rowxml, col, value, numeric=False):
     return rowxml[: m.start()] + body + rowxml[m.end():]
 
 
-def num(x):
-    return int(x)
+# ------------------------------------------------------------------- labels
+def shared_strings(zin):
+    """The workbook's shared strings as plain text: a label cell holds an index into them."""
+    if "xl/sharedStrings.xml" not in zin.namelist():
+        return []
+    xml = zin.read("xl/sharedStrings.xml").decode("utf-8")
+    return [unescape("".join(re.findall(r"<t(?:\s[^>]*)?>(.*?)</t>", si, re.S)))
+            for si in re.findall(r"<si>(.*?)</si>", xml, re.S)]
 
 
-# ------------------------------------------------------------------ workbook
-zin = zipfile.ZipFile(SRC)
-sheet1 = zin.read("xl/worksheets/sheet1.xml").decode("utf-8")
-sheet2 = zin.read("xl/worksheets/sheet2.xml").decode("utf-8")
-
-head, rest = sheet1.split("<sheetData>", 1)
-body, tail = rest.split("</sheetData>", 1)
-
-rows = {}
-order = []
-for m in re.finditer(r'<row\b[^>]*\br="(\d+)"[^>]*(?:/>|>.*?</row>)', body, re.S):
-    n = int(m.group(1))
-    rows[n] = m.group(0)
-    order.append(n)
-
-TPL_DATA_ROW = rows[35]
-TPL_TEXT_ROW = rows[48]
-
-# ---- numbers -----------------------------------------------------------
-# Rows carry their own PART OF; the workbook's summary formulas pick them up by name.
-ROWS = [(r["part"], r["epic"], r["task"], r["description"], r["optimistic"],
-         r["pessimistic"], r["negative"], r["positive"]) for r in E.all_rows()]
-N = len(ROWS)
-DELTA1 = N - 4  # template holds 4 data rows (32..35)
-core_o, core_p = E.core()
-FE_O, FE_P = E.total()
-print(f"rows={N} parts={E.parts} core={core_o}/{core_p} total={FE_O}/{FE_P}")
-
-# ---- rebuild sheetData -------------------------------------------------
-out, mapping = [], {}
-for n in order:
-    if n < 32:
-        out.append((n, shift_row_xml(rows[n], n, 35, DELTA1)))
-        mapping[n] = n
-    elif n <= 35:
-        if n == 32:  # emit all data rows here
-            for i, r in enumerate(ROWS):
-                rn = 32 + i
-                x = shift_row_xml(TPL_DATA_ROW, rn, 35, rn - 35)
-                x = set_cell(x, "B", r[0])
-                x = set_cell(x, "C", r[1])
-                x = set_cell(x, "D", r[2])
-                x = set_cell(x, "E", r[3])
-                x = set_cell(x, "F", r[4], numeric=True)
-                x = set_cell(x, "G", r[5], numeric=True)
-                x = set_cell(x, "H", r[6])
-                x = set_cell(x, "I", r[7])
-                out.append((rn, x))
-    else:
-        nn = n + DELTA1
-        out.append((nn, shift_row_xml(rows[n], nn, 35, DELTA1)))
-        mapping[n] = nn
-
-tail = re.sub(r'(<mergeCell ref=")([^"]+)(")',
-              lambda m: m.group(1) + shift_ref(m.group(2), 35, DELTA1) + m.group(3), tail)
-tail = re.sub(r'(sqref=")([^"]+)(")',
-              lambda m: m.group(1) + " ".join(shift_ref(p, 35, DELTA1) for p in m.group(2).split()) + m.group(3), tail)
-tail = re.sub(r"<formula>(.*?)</formula>",
-              lambda m: f"<formula>{shift_formula(m.group(1), 35, DELTA1)}</formula>", tail)
-
-extra_merges = []
+def cell_text(xml, ref, strings):
+    """The text a cell shows — a shared string, an inline string or a value; "" when empty."""
+    m = re.search(r'<c r="%s"([^>]*?)(?:/>|>(.*?)</c>)' % ref, xml, re.S)
+    if not m:
+        return ""
+    attrs, inner = m.group(1), m.group(2) or ""
+    if re.search(r'\bt="s"', attrs):
+        return strings[int(re.search(r"<v>(\d+)</v>", inner).group(1))]
+    texts = re.findall(r"<t(?:\s[^>]*)?>(.*?)</t>", inner, re.S)
+    if texts:
+        return unescape("".join(texts))
+    value = re.search(r"<v>(.*?)</v>", inner)
+    return unescape(value.group(1)) if value else ""
 
 
-def insert_rows(at, count):
+def check_labels(xml, strings, labels):
+    """(cell, expected, found) for every anchor label the template does not carry."""
+    found = {ref: cell_text(xml, ref, strings).strip() for ref in labels}
+    return [(ref, want, found[ref]) for ref, want in labels.items() if found[ref] != want]
+
+
+def workbook_cells(E):
+    """{cell: text} for the single cells WORKBOOK fills, and the keys left empty.
+
+    The timeline defaults to the report's weeks; the note and the stack have no default —
+    they are the project's, in the workbook's language, and an empty cell is named instead
+    of being filled with another project's text."""
+    given = dict(E.get("WORKBOOK", {}))
+    unknown = sorted(set(given) - set(LAYOUT["fields"]))
+    if unknown:
+        raise ValueError(f"WORKBOOK has unknown keys {', '.join(unknown)}; "
+                         f"known: {', '.join(LAYOUT['fields'])}")
+    if "timeline" not in given:
+        wo, wp = E.weeks()
+        given["timeline"] = f"{wo}–{wp} weeks" if wo != wp else f"{wo} weeks"
+    cells = {ref: given.get(key, "") for key, ref in LAYOUT["fields"].items()}
+    empty = [key for key, ref in LAYOUT["fields"].items() if not cells[ref]]
+    return cells, empty
+
+
+# ------------------------------------------------------------------ sheet body
+class Sheet:
+    """The first sheet while it is rebuilt: its rows as (number, xml), the XML after
+    <sheetData>, where each template row went, and the merges added for inserted rows."""
+
+    def __init__(self, rows, tail, mapping, text_row):
+        self.rows, self.tail, self.mapping, self.text_row = rows, tail, mapping, text_row
+        self.extra_merges = []
+
+
+def shift_tail(tail, thr, delta):
+    """Shift the merged ranges, selections and conditional-format formulas after <sheetData>."""
+    tail = re.sub(r'(<mergeCell ref=")([^"]+)(")',
+                  lambda m: m.group(1) + shift_ref(m.group(2), thr, delta) + m.group(3), tail)
+    tail = re.sub(r'(sqref=")([^"]+)(")',
+                  lambda m: m.group(1) + " ".join(shift_ref(p, thr, delta) for p in m.group(2).split()) + m.group(3), tail)
+    return re.sub(r"<formula>(.*?)</formula>",
+                  lambda m: f"<formula>{shift_formula(m.group(1), thr, delta)}</formula>", tail)
+
+
+def insert_rows(sheet, at, count):
     """Insert `count` clones of the text row at position `at`; shift everything below."""
-    global out, tail, mapping, extra_merges
-    new, new_merges, old_merges = [], [], list(extra_merges)
-    for n, x in out:
+    new, new_merges, old_merges = [], [], list(sheet.extra_merges)
+    for n, x in sheet.rows:
         if n >= at:
             new.append((n + count, shift_row_xml(x, n + count, at, count)))
         else:
             new.append((n, shift_row_xml(x, n, at, count)))
+    text, (left, right) = LAYOUT["text_row"], LAYOUT["text_merge"]
     for i in range(count):
         rn = at + i
-        new.append((rn, shift_row_xml(TPL_TEXT_ROW, rn, 48, rn - 48)))
-        new_merges.append(f"B{rn}:G{rn}")
-    out = sorted(new, key=lambda t: t[0])
-    mapping = {k: (v + count if v >= at else v) for k, v in mapping.items()}
-    extra_merges = [shift_ref(r, at, count) for r in old_merges] + new_merges
-    tail = re.sub(r'(<mergeCell ref=")([^"]+)(")',
-                  lambda m: m.group(1) + shift_ref(m.group(2), at, count) + m.group(3), tail)
-    tail = re.sub(r'(sqref=")([^"]+)(")',
-                  lambda m: m.group(1) + " ".join(shift_ref(p, at, count) for p in m.group(2).split()) + m.group(3), tail)
-    tail = re.sub(r"<formula>(.*?)</formula>",
-                  lambda m: f"<formula>{shift_formula(m.group(1), at, count)}</formula>", tail)
+        new.append((rn, shift_row_xml(sheet.text_row, rn, text, rn - text)))
+        new_merges.append(f"{left}{rn}:{right}{rn}")
+    sheet.rows = sorted(new, key=lambda t: t[0])
+    sheet.mapping = {k: (v + count if v >= at else v) for k, v in sheet.mapping.items()}
+    sheet.extra_merges = [shift_ref(r, at, count) for r in old_merges] + new_merges
+    sheet.tail = shift_tail(sheet.tail, at, count)
 
 
-# risks: template gives 2 blank rows (orig 48, 49) after the header at orig 47
-need_risks = len(data.RISKS)
-if need_risks > 2:
-    insert_rows(mapping[49], need_risks - 2)
-need_ex = len(data.EXCLUDES)
-if need_ex > 2:
-    insert_rows(mapping[52], need_ex - 2)
-
-rowmap = dict(out)
-
-
-def write(orig_row, col, value, numeric=False):
-    n = mapping[orig_row]
-    rowmap[n] = set_cell(rowmap[n], col, value, numeric)
-
-
-for i, txt in enumerate(data.RISKS):
-    n = mapping[48] + i
-    rowmap[n] = set_cell(rowmap[n], "B", txt)
-for i, txt in enumerate(data.EXCLUDES):
-    n = mapping[51] + i
-    rowmap[n] = set_cell(rowmap[n], "B", txt)
-
-# timeline + tech stack
-write(10, "I", "The timeline covers the frontend scope only and assumes 1 frontend developer, "
-              "with the backend contract available on time.")
-write(9, "K", "13-19 weeks (frontend only)")
-write(56, "B", "FRONT-END: React 19.2, Next.js 16.3 (App Router, Cache Components), TypeScript 5.9, "
-               "Tailwind CSS 4, shadcn/ui + Radix UI, TanStack Query 5, Zod 4, next-intl 4, "
-               "Storybook, Vitest + Testing Library, Playwright, MSW, ESLint 9 + Prettier, "
-               "Node 24, pnpm 11")
-
-new_body = "".join(x for _, x in sorted(rowmap.items()))
-if extra_merges:
-    cnt = int(re.search(r'<mergeCells count="(\d+)"', tail).group(1)) + len(extra_merges)
-    tail = re.sub(r'<mergeCells count="\d+">', f'<mergeCells count="{cnt}">', tail)
-    tail = tail.replace("</mergeCells>", "".join(f'<mergeCell ref="{r}"/>' for r in extra_merges) + "</mergeCells>")
-sheet1_new = head + "<sheetData>" + new_body + "</sheetData>" + tail
-
-# ---- Q&A sheet ---------------------------------------------------------
-def fill_qa(xml):
-    for i, q in enumerate(data.QUESTIONS):
+# ------------------------------------------------------------- other sheets
+def fill_qa(xml, questions):
+    for i, q in enumerate(questions):
         n = i + 2
         m = re.search(r'<row\b[^>]*\br="%d"[^>]*(?:/>|>.*?</row>)' % n, xml, re.S)
         row = m.group(0)
@@ -239,8 +214,6 @@ def fill_qa(xml):
     return xml
 
 
-sheet2_new = fill_qa(sheet2)
-
 # ---- post-fixes: shared-formula refs on moved rows, recalc on load -----
 def fix_shared_refs(xml):
     def one(m):
@@ -254,21 +227,123 @@ def fix_shared_refs(xml):
     return re.sub(r'<c r="([A-Z]{1,3})(\d+)"([^>]*)><f([^>]*)>', one, xml)
 
 
-sheet1_new = fix_shared_refs(sheet1_new)
-workbook = zin.read("xl/workbook.xml").decode("utf-8")
-workbook = re.sub(r"<calcPr[^>]*/>", '<calcPr calcId="191029" fullCalcOnLoad="1"/>', workbook)
+# ------------------------------------------------------------------ workbook
+def main(argv):
+    module = argv[0] if argv else "data"
+    src, dst = argv[1], argv[2]
+    E = Estimate(module)
+    data = E.m
 
-# ---- write -------------------------------------------------------------
-with zipfile.ZipFile(OUT + ".tmp", "w", zipfile.ZIP_DEFLATED) as zout:
-    for item in zin.infolist():
-        d = zin.read(item.filename)
-        if item.filename == "xl/worksheets/sheet1.xml":
-            d = sheet1_new.encode("utf-8")
-        elif item.filename == "xl/worksheets/sheet2.xml":
-            d = sheet2_new.encode("utf-8")
-        elif item.filename == "xl/workbook.xml":
-            d = workbook.encode("utf-8")
-        zout.writestr(item, d)
-shutil.move(OUT + ".tmp", OUT)
-print("written:", OUT)
-print("source :", SRC)
+    zin = zipfile.ZipFile(src)
+    sheet1 = zin.read("xl/worksheets/sheet1.xml").decode("utf-8")
+    sheet2 = zin.read("xl/worksheets/sheet2.xml").decode("utf-8")
+
+    mismatches = check_labels(sheet1, shared_strings(zin), LAYOUT["labels"])
+    for ref, want, found in mismatches:
+        print(f"{ref}: expected {want!r}, found {found!r}", file=sys.stderr)
+    if mismatches:
+        print("not the supported workbook layout, nothing written - see reference/data-format.md",
+              file=sys.stderr)
+        return 1
+    try:
+        cells, empty = workbook_cells(E)
+    except ValueError as e:
+        print(f"{e}, nothing written", file=sys.stderr)
+        return 1
+
+    head, rest = sheet1.split("<sheetData>", 1)
+    body, tail = rest.split("</sheetData>", 1)
+
+    rows = {}
+    order = []
+    for m in re.finditer(r'<row\b[^>]*\br="(\d+)"[^>]*(?:/>|>.*?</row>)', body, re.S):
+        n = int(m.group(1))
+        rows[n] = m.group(0)
+        order.append(n)
+
+    first, last = LAYOUT["data_rows"]
+    tpl_data_row = rows[last]
+
+    # ---- numbers -------------------------------------------------------
+    # Rows carry their own PART OF; the workbook's summary formulas pick them up by name.
+    entries = E.all_rows()
+    delta = len(entries) - (last - first + 1)
+    core_o, core_p = E.core()
+    total_o, total_p = E.total()
+    print(f"rows={len(entries)} parts={E.parts} core={core_o}/{core_p} total={total_o}/{total_p}")
+
+    # ---- rebuild sheetData ---------------------------------------------
+    out, mapping = [], {}
+    for n in order:
+        if n < first:
+            out.append((n, shift_row_xml(rows[n], n, last, delta)))
+            mapping[n] = n
+        elif n <= last:
+            if n == first:  # emit all data rows here
+                for i, r in enumerate(entries):
+                    rn = first + i
+                    x = shift_row_xml(tpl_data_row, rn, last, rn - last)
+                    for col, key in LAYOUT["columns"].items():
+                        x = set_cell(x, col, r[key], numeric=key in NUMERIC)
+                    out.append((rn, x))
+        else:
+            nn = n + delta
+            out.append((nn, shift_row_xml(rows[n], nn, last, delta)))
+            mapping[n] = nn
+    sheet = Sheet(out, shift_tail(tail, last, delta), mapping, rows[LAYOUT["text_row"]])
+
+    # each list has its blank rows under the header; more items insert more rows
+    for name, (top, bottom) in LAYOUT["lists"].items():
+        extra = len(getattr(data, name)) - (bottom - top + 1)
+        if extra > 0:
+            insert_rows(sheet, sheet.mapping[bottom], extra)
+
+    rowmap = dict(sheet.rows)
+
+    def write(ref, value):
+        col, orig_row = re.fullmatch(r"([A-Z]+)(\d+)", ref).groups()
+        n = sheet.mapping[int(orig_row)]
+        rowmap[n] = set_cell(rowmap[n], col, value)
+
+    for name, (top, _) in LAYOUT["lists"].items():
+        for i, txt in enumerate(getattr(data, name)):
+            n = sheet.mapping[top] + i
+            rowmap[n] = set_cell(rowmap[n], LAYOUT["text_merge"][0], txt)
+
+    # timeline, its note, tech stack
+    for ref, value in cells.items():
+        write(ref, value)
+    for key in empty:
+        print(f'empty: WORKBOOK["{key}"] -> {LAYOUT["fields"][key]}')
+
+    new_body = "".join(x for _, x in sorted(rowmap.items()))
+    tail = sheet.tail
+    if sheet.extra_merges:
+        cnt = int(re.search(r'<mergeCells count="(\d+)"', tail).group(1)) + len(sheet.extra_merges)
+        tail = re.sub(r'<mergeCells count="\d+">', f'<mergeCells count="{cnt}">', tail)
+        tail = tail.replace("</mergeCells>",
+                            "".join(f'<mergeCell ref="{r}"/>' for r in sheet.extra_merges) + "</mergeCells>")
+    sheet1_new = fix_shared_refs(head + "<sheetData>" + new_body + "</sheetData>" + tail)
+    sheet2_new = fill_qa(sheet2, data.QUESTIONS)
+    workbook = zin.read("xl/workbook.xml").decode("utf-8")
+    workbook = re.sub(r"<calcPr[^>]*/>", '<calcPr calcId="191029" fullCalcOnLoad="1"/>', workbook)
+
+    # ---- write ---------------------------------------------------------
+    with zipfile.ZipFile(dst + ".tmp", "w", zipfile.ZIP_DEFLATED) as zout:
+        for item in zin.infolist():
+            d = zin.read(item.filename)
+            if item.filename == "xl/worksheets/sheet1.xml":
+                d = sheet1_new.encode("utf-8")
+            elif item.filename == "xl/worksheets/sheet2.xml":
+                d = sheet2_new.encode("utf-8")
+            elif item.filename == "xl/workbook.xml":
+                d = workbook.encode("utf-8")
+            zout.writestr(item, d)
+    shutil.move(dst + ".tmp", dst)
+    print("written:", dst)
+    print("source :", src)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

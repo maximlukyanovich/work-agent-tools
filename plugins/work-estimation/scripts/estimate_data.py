@@ -96,6 +96,13 @@ class Estimate:
         oo, op = self.overhead()
         return co + oo, cp + op
 
+    def weeks(self):
+        """The timeline in whole weeks, (optimistic, pessimistic): the total over
+        HOURS_PER_WEEK (default 40), rounded — one rule for the report and the workbook."""
+        hpw = self.get("HOURS_PER_WEEK", 40)
+        to, tp = self.total()
+        return round(to / hpw), round(tp / hpw)
+
     def all_rows(self):
         return self.rows + self.derived
 

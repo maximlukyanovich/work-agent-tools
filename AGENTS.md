@@ -91,11 +91,12 @@ for working on the repository itself.
 
 - **Language.** Everything committed here is English — plugin texts, README,
   commit messages, this file.
-- **No client project is named.** Not in plugin texts, examples, commit
-  messages or pull requests — neither its name nor its issue keys; projects
-  may be under NDA, and every installer reads these files. Examples use
-  `PROJ-N`; a lesson from a live project is described as one, without saying
-  which.
+- **No real project is named** — a client's or the maintainer's own. Not in
+  plugin texts, examples, commit messages, pull requests or issues: not its
+  name, issue keys, paths, recognisable domain terms or quotes from it.
+  Projects may be under NDA, and every installer reads these files. Examples
+  use `PROJ-N`; a lesson from a live project is described as "observed on a
+  live project", without saying which.
 - **Commits.** `:gitmoji: type(scope): Subject`, body as one bullet per point
   explaining why. Scope is the plugin name (`jira`, `estimation`, `bootstrap`)
   or `readme` / `catalog` for the repository level. No agent attribution.
@@ -129,12 +130,21 @@ for working on the repository itself.
   name matches its catalogue entry;
 - every `CHANGES.md` entry is `## YYYY-MM-DD · <id>`, with a unique id and
   `What:`, `Check:` and `Applies to:`;
-- every plugin hook's command points at a script that exists;
+- every plugin hook points at a script that exists, in its `command` or its
+  `args`;
 - every Python script compiles;
 - every `plugin.json` has a `version` of the form `MAJOR.MINOR.PATCH`, the
   catalogue has none, and a plugin whose files changed, its README aside, has
   a version above the base's;
 - a new `CHANGES.md` entry comes with a minor raise of its plugin at least.
+
+It also warns, without failing, about a plugin text above 10 KB — any `*.md`
+under `plugins/` but a README: splitting it is a decision, not drift.
+
+The tests under `tests/` pin what the plugins' scripts do, and CI runs them
+after the gate: every test passes — `python3 -m unittest discover -s tests`.
+They live outside the plugins, so a change to a test raises no plugin's
+version.
 
 One check stays with people: **the changed command or skill was run once, in a
 real repository, and did what its text says.** The pull request says where
@@ -159,5 +169,6 @@ CONTRIBUTING.md                   for outside contributors; points here
 LICENSE                           MIT
 scripts/check.py                  the pull-request gate, run by CI
 scripts/release_notes.py          a release's notes: plugin versions, action needed
-.github/workflows/check.yml       runs the gate
+tests/                            the scripts' tests, stdlib unittest, run by CI
+.github/workflows/check.yml       runs the gate and the tests
 ```

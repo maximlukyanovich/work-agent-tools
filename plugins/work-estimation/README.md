@@ -42,9 +42,10 @@ Other scopes and updating: [Quick start](../../README.md#quick-start).
 
 **Inputs** are whatever the client sent, in any form — documents, spreadsheets,
 links, a design bundle. **The deliverable is a markdown report**; the workbook is
-optional and produced by `export`. The user chooses which parts are estimated
-(frontend, backend, analysis, design, DevOps, QA) and may reshape the table's
-columns; the default shape is the workbook's.
+optional and produced by `export`, offered as the next step only when the
+profile's `## Estimation` names a `Workbook template`. The user chooses which
+parts are estimated (frontend, backend, analysis, design, DevOps, QA) and may
+reshape the table's columns; the default is the report's eight.
 
 Internally the estimate lives in a python module — tasks, coefficients, risks,
 exclusions, questions, provenance — produced by `project`, never written by
@@ -52,8 +53,7 @@ hand. It exists so that `update` can narrow the scope as a filter over the full
 set and `export` can fill the workbook from the same numbers.
 
 The wording of the report comes from the data module, so its language is the
-project's. The built-in fallbacks are still Russian — they are on the list to be
-replaced with neutral English defaults.
+project's; the built-in defaults are English.
 
 ## Skill
 
