@@ -53,8 +53,7 @@ hand. It exists so that `update` can narrow the scope as a filter over the full
 set and `export` can fill the workbook from the same numbers.
 
 The wording of the report comes from the data module, so its language is the
-project's. The built-in fallbacks are still Russian — they are on the list to be
-replaced with neutral English defaults.
+project's; the built-in defaults are English.
 
 ## Skill
 
