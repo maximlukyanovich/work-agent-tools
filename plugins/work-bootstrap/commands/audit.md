@@ -100,7 +100,11 @@ does not raise it again.
    and do the review and the push run the full gate once per tree, skipping
    a tree already recorded green? Does every code path have a targeted row
    whose command narrows, and does a gate of several parts skip a part whose
-   content is unchanged? Does a fix to a commit not yet pushed go into that
+   content is unchanged — content being everything its tool reads, imports
+   and disk reads included? Does every path a part excludes name its probe
+   in a comment beside the rule — a command such as `tsc --listFilesOnly`
+   or a search for imports and disk reads — rather than lean on the tool's
+   `include`? Does a fix to a commit not yet pushed go into that
    commit, do review fixes go into one fix commit that later rounds amend,
    and does the review command read a head rewritten that way as
    `git diff <last head> HEAD`? Is a git hook running the whole gate —

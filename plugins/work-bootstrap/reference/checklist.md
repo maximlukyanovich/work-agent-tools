@@ -49,9 +49,11 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
 - [ ] The gate is fast: one of several parts skips a part whose content is
       unchanged since its last green run — fingerprinted before and after its
       checks, recorded only when the two match — and `--all` runs everything;
-      tests run in parallel only where they share no outside state, the
-      linter keeps a cache when no rule needs type information, the
-      type-check is incremental. CI runs without these caches.
+      a part's content is everything its tool reads, and every path a part
+      excludes names its probe, a command or a way to look; tests run in
+      parallel only where they share no outside state, the linter keeps a
+      cache when no rule needs type information, the type-check is
+      incremental. CI runs without these caches.
 - [ ] A review command, if there is one, keeps a pass ledger in the personal
       space: reviews the delta since the last reviewed head, runs blind before
       reconciling, tags findings `new` / `missed` / `escalated` /

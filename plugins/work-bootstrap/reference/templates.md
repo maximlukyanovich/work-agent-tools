@@ -183,11 +183,20 @@ review, sync and merge share one rule:
   tree, kept in the git common directory so every worktree shares it, taken
   before and after the part's checks and recorded only when the two match,
   since a file edited during the run was checked in its new state — and
-  `--all` runs everything. Tests run in parallel only where they share no
-  outside state: tests that write a Redis-backed config the dev stack also
-  reads race each other's restore and leave the stack's value changed. The
-  linter keeps a cache when no rule needs type information, the type-check
-  is incremental; CI runs without these caches.
+  `--all` runs everything. A part's content is everything its tool reads:
+  its own globs, the files they import and the files they read from disk —
+  tests read the stylesheets and the static assets. A path leaves a part
+  only by a probe named in a comment beside the rule — a command
+  (`tsc --listFilesOnly`) or a way to look (a search for imports and disk
+  reads in the part's files) — never by the tool's `include` or ignore
+  configuration. In doubt the path stays: an extra path costs a rerun of
+  the part, a missing one a false green. Observed on a live project: three
+  findings of one audit were a part narrowed by its tool's `include` while
+  its files imported or read the excluded paths. Tests run in parallel only
+  where they share no outside state: tests that write a Redis-backed config
+  the dev stack also reads race each other's restore and leave the stack's
+  value changed. The linter keeps a cache when no rule needs type
+  information, the type-check is incremental; CI runs without these caches.
 
 **`model:` in a command's frontmatter** switches only the turn the command
 runs in: the session's model is back with the next prompt, and that turn

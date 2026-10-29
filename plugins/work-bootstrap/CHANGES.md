@@ -573,3 +573,13 @@ approved in another session.
 Check: checklist — "The command that starts a task, when a tracker is
 reachable, offers the opening steps"; audit §8.
 Applies to: projects with a task command and a testing skill.
+
+## 2026-10-29 · gate-part-reads
+
+What: a gate part's content is everything its tool reads — its own globs, the
+files they import and the files they read from disk. A path leaves a part only
+by a probe named in a comment beside the rule — a command such as
+`tsc --listFilesOnly`, or a search for imports and disk reads in the part's
+files — never by the tool's configuration; in doubt the path stays.
+Check: checklist — "The gate is fast"; audit §6.
+Applies to: projects whose gate has several parts that skip by content.
