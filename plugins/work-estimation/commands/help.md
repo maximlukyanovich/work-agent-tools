@@ -37,7 +37,8 @@ Language: the conversation's, unless `$1` gives a code.
    nobody is expected to write it by hand.
 
 5. **Say what is present here** — is there a spec or a design to read, is there
-   an estimate already, is there a workbook template. One line each.
+   an estimate already, is there a workbook template, and a map for it. One
+   line each.
 
 ## Hard rules
 

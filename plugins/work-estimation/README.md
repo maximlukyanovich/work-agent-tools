@@ -38,12 +38,14 @@ Other scopes and updating: [Quick start](../../README.md#quick-start).
 | File | What it does |
 | --- | --- |
 | `scripts/render_md.py <data module> <out.md>` | The markdown report: totals, breakdown, provenance audit, risks, exclusions, questions. |
-| `scripts/build_xlsx.py <data module> <template.xlsx> <out.xlsx>` | Carries the same data into the estimate workbook, preserving its styles and formulas. |
+| `scripts/build_xlsx.py <data module> <template.xlsx> <map.json> <out.xlsx>` | Fills a workbook template by its map, preserving its styles and formulas. |
+| `scripts/xlsx_outline.py <template.xlsx> [<map.json>]` | A template's labels, formulas and merged ranges — what a map is drafted from; with a map, where each of its places lands. |
 
 **Inputs** are whatever the client sent, in any form — documents, spreadsheets,
 links, a design bundle. **The deliverable is a markdown report**; the workbook is
-optional and produced by `export`, offered as the next step only when the
-profile's `## Estimation` names a `Workbook template`. The user chooses which
+optional and produced by `export` — laid out by a map kept beside the template,
+which `export` proposes the first time — and offered as the next step only when
+the profile's `## Estimation` names a `Workbook template`. The user chooses which
 parts are estimated (frontend, backend, analysis, design, DevOps, QA) and may
 reshape the table's columns; the default is the report's eight.
 

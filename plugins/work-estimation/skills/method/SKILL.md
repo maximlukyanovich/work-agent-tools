@@ -79,8 +79,8 @@ Rules:
 
 **Rows** carry: part of the project, epic, task, description, optimistic hours,
 pessimistic hours, negative risk, positive risk. Those are the report's columns
-by default, and the workbook, when there is one, takes the same eight, so the
-transfer is mechanical.
+by default, and the workbook, when there is one, takes the columns its map
+names, so the transfer is mechanical.
 
 **Epics are product surfaces**, not functional layers, unless the project says
 otherwise. Then "where is screen X in this estimate?" has one answer.
@@ -111,7 +111,7 @@ is wrong in ways that are invisible until implementation.
 
 ## What is not in these numbers
 
-QA effort is estimated separately and depends on the
-kind of work. Project roles — management, analysis, communication — are computed
-by the workbook from the development sum. Say both plainly in the report: a
-client who reads a frontend total as a project total will be surprised later.
+QA effort is estimated separately and depends on the kind of work. Project
+roles — management, analysis, communication — are not counted here; a workbook
+template may add them from the development sum. Say both plainly in the report:
+a client who reads a frontend total as a project total will be surprised later.
