@@ -17,7 +17,9 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       and the testing skill before writing its plan; with `work-jira`, it
       also names the issue's open questions from the waiting list. Its plan
       carries `kickoff`'s state table — the testing skill's state lists among
-      its rows — framework pointers and structural line.
+      its rows — framework pointers and structural line. Its answer names
+      the change's level on its first line — small, normal or critical — and
+      a small change gets a short plan in chat and a yes, not plan mode.
 - [ ] The command that starts a task takes an optional `worktree` argument
       and offers one when a live `git status` finds the tree busy: beside the
       repository, with the ignored files the work reads linked in, generated
@@ -60,7 +62,8 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       reconciling, tags findings `new` / `missed` / `escalated` /
       `fix-critique`, opens every report with the same block — trajectory,
       a blocker / major / minor / nit table with zeros, the verdict — and
-      recommends a fresh session; while its findings have a fix round open,
+      recommends a fresh session, except for a small change, and for a
+      critical one stops and prints the block for it; while its findings have a fix round open,
       no new work lands on the branch. A finding whose mechanism a ledger
       already holds ends the report with a proposal to move it upstream. A
       delta pass counts, not lists, the missed minors and nits in lines the

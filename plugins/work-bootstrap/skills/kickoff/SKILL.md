@@ -20,7 +20,10 @@ a refactor across modules, a workflow change. A typo, a one-line fix or a
 rename does not need this. When the project has a `/task` command, it collects
 the issue, offers its status transition and prepares the branch (see
 `reference/templates.md`, "opening steps"); this skill governs the planning
-around it.
+around it. The task command names the change's level first — small, normal
+or critical ("The change sets the process" there): a small change takes a
+short plan in chat and the developer's yes instead of steps 1, 3 and 6, and
+its yes is the approval this skill asks for.
 
 ## How to do it
 
@@ -124,8 +127,9 @@ around it.
    `/compact <focus>` or in a fresh session. A phase ends at its boundary —
    after a commit, one made outside the project's commit command included,
    after a review, before and after a merge — with `/work-bootstrap:handoff`,
-   and the next one starts in a fresh session; inside a long phase,
-   `/compact` with a focus.
+   and the next one starts in a fresh session — a small change's stays here
+   while its measured diff stays small, a critical change's review is never
+   here; inside a long phase, `/compact` with a focus.
 
 8. **After a decision worth keeping** — a convention, a rule for how to ask, a
    preset — propose the matching change in `mluk-work-agent-tools` in one line:

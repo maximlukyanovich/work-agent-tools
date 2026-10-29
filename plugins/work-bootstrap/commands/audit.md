@@ -131,7 +131,11 @@ does not raise it again.
    when a tracker is reachable, load `kickoff` before it asks and the
    testing skill before it writes the plan — and does its plan carry the
    state table, with the testing skill's state lists among its rows, the
-   framework pointers and the structural line? Does it
+   framework pointers and the structural line? Does its answer name the
+   change's level on its first line — small, normal, critical — with a short
+   plan and a yes for a small change, and does the review recommend a fresh
+   session except for a small change, stopping on a critical one in the
+   session that edited it? Does it
    take a `worktree` argument and offer one when a live `git status` finds
    the tree busy — does its setup generate the ignored framework types, give
    the dev server and the end-to-end run their own port and a Compose stack

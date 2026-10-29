@@ -592,3 +592,17 @@ device-metrics emulation does not reset; the same server under another host
 (`127.0.0.1` for `localhost`) opens at 1.
 Check: checklist — "With a design source"; audit §11.
 Applies to: projects with a design source whose task measures in a browser.
+
+## 2026-10-29 · change-size-tier
+
+What: the task command names the change's level on its first line — small
+(prose, or a change that keeps behaviour, within the thresholds
+`change_size.py` checks, in no risk class of the testing skill), normal, or
+critical (money, access, a migration, deleted data). A small change gets a
+short plan in chat and the developer's yes instead of the questionnaire and
+plan mode, and its review and merge run in the same session; a critical
+change's review runs only in a fresh session. The developer may raise the
+level, the agent never lowers a critical one, and the handoff measures the
+diff and raises a small change that outgrew its thresholds.
+Check: checklist — the task command and the review command items; audit §8.
+Applies to: every project with a task command.

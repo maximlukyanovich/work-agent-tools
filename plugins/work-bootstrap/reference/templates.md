@@ -152,6 +152,8 @@ At a phase boundary — a task's last commit, a review, before and after a
 merge — the block is for a fresh session and comes from
 `/work-bootstrap:handoff`: the session that did the work is the most
 expensive place for the next phase, and a review must not run there at all.
+A small change is the exception ("The change sets the process" below): its
+phases stay in the session that started it while its diff stays small.
 
 ### The gate runs once per tree
 
@@ -296,6 +298,29 @@ skill again when the plan was approved in another session: skills match on
 context unreliably, and the rules they carry are the ones a review finds
 broken. Its plan carries the sections `kickoff` names — the state table, the
 framework behaviour with file:line, the line on the structural option.
+
+**The change sets the process.** Every fresh session starts by re-reading
+the harness and the task, and a handoff is worth that only when the phase
+it closes was large. So the first line of the command's answer names the
+change's level, predicted from the issue and the exploration — there is no
+diff yet:
+
+- **small** — prose, or a change that keeps behaviour, within the
+  thresholds `/work-bootstrap:handoff` measures (at most 100 lines and 5
+  files, prose alone up to 300; `${CLAUDE_PLUGIN_ROOT}/reference/change-size.md`),
+  and in no risk class of the testing skill. A short plan in chat — what
+  changes, which files, how it is proven — and the developer's yes before
+  code take the place of the questionnaire and plan mode; the review and
+  the merge run in the same session;
+- **critical** — money, access, a migration, deleted data. Its review runs
+  only in a fresh session;
+- **normal** — everything else, as this section describes.
+
+The developer may raise the level at any time; the agent never lowers a
+critical one. The handoff measures the diff and raises a small change that
+outgrew the thresholds, in one line. Observed on a live project: a 31-line
+documentation change took nine sessions, nearly nine tenths of its cost
+spent on their starts.
 
 ### A command that starts a task can open it in a worktree
 
@@ -613,7 +638,10 @@ session.
 **Run it in a fresh session.** The session that wrote the code remembers its
 own reasons and tends to confirm them. Everything a review needs from the past
 is in the ledger. When the command runs in a session that edited files in the
-diff, the report says so and recommends a rerun; it does not refuse. And on a
+diff, the report says so and recommends a rerun; it does not refuse. A small
+change is reviewed in the same session and the report recommends no rerun;
+a critical one stops there and prints the review command for a fresh
+session ("The change sets the process"). And on a
 frozen range: while the branch's findings have a fix round open, no new work
 lands on it — the fixes, the repeat review, then the plan goes on. One tree,
 one writer.
@@ -621,7 +649,7 @@ one writer.
 **The commit command hands the review over.** After the last commit of a task,
 or of a round of review fixes, its report ends — through
 `/work-bootstrap:handoff` — with the review command ready to paste into a
-fresh session. The command carries:
+fresh session, or to run here for a small change. The command carries:
 
 - the range — from where the branch left its base branch for the first pass,
   from the head the last pass reviewed after it. Never `<base>..<head>` once
