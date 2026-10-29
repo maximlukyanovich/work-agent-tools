@@ -33,7 +33,10 @@ The order is fixed. Steps are not reordered or skipped.
    per turn, every question with an explicit default. The list is in
    `${CLAUDE_PLUGIN_ROOT}/reference/questions.md` — eleven of them, and the
    most valuable is "what has already gone wrong here", because without it the
-   hook set comes out speculative. Wait for the answers.
+   hook set comes out speculative. Before Q6, read the facts its branch
+   deletion question carries — the platform's setting, the default and the
+   protected branches, the version on GitLab — read only. Wait for the
+   answers.
 
 3. **Show the plan**: which files will be created, which changed, which left
    alone — in the chat's language, as the `kickoff` skill says. Wait for

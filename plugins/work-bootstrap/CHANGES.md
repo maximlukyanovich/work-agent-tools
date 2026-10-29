@@ -561,3 +561,62 @@ through `autoUpdate` in its own session.
 Check: checklist — "The plugin set is recorded where Q10 put it"; audit §13.
 Applies to: every project; the audit asks once, and a project that follows
 `main` changes nothing.
+
+## 2026-10-29 · plan-loads-testing-skill
+
+What: the command that starts a task loads the project's testing skill before
+it writes the plan, not only before the first edit: the skill's proof by risk
+sets the plan's verification, and its state lists — a write while another is
+in flight, data out of date while a re-read runs — become rows of the state
+table. It loads the skill again before the first edit when the plan was
+approved in another session.
+Check: checklist — "The command that starts a task, when a tracker is
+reachable, offers the opening steps"; audit §8.
+Applies to: projects with a task command and a testing skill.
+
+## 2026-10-29 · gate-part-reads
+
+What: a gate part's content is everything its tool reads — its own globs, the
+files they import and the files they read from disk. A path leaves a part only
+by a probe named in a comment beside the rule — a command such as
+`tsc --listFilesOnly`, or a search for imports and disk reads in the part's
+files — never by the tool's configuration; in doubt the path stays.
+Check: checklist — "The gate is fast"; audit §6.
+Applies to: projects whose gate has several parts that skip by content.
+
+## 2026-10-29 · measure-at-scale-one
+
+What: a browser measurement first checks that `window.devicePixelRatio` is 1
+and stops when it is not: the browser keeps a zoom level per host, which
+device-metrics emulation does not reset; the same server under another host
+(`127.0.0.1` for `localhost`) opens at 1.
+Check: checklist — "With a design source"; audit §11.
+Applies to: projects with a design source whose task measures in a browser.
+
+## 2026-10-29 · change-size-tier
+
+What: the task command names the change's level on its first line — small
+(prose, or a change that keeps behaviour, within the thresholds
+`change_size.py` checks, in no risk class of the testing skill), normal, or
+critical (money, access, a migration, deleted data). A small change gets a
+short plan in chat and the developer's yes instead of the questionnaire and
+plan mode, and its review and merge run in the same session; a critical
+change's review runs only in a fresh session. The developer may raise the
+level, the agent never lowers a critical one, and the handoff measures the
+diff and raises a small change that outgrew its thresholds.
+Check: checklist — the task command and the review command items; audit §8.
+Applies to: every project with a task command.
+
+## 2026-10-29 · branch-deletion-choice
+
+What: who deletes a merged branch on the remote is the user's decision, asked
+once with the facts — the platform's setting, the protected and default
+branches, a branch the setting would delete, who may change it — and written
+as `delete branch: ask | merge | platform` in the profile's `## Repository`;
+without the key nothing changes, it reads `ask`. The merge command follows the
+key: `ask` merges without deleting and asks in the closing steps, `merge`
+deletes with the merge, `platform` leaves the remote branch to the platform.
+Supersedes: closing-steps — "it merges without deleting the branch".
+Check: checklist — "Any command that merges ends by offering the closing
+steps"; audit §8.
+Applies to: projects with a merging command.

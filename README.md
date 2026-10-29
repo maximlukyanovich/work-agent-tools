@@ -112,7 +112,7 @@ no context until typed.
 The workflow commands are the project's own — `setup` writes them, and their
 names and steps differ between repositories; the plugins supply the shared
 half. A task in a Jira project typically runs in phases, each in a fresh
-session:
+session; a small change runs whole in one:
 
 ```bash
 /work-jira:next          what to take next from the board
@@ -123,7 +123,8 @@ session:
 ```
 
 Every command ends with the next step as a block ready to copy;
-`/work-bootstrap:handoff` prints it at a phase boundary. An estimate starts with
+`/work-bootstrap:handoff` prints it at a phase boundary — for a fresh session,
+or here for a small change. An estimate starts with
 `/work-estimation:project`, with the spec and the design handoff at hand.
 
 ## Plugins

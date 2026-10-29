@@ -18,7 +18,7 @@ Other scopes and updating: [Quick start](../../README.md#quick-start).
 | `/work-bootstrap:new` | In an empty folder: asks the stack, runs its official generator by the stack's recipe, pins the versions, initialises git, offers the first commit and the remote. Then `setup`. |
 | `/work-bootstrap:setup` | Inventories the repository, asks only what the code cannot answer, shows a plan, then creates the harness. |
 | `/work-bootstrap:audit` | Checks only the method changes after the project's baseline ([CHANGES.md](CHANGES.md)); `full` checks the whole harness against the model. Either way it reads the project's efficiency journal: project causes become findings, library causes one issue draft, filed only on your yes. Read-only until a change is approved. |
-| `/work-bootstrap:handoff` | Ends a phase of work: prints the next step as a prompt for a fresh session — the review, the fix round, the merge, the next task — and `/compact` where staying is cheaper. The agent runs it itself at a phase boundary. |
+| `/work-bootstrap:handoff` | Ends a phase of work: prints the next step as a prompt for a fresh session — the review, the fix round, the merge, the next task — or here for a small change, measured by `scripts/change_size.py`, and `/compact` where staying is cheaper. The agent runs it itself at a phase boundary. |
 | `/work-bootstrap:help` | What this plugin can do: commands, the layer model it applies, what it creates. Optional language argument. |
 
 ## What it creates
@@ -57,13 +57,15 @@ make a harness expensive. Loaded by the agent whenever a rule needs a home.
 
 `skills/kickoff` — how a task is planned before code: exploring before asking,
 the questionnaire rules, a decisions table, a plan in the chat's language,
-approval before code. Loaded when a task needs a plan.
+approval before code; a small change takes a short plan in chat instead.
+Loaded when a task needs a plan.
 
 ## Reference
 
 Read one at a time, not as a whole: `questions.md` (the eleven asked in phase 1),
 `layout.md` (target file tree, gitignore, and the two traps that cost a rewrite),
 `templates.md` (skeletons), `project-profile.md` (the file shared plugins read),
-`checklist.md` (the final check), `scaffold/<stack>.md` (one recipe per stack:
+`checklist.md` (the final check), `change-size.md` (what `change_size.py`
+measures and prints), `scaffold/<stack>.md` (one recipe per stack:
 the generator's options and traps for `new`, what the harness keeps for
 `setup`).

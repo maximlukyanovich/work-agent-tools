@@ -152,6 +152,8 @@ At a phase boundary — a task's last commit, a review, before and after a
 merge — the block is for a fresh session and comes from
 `/work-bootstrap:handoff`: the session that did the work is the most
 expensive place for the next phase, and a review must not run there at all.
+A small change is the exception ("The change sets the process" below): its
+phases stay in the session that started it while its diff stays small.
 
 ### The gate runs once per tree
 
@@ -183,11 +185,20 @@ review, sync and merge share one rule:
   tree, kept in the git common directory so every worktree shares it, taken
   before and after the part's checks and recorded only when the two match,
   since a file edited during the run was checked in its new state — and
-  `--all` runs everything. Tests run in parallel only where they share no
-  outside state: tests that write a Redis-backed config the dev stack also
-  reads race each other's restore and leave the stack's value changed. The
-  linter keeps a cache when no rule needs type information, the type-check
-  is incremental; CI runs without these caches.
+  `--all` runs everything. A part's content is everything its tool reads:
+  its own globs, the files they import and the files they read from disk —
+  tests read the stylesheets and the static assets. A path leaves a part
+  only by a probe named in a comment beside the rule — a command
+  (`tsc --listFilesOnly`) or a way to look (a search for imports and disk
+  reads in the part's files) — never by the tool's `include` or ignore
+  configuration. In doubt the path stays: an extra path costs a rerun of
+  the part, a missing one a false green. Observed on a live project: three
+  findings of one audit were a part narrowed by its tool's `include` while
+  its files imported or read the excluded paths. Tests run in parallel only
+  where they share no outside state: tests that write a Redis-backed config
+  the dev stack also reads race each other's restore and leave the stack's
+  value changed. The linter keeps a cache when no rule needs type
+  information, the type-check is incremental; CI runs without these caches.
 
 **`model:` in a command's frontmatter** switches only the turn the command
 runs in: the session's model is back with the next prompt, and that turn
@@ -275,12 +286,41 @@ said so in one line, not silently.
 
 The same command loads the `kickoff` skill before its first question to the
 developer: the questionnaire rules live there, and a command that asks
-without them drops the closing "anything to add?". And once the plan is approved,
-before the first production edit, it names the project's skills for
-placement, components and tests to load: skills match on context
-unreliably, and the rules they carry are the ones a review finds broken. Its
-plan carries the sections `kickoff` names — the state table, the framework
-behaviour with file:line, the line on the structural option.
+without them drops the closing "anything to add?". It loads the project's
+testing skill before it writes the plan: the skill's proof by risk sets the
+plan's verification, and its lists of states — a write while another is in
+flight, data out of date while a re-read runs — become rows of the state
+table. Observed on a live project: a 22-row state table held neither kind,
+and three of the first review's seven `major`s were rows of them. And once
+the plan is approved, before the first production edit, it names the
+project's skills for placement, components and tests to load — the testing
+skill again when the plan was approved in another session: skills match on
+context unreliably, and the rules they carry are the ones a review finds
+broken. Its plan carries the sections `kickoff` names — the state table, the
+framework behaviour with file:line, the line on the structural option.
+
+**The change sets the process.** Every fresh session starts by re-reading
+the harness and the task, and a handoff is worth that only when the phase
+it closes was large. So the first line of the command's answer names the
+change's level, predicted from the issue and the exploration — there is no
+diff yet:
+
+- **small** — prose, or a change that keeps behaviour, within the
+  thresholds `/work-bootstrap:handoff` measures (at most 100 lines and 5
+  files, prose alone up to 300; `${CLAUDE_PLUGIN_ROOT}/reference/change-size.md`),
+  and in no risk class of the testing skill. A short plan in chat — what
+  changes, which files, how it is proven — and the developer's yes before
+  code take the place of the questionnaire and plan mode; the review and
+  the merge run in the same session;
+- **critical** — money, access, a migration, deleted data. Its review runs
+  only in a fresh session;
+- **normal** — everything else, as this section describes.
+
+The developer may raise the level at any time; the agent never lowers a
+critical one. The handoff measures the diff and raises a small change that
+outgrew the thresholds, in one line. Observed on a live project: a 31-line
+documentation change took nine sessions, nearly nine tenths of its cost
+spent on their starts.
 
 ### A command that starts a task can open it in a worktree
 
@@ -377,7 +417,13 @@ carries these rules; they are where a review finds drift.
   task's browser check, before review, and the review command accepts a
   `layout` mode that runs it on the branch. The script is the project's; its
   contract — inputs are the two URLs and a list of selectors, output is one
-  line per differing property — is what the commands rely on.
+  line per differing property — is what the commands rely on. A measurement
+  through the agent's browser first checks that `window.devicePixelRatio`
+  is 1 and stops when it is not: the browser keeps a zoom level per host,
+  and every size read at another scale is off by its factor. Observed on a
+  live project: `localhost` opened at 80%, borders measured 1.25 px and
+  sizes came out fractional; device-metrics emulation did not reset the
+  zoom, and the same server opened as `127.0.0.1` did.
 
 ### A command that merges must offer the closing steps
 
@@ -388,8 +434,10 @@ asked every time**, covering:
 
 - **the result comment** on the issues the branch touched;
 - **the worklog**;
-- **deleting the branch**, locally and on the remote — and, for a branch
-  checked out in a worktree, `git worktree remove` first;
+- **deleting the branch** — locally, and on the remote when the profile's
+  `delete branch` is `ask` or missing; with `merge` the merge command has
+  deleted the remote branch without asking, with `platform` the platform
+  has. For a branch checked out in a worktree, `git worktree remove` first;
 - **anything the work raised for someone else** — a defect belonging to
   another team, a question for the designer. A question that gets posted
   goes on the waiting list, and one the merge answers is closed there.
@@ -403,8 +451,10 @@ All of these are optional and none is done unasked. The obligation is to
 - **Never infer the hours.** Elapsed session time is not worked time. The
   developer names the number.
 
-Merge without deleting the source branch, so deletion stays a decision and
-not a flag. An unanswered step is reported as still open, never dropped
+Deletion on the remote is the user's decision — per merge, or once, by
+the profile's `delete branch` (Q6): `ask` merges without deleting, `merge`
+deletes with the merge, `platform` leaves it to the platform's setting. The
+library recommends none of them. An unanswered step is reported as still open, never dropped
 silently. After the closing steps, `/work-bootstrap:handoff` prints the start
 of the next task for a fresh session.
 
@@ -592,7 +642,10 @@ session.
 **Run it in a fresh session.** The session that wrote the code remembers its
 own reasons and tends to confirm them. Everything a review needs from the past
 is in the ledger. When the command runs in a session that edited files in the
-diff, the report says so and recommends a rerun; it does not refuse. And on a
+diff, the report says so and recommends a rerun; it does not refuse. A small
+change is reviewed in the same session and the report recommends no rerun;
+a critical one stops there and prints the review command for a fresh
+session ("The change sets the process"). And on a
 frozen range: while the branch's findings have a fix round open, no new work
 lands on it — the fixes, the repeat review, then the plan goes on. One tree,
 one writer.
@@ -600,7 +653,7 @@ one writer.
 **The commit command hands the review over.** After the last commit of a task,
 or of a round of review fixes, its report ends — through
 `/work-bootstrap:handoff` — with the review command ready to paste into a
-fresh session. The command carries:
+fresh session, or to run here for a small change. The command carries:
 
 - the range — from where the branch left its base branch for the first pass,
   from the head the last pass reviewed after it. Never `<base>..<head>` once

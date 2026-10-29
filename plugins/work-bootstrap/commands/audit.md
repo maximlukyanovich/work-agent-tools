@@ -100,7 +100,11 @@ does not raise it again.
    and do the review and the push run the full gate once per tree, skipping
    a tree already recorded green? Does every code path have a targeted row
    whose command narrows, and does a gate of several parts skip a part whose
-   content is unchanged? Does a fix to a commit not yet pushed go into that
+   content is unchanged — content being everything its tool reads, imports
+   and disk reads included? Does every path a part excludes name its probe
+   in a comment beside the rule — a command such as `tsc --listFilesOnly`
+   or a search for imports and disk reads — rather than lean on the tool's
+   `include`? Does a fix to a commit not yet pushed go into that
    commit, do review fixes go into one fix commit that later rounds amend,
    and does the review command read a head rewritten that way as
    `git diff <last head> HEAD`? Is a git hook running the whole gate —
@@ -119,14 +123,26 @@ does not raise it again.
 
 8. **A merge that ends in silence.** Does every command that merges offer the
    closing steps afterwards — result comment, worklog, branch deletion,
-   anything raised for another team? A command that merges and stops is how
+   anything raised for another team? Does it delete the remote branch as
+   the profile's `delete branch` says (`ask` without the key), and does the
+   platform's setting agree — `delete_branch_on_merge` on GitHub,
+   `remove_source_branch_after_merge` on GitLab, read only — and below
+   GitLab 18.10 (`glab api version`) the setting reaches only a merge
+   request opened in the web UI, not one from `glab mr create`? A mismatch, or a
+   branch of the chain the setting would delete, is a finding with a
+   question to the user, never an edit. A command that merges and stops is how
    issues end up delivered but undocumented and untracked, and the gap is
    invisible precisely because the code shipped.
    The mirror check: does the command that starts a task offer the opening
    steps — the in-progress transition, the assignee, the parent's status —
-   when a tracker is reachable, and load `kickoff` before it asks — and does
-   its plan carry the state table, the framework pointers and the structural
-   line? Does it
+   when a tracker is reachable, load `kickoff` before it asks and the
+   testing skill before it writes the plan — and does its plan carry the
+   state table, with the testing skill's state lists among its rows, the
+   framework pointers and the structural line? Does its answer name the
+   change's level on its first line — small, normal, critical — with a short
+   plan and a yes for a small change, and does the review recommend a fresh
+   session except for a small change, stopping on a critical one in the
+   session that edited it? Does it
    take a `worktree` argument and offer one when a live `git status` finds
    the tree busy — does its setup generate the ignored framework types, give
    the dev server and the end-to-end run their own port and a Compose stack
@@ -149,7 +165,9 @@ does not raise it again.
     names, empty and long lists, narrow widths), and ask for a deviation
     table in the task report? Does the project's own component skill still
     say to snap — a rule an older template left behind? Is there a layout-measuring script, run in the task's browser
-    check and in the review command's `layout` mode?
+    check and in the review command's `layout` mode — and does a measurement
+    through the browser check `window.devicePixelRatio` is 1 first, stopping
+    when it is not?
 
 12. **A server's first install.** Does `pnpm install --frozen-lockfile` pass
     on a fresh checkout — not in the developer's tree, where a warm

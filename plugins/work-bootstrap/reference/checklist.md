@@ -13,10 +13,13 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       rules section; shared rules live in the index, not in every file.
 - [ ] The command that starts a task, when a tracker is reachable, offers the
       opening steps — in-progress transition, assignee, parent status — as one
-      question carrying the current state, and loads `kickoff` before asking;
-      with `work-jira`, it also names the issue's open questions from the
-      waiting list. Its plan carries `kickoff`'s state table, framework
-      pointers and structural line.
+      question carrying the current state, and loads `kickoff` before asking
+      and the testing skill before writing its plan; with `work-jira`, it
+      also names the issue's open questions from the waiting list. Its plan
+      carries `kickoff`'s state table — the testing skill's state lists among
+      its rows — framework pointers and structural line. Its answer names
+      the change's level on its first line — small, normal or critical — and
+      a small change gets a short plan in chat and a yes, not plan mode.
 - [ ] The command that starts a task takes an optional `worktree` argument
       and offers one when a live `git status` finds the tree busy: beside the
       repository, with the ignored files the work reads linked in, generated
@@ -27,15 +30,18 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       remove it with its branch.
 - [ ] Any command that merges ends by offering the closing steps — result
       comment, worklog, branch deletion, anything raised for another team —
-      as one question carrying the current state, and merges without deleting
-      the branch; with `work-jira`, a posted question goes on the waiting list
+      as one question carrying the current state, and deletes the remote
+      branch as the profile's `delete branch` says — `ask` (the default)
+      merges without deleting; with `platform`, the platform's setting is on
+      and no branch of the chain but the last is exposed to it; with `work-jira`, a posted question goes on the waiting list
       and an answered one is closed there.
 - [ ] With a design source: the component skill extends the scale for an
       off-scale value, invents nothing the design does not draw, carries
       every interactive state and the design's global CSS over from the
       source, shows something wherever anything loads, lays out for real content rather than the mock's, and asks for a deviation table
       in the task report; a layout-measuring script runs in
-      the task's browser check and in the review command's `layout` mode.
+      the task's browser check and in the review command's `layout` mode,
+      and a browser measurement stops unless `window.devicePixelRatio` is 1.
 - [ ] Hooks: each silent outside its area, each with a test, all wired into
       `settings.json`.
 - [ ] Deterministic layer: linter, formatter, types, tests, git hooks, and one
@@ -48,15 +54,18 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
 - [ ] The gate is fast: one of several parts skips a part whose content is
       unchanged since its last green run — fingerprinted before and after its
       checks, recorded only when the two match — and `--all` runs everything;
-      tests run in parallel only where they share no outside state, the
-      linter keeps a cache when no rule needs type information, the
-      type-check is incremental. CI runs without these caches.
+      a part's content is everything its tool reads, and every path a part
+      excludes names its probe, a command or a way to look; tests run in
+      parallel only where they share no outside state, the linter keeps a
+      cache when no rule needs type information, the type-check is
+      incremental. CI runs without these caches.
 - [ ] A review command, if there is one, keeps a pass ledger in the personal
       space: reviews the delta since the last reviewed head, runs blind before
       reconciling, tags findings `new` / `missed` / `escalated` /
       `fix-critique`, opens every report with the same block — trajectory,
       a blocker / major / minor / nit table with zeros, the verdict — and
-      recommends a fresh session; while its findings have a fix round open,
+      recommends a fresh session, except for a small change, and for a
+      critical one stops and prints the block for it; while its findings have a fix round open,
       no new work lands on the branch. A finding whose mechanism a ledger
       already holds ends the report with a proposal to move it upstream. A
       delta pass counts, not lists, the missed minors and nits in lines the

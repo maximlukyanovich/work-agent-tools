@@ -1,5 +1,5 @@
 ---
-description: At a phase boundary — after a commit, after a review, before or after a merge — print the next step as a prompt for a fresh session, and /compact where staying is cheaper.
+description: At a phase boundary — after a commit, after a review, before or after a merge — print the next step as a prompt for a fresh session, here for a small change, and /compact where staying is cheaper.
 argument-hint: '[<branch | worktree path>] [<next step>]'
 ---
 
@@ -23,6 +23,15 @@ session holds.
    `git worktree list --porcelain`. With `git -C <tree>`: the branch, its
    base, the commits since the base, a clean or dirty tree.
 
+   **The change's level.** From the first line of the task command's answer
+   in this session, else from the plan or the task's `NEXT.md`; found
+   nowhere — a new session, a compacted context — the change is normal.
+   After a commit, measure the diff:
+   `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/change_size.py" <target> --base <base>`
+   (`${CLAUDE_PLUGIN_ROOT}/reference/change-size.md`). A small change whose
+   measure reads `normal` becomes normal, said in one line with the
+   script's reason; the measure never lowers a level.
+
 2. **Collect pointers, not content.** The files the next phase reads, those
    that exist: the plan (the session's plan file, `~/.claude/plans/` unless
    the settings move it), the review ledger with its last pass and open ids
@@ -37,6 +46,7 @@ session holds.
    |---|---|---|
    | uncommitted changes | none — the project's commit command with the target, as a block to run here; it hands off after | — |
    | a task's last commit, or a fix round's | the review command with its range, flags and what to skip — and no prompt for what follows it | no — a review runs fresh |
+   | the same, for a small change measured small | none — the review command with its range, as a block to run here; the merge follows here too | — |
    | a review with an open `blocker` or `major` | "Fix the open findings of pass N from `<ledger>` (R…) by the testing skill's fix round. Plan — `<path>`. Target — `<branch or worktree>`." | no |
    | a review that reads ready | the task done: with `fix-now` ids open or techdebt rows to write, the fix prompt for them — the round's commit hands over the review of its delta, and that review the merge; without them, the merge command with the target. The merge command first only on the developer's word to ship now. Work left in the plan: "continue the task" | no |
    | before promoting | the merge command with the target | no |
@@ -73,8 +83,10 @@ session holds.
 
 - **Read-only**, except `NEXT.md` in the personal space.
 - **Before a commit, only the commit command.**
-- **A review always gets a fresh session.** The session that wrote the code
-  confirms its own reasons; `/compact` does not make it forget them.
+- **A review always gets a fresh session, except for a small change.** The
+  session that wrote the code confirms its own reasons; `/compact` does not
+  make it forget them. A small change, measured small, accepts that for a
+  diff short enough to read whole; a critical change never does.
 - **A review freezes its range.** While the branch's findings have a fix
   round open, no new work lands on it — the fixes, the repeat review, then
   the plan goes on. One tree, one writer.

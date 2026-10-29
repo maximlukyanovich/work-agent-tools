@@ -20,7 +20,10 @@ a refactor across modules, a workflow change. A typo, a one-line fix or a
 rename does not need this. When the project has a `/task` command, it collects
 the issue, offers its status transition and prepares the branch (see
 `reference/templates.md`, "opening steps"); this skill governs the planning
-around it.
+around it. The task command names the change's level first — small, normal
+or critical ("The change sets the process" there): a small change takes a
+short plan in chat and the developer's yes instead of steps 1, 3 and 6, and
+its yes is the approval this skill asks for.
 
 ## How to do it
 
@@ -75,14 +78,19 @@ around it.
    the files each touches, assumptions, open questions, and verification —
    how the result is proven. Three more where they apply, and nothing beyond
    them: **a state table** for work that changes state — state × event →
-   expected → its proof, a test or a recorded live check, the frame's events
-   among them (closed, opened again, remounted while a call is in flight)
-   and, in UI, every element that leaves while it may hold the focus — a
-   button its own press replaces, a row a re-read removes — with where the
-   focus goes; **the
-   framework behaviour the plan rests on**, with file:line, read before the
-   plan rather than recalled; **one line on the structural option** and why
-   the plan does not take it.
+   expected → its proof, a test or a recorded live check; its rows include
+   the state lists of the project's testing skill, loaded before the table
+   is written, and the frame's events (closed, opened again, remounted
+   while a call is in flight) and, in UI, every element that leaves while
+   it may hold the focus — a button its own press replaces, a row a re-read
+   removes — with where the focus goes; **the framework behaviour the plan
+   rests on**, with file:line, read before the plan rather than recalled;
+   **one line on the structural option** and why the plan does not take it.
+   When the plan describes access — who sees what, and where — the state
+   table serves better as a who × where table with the states before and
+   after a reset (a link reissued, rights revoked), and under it the events
+   that move a person between columns mid-flow: a missed combination is an
+   empty cell.
    **The plan is written in the language of the chat**: the developer reads
    it in the approval dialog. Identifiers and paths stay as they are;
    committed text — commits, MR bodies, code comments — keeps the
@@ -119,8 +127,9 @@ around it.
    `/compact <focus>` or in a fresh session. A phase ends at its boundary —
    after a commit, one made outside the project's commit command included,
    after a review, before and after a merge — with `/work-bootstrap:handoff`,
-   and the next one starts in a fresh session; inside a long phase,
-   `/compact` with a focus.
+   and the next one starts in a fresh session — a small change's stays here
+   while its measured diff stays small, a critical change's review is never
+   here; inside a long phase, `/compact` with a focus.
 
 8. **After a decision worth keeping** — a convention, a rule for how to ask, a
    preset — propose the matching change in `mluk-work-agent-tools` in one line:
