@@ -77,14 +77,17 @@ around it.
    them: **a state table** for work that changes state — state × event →
    expected → its proof, a test or a recorded live check; its rows include
    the state lists of the project's testing skill, loaded before the table
-   is written, and the frame's events
-   (closed, opened again, remounted while a call is in flight)
-   and, in UI, every element that leaves while it may hold the focus — a
-   button its own press replaces, a row a re-read removes — with where the
-   focus goes; **the
-   framework behaviour the plan rests on**, with file:line, read before the
-   plan rather than recalled; **one line on the structural option** and why
-   the plan does not take it.
+   is written, and the frame's events (closed, opened again, remounted
+   while a call is in flight) and, in UI, every element that leaves while
+   it may hold the focus — a button its own press replaces, a row a re-read
+   removes — with where the focus goes; **the framework behaviour the plan
+   rests on**, with file:line, read before the plan rather than recalled;
+   **one line on the structural option** and why the plan does not take it.
+   When the plan describes access — who sees what, and where — the state
+   table serves better as a who × where table with the states before and
+   after a reset (a link reissued, rights revoked), and under it the events
+   that move a person between columns mid-flow: a missed combination is an
+   empty cell.
    **The plan is written in the language of the chat**: the developer reads
    it in the approval dialog. Identifiers and paths stay as they are;
    committed text — commits, MR bodies, code comments — keeps the
