@@ -30,8 +30,10 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       remove it with its branch.
 - [ ] Any command that merges ends by offering the closing steps — result
       comment, worklog, branch deletion, anything raised for another team —
-      as one question carrying the current state, and merges without deleting
-      the branch; with `work-jira`, a posted question goes on the waiting list
+      as one question carrying the current state, and deletes the remote
+      branch as the profile's `delete branch` says — `ask` (the default)
+      merges without deleting; with `platform`, the platform's setting is on
+      and no branch of the chain but the last is exposed to it; with `work-jira`, a posted question goes on the waiting list
       and an answered one is closed there.
 - [ ] With a design source: the component skill extends the scale for an
       off-scale value, invents nothing the design does not draw, carries

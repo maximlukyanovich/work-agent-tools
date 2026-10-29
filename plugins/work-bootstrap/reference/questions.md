@@ -41,6 +41,37 @@ self-hosted) with `glab`, other. Chain default `feature/* → develop → main`;
 `staging` stage by answer. Where a PR goes by default, and what is protected from
 direct pushes.
 
+Then **who deletes a merged branch on the remote** — the user's decision,
+asked with the facts and without a recommendation, written to the profile as
+`delete branch`:
+
+- `ask` — the merge command's closing steps ask every time, and the merge
+  itself deletes nothing. The default without the key;
+- `merge` — the merge command deletes it without asking:
+  `--remove-source-branch` on `glab mr merge`, `--delete-branch` on
+  `gh pr merge`, or `git push origin --delete` in the closing steps;
+- `platform` — the platform's setting deletes it: GitHub's "Automatically
+  delete head branches", GitLab's "Enable 'Delete source branch' option by
+  default". GitLab applies its setting to a merge request created through
+  the API — `glab mr create` without `--remove-source-branch` — from 18.10
+  on; an older instance applies it only to one created in the web UI.
+
+The facts come before the question, read by `setup` (step 2):
+
+- the setting's value — `gh api repos/{owner}/{repo} --jq .delete_branch_on_merge`,
+  `glab api projects/:id --jq .remove_source_branch_after_merge` (`null` reads
+  as off) and, on GitLab, `glab api version`;
+- the default branch and which branches of the chain are protected;
+- the branch the setting would delete: any branch of the chain but the last
+  that is neither protected nor the default — an unprotected `staging`
+  after a `staging → main` merge. Neither platform deletes a protected or a
+  default branch;
+- who may change the setting: an admin on GitHub, a Maintainer on GitLab.
+
+On `platform` with a branch exposed, `setup` names it again and offers to
+protect it. It changes the setting only on a separate yes, by a command it
+shows; without the rights it prints the step for someone who has them.
+
 **Q7. Commit convention.** Default `:gitmoji: type(scope): Subject (KEY-123)`,
 body one bullet per point, agent attribution banned. Alternative: `Topic:
 description`. Ask whether there is machine enforcement or only agreement, and

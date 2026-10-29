@@ -123,7 +123,14 @@ does not raise it again.
 
 8. **A merge that ends in silence.** Does every command that merges offer the
    closing steps afterwards — result comment, worklog, branch deletion,
-   anything raised for another team? A command that merges and stops is how
+   anything raised for another team? Does it delete the remote branch as
+   the profile's `delete branch` says (`ask` without the key), and does the
+   platform's setting agree — `delete_branch_on_merge` on GitHub,
+   `remove_source_branch_after_merge` on GitLab, read only — and below
+   GitLab 18.10 (`glab api version`) the setting reaches only a merge
+   request opened in the web UI, not one from `glab mr create`? A mismatch, or a
+   branch of the chain the setting would delete, is a finding with a
+   question to the user, never an edit. A command that merges and stops is how
    issues end up delivered but undocumented and untracked, and the gap is
    invisible precisely because the code shipped.
    The mirror check: does the command that starts a task offer the opening

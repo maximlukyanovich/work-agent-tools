@@ -606,3 +606,17 @@ level, the agent never lowers a critical one, and the handoff measures the
 diff and raises a small change that outgrew its thresholds.
 Check: checklist — the task command and the review command items; audit §8.
 Applies to: every project with a task command.
+
+## 2026-10-29 · branch-deletion-choice
+
+What: who deletes a merged branch on the remote is the user's decision, asked
+once with the facts — the platform's setting, the protected and default
+branches, a branch the setting would delete, who may change it — and written
+as `delete branch: ask | merge | platform` in the profile's `## Repository`;
+without the key nothing changes, it reads `ask`. The merge command follows the
+key: `ask` merges without deleting and asks in the closing steps, `merge`
+deletes with the merge, `platform` leaves the remote branch to the platform.
+Supersedes: closing-steps — "it merges without deleting the branch".
+Check: checklist — "Any command that merges ends by offering the closing
+steps"; audit §8.
+Applies to: projects with a merging command.

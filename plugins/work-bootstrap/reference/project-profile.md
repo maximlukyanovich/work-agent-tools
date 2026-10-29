@@ -32,9 +32,10 @@ Spec and design, as durable links. The local copy path, if there is one, marked
 as a copy that lags.
 
 ## Repository
-Branch chain and platform. Languages: committed, user-facing, conversation. The
-gate command, and the targeted checks — a row per path class with a command
-that narrows.
+Branch chain and platform. Who deletes a merged branch on the remote —
+`delete branch: ask | merge | platform`, `ask` without the key. Languages:
+committed, user-facing, conversation. The gate command, and the targeted
+checks — a row per path class with a command that narrows.
 
 ## Harness
 Baseline: <id> — the last `work-bootstrap` change (CHANGES.md) applied here.
