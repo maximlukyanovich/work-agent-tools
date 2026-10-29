@@ -154,7 +154,9 @@ does not raise it again.
     names, empty and long lists, narrow widths), and ask for a deviation
     table in the task report? Does the project's own component skill still
     say to snap — a rule an older template left behind? Is there a layout-measuring script, run in the task's browser
-    check and in the review command's `layout` mode?
+    check and in the review command's `layout` mode — and does a measurement
+    through the browser check `window.devicePixelRatio` is 1 first, stopping
+    when it is not?
 
 12. **A server's first install.** Does `pnpm install --frozen-lockfile` pass
     on a fresh checkout — not in the developer's tree, where a warm

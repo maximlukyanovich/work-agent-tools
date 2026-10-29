@@ -392,7 +392,13 @@ carries these rules; they are where a review finds drift.
   task's browser check, before review, and the review command accepts a
   `layout` mode that runs it on the branch. The script is the project's; its
   contract — inputs are the two URLs and a list of selectors, output is one
-  line per differing property — is what the commands rely on.
+  line per differing property — is what the commands rely on. A measurement
+  through the agent's browser first checks that `window.devicePixelRatio`
+  is 1 and stops when it is not: the browser keeps a zoom level per host,
+  and every size read at another scale is off by its factor. Observed on a
+  live project: `localhost` opened at 80%, borders measured 1.25 px and
+  sizes came out fractional; device-metrics emulation did not reset the
+  zoom, and the same server opened as `127.0.0.1` did.
 
 ### A command that merges must offer the closing steps
 

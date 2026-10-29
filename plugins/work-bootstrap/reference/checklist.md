@@ -36,7 +36,8 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       every interactive state and the design's global CSS over from the
       source, shows something wherever anything loads, lays out for real content rather than the mock's, and asks for a deviation table
       in the task report; a layout-measuring script runs in
-      the task's browser check and in the review command's `layout` mode.
+      the task's browser check and in the review command's `layout` mode,
+      and a browser measurement stops unless `window.devicePixelRatio` is 1.
 - [ ] Hooks: each silent outside its area, each with a test, all wired into
       `settings.json`.
 - [ ] Deterministic layer: linter, formatter, types, tests, git hooks, and one

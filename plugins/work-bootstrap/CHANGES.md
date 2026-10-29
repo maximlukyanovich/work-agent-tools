@@ -583,3 +583,12 @@ by a probe named in a comment beside the rule — a command such as
 files — never by the tool's configuration; in doubt the path stays.
 Check: checklist — "The gate is fast"; audit §6.
 Applies to: projects whose gate has several parts that skip by content.
+
+## 2026-10-29 · measure-at-scale-one
+
+What: a browser measurement first checks that `window.devicePixelRatio` is 1
+and stops when it is not: the browser keeps a zoom level per host, which
+device-metrics emulation does not reset; the same server under another host
+(`127.0.0.1` for `localhost`) opens at 1.
+Check: checklist — "With a design source"; audit §11.
+Applies to: projects with a design source whose task measures in a browser.
