@@ -275,12 +275,18 @@ said so in one line, not silently.
 
 The same command loads the `kickoff` skill before its first question to the
 developer: the questionnaire rules live there, and a command that asks
-without them drops the closing "anything to add?". And once the plan is approved,
-before the first production edit, it names the project's skills for
-placement, components and tests to load: skills match on context
-unreliably, and the rules they carry are the ones a review finds broken. Its
-plan carries the sections `kickoff` names — the state table, the framework
-behaviour with file:line, the line on the structural option.
+without them drops the closing "anything to add?". It loads the project's
+testing skill before it writes the plan: the skill's proof by risk sets the
+plan's verification, and its lists of states — a write while another is in
+flight, data out of date while a re-read runs — become rows of the state
+table. Observed on a live project: a 22-row state table held neither kind,
+and three of the first review's seven `major`s were rows of them. And once
+the plan is approved, before the first production edit, it names the
+project's skills for placement, components and tests to load — the testing
+skill again when the plan was approved in another session: skills match on
+context unreliably, and the rules they carry are the ones a review finds
+broken. Its plan carries the sections `kickoff` names — the state table, the
+framework behaviour with file:line, the line on the structural option.
 
 ### A command that starts a task can open it in a worktree
 

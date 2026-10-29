@@ -13,10 +13,11 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       rules section; shared rules live in the index, not in every file.
 - [ ] The command that starts a task, when a tracker is reachable, offers the
       opening steps — in-progress transition, assignee, parent status — as one
-      question carrying the current state, and loads `kickoff` before asking;
-      with `work-jira`, it also names the issue's open questions from the
-      waiting list. Its plan carries `kickoff`'s state table, framework
-      pointers and structural line.
+      question carrying the current state, and loads `kickoff` before asking
+      and the testing skill before writing its plan; with `work-jira`, it
+      also names the issue's open questions from the waiting list. Its plan
+      carries `kickoff`'s state table — the testing skill's state lists among
+      its rows — framework pointers and structural line.
 - [ ] The command that starts a task takes an optional `worktree` argument
       and offers one when a live `git status` finds the tree busy: beside the
       repository, with the ignored files the work reads linked in, generated

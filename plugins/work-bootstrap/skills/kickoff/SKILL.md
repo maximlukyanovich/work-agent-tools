@@ -75,8 +75,10 @@ around it.
    the files each touches, assumptions, open questions, and verification —
    how the result is proven. Three more where they apply, and nothing beyond
    them: **a state table** for work that changes state — state × event →
-   expected → its proof, a test or a recorded live check, the frame's events
-   among them (closed, opened again, remounted while a call is in flight)
+   expected → its proof, a test or a recorded live check; its rows include
+   the state lists of the project's testing skill, loaded before the table
+   is written, and the frame's events
+   (closed, opened again, remounted while a call is in flight)
    and, in UI, every element that leaves while it may hold the focus — a
    button its own press replaces, a row a re-read removes — with where the
    focus goes; **the

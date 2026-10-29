@@ -1,6 +1,6 @@
 {
   "name": "work-bootstrap",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Start a project in an empty folder; initialise or audit a repository's agent harness: AGENTS.md, skills, commands, hooks, MCP, docs. Stack-agnostic.",
   "author": {
     "name": "Maxim Lukyanovich",

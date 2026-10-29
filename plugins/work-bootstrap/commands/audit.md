@@ -124,9 +124,10 @@ does not raise it again.
    invisible precisely because the code shipped.
    The mirror check: does the command that starts a task offer the opening
    steps — the in-progress transition, the assignee, the parent's status —
-   when a tracker is reachable, and load `kickoff` before it asks — and does
-   its plan carry the state table, the framework pointers and the structural
-   line? Does it
+   when a tracker is reachable, load `kickoff` before it asks and the
+   testing skill before it writes the plan — and does its plan carry the
+   state table, with the testing skill's state lists among its rows, the
+   framework pointers and the structural line? Does it
    take a `worktree` argument and offer one when a live `git status` finds
    the tree busy — does its setup generate the ignored framework types, give
    the dev server and the end-to-end run their own port and a Compose stack

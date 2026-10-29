@@ -561,3 +561,15 @@ through `autoUpdate` in its own session.
 Check: checklist — "The plugin set is recorded where Q10 put it"; audit §13.
 Applies to: every project; the audit asks once, and a project that follows
 `main` changes nothing.
+
+## 2026-10-29 · plan-loads-testing-skill
+
+What: the command that starts a task loads the project's testing skill before
+it writes the plan, not only before the first edit: the skill's proof by risk
+sets the plan's verification, and its state lists — a write while another is
+in flight, data out of date while a re-read runs — become rows of the state
+table. It loads the skill again before the first edit when the plan was
+approved in another session.
+Check: checklist — "The command that starts a task, when a tracker is
+reachable, offers the opening steps"; audit §8.
+Applies to: projects with a task command and a testing skill.
