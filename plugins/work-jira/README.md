@@ -16,10 +16,10 @@ Other scopes and updating: [Quick start](../../README.md#quick-start).
 | --- | --- |
 | `/work-jira:plan` | Proposes a hierarchy and a description shape for the scope at hand, then waits for approval. |
 | `/work-jira:create` | Creates epics and issues from an approved plan. |
-| `/work-jira:next` | Recommends the next issue to take: unblocked first, ordered by what it unblocks, the roadmap and size. Read-only. |
+| `/work-jira:next` | Recommends the next issue to take: unblocked first, ordered by what it unblocks, the roadmap and size. Read-only in the tracker. |
 | `/work-jira:questions` | Open questions on an issue — from Jira, the design and the branch state. |
 | `/work-jira:status` | Checks whether an issue is actually done. Read-only. |
-| `/work-jira:comment` | Drafts and posts a result comment on the issues a branch touched; offers a worklog afterwards. |
+| `/work-jira:comment` | Drafts and posts a result comment on the issues a branch touched, asks for their status; offers a worklog afterwards. |
 | `/work-jira:help` | What this plugin can do: commands, the order they are applied in, the conventions it carries. Optional language argument. |
 
 Starting work on an issue — branch, plan, quality gate — stays a **project**
@@ -33,6 +33,9 @@ standard, the four required description sections and the optional ones, the
 estimate basis and the overhead rule, labels taken from the instance, the ADF
 quirks, and what gets written down where. The agent loads it by itself whenever
 the conversation touches a Jira issue. This README does not repeat it.
+
+`skills/question-drafts/SKILL.md` — how a question or notice for someone
+outside the team is checked before it is posted, wherever it was drafted.
 
 `reference/first-run.md` — the six questions asked once on a fresh project and
 written to `.claude/project-profile.md`. `reference/batch.md` — the node format

@@ -43,7 +43,11 @@ its yes is the approval this skill asks for.
    draws it, or why it is left out. Read each element's states (hover, focus,
    pressed, selected, disabled, invalid) and the design's global stylesheet
    from the source as well — they are requirements, and memory of "how such
-   a component usually looks" is not a source.
+   a component usually looks" is not a source. Check each screen's design
+   status too — by the per-screen statuses the profile's `## Sources of
+   truth` names, or a designer's word quoted with its date in the decisions
+   file. A screen not ready goes into the last slice and a risk line of
+   the plan.
 
 3. **Ask what the code cannot answer** — with the questionnaire tool, not as
    prose in chat:
@@ -60,6 +64,9 @@ its yes is the approval this skill asks for.
      it is uploaded, as in ChatGPT" got "upload on send" as the
      recommendation, and the developer had to point out that the reference
      uploads on attach.
+   - **A screen with no design status found is a question** of the first
+     round — where the statuses are kept, or the designer's word — and the
+     answer is recorded; "no status found" is not a finding.
    - **At most four questions a round.** More than one round is fine; a wall of
      questions is not.
    - **Multi-select where choices are not exclusive.**
@@ -104,7 +111,10 @@ its yes is the approval this skill asks for.
    is also an open question for whoever owns the spec or the design, never
    settled with the developer as final: the plan says where it was looked
    for, and until the answer the developer picks only placeholder behaviour,
-   marked as a placeholder in the task report.
+   marked as a placeholder in the task report. A part with no backend
+   behind it, or a screen not drawn, is asked with the options of
+   `work-jira`'s `issues` skill, "Status at hand-over", when the project
+   uses it.
 
 6. **Ask for approval** through the plan-approval mechanism, not with a
    question in chat. A plan returned with comments is revised and submitted

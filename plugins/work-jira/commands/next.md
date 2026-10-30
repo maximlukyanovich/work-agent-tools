@@ -1,5 +1,5 @@
 ---
-description: Recommend the next issue to take — unblocked work first, ordered by what it unblocks, the repository's roadmap and size. Read-only.
+description: Recommend the next issue to take — unblocked work first, ordered by what it unblocks, the repository's roadmap and size. Read-only in the tracker.
 argument-hint: '[<KEY-N epic> | mine | all]'
 ---
 
@@ -7,7 +7,8 @@ argument-hint: '[<KEY-N epic> | mine | all]'
 
 Answer one question: **what should I pick up next?** The answer is one
 recommended issue with the reason, then the ranked alternatives, then what is
-blocked and on what. **Read-only** — nothing is moved, assigned or commented.
+blocked and on what. **Read-only** in the tracker — nothing is moved, assigned
+or commented.
 
 The tracker knows statuses and links; the repository knows the roadmap and the
 blockers nobody has put into Jira. The recommendation needs both, so a run that
@@ -53,6 +54,13 @@ can reach only one of them says so and ranks on what it has.
      reverse.
    - **What it unblocks** — how many open issues link to it as a dependency.
    - **Roadmap position** — where the repository's roadmap lists it, if at all.
+   - **Design approved**, for an issue built from screens: by the design's
+     per-screen statuses the profile's `## Sources of truth` names, or a
+     designer's word in the decisions file, quoted with its date and the
+     design's version. Neither, for the recommended candidate: ask the
+     developer before the report and record the answer there — where the
+     statuses are kept, or the quote. Every other candidate carries «design
+     not confirmed: <screens>» in its line.
    - **Signals from the board** — `Selected for Development` outranks
      `Backlog`; an issue already `In Progress` with nothing left is
      housekeeping, not work.
@@ -64,11 +72,13 @@ can reach only one of them says so and ranks on what it has.
 
 5. **Rank the unblocked candidates**: first the roadmap order, then the number
    of issues each one unblocks, then the smaller estimate. When two are equal,
-   the one whose design is marked ready. Say the tie-break used.
+   the one whose design is approved, by the same source. Say the tie-break
+   used.
 
 6. **Report**, in the conversation's language:
    - **Recommended:** `KEY — summary`, estimate, one paragraph of reasoning
-     that names what it unblocks and why it goes before the runner-up.
+     that names what it unblocks and why it goes before the runner-up, and
+     a drift this run saw between its description and its sources.
    - **Also ready:** the rest of the unblocked list, one line each with the
      reason it ranks lower.
    - **Blocked:** one line each — `KEY — summary — waits on X`.

@@ -620,3 +620,16 @@ Supersedes: closing-steps — "it merges without deleting the branch".
 Check: checklist — "Any command that merges ends by offering the closing
 steps"; audit §8.
 Applies to: projects with a merging command.
+
+## 2026-10-30 · description-current-at-start
+
+What: the command that starts a task compares the issue's description with
+its sources — the design, the backend, the answers and decisions recorded —
+once the issue is read. A description that has drifted gets a draft in the
+plan, posted on the developer's yes right after the plan is approved and
+before the first code, not in the last slice. A developer without the right
+to edit the issue posts the change as a comment for whoever keeps the issue
+instead. With `work-jira`, the rules are the `issues` skill's "Description",
+and `/work-jira:next` names the drift in its recommendation.
+Check: checklist — the task command item; audit §8.
+Applies to: projects whose task command reaches a tracker.

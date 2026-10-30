@@ -63,7 +63,7 @@ line per decision · who decided · a link to the comment
   with its pointer — file and line — so the same question is not drafted a
   second time.
 - **Read before any question is drafted** — the topic and its neighbours
-  (`/work-jira:questions`, step 6). Built once from the tracker: export every
+  (the `question-drafts` skill). Built once from the tracker: export every
   comment by the people who answer — design, product, backend — and group it
   by topic; afterwards it is kept by hand. A one-off export of a busy
   backend's comments is long; delegate the grouping and record the comments
