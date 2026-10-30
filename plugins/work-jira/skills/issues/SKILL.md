@@ -212,7 +212,13 @@ needs concrete functionality the estimate did not contain, named in the result
 comment; work bounced back from testing is the extreme case, not a budget line.
 What the design left out and the code had to solve counts as such
 functionality — real content the mock did not show (long names, empty or long
-lists, a second currency), states it did not draw, narrow widths: name each.
+lists, a second currency), states it did not draw, narrow widths: name each,
+unless the issue and the estimate's row held it, if only as an unknown — then
+it is neither a basis nor a re-estimate. An approved design that departed from
+the one estimated is a basis when named: the estimate was built on the earlier
+mocks, and the approved screens added this. Not work on the unapproved
+version, nor what the team added beyond the design — keyboard,
+accessibility.
 Going over the pessimistic estimate is asked of the developer, never decided
 alone — it can be right when the requirements change radically or the risks
 the estimate priced in come true.
