@@ -291,7 +291,8 @@ answer that settles something goes into the decisions file,
 reminding instead of polling, closing a line, acknowledging an answer, reading
 the decisions before a question is drafted — is in
 `${CLAUDE_PLUGIN_ROOT}/reference/questions-and-decisions.md`. Read it when a
-question is drafted, posted or closed, or an answer is acted on.
+question is drafted, posted or closed, or an answer is acted on. A draft for
+someone outside the team is checked by the `question-drafts` skill first.
 
 ## What gets written down
 
