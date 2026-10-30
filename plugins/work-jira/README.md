@@ -34,6 +34,9 @@ estimate basis and the overhead rule, labels taken from the instance, the ADF
 quirks, and what gets written down where. The agent loads it by itself whenever
 the conversation touches a Jira issue. This README does not repeat it.
 
+`skills/question-drafts/SKILL.md` — how a question or notice for someone
+outside the team is checked before it is posted, wherever it was drafted.
+
 `reference/first-run.md` — the six questions asked once on a fresh project and
 written to `.claude/project-profile.md`. `reference/batch.md` — the node format
 `jira.batch` takes and the inline notation for references. The plugin does not require
