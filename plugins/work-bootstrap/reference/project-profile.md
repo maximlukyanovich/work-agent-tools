@@ -30,6 +30,8 @@ workbook template and its map, when estimates go out as a workbook.
 ## Sources of truth
 Spec and design, as durable links. The local copy path, if there is one, marked
 as a copy that lags.
+The design's per-screen statuses, when the project keeps them — a durable link
+and which status means ready.
 
 ## Repository
 Branch chain and platform. Who deletes a merged branch on the remote —
