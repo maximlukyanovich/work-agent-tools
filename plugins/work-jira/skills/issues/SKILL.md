@@ -111,6 +111,11 @@ to`, so the relation is visible in the linked-items panel and survives a rewrite
 of the text. A dependency is a `Blocks` link, set only when the plan says so —
 see `Links`.
 
+## Status at hand-over
+
+Read `${CLAUDE_PLUGIN_ROOT}/reference/handover-status.md` before a status is
+recommended: the default, a part of the scope not ready, the hours.
+
 ## Links
 
 `relates to` is the default — the batch derives it from the references in a
@@ -214,12 +219,14 @@ the estimate priced in come true.
 
 **Carving a piece out of an issue is the exception**, agreed with the developer
 each time. When a part is blocked from outside and the rest can ship, the part
-becomes its own issue with a small budget taken from the original: the
-original's estimate (both scenarios) goes down by it, so the parent's total does
-not grow. The new issue is linked to the original with `Issue split`
-(`split_from` in a batch node) — the original `split to` the new one — and
-to its cause with `is blocked by`. Show the numbers — original estimate, time logged, new estimate, new
-remaining, carved budget — before changing anything.
+becomes its own issue; its hours are a separate question. A part the estimate
+contained takes its budget from the original — the original's estimate (both
+scenarios) goes down by it, the parent's total does not grow (recommended);
+one it did not contain gets new hours, with why the scope grew. The new
+issue is linked to the original with `Issue split` (`split_from` in a batch
+node) — the original `split to` the new one — and to its cause with `is
+blocked by`. Show the numbers — original estimate, time logged, new estimate,
+new remaining, carved budget — before changing anything.
 
 ## Labels
 

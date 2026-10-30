@@ -19,7 +19,7 @@ Other scopes and updating: [Quick start](../../README.md#quick-start).
 | `/work-jira:next` | Recommends the next issue to take: unblocked first, ordered by what it unblocks, the roadmap and size. Read-only. |
 | `/work-jira:questions` | Open questions on an issue — from Jira, the design and the branch state. |
 | `/work-jira:status` | Checks whether an issue is actually done. Read-only. |
-| `/work-jira:comment` | Drafts and posts a result comment on the issues a branch touched; offers a worklog afterwards. |
+| `/work-jira:comment` | Drafts and posts a result comment on the issues a branch touched, asks for their status; offers a worklog afterwards. |
 | `/work-jira:help` | What this plugin can do: commands, the order they are applied in, the conventions it carries. Optional language argument. |
 
 Starting work on an issue — branch, plan, quality gate — stays a **project**

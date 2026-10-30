@@ -1,5 +1,5 @@
 ---
-description: Draft and post a result comment on the issues a branch touched, then offer a worklog.
+description: Draft and post a result comment on the issues a branch touched, ask for their status, then offer a worklog.
 argument-hint: '[<target branch>]'
 ---
 
@@ -8,7 +8,8 @@ argument-hint: '[<target branch>]'
 Close the loop on the issues a branch delivered: what shipped, in their language,
 on their issues.
 
-**Posts to Jira**, but never without showing the text and being told to.
+**Posts to Jira and moves statuses**, but never without showing the text and
+being told to.
 
 ## Steps
 
@@ -21,7 +22,10 @@ on their issues.
 3. **Check each issue's description first.** QA tests against it: what shipped,
    what moved to other issues (cards) and the known limits must be there. A
    description that has gone stale is offered for an update before the
-   comment — the `issues` skill, "Description".
+   comment — the `issues` skill, "Description". Then hold the summary and
+   `Scope` against `Known limitations` and the issue's open lines on the
+   waiting list, and pick the status to recommend by
+   `${CLAUDE_PLUGIN_ROOT}/reference/handover-status.md`.
 
 4. **Draft each comment** and show it in the chat for review. A comment that
    addresses or mentions someone takes the person and the account id from the
@@ -47,7 +51,11 @@ on their issues.
      (`issues` skill, "Estimates"). Over the pessimistic one, also the
      developer's decision and its reason.
 
-5. **Post only on an explicit go-ahead**, through `scripts/jira.py` as ADF —
+   Under each draft, the status it recommends and why.
+
+5. **Ask two questions in one questionnaire** — post the comments, and which
+   status, the recommended one first. The answers are separate. **Post only on
+   an explicit go-ahead**, through `scripts/jira.py` as ADF —
    `comment(key, doc(p(header), ul([...])))`, `edit_comment` to amend,
    `comment(..., reply_to=<id>)` to answer in an earlier comment's thread. Not
    through MCP: a Markdown comment stores a URL as plain text, which Jira does
@@ -57,7 +65,8 @@ on their issues.
    something goes on the waiting list when it is posted; a reply that answers
    or drops a listed question closes its line
    (`${CLAUDE_PLUGIN_ROOT}/reference/questions-and-decisions.md`). Hand each
-   posted comment back as a link, `comment_url(key, id)`.
+   posted comment back as a link, `comment_url(key, id)`. Move the status on
+   its own answer, through `jira.transition`.
 
 6. **Then, separately, offer a worklog.** Propose one short sentence per issue.
    The default answer is "text only" — the developer may want the wording but log
@@ -65,7 +74,8 @@ on their issues.
 
 ## Hard rules
 
-- **Two decisions, not one.** Comments and worklog are asked separately.
+- **Three answers: the comment, the status, the worklog.** The first two in
+  one questionnaire, the worklog after.
 - **Nothing is posted silently**, and nothing is posted that the developer has
   not read.
 - **Never invent time spent.**

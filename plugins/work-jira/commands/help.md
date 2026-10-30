@@ -25,7 +25,7 @@ profile's issue language — that is a different setting.
    /work-jira:next      pick what to take next — unblocked, by what it unblocks
    /work-jira:questions collect what is still unclear on an issue
    /work-jira:status    check whether an issue is really done
-   /work-jira:comment   post the result comment, offer a worklog
+   /work-jira:comment   post the result comment, ask for the status, offer a worklog
    ```
 
 3. **Name the conventions it carries**, in two or three lines each: hierarchy
