@@ -284,6 +284,14 @@ still open. Hour buckets and issues already in
 progress are left alone. With no reachable tracker the step is skipped and
 said so in one line, not silently.
 
+Once the issue is read, the command also holds its description against the
+sources — the design, the backend, the answers and decisions recorded. A
+description that has drifted gets a draft as a section of the plan, posted on
+the developer's yes right after the plan is approved and before the first
+code, not in the last slice; a developer without the right to edit the issue
+posts the change as a comment for whoever keeps it. With `work-jira`, the
+rules are its `issues` skill's "Description".
+
 The same command loads the `kickoff` skill before its first question to the
 developer: the questionnaire rules live there, and a command that asks
 without them drops the closing "anything to add?". It loads the project's

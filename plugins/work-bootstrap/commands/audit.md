@@ -135,7 +135,9 @@ does not raise it again.
    invisible precisely because the code shipped.
    The mirror check: does the command that starts a task offer the opening
    steps — the in-progress transition, the assignee, the parent's status —
-   when a tracker is reachable, load `kickoff` before it asks and the
+   when a tracker is reachable, hold the issue's description against its
+   sources and draft an update in the plan, posted on a yes before the
+   first code, load `kickoff` before it asks and the
    testing skill before it writes the plan — and does its plan carry the
    state table, with the testing skill's state lists among its rows, the
    framework pointers and the structural line? Does its answer name the

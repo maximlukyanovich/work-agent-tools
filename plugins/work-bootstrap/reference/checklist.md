@@ -15,7 +15,9 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       opening steps — in-progress transition, assignee, parent status — as one
       question carrying the current state, and loads `kickoff` before asking
       and the testing skill before writing its plan; with `work-jira`, it
-      also names the issue's open questions from the waiting list. Its plan
+      also names the issue's open questions from the waiting list. It holds
+      the issue's description against its sources and drafts an update in
+      the plan, posted on a yes before the first code. Its plan
       carries `kickoff`'s state table — the testing skill's state lists among
       its rows — framework pointers and structural line. Its answer names
       the change's level on its first line — small, normal or critical — and

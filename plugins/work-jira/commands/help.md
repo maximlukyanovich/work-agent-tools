@@ -25,13 +25,14 @@ profile's issue language — that is a different setting.
    /work-jira:next      pick what to take next — unblocked, by what it unblocks
    /work-jira:questions collect what is still unclear on an issue
    /work-jira:status    check whether an issue is really done
-   /work-jira:comment   post the result comment, offer a worklog
+   /work-jira:comment   post the result comment, ask for the status, offer a worklog
    ```
 
 3. **Name the conventions it carries**, in two or three lines each: hierarchy
    from the standard, the four required description sections, estimate
    basis, labels taken from the instance, descriptions written as ADF with other
-   issues as cards and linked `relates to`.
+   issues as cards and linked `relates to`; every question for someone
+   outside the team checked against its sources before it is posted.
 
 4. **Say what it expects from the project**: a profile with `## Tracker` and
    `## Issues`, and tracker credentials. State which of the two are present here

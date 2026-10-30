@@ -90,13 +90,17 @@ status and keeps them current. Where a card cannot be produced — a comment
 posted through MCP — the link text carries key and summary, `PROJ-7 Domain
 components`, so the reader does not have to open it.
 
-**The description is current when the issue goes to testing.** QA tests against
-it, and a description that still promises what moved elsewhere — or omits what
-the answers to its questions added — sends them testing stale requirements.
-Check it at the transition to testing and again when a result comment is
-posted: what is in, what moved out and where (cards), known limits — the
-last as a `Known limitations` section: what behaves so for now, and the
-question it waits on.
+**The description is current when work starts and when the issue goes to
+testing.** The developer works from it and QA tests against it; one that
+still promises what moved elsewhere — or omits what the answers to its
+questions added — sends both after stale requirements. Check it at both
+points and when a result comment is posted: what is in, what moved out and
+where (cards), known limits — the last as a `Known limitations` section: what
+behaves so for now, and the question it waits on. The update is asked: edit
+it (recommended); a comment on what changed, for whoever keeps the issue,
+when the developer may not edit — recorded once in the profile's
+`## Tracker`; or nothing. At the start the draft is a section of the plan,
+posted on a yes after its approval, before the first code.
 
 What changed since the issue was written goes in `Scope changes`, collapsed
 (`expand(title, blocks)`) right after the acceptance criteria, so QA reads
@@ -110,6 +114,11 @@ comments already. Optional; the requirement is that the text is true.
 to`, so the relation is visible in the linked-items panel and survives a rewrite
 of the text. A dependency is a `Blocks` link, set only when the plan says so —
 see `Links`.
+
+## Status at hand-over
+
+Read `${CLAUDE_PLUGIN_ROOT}/reference/handover-status.md` before a status is
+recommended: the default, a part of the scope not ready, the hours.
 
 ## Links
 
@@ -207,19 +216,27 @@ needs concrete functionality the estimate did not contain, named in the result
 comment; work bounced back from testing is the extreme case, not a budget line.
 What the design left out and the code had to solve counts as such
 functionality — real content the mock did not show (long names, empty or long
-lists, a second currency), states it did not draw, narrow widths: name each.
+lists, a second currency), states it did not draw, narrow widths: name each,
+unless the issue and the estimate's row held it, if only as an unknown — then
+it is neither a basis nor a re-estimate. An approved design that departed from
+the one estimated is a basis when named: the estimate was built on the earlier
+mocks, and the approved screens added this. Not work on the unapproved
+version, nor what the team added beyond the design — keyboard,
+accessibility.
 Going over the pessimistic estimate is asked of the developer, never decided
 alone — it can be right when the requirements change radically or the risks
 the estimate priced in come true.
 
 **Carving a piece out of an issue is the exception**, agreed with the developer
 each time. When a part is blocked from outside and the rest can ship, the part
-becomes its own issue with a small budget taken from the original: the
-original's estimate (both scenarios) goes down by it, so the parent's total does
-not grow. The new issue is linked to the original with `Issue split`
-(`split_from` in a batch node) — the original `split to` the new one — and
-to its cause with `is blocked by`. Show the numbers — original estimate, time logged, new estimate, new
-remaining, carved budget — before changing anything.
+becomes its own issue; its hours are a separate question. A part the estimate
+contained takes its budget from the original — the original's estimate (both
+scenarios) goes down by it, the parent's total does not grow (recommended);
+one it did not contain gets new hours, with why the scope grew. The new
+issue is linked to the original with `Issue split` (`split_from` in a batch
+node) — the original `split to` the new one — and to its cause with `is
+blocked by`. Show the numbers — original estimate, time logged, new estimate,
+new remaining, carved budget — before changing anything.
 
 ## Labels
 
@@ -278,7 +295,8 @@ answer that settles something goes into the decisions file,
 reminding instead of polling, closing a line, acknowledging an answer, reading
 the decisions before a question is drafted — is in
 `${CLAUDE_PLUGIN_ROOT}/reference/questions-and-decisions.md`. Read it when a
-question is drafted, posted or closed, or an answer is acted on.
+question is drafted, posted or closed, or an answer is acted on. A draft for
+someone outside the team is checked by the `question-drafts` skill first.
 
 ## What gets written down
 
