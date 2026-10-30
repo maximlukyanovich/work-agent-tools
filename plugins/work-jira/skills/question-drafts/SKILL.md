@@ -12,26 +12,34 @@ metadata:
 ## When it applies
 
 Any draft of a question or a notice for someone outside the team — a
-designer, an analyst, the product owner, the backend — before it is shown for
-posting, wherever it was written: `/work-jira:questions`, a plan, a review, a
-register of discrepancies. A draft ages — the plan moves on, a decision
-lands — so one from an earlier session is checked again.
+designer, an analyst, the product owner, the backend — as soon as the list is
+formed, before the developer first sees it, wherever it was written:
+`/work-jira:questions`, a plan, a review, a register of discrepancies, a
+message outside the tracker. A draft ages — the plan moves on, a decision
+lands — so before posting, one from an earlier session, or one that answers
+have reached since, is checked again.
 
 ## How to do it
 
 1. **Hold each question against:**
-   - the spec;
-   - the design source — the whole bundle, not the one screen: another
-     screen, a component card, a `.d.ts` or the design's own guide often
-     draws or states the missing piece;
-   - the backend's code and contract;
-   - the tracker — the issue, its neighbours, their recent comments;
+   - the spec, in its current version;
+   - the design source — its latest version, not a local copy that lags, and
+     the whole bundle, not the one screen: another screen, a component card,
+     a `.d.ts` or the design's own guide often draws or states the missing
+     piece;
+   - the addressee's side as it is now — the backend's code after a fetch,
+     its default branch and open merge requests, its published contract; the
+     frontend's, when another side asks;
+   - the tracker — the issue, its parent and siblings, the issues linked to
+     it, and the addressee's own issue for the same part: status, recent
+     comments, merge requests;
    - earlier answers — the decisions file, "Decisions already made" in
      `${CLAUDE_PLUGIN_ROOT}/reference/questions-and-decisions.md`: the
      question's topic and its neighbours, since an answer given for a
      different screen often settles this one;
    - the project's own written rules — a component or copy rule the team
-     keeps decides a case without the designer.
+     keeps decides a case without the designer;
+   - anything else the profile's `## Sources of truth` names.
 
    A question a source answers is dropped and reported as a finding with its
    pointer, and written into the decisions file; a question the plan no
@@ -39,7 +47,7 @@ lands — so one from an earlier session is checked again.
    dropped too. On a long draft, split the check by area across a few
    read-only agents, each returning a verdict per question with the quote
    that decides it, and verify the decisive quotes yourself before acting on
-   them.
+   them. A source that could not be reached is named in the report.
 
 2. **Show the developer a table** before the text: item → answered, partly or
    open, with the quote and where it is → whether it blocks delivery. What

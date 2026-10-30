@@ -26,18 +26,19 @@ them is cheap. **Read-only.**
    endpoint, a token. An assumption that does not hold is a question, not a task
    for later discovery.
 
-5. **Report grouped by addressee** — analyst, designer, backend, product — each
-   question one line, with what it blocks and a proposed default where one exists.
+5. **Check the list with the `question-drafts` skill** before reporting it —
+   the sources each question is held against, notices split from questions.
+
+6. **Report grouped by addressee** — analyst, designer, backend, product —
+   after the skill's table of what the sources answered: only what survived
+   the check, each question one line, with what it blocks and a proposed
+   default where one exists.
    Who holds each role, and how to mention them, comes from the project's
    team file (`${CLAUDE_PLUGIN_ROOT}/reference/team.md`); missing → offer to
    create it and ask for every row. A role is never inferred from context.
    Each group is written in its reader's language: the spec's and the
    design's terms for a designer or analyst, the backend's own field and
    endpoint names for the backend — never frontend component names.
-
-6. **Before anything is shown for posting, the `question-drafts` skill** —
-   the sources each draft is held against, notices split from questions, the
-   table for the developer.
 
 ## Hard rules
 
@@ -46,9 +47,9 @@ them is cheap. **Read-only.**
 - **Nothing is posted to Jira** by this command. Posting the questions as a
   comment is a separate, explicit step — and once posted, each goes on the
   waiting list
-  (`${CLAUDE_PLUGIN_ROOT}/reference/questions-and-decisions.md`). That step
-  starts with the `question-drafts` skill, even for drafts written in an
-  earlier session.
+  (`${CLAUDE_PLUGIN_ROOT}/reference/questions-and-decisions.md`). A draft
+  from an earlier session, or one answers have reached since, is checked
+  again before it is posted.
 - **Questions with an obvious answer are not asked.** If the code, the design,
   an earlier answer or the team's own rule answers it, that is a finding, not
   a question.
