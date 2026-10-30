@@ -90,13 +90,17 @@ status and keeps them current. Where a card cannot be produced — a comment
 posted through MCP — the link text carries key and summary, `PROJ-7 Domain
 components`, so the reader does not have to open it.
 
-**The description is current when the issue goes to testing.** QA tests against
-it, and a description that still promises what moved elsewhere — or omits what
-the answers to its questions added — sends them testing stale requirements.
-Check it at the transition to testing and again when a result comment is
-posted: what is in, what moved out and where (cards), known limits — the
-last as a `Known limitations` section: what behaves so for now, and the
-question it waits on.
+**The description is current when work starts and when the issue goes to
+testing.** The developer works from it and QA tests against it; one that
+still promises what moved elsewhere — or omits what the answers to its
+questions added — sends both after stale requirements. Check it at both
+points and when a result comment is posted: what is in, what moved out and
+where (cards), known limits — the last as a `Known limitations` section: what
+behaves so for now, and the question it waits on. The update is asked: edit
+it (recommended); a comment on what changed, for whoever keeps the issue,
+when the developer may not edit — recorded once in the profile's
+`## Tracker`; or nothing. At the start the draft is a section of the plan,
+posted on a yes after its approval, before the first code.
 
 What changed since the issue was written goes in `Scope changes`, collapsed
 (`expand(title, blocks)`) right after the acceptance criteria, so QA reads

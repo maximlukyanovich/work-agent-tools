@@ -77,7 +77,8 @@ can reach only one of them says so and ranks on what it has.
 
 6. **Report**, in the conversation's language:
    - **Recommended:** `KEY — summary`, estimate, one paragraph of reasoning
-     that names what it unblocks and why it goes before the runner-up.
+     that names what it unblocks and why it goes before the runner-up, and
+     a drift this run saw between its description and its sources.
    - **Also ready:** the rest of the unblocked list, one line each with the
      reason it ranks lower.
    - **Blocked:** one line each — `KEY — summary — waits on X`.
