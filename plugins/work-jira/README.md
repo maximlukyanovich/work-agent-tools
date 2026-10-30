@@ -16,7 +16,7 @@ Other scopes and updating: [Quick start](../../README.md#quick-start).
 | --- | --- |
 | `/work-jira:plan` | Proposes a hierarchy and a description shape for the scope at hand, then waits for approval. |
 | `/work-jira:create` | Creates epics and issues from an approved plan. |
-| `/work-jira:next` | Recommends the next issue to take: unblocked first, ordered by what it unblocks, the roadmap and size. Read-only. |
+| `/work-jira:next` | Recommends the next issue to take: unblocked first, ordered by what it unblocks, the roadmap and size. Read-only in the tracker. |
 | `/work-jira:questions` | Open questions on an issue — from Jira, the design and the branch state. |
 | `/work-jira:status` | Checks whether an issue is actually done. Read-only. |
 | `/work-jira:comment` | Drafts and posts a result comment on the issues a branch touched, asks for their status; offers a worklog afterwards. |
