@@ -22,7 +22,8 @@ being told to.
 3. **Check each issue's description first.** QA tests against it: what shipped,
    what moved to other issues (cards) and the known limits must be there. A
    description that has gone stale is offered for an update before the
-   comment — the `issues` skill, "Description". Then hold the summary and
+   comment, with the same choice as at the start — the `issues` skill,
+   "Description". Then hold the summary and
    `Scope` against `Known limitations` and the issue's open lines on the
    waiting list, and pick the status to recommend by
    `${CLAUDE_PLUGIN_ROOT}/reference/handover-status.md`.
