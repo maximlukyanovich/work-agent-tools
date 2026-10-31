@@ -612,6 +612,17 @@ update it stays empty.
 - A finding names every place with the same mechanism. The fix closes all of
   them, each with its proof — a fix for one site of a race routinely leaves
   its twin.
+- Four questions for the classes human reviewers find most and a rubric
+  rarely names. Pairs that must agree — read and write, display and submit,
+  list and detail, create, edit and copy, every entry point to one action:
+  a changed rule is checked in each. A new path beside an old one does
+  everything the old did besides its main effect — signals and hooks, a
+  cache or derived state reset, implicit validation, hints and required
+  marks in the UI; a write past the model (`update`, a bulk operation) is
+  the usual case. Empty is not unset — `0`, `""`, `[]`, a missing key — and
+  a repeat — a double click, a retried job or webhook — does not repeat a
+  side effect. New text — a log line, an error, UI copy — is true in every
+  outcome: success, partial failure, timeout, the flag off.
 - UI: an element that holds the focus and leaves the page outside a modal's
   focus scope with nowhere named for the focus to go — the plan's state table
   names it (`kickoff`); the browser drops it to `<body>`. A `nit`; `minor`

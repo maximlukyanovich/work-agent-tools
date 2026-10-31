@@ -86,6 +86,9 @@ does not raise it again.
    nobody looks with its condition, what a test asserts, which existing tests
    stay, tests of code conventions — and does the review's `test` lens grade
    by it, a removed guard and a false claim of coverage `major`?
+   Does the rubric ask the four questions — pairs that must agree, a new
+   path doing all the old one did, empty against unset and a repeat, new
+   text true in every outcome?
    Does a ready verdict read the plan and the task's notes before the merge
    command, and print "continue the task" while work is left? Does the
    review command say that no new work lands on a branch while its fix round
