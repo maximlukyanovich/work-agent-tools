@@ -13,7 +13,9 @@ Checks what a reviewer should never have to read for:
     so: splitting it is a decision, not drift;
   - every plugin.json has a MAJOR.MINOR.PATCH `version` and the catalogue has none; a plugin whose
     files differ from the merge base with --base, its README aside, has a version above the one at
-    --base's tip, and one whose CHANGES.md gains an entry is raised by a minor at least.
+    --base's tip, and one whose CHANGES.md gains an entry is raised by a minor at least;
+  - no commit since the merge base with --base, and under GitHub Actions no pull-request body,
+    carries agent attribution — a co-author trailer naming Claude or a "Generated with Claude Code" line.
 
 The sections are the agent-tools gate's, kept in pairs; that one differs in three: no plugin there
 keeps a CHANGES.md, so it has no section for one; it requires `argument-hint` on commands; it checks
@@ -223,6 +225,24 @@ else:
         if new_ids and versions[plugin][:2] <= base_version[:2]:
             fail(manifest, f"CHANGES.md gains {', '.join(new_ids)}: raise {plugin} by a minor at least, "
                            f"not {shown(base_version)} → {shown(versions[plugin])}")
+
+# AGENTS.md §3: no agent attribution. Claude Code adds a co-author trailer and a
+# "Generated with" line unless its `attribution` setting says otherwise, and a
+# commit that reaches main with the trailer lists the agent among the
+# repository's contributors for good — a released tag keeps it reachable.
+ATTRIBUTION = re.compile(r"^co-authored-by:.*\b(claude|anthropic)\b|generated with \[?claude code", re.I | re.M)
+
+if git("rev-parse", "--verify", "--quiet", f"{args.base}^{{commit}}").returncode == 0:
+    fork = git("merge-base", args.base, "HEAD").stdout.strip()
+    for record in git("log", "--format=%h%x00%B%x01", f"{fork}..HEAD").stdout.split("\x01"):
+        sha, _, message = record.strip().partition("\x00")
+        if sha and ATTRIBUTION.search(message):
+            problems.append(f"commit {sha}: agent attribution in the message — drop the line, AGENTS.md §3")
+event = os.environ.get("GITHUB_EVENT_PATH")
+if event and Path(event).is_file():
+    pull = json.loads(Path(event).read_text(encoding="utf-8")).get("pull_request") or {}
+    if ATTRIBUTION.search(pull.get("body") or ""):
+        problems.append("pull request body: agent attribution — drop the line, AGENTS.md §3")
 
 for path, message in warnings:
     print(f"warning: {path}: {message}")

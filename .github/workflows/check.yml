@@ -14,10 +14,12 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       # Versions are raised against the first parent: on a pull request the
-      # base's tip under the trial merge, on a push the previous main.
+      # base's tip under the trial merge, on a push the previous main. The
+      # whole history, so every commit of the range is there to be read for
+      # agent attribution, not only the head a shallow clone keeps.
       - uses: actions/checkout@v7
         with:
-          fetch-depth: 2
+          fetch-depth: 0
       - uses: actions/setup-python@v7
         with:
           python-version: '3.13'
