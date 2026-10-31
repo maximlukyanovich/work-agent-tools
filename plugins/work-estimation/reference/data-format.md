@@ -35,6 +35,10 @@ DERIVED = [                 # the coefficient rows, in report order
 DERIVED_PART = "Frontend"   # which part the coefficients belong to and are computed from
 ```
 
+Task hours are whole. A fraction is rounded up, in the report and in the
+workbook alike, and both scripts name each row rounded —
+`rounded up: Task name 1.5/2.5 -> 2/3` — so the number that moved is seen.
+
 Coefficients are whole hours, rounded up; tests are computed last, on the sum.
 With several parts they are computed from `DERIVED_PART`'s development sum only.
 

@@ -26,7 +26,8 @@ returned, a task added.
    of thin and design-only work is rarely the same afterwards.
 
 6. **Regenerate the report** and state the delta plainly: what was, what is,
-   which lines moved and why.
+   which lines moved and why, and the hours the script rounded up — its
+   `rounded up:` lines.
 
 7. **End with the next step**: `/work-estimation:export <data module>` as a
    block ready to paste — only when the profile's `## Estimation` names a
