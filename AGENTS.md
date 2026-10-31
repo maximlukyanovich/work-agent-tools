@@ -110,6 +110,11 @@ for working on the repository itself.
   written for that purpose, narrowly, and both are paid for in every session.
   A plugin's entry in `marketplace.json` is its shop window in `/plugin`;
   README files are for people on the web, and no tool renders them.
+- **A plugin text holds only rules that outlive the project.** Every line is
+  paid for in each run that loads it, so a case of one project goes to that
+  project's memory or harness. What is already there is moved or sharpened
+  before anything is added, and a rule a plugin states elsewhere is linked,
+  not repeated.
 - **A plugin command ends the way a project's does** — with its next step as
   a block ready to paste, a stop that sends to another command included, by
   "A command ends with its next step" in
@@ -148,6 +153,9 @@ The tests under `tests/` pin what the plugins' scripts do, and CI runs them
 after the gate: every test passes — `python3 -m unittest discover -s tests`.
 They live outside the plugins, so a change to a test raises no plugin's
 version.
+
+The pull request names the growth in bytes of every plugin text it changes;
+a notable growth is explained in its body or cut.
 
 One check stays with people: **the changed command or skill was run once, in a
 real repository, and did what its text says.** The pull request says where
