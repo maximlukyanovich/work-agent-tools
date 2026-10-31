@@ -136,7 +136,10 @@ for working on the repository itself.
 - every `plugin.json` has a `version` of the form `MAJOR.MINOR.PATCH`, the
   catalogue has none, and a plugin whose files changed, its README aside, has
   a version above the base's;
-- a new `CHANGES.md` entry comes with a minor raise of its plugin at least.
+- a new `CHANGES.md` entry comes with a minor raise of its plugin at least;
+- no commit of the range, and in CI no pull-request body, carries agent
+  attribution — a co-author trailer naming Claude, a "Generated with Claude
+  Code" line.
 
 It also warns, without failing, about a plugin text above 10 KB — any `*.md`
 under `plugins/` but a README: splitting it is a decision, not drift.
