@@ -35,7 +35,9 @@ workflow commands ship in a plugin instead of being written into the project.
 - Claude Code; 2.1.292 or later for the one-line start from scratch.
 - `git`, and `gh` or `glab` signed in for the steps that open a pull or merge
   request.
-- Python 3 — the plugins' scripts and the `work-bootstrap` session-start hook.
+- `python3` in `PATH` — Linux, macOS or WSL — for the plugins' scripts and the
+  `work-bootstrap` session-start hook. Without it the hook fails as a
+  non-blocking error and the session starts without the reminder.
 - For `work-jira`: a Jira Cloud site and a working `.mcp.json` with its
   credentials; without one the commands stop and say what is missing.
 - For `/work-estimation:export`: the `.xlsx` workbook template to fill; its map
