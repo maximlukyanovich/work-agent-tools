@@ -99,6 +99,10 @@ does not raise it again.
    review command say that no new work lands on a branch while its fix round
    is open, and does the commit command hand over the review alone, leaving
    what follows to the review?
+   Does the review command take its target from the project's copy of
+   `${CLAUDE_PLUGIN_ROOT}/templates/review-target/review_target.py` —
+   `diff` against the template shows nothing, the version line included —
+   rather than from prose?
    Do review groups go to `.claude/agents/review-group.md` with
    `model: inherit` — not pinned to a cheaper model — with `model=` to
    override it and refutation left to the session?

@@ -47,7 +47,10 @@ The order is fixed. Steps are not reordered or skipped.
    index `${CLAUDE_PLUGIN_ROOT}/reference/templates.md`, then the file under
    `templates/` it names for each file created, read when that file is
    written. Which layer each rule
-   belongs on: the `layers` skill.
+   belongs on: the `layers` skill. A review command comes with
+   `${CLAUDE_PLUGIN_ROOT}/templates/review-target/review_target.py`, copied
+   unchanged into the project's scripts folder — a project command cannot
+   reach the plugin's own files.
 
    Order: `AGENTS.md` first — everything else references it — then `CLAUDE.md`,
    the profile, skills, commands, agents, hooks, MCP, docs —

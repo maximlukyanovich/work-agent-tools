@@ -35,16 +35,17 @@ update it stays empty.
 
 **The procedure the command carries:**
 
-1. **Target from the ledger.** The last reviewed head equals `HEAD` → no new
-   pass; print the recorded verdict. The last head is an ancestor of `HEAD` →
-   review the delta `<last head>..HEAD`. The last head is not an ancestor
-   because the fixes went into the commits it reviewed (`review-fixes.md`) → review
-   `git diff <last head> HEAD`, which the reflog keeps resolvable, and name
-   the rewritten commits in the pass header; a last head the repository no
-   longer has → the whole target. No ledger or `full` → the whole
-   target. An explicit `<sha>..<sha>` argument overrides both — the way to
-   review follow-up fixes on a branch after the original MR was merged — and
-   a base that is no longer an ancestor reads the same way.
+1. **Target from the ledger, by a script.**
+   `python3 scripts/review_target.py --ledger <ledger file> --tree <tree>`, plus
+   `--full` or `--range <a>..<b>` from the arguments, prints the mode, the
+   diff and the reason — a copy of
+   `${CLAUDE_PLUGIN_ROOT}/templates/review-target/review_target.py`, its
+   header the contract. `none` → no new pass; print the recorded verdict.
+   `whole` → the whole target; any other mode → the diff it prints, and for
+   `rewritten` — the fixes went into the reviewed commits
+   (`review-fixes.md`) — the pass header names the `replaced` ones. An
+   explicit range, the way to review follow-up fixes after the original MR
+   was merged, outranks the ledger and `full`.
 2. **Blind first.** The rubric runs without the ledger's findings — reading a
    previous verdict first anchors the new one. Above the delegation threshold
    the subagents never receive the ledger.

@@ -62,7 +62,9 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       cache when no rule needs type information, the type-check is
       incremental. CI runs without these caches.
 - [ ] A review command, if there is one, keeps a pass ledger in the personal
-      space: reviews the delta since the last reviewed head, runs blind before
+      space: reviews the delta since the last reviewed head — its target
+      from the project's copy of `templates/review-target/review_target.py`,
+      the template's version line and no difference — runs blind before
       reconciling, tags findings `new` / `missed` / `escalated` /
       `fix-critique`, opens every report with the same block — trajectory,
       a blocker / major / minor / nit table with zeros, the verdict — and

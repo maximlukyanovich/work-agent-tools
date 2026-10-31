@@ -172,6 +172,7 @@ plugins/<name>/
   skills/<name>/SKILL.md          knowledge the agent loads by itself
   reference/*.md                  read one file at a time, on instruction
   scripts/                        executed, never read into context
+  templates/                      files a project copies unchanged; audit diffs the copy
   hooks/hooks.json                plugin hooks — run wherever the plugin is on
   README.md                       for people, links to the skill
 plugins/work-bootstrap/CHANGES.md method changes a set-up project carries over
