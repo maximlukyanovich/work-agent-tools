@@ -146,7 +146,9 @@ for working on the repository itself.
   attribution — a co-author trailer naming Claude, a "Generated with Claude
   Code" line.
 
-It also warns, without failing, about a plugin text above 10 KB — any `*.md`
+It also warns, without failing, about a plugin whose command, skill and agent
+descriptions add up to more than 2 KB — they are in every session the plugin is
+on — and about a plugin text above 10 KB — any `*.md`
 under `plugins/` but a README: splitting it is a decision, not drift.
 
 The tests under `tests/` pin what the plugins' scripts do, and CI runs them
