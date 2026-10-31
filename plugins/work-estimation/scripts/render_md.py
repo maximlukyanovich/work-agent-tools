@@ -253,3 +253,5 @@ for title_key, attr, numbered in (("risks", "RISKS", False), ("exclusions", "EXC
 open(OUT, "w").write("\n".join(out))
 print(f"written: {OUT}")
 print(f"parts={E.parts} core={co}/{cp} overhead={oo}/{op} total={to}/{tp}")
+for line in E.rounded:
+    print(line)

@@ -616,6 +616,8 @@ def main(argv):
         core_o, core_p = E.core()
         total_o, total_p = E.total()
         print(f"rows={len(E.all_rows())} parts={E.parts} core={core_o}/{core_p} total={total_o}/{total_p}")
+        for line in E.rounded:
+            print(line)
         for name in LISTS:
             if name not in found["lists"] and E.get(name):
                 print(f"skipped: {name} ({len(E.get(name))}) - no place in the map")

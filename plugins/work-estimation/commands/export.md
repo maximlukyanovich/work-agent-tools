@@ -45,7 +45,8 @@ Write the estimate into the workbook template.
 
 5. **Report** the totals, the file path, the lists the map has no place for —
    the script's `skipped:` lines — the cells left empty — its `empty:` lines,
-   with the `WORKBOOK` key that fills each — and anything the template still
+   with the `WORKBOOK` key that fills each — the task hours rounded up — its
+   `rounded up:` lines — and anything the template still
    expects from a human — company name, date, rates.
 
 ## Scripts are run, not read

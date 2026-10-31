@@ -7,7 +7,8 @@ A task row is a tuple of 7 or 8 elements:
     (part, epic, task, description, optimistic, pessimistic, negative_risk, positive_risk)
 
 With 7 elements the part comes from `PART` in the module (default "Frontend"), or from
-`PARTS = {task_name: part}` when tasks belong to different parts.
+`PARTS = {task_name: part}` when tasks belong to different parts. Hours are whole: a
+fraction is rounded up, and each row rounded is named in `rounded` for the scripts to print.
 
 Coefficient rows (`DERIVED`) are tuples of 6:
 
@@ -40,6 +41,7 @@ NUMERIC = {"optimistic", "pessimistic"}
 class Estimate:
     def __init__(self, module_name):
         self.m = importlib.import_module(module_name)
+        self.rounded = []
         self.rows = [self._row(t) for t in self.m.TASKS]
         self.columns = list(getattr(self.m, "COLUMNS", DEFAULT_COLUMNS))
         self.parts = list(dict.fromkeys(r["part"] for r in self.rows))
@@ -60,8 +62,11 @@ class Estimate:
             part = parts.get(task, getattr(self.m, "PART", "Frontend"))
         else:
             raise ValueError(f"task row must have 7 or 8 elements: {t[:2]}")
+        hours = (ceil(o), ceil(p))
+        if hours != (o, p):
+            self.rounded.append(f"rounded up: {task} {o:g}/{p:g} -> {hours[0]}/{hours[1]}")
         return {"part": part, "epic": epic, "task": task, "description": desc,
-                "optimistic": int(o), "pessimistic": int(p), "negative": neg or "",
+                "optimistic": hours[0], "pessimistic": hours[1], "negative": neg or "",
                 "positive": pos or ""}
 
     def _derived(self):

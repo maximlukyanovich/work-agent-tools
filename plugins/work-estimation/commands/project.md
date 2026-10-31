@@ -62,7 +62,8 @@ read, say which one and why, and continue with the rest.
 9. **Emit the report.** Write the data module — the internal form the scripts
    consume, so that `update` and `export` work later — and render the markdown
    with `${CLAUDE_PLUGIN_ROOT}/scripts/render_md.py <module> <out.md>`. Hand the
-   user the markdown; the module is mentioned, not presented.
+   user the markdown; the module is mentioned, not presented. Name the task
+   hours the script rounded up — its `rounded up:` lines.
 
 10. **Only now compare with the deadline**, if one was named, and report the gap
    as a scope question with concrete lines that could move.
