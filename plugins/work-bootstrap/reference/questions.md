@@ -22,7 +22,7 @@ to see that it narrows. Whether a manual step is required — a browser, a real
 request, a migration. Separately: which changes need a test — the default
 risk classes are money, data written or deleted, access, merges, what lets a
 confirmation through, branching logic and a costly break where nobody looks
-(`reference/templates.md`, "The testing skill proves a change by its risk"),
+(`reference/templates/testing-skill.md`),
 with a recorded live check for the rest.
 
 **Q4. Task tracker and key prefix.** Jira (needs the project key), Linear, GitHub
@@ -76,7 +76,7 @@ shows; without the rights it prints the step for someone who has them.
 body one bullet per point, agent attribution banned. Alternative: `Topic:
 description`. Ask whether there is machine enforcement or only agreement, and
 offer the task-key check in `commit-msg` — the key taken from the branch name,
-a branch without one exempt (`templates.md` → Git hooks).
+a branch without one exempt (`templates/files.md` → Git hooks).
 
 **Q8. Languages.** Three independent answers: the language of code, identifiers,
 commits and PRs — almost always English; the language of committed

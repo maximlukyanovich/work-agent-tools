@@ -64,7 +64,7 @@ Loaded when a task needs a plan.
 
 Read one at a time, not as a whole: `questions.md` (the eleven asked in phase 1),
 `layout.md` (target file tree, gitignore, and the two traps that cost a rewrite),
-`templates.md` (skeletons), `project-profile.md` (the file shared plugins read),
+`templates.md` (the index of the skeletons in `templates/`), `project-profile.md` (the file shared plugins read),
 `checklist.md` (the final check), `change-size.md` (what `change_size.py`
 measures and prints), `scaffold/<stack>.md` (one recipe per stack:
 the generator's options and traps for `new`, what the harness keeps for

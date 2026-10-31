@@ -16,6 +16,8 @@ Take the entries of `${CLAUDE_PLUGIN_ROOT}/CHANGES.md` after that id and
 check each one's `Check:` against the project — nothing else. The report is
 one row per entry: the entry, its state in this project, the proposed action;
 an entry whose `Applies to:` does not fit is reported as not applicable.
+A `Check:` that names a template is read in the one file the index
+`${CLAUDE_PLUGIN_ROOT}/reference/templates.md` gives for it.
 An entry whose `Supersedes:` names an earlier one replaces the part it
 names: when the delta holds both, that part is checked against the later
 entry alone, and a project already past the earlier one applies the later
@@ -220,8 +222,7 @@ does not raise it again.
 15. **Tests by risk.** Asked as a step of its own, with its price — it reads
     every test and spends a second reviewer, so the question names the
     suite's size and an estimate. On a yes, against the project's testing
-    skill (`${CLAUDE_PLUGIN_ROOT}/reference/templates.md`, "The testing skill
-    proves a change by its risk"):
+    skill (`${CLAUDE_PLUGIN_ROOT}/reference/templates/testing-skill.md`):
     - **Every test sorted** A — proves nothing; B — its break shows in the
       live check of a change; C — it breaks silently or somewhere else. A and
       B go on the removal list. A second, independent reviewer — a subagent

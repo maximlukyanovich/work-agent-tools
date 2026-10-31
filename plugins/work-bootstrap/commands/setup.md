@@ -43,8 +43,10 @@ The order is fixed. Steps are not reordered or skipped.
    confirmation.
 
 4. **Create.** Layout and the two traps that cost a rewrite:
-   `${CLAUDE_PLUGIN_ROOT}/reference/layout.md`. Skeletons:
-   `${CLAUDE_PLUGIN_ROOT}/reference/templates.md`. Which layer each rule
+   `${CLAUDE_PLUGIN_ROOT}/reference/layout.md`. Skeletons: the
+   index `${CLAUDE_PLUGIN_ROOT}/reference/templates.md`, then the file under
+   `templates/` it names for each file created, read when that file is
+   written. Which layer each rule
    belongs on: the `layers` skill.
 
    Order: `AGENTS.md` first — everything else references it — then `CLAUDE.md`,
@@ -65,8 +67,7 @@ The order is fixed. Steps are not reordered or skipped.
    `local` — for each, from the repository root; the same file declares each
    marketplace the set names in `extraKnownMarketplaces` —
    `mluk-work-agent-tools` with `autoUpdate` — or a fresh clone has nowhere to
-   install from and no update arrives on its own ("The onboarding command" in
-   `${CLAUDE_PLUGIN_ROOT}/reference/templates.md`). When Q10 pinned a release,
+   install from and no update arrives on its own (`${CLAUDE_PLUGIN_ROOT}/reference/templates/onboarding.md`). When Q10 pinned a release,
    its `source` carries `"ref": "<tag>"` beside `repo`, `autoUpdate` kept: the
    latest tag, the name after `refs/tags/` in the first line of
    `git ls-remote --tags --refs --sort=-v:refname https://github.com/maximlukyanovich/work-agent-tools 'v*'`.

@@ -118,7 +118,7 @@ for working on the repository itself.
 - **A plugin command ends the way a project's does** — with its next step as
   a block ready to paste, a stop that sends to another command included, by
   "A command ends with its next step" in
-  `plugins/work-bootstrap/reference/templates.md`.
+  `plugins/work-bootstrap/reference/templates/command.md`.
 
 ## 4. Checks before a pull request
 
