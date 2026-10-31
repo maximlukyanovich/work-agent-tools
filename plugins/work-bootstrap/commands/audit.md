@@ -62,8 +62,8 @@ does not raise it again.
    while the code does not change. Does a merging command read that ledger?
    Does a finding whose mechanism a ledger already holds end the report with
    a proposal to move it upstream?
-   Does the commit command, after a task's last commit, hand over the review
-   command with its range — from the last reviewed head after the first pass
+   Does the commit command hand over after every commit — mid-task the next
+   slice, after a task's last commit the review command with its range — from the last reviewed head after the first pass
    — or is the review left to someone's memory? Does a delta pass count, not
    list, the missed minors and nits in lines it does not change, mark a
    cheap and real one `fix-now`, and give every other one its place — a

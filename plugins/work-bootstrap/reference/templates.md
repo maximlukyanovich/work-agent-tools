@@ -669,10 +669,12 @@ frozen range: while the branch's findings have a fix round open, no new work
 lands on it — the fixes, the repeat review, then the plan goes on. One tree,
 one writer.
 
-**The commit command hands the review over.** After the last commit of a task,
-or of a round of review fixes, its report ends — through
-`/work-bootstrap:handoff` — with the review command ready to paste into a
-fresh session, or to run here for a small change. The command carries:
+**The commit command hands the phase over.** Every report ends through
+`/work-bootstrap:handoff`. In the middle of a task that is the next slice —
+a fresh session or `/compact`, by the handoff's criterion; after the last
+commit of a task, or of a round of review fixes, the review command ready to
+paste into a fresh session, or to run here for a small change. The review
+command carries:
 
 - the range — from where the branch left its base branch for the first pass,
   from the head the last pass reviewed after it. Never `<base>..<head>` once

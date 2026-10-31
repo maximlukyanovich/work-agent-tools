@@ -644,3 +644,16 @@ its main effect; empty against unset, and a repeat that does not repeat a side
 effect; new text true in every outcome.
 Check: templates — the review command's rubric additions; audit §5.
 Applies to: projects with a review command.
+
+## 2026-10-31 · handoff-every-commit
+
+What: the commit command ends every report through `/work-bootstrap:handoff`,
+not only after a task's last commit: in the middle of a task it prints the
+next slice — a fresh session when the task's notes hold all the slice needs,
+`/compact <focus>` only while its decisions live in the conversation alone;
+after the last commit of a task or of a fix round, the review command as
+before.
+Supersedes: review-handover — "after a task's last commit or a round of
+review fixes".
+Check: checklist — "The commit command ends every report"; audit §5.
+Applies to: projects with a commit command.
