@@ -32,7 +32,7 @@ profile's issue language — that is a different setting.
    from the standard, the four required description sections, estimate
    basis, labels taken from the instance, descriptions written as ADF with other
    issues as cards and linked `relates to`; every question for someone
-   outside the team checked against its sources before it is posted.
+   outside the team checked against its sources as soon as it is drafted.
 
 4. **Say what it expects from the project**: a profile with `## Tracker` and
    `## Issues`, and tracker credentials. State which of the two are present here
