@@ -10,10 +10,13 @@ The harness exists; the job is to find the gaps, not to rewrite it.
 
 ## Delta or full
 
-**By default, only what changed in the method.** Read the baseline from
-`.claude/project-profile.md`, section `## Harness`, line `Baseline: <id>`.
-Take the entries of `${CLAUDE_PLUGIN_ROOT}/CHANGES.md` after that id and
-check each one's `Check:` against the project — nothing else. The report is
+**By default, only what changed in the method.** The baseline is the line
+`Baseline: <id>` in `.claude/project-profile.md`, section `## Harness`; the
+entries after it come from
+`python3 "${CLAUDE_PLUGIN_ROOT}/scripts/harness_behind.py" --entries`
+(`${CLAUDE_PLUGIN_ROOT}/reference/harness-behind.md`), whole —
+`CHANGES.md` itself is not read. Check each one's `Check:` against the
+project — nothing else. The report is
 one row per entry: the entry, its state in this project, the proposed action;
 an entry whose `Applies to:` does not fit is reported as not applicable.
 A `Check:` that names a template is read in the one file the index
