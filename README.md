@@ -50,6 +50,8 @@ workflow commands ship in a plugin instead of being written into the project.
   its credentials; without one the commands stop and say what is missing.
 - For `/work-estimation:export`: the `.xlsx` workbook template to fill; its map
   is proposed on the first export.
+- For `/work-tracker:check-actuals`: an adapter with the `worked` operation —
+  Jira today.
 
 ## Quick start
 

@@ -22,7 +22,9 @@ description may point at a sibling that does not exist yet when it is written.
 import base64
 import json
 import re
+import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 import uuid
 from pathlib import Path
@@ -505,6 +507,84 @@ def worklog(key, started, spent, text, leave_remaining=False):
     })["id"]
 
 
+def worklog_url(key, worklog_id):
+    return f"{url(key)}?focusedWorklogId={worklog_id}"
+
+
+_CATEGORY = {"new": "todo", "indeterminate": "progress", "done": "done"}
+
+
+def _worklogs(key, field):
+    """Every worklog of an issue. The search embeds up to twenty; past that the whole list
+    is read from the worklog endpoint, never stitched onto the embedded slice, whose order
+    the endpoint does not promise to share."""
+    logs = field.get("worklogs", [])
+    if field.get("total", 0) > len(logs):
+        logs, start = [], 0
+    else:
+        start = len(logs)
+    while start < field.get("total", 0):
+        page = call("GET", f"/rest/api/3/issue/{key}/worklog?startAt={start}&maxResults=1000")
+        logs += page["worklogs"]
+        start += len(page["worklogs"])
+        if not page["worklogs"]:
+            break
+    return [{"id": w["id"], "author": w.get("author", {}).get("displayName"),
+             "date": w["started"][:10], "hours": round(w["timeSpentSeconds"] / 3600, 2),
+             "text": text_of(w.get("comment") or {}).strip(), "url": worklog_url(key, w["id"])}
+            for w in logs]
+
+
+def checked_text(node):
+    """`text_of`, with each task-list item marked `[x]` or `[ ]` — a ticked acceptance
+    criterion is how far an issue in progress has got."""
+    if isinstance(node, dict) and node.get("type") == "taskItem":
+        mark = "[x] " if node.get("attrs", {}).get("state") == "DONE" else "[ ] "
+        return mark + "".join(checked_text(c) for c in node.get("content", [])) + "\n"
+    if isinstance(node, dict) and node.get("content"):
+        out = "".join(checked_text(c) for c in node["content"])
+        return out + "\n" if node.get("type") in ("paragraph", "listItem", "heading") else out
+    return text_of(node)
+
+
+def worked(jql, text=False, worklogs=False):
+    """Issues of a JQL with what the hours report reads — the form is
+    `reference/actuals.md`. Hours are decimal; `estimate` is Original Estimate. `text` adds
+    the description as plain text, task items marked, `worklogs` every worklog: both cost a
+    larger answer."""
+    fields = "summary,status,issuetype,labels,parent,assignee,timeoriginalestimate,timespent,resolution,resolutiondate"
+    fields += ",description" * text + ",worklog" * worklogs
+    out, token = [], None
+    while True:
+        path = f"/rest/api/3/search/jql?jql={urllib.parse.quote(jql)}&fields={fields}&maxResults=100"
+        if token:
+            path += f"&nextPageToken={urllib.parse.quote(token)}"
+        r = call("GET", path)
+        for i in r.get("issues", []):
+            f = i["fields"]
+            parent = f.get("parent")
+            item = {
+                "key": i["key"], "url": url(i["key"]), "summary": f["summary"],
+                "type": f["issuetype"]["name"], "status": f["status"]["name"],
+                "category": _CATEGORY.get(f["status"]["statusCategory"]["key"], "todo"),
+                "labels": f.get("labels") or [],
+                "parent": {"key": parent["key"], "summary": parent["fields"]["summary"]} if parent else None,
+                "assignee": (f.get("assignee") or {}).get("displayName"),
+                "estimate": f["timeoriginalestimate"] / 3600 if f.get("timeoriginalestimate") is not None else None,
+                "spent": round((f.get("timespent") or 0) / 3600, 2),
+                "resolution": (f.get("resolution") or {}).get("name"),
+                "resolved": (f.get("resolutiondate") or "")[:10] or None,
+            }
+            if text:
+                item["text"] = checked_text(f.get("description") or {}).strip()
+            if worklogs:
+                item["worklogs"] = _worklogs(i["key"], f.get("worklog") or {})
+            out.append(item)
+        token = r.get("nextPageToken")
+        if not token:
+            return out
+
+
 def transition(key, status):
     """Moves an issue to the status named `status` and returns it. The transition id is
     read from the issue, never guessed: ids differ between instances and workflows."""
@@ -703,3 +783,15 @@ def batch(project, nodes, dry_run=False, assignee=None, link_type="Relates", rew
                 log(f"{key:8} {link_type.lower()} {other}")
 
     return created
+
+
+if __name__ == "__main__":
+    # The one operation run from the shell: its answer is a file, not a context.
+    #   jira.py worked '<jql>' <out.json> [--text] [--worklogs]
+    flags = {a for a in sys.argv[1:] if a.startswith("--")}
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    if len(args) != 3 or args[0] != "worked" or flags - {"--text", "--worklogs"}:
+        sys.exit("usage: jira.py worked '<jql>' <out.json> [--text] [--worklogs]")
+    issues = worked(args[1], text="--text" in flags, worklogs="--worklogs" in flags)
+    Path(args[2]).write_text(json.dumps(issues, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"{args[2]}: {len(issues)} issues")

@@ -79,7 +79,7 @@ in the **plugin name**, and the command name stays short.
 | Plugin | Commands |
 | --- | --- |
 | `work-bootstrap` | `/work-bootstrap:new`, `:setup`, `:audit`, `:handoff`, `:help` |
-| `work-tracker` | `/work-tracker:plan`, `:create`, `:questions`, `:status`, `:comment`, `:next`, `:help` |
+| `work-tracker` | `/work-tracker:plan`, `:create`, `:questions`, `:status`, `:comment`, `:next`, `:check-actuals`, `:help` |
 | `work-estimation` | `/work-estimation:project`, `:update`, `:export`, `:help` |
 
 Two levels of filtering fall out of it: typing `work` lists everything shipped

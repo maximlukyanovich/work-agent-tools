@@ -34,6 +34,7 @@ rather than failing with "no tools found".
 | Operation | On Jira |
 | --- | --- |
 | `read` | MCP: the issue — description, acceptance criteria, comments, attachments, parent, links |
+| `worked` | `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/jira.py worked '<jql>' <out.json> [--text] [--worklogs]`; links to a worklog: `worklog_url(key, id)` |
 | `query` | One JQL through MCP: every open issue in scope with status, assignee, estimate, remaining time, links and parent, and every issue they link to |
 | `vocabulary` | Issue type ids from `createmeta` for the project, labels from `GET /rest/api/3/label`, link types from `GET /rest/api/3/issueLinkType`, statuses from the workflow API |
 | `create tree` | `jira.batch`, dry run included — `${CLAUDE_PLUGIN_ROOT}/reference/adapters/jira-batch.md` |
@@ -85,6 +86,10 @@ comment through MCP carries key and summary in the link text.
   Remaining is empty**; once set, an edit to the original leaves it alone, so a
   re-estimate sets both in the same request (`set_estimate(key, new,
   remaining=…)`).
+- **Time spent is the issue's own.** `timespent` holds only the worklogs on
+  the issue; `aggregatetimespent` adds its children's, an epic's tasks
+  included. `worked` reads the first, so an issue and its children in one
+  selection are never counted twice.
 - **Labels: Jira does not normalise case**, so `frontend` and `Frontend` live
   side by side forever.
 - **The flag** is the "Impediment" the board draws in red.
