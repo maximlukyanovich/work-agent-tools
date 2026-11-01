@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: batch-dry-run
+description: A dry run of an approved tree writes a batch script with dependencies and cards, runs it with --dry-run against a read-only Jira stub, and writes nothing to the tracker.
+tags: [create, batch]
+context:
+  scaffold_script: scaffold.sh

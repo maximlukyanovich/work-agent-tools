@@ -166,6 +166,16 @@ after the gate: every test passes — `python3 -m unittest discover -s tests`.
 They live outside the plugins, so a change to a test raises no plugin's
 version.
 
+A change to a command that has cases under its plugin's `evals/` runs them
+once, and the pull request names the scores — `claude plugin eval
+plugins/<plugin> --scaffold --runs 1 --ablation with-without --max-cost-usd 5
+--allow-tools Write Edit Bash "WebFetch(domain:localhost)"`. Each run is a paid
+session, so only then. Bash runs in the OS sandbox and reaches
+no network but the domains granted: a case that needs a tracker starts a
+read-only stub on the host, which the sandbox's proxy reaches as `localhost.`
+— a plain `localhost` is in the sandbox's `no_proxy`, and a direct connection
+from the sandbox does not reach the host.
+
 The pull request names the growth in bytes of every plugin text it changes;
 a notable growth is explained in its body or cut.
 
@@ -186,6 +196,7 @@ plugins/<name>/
   scripts/                        executed, never read into context
   templates/                      files a project copies unchanged; audit diffs the copy
   hooks/hooks.json                plugin hooks — run wherever the plugin is on
+  evals/<case>/                   claude plugin eval cases, run before a pull request
   README.md                       for people, links to the skill
 plugins/work-bootstrap/CHANGES.md method changes a set-up project carries over
 docs/design.md                    the model behind the plugins
