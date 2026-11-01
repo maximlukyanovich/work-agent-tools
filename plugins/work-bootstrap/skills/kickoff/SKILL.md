@@ -133,8 +133,8 @@ its yes is the approval this skill asks for.
    of the slice's diff for what else it changes. Before an edit to state,
    the transition table again, each row with its proof. A slice ends with
    its next step as code blocks: the commit command while it is
-   uncommitted; once committed and the plan goes on, continuing here after
-   `/compact <focus>` or in a fresh session. A phase ends at its boundary —
+   uncommitted; once committed and the plan goes on, a fresh session or
+   `/compact <focus>`, by `/work-bootstrap:handoff`'s criterion. A phase ends at its boundary —
    after a commit, one made outside the project's commit command included,
    after a review, before and after a merge — with `/work-bootstrap:handoff`,
    and the next one starts in a fresh session — a small change's stays here

@@ -51,7 +51,14 @@ session holds.
    | a review that reads ready | the task done: with `fix-now` ids open or techdebt rows to write, the fix prompt for them — the round's commit hands over the review of its delta, and that review the merge; without them, the merge command with the target. The merge command first only on the developer's word to ship now. Work left in the plan: "continue the task" | no |
    | before promoting | the merge command with the target | no |
    | after a merge | the start of the next task — `/work-jira:next` or the project's start command. Findings are not listed: by now each has its place; only a gap is named — an id still `open`, or a techdebt place whose row the file lacks | no |
-   | the next slice of a long phase | the goal, what is done, where the decisions are, the next step; findings the ledger holds open come before the slice | `/compact <focus>`, then go on |
+   | a commit in the middle of the plan, or the next slice of a long phase | the goal, what is done, where the decisions are, the next step; findings the ledger holds open come before the slice | `/compact <focus>`, then go on — by the criterion below |
+
+   **A fresh session or `/compact` for the next slice.** A fresh session
+   when the task's notes — `NEXT.md`, the plan, the decisions — hold all the
+   next slice needs; heavy context — screenshots, long logs — counts for it
+   too, since every tool call re-reads it. `/compact <focus>` only while the
+   slice's decisions live in the conversation alone, and better: write them
+   into the notes, then go fresh. The recommended block comes first.
 
    **Ready closes the range, not the task.** A verdict speaks for the commits
    the review read. Before the merge command, read the plan and the task's

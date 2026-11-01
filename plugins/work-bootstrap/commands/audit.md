@@ -62,8 +62,8 @@ does not raise it again.
    while the code does not change. Does a merging command read that ledger?
    Does a finding whose mechanism a ledger already holds end the report with
    a proposal to move it upstream?
-   Does the commit command, after a task's last commit, hand over the review
-   command with its range — from the last reviewed head after the first pass
+   Does the commit command hand over after every commit — mid-task the next
+   slice, after a task's last commit the review command with its range — from the last reviewed head after the first pass
    — or is the review left to someone's memory? Does a delta pass count, not
    list, the missed minors and nits in lines it does not change, mark a
    cheap and real one `fix-now`, and give every other one its place — a
@@ -86,6 +86,9 @@ does not raise it again.
    nobody looks with its condition, what a test asserts, which existing tests
    stay, tests of code conventions — and does the review's `test` lens grade
    by it, a removed guard and a false claim of coverage `major`?
+   Does the rubric ask the four questions — pairs that must agree, a new
+   path doing all the old one did, empty against unset and a repeat, new
+   text true in every outcome?
    Does a ready verdict read the plan and the task's notes before the merge
    command, and print "continue the task" while work is left? Does the
    review command say that no new work lands on a branch while its fix round

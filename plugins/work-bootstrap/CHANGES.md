@@ -633,3 +633,27 @@ instead. With `work-jira`, the rules are the `issues` skill's "Description",
 and `/work-jira:next` names the drift in its recommendation.
 Check: checklist — the task command item; audit §8.
 Applies to: projects whose task command reaches a tracker.
+
+## 2026-10-31 · review-four-questions
+
+What: the review command's rubric asks four questions for the classes human
+reviewers find most: pairs that must agree — read and write, display and
+submit, create, edit and copy, every entry point to one action — each checked
+against a changed rule; a new path doing everything the old one did besides
+its main effect; empty against unset, and a repeat that does not repeat a side
+effect; new text true in every outcome.
+Check: templates — the review command's rubric additions; audit §5.
+Applies to: projects with a review command.
+
+## 2026-10-31 · handoff-every-commit
+
+What: the commit command ends every report through `/work-bootstrap:handoff`,
+not only after a task's last commit: in the middle of a task it prints the
+next slice — a fresh session when the task's notes hold all the slice needs,
+`/compact <focus>` only while its decisions live in the conversation alone;
+after the last commit of a task or of a fix round, the review command as
+before.
+Supersedes: review-handover — "after a task's last commit or a round of
+review fixes".
+Check: checklist — "The commit command ends every report"; audit §5.
+Applies to: projects with a commit command.

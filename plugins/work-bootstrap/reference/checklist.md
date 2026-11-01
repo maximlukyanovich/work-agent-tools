@@ -83,9 +83,11 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       findings only), un-ignored in `.gitignore`; the review command passes
       `model=<name>` as the Agent call's model; synthesis and refutation
       stay with the session.
-- [ ] The commit command, after a task's last commit or a round of review
-      fixes, ends its report with the review command ready to paste: the
-      range — from the base for the first pass, from the last reviewed head
+- [ ] The commit command ends every report through
+      `/work-bootstrap:handoff`: in the middle of a task with the next slice
+      — a fresh session or `/compact`, by the handoff's criterion; after a
+      task's last commit or a round of review fixes with the review command
+      ready to paste: the range — from the base for the first pass, from the last reviewed head
       after it — what to skip, one code block per branch, and no prompt for
       what follows the review, which the review prints itself.
 - [ ] The commands that commit, review and merge take a target — a branch or
