@@ -68,12 +68,8 @@ an operation is missing — and lands here as a pull request, not in a project.
 | --- | --- |
 | `scripts/jira.py` | Jira REST v3 wrapper: descriptions assembled directly in ADF (`h`, `p`, `ul`, `checklist`, `doc`, issue cards), `batch` creating a tree in three passes — create, resolve references, link — plus estimates, assignment, issue links, transitions and worklogs. Coordinates come from the project profile, credentials from `.mcp.json`. |
 
-Why REST for writing: the `mcp-atlassian` layer rewrites Markdown into wiki
-markup and loses part of the formatting; task lists do not survive at all, and
-a comment's URL is stored as dead plain text. Descriptions and comments go
-through the script. MCP stays for reading and is fine for statuses and
-worklogs; a script that posts a result in one run uses `jira.transition` and
-`jira.worklog`.
+Why the script writes and MCP reads: [the Jira adapter](reference/adapters/jira.md),
+"Writing the text".
 
 ## The one hard prerequisite
 

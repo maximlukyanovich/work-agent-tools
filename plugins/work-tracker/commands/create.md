@@ -18,7 +18,7 @@ prints what would be created and exits.
    for confirmation, not trusted silently.
 
 2. **Load conventions and coordinates.** The `issues` skill, the profile's
-   `## Tracker` and `## Issues`, and the adapter it names (`issues`, "The adapter"). Access as the
+   `## Tracker` and `## Issues`, and the adapter the profile names (`issues`, "The adapter"). Access as the
    adapter names it; missing access stops the command with the fix, not with
    a stack trace.
 
@@ -27,8 +27,7 @@ prints what would be created and exits.
    question for the developer, never a side effect.
 
 4. **Write the batch script** — the adapter's `create tree` names its format. One node per issue, parents
-   first; `blocks` a function of `h`, `p`, `ul`, `checklist` in the section order
-   the skill fixes, `Estimate` last on tasks and absent on epics. Another issue is
+   first; each description in the section order the skill fixes, `Estimate` last on tasks and absent on epics. Another issue is
    referenced as a card — `[[PROJ-7]]` when it exists, `[[@<summary>]]` when it is
    in this batch — and every reference becomes a `relates to` link. A dependency
    the plan approved goes into the node's `blocked_by`, never into a hand-made
@@ -60,9 +59,8 @@ prints what would be created and exits.
 7. **Run.** The batch does the three passes: create top-down with estimates
    and assignee; render every new description again and update the ones whose
    references resolved; link each issue to the issues it references. A re-run
-   after a partial failure skips existing summaries — `rewrite=True` only when
-   the failure was between the passes, since a rewrite unticks acceptance
-   criteria.
+   after a partial failure skips existing summaries — a rewrite only when the
+   failure was between the passes; the batch format says what a rewrite loses.
 
 8. **Report** one line per issue: key, type, estimate, summary, version,
    priority. Then the descriptions updated in pass two, the `Blocks` links as
@@ -83,9 +81,8 @@ prints what would be created and exits.
   to the manager or the analyst.
 - **On a failure, stop.** Report what was created and what was not; do not
   continue past an error to "finish the batch".
-- **A Task does not become a Sub-task through the API.** Restructuring
-  existing issues under new stories is done by the developer in the UI
-  (Bulk change → Move, or Convert to Sub-task), after the stories exist;
+- **A restructuring the adapter cannot make through the API** is done by the
+  developer in the UI, after the new stories exist;
   the command then verifies type, parent, label and estimate of every moved
   issue instead of assuming. Renaming summaries afterwards breaks every
   `[[@summary]]` in the batch scripts — update the scripts in the same step,

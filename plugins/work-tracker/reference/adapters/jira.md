@@ -1,6 +1,7 @@
 # Jira adapter
 
-The operations the method asks of the tracker, on Jira Cloud. Writing goes
+The operations the method asks of the tracker, on Jira Cloud only — Server and
+Data Center are not covered. Writing goes
 through `${CLAUDE_PLUGIN_ROOT}/scripts/jira.py`, REST v3 with descriptions in
 ADF; reading goes through the Atlassian MCP server. A script that imports the
 module runs with `PYTHONPATH=${CLAUDE_PLUGIN_ROOT}/scripts`. The form is
@@ -37,8 +38,8 @@ rather than failing with "no tools found".
 | `vocabulary` | Issue type ids from `createmeta` for the project, labels from `GET /rest/api/3/label`, link types from `GET /rest/api/3/issueLinkType`, statuses from the workflow API |
 | `create tree` | `jira.batch`, dry run included — `${CLAUDE_PLUGIN_ROOT}/reference/adapters/jira-batch.md` |
 | `describe` | `describe(key, doc)` replaces a description; `resolve(key)` patches its unresolved references in place |
-| `comment` | `comment(key, doc)`, `edit_comment(key, id, doc)`, `comment(..., reply_to=<root id>)` — the editor's Reply; `thread(key, root_id)` reads a thread; `comment_url(key, id)` is the link handed back |
-| `mention` | An ADF `mention` node with the account id; `mention(name)` and `header(title, *names)` read the id from the team file |
+| `comment` | `comment(key, doc(header(...), ul([...])))` — `doc` takes the blocks a description does, `edit_comment(key, id, doc)`, `comment(..., reply_to=<root id>)` — the editor's Reply; `thread(key, root_id)` reads a thread; `comment_url(key, id)` is the link handed back |
+| `mention` | An ADF `mention` node with the account id; `mention(name)` and `header(title, *names)` — a whole first paragraph — read the id from the team file |
 | `transition` | `transition(key, status)` matches the name against the transitions the issue offers |
 | `estimate` | `set_estimate(key, estimate, remaining=None)` |
 | `worklog` | `worklog(key, started, spent, text, leave_remaining=False)` |
@@ -53,7 +54,8 @@ Descriptions go to the API as ADF through
 The MCP converter rewrites Markdown into wiki markup and loses formatting on the
 way: a link under bold loses its target, bold inside a list item becomes literal
 asterisks, and task lists do not survive at all. The node format and the inline
-notation of a batch are in `jira-batch.md`.
+notation of a batch are in
+`${CLAUDE_PLUGIN_ROOT}/reference/adapters/jira-batch.md`.
 
 Consequences worth knowing:
 
@@ -70,7 +72,8 @@ Consequences worth knowing:
 MCP remains the right tool for reading issues, moving statuses and logging
 work. Comments go the same way as descriptions — `comment()` / `edit_comment()`
 in the script — as soon as they carry a link or code: posted as Markdown, a URL
-is stored as plain text and Jira does not auto-link it.
+is stored as plain text and Jira does not auto-link it, and a key is no card — a
+comment through MCP carries key and summary in the link text.
 
 ## Fields
 
@@ -85,6 +88,8 @@ is stored as plain text and Jira does not auto-link it.
 - **Labels: Jira does not normalise case**, so `frontend` and `Frontend` live
   side by side forever.
 - **The flag** is the "Impediment" the board draws in red.
+- **A Task does not become a Sub-task through the API**: the developer moves it
+  in the UI — Bulk change → Move, or Convert to Sub-task.
 
 ## Reactions and notifications
 

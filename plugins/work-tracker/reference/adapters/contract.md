@@ -41,8 +41,10 @@ An adapter states each one; the method reads them before it offers a step.
 
 ## Writing an adapter
 
-A file `reference/adapters/<system>.md` in the form of `jira.md`: the
-operations with the call for each, the capabilities, then what the tracker
+A file `reference/adapters/<system>.md` in the form of `jira.md`: a first
+line naming the deployments it covers, the operations with the call for each,
+the capabilities, "Writing the text" — what a format converter loses and how
+the editor renders headings, task lists and code — then what else the tracker
 does that a writer would not expect — each fact checked against the tracker's
 documentation or a probe. A script in `scripts/` when the tracker needs one.
 It lands in this plugin as a pull request, never in a project: an adapter is

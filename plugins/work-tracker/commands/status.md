@@ -10,7 +10,7 @@ moved, no comment posted.
 
 ## Steps
 
-1. **Read the issue** and its acceptance criteria, through the adapter it names (`issues`, "The adapter").
+1. **Read the issue** and its acceptance criteria, through the adapter the profile names (`issues`, "The adapter").
 
 2. **Check each criterion against the code**, not against the status field. Cite
    the file and line that satisfies it, or say plainly that nothing does.

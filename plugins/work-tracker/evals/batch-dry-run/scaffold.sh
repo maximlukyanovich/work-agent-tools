@@ -3,14 +3,14 @@
 # stub on the host. The stub is reached through the sandbox's proxy: JIRA_URL names
 # `localhost.`, which no_proxy does not match, so the request leaves the sandbox
 # and the proxy resolves it to the host. The stub journals every request in
-# .stub/requests.log and exits on its own after ten minutes.
+# .stub/requests.log and exits on its own after thirty minutes.
 set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 git init -q -b main .
 git config commit.gpgsign false
 printf 'docs/local/\n.mcp.json\n.stub/\n' > .gitignore
 mkdir -p .claude docs/local/plans .stub
-setsid nohup python3 "$HERE/fake_jira.py" "$PWD/.stub/requests.log" "$PWD/.stub/port" \
+nohup python3 "$HERE/fake_jira.py" "$PWD/.stub/requests.log" "$PWD/.stub/port" \
   >/dev/null 2>&1 < /dev/null &
 for _ in $(seq 50); do [ -s .stub/port ] && break; python3 -c 'import time; time.sleep(0.1)'; done
 PORT="$(cat .stub/port)"

@@ -1,6 +1,7 @@
 """A read-only Jira for the eval: answers the GETs a dry run of a batch makes and
 records every request in the journal the graders read. A write is answered 405.
-Writes its port to argv[2] and exits on its own after ten minutes."""
+Writes its port to argv[2], leaves the caller's session so the scaffold's end does
+not take it down, and exits on its own after thirty minutes."""
 import json
 import os
 import sys
@@ -9,6 +10,11 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import urlparse
 
 JOURNAL = sys.argv[1]
+open(JOURNAL, "a").close()
+try:
+    os.setsid()
+except PermissionError:
+    pass
 EXISTING = {"PROJ-7": ("Design tokens", "Task", ["Frontend"]),
             "PROJ-9": ("Payments API", "Task", ["Backend"])}
 TYPES = [{"id": str(10000 + i), "name": n} for i, n in enumerate(["Epic", "Story", "Task", "Sub-task", "Bug"])]
@@ -75,5 +81,5 @@ class Handler(BaseHTTPRequestHandler):
 server = HTTPServer(("127.0.0.1", 0), Handler)
 with open(sys.argv[2], "w") as f:
     f.write(str(server.server_address[1]))
-threading.Timer(600, lambda: os._exit(0)).start()
+threading.Timer(1800, lambda: os._exit(0)).start()
 server.serve_forever()

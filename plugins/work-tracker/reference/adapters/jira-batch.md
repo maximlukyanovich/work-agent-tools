@@ -29,6 +29,7 @@ once to create the issue and once more after the whole batch exists, when every
 reference can be resolved.
 
 ```python
+import sys
 import jira
 from jira import h, p, ul, checklist
 

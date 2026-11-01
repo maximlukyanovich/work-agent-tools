@@ -678,8 +678,11 @@ tracker's transport, Jira its recommended adapter. `work-jira` stays frozen at
 1.2.0 until a later release takes it out of the catalogue. A project moves:
 `work-tracker@mluk-work-agent-tools` enabled where `work-jira` was and
 `work-jira` off; every `/work-jira:` in the harness becomes `/work-tracker:`,
-and a line naming the `work-jira` plugin's script names `work-tracker`; the
-profile's `## Tracker` names the system on its `System` line.
+and a line naming the `work-jira` plugin's script names `work-tracker`; a
+batch script in the local notes that puts a path to `jira.py` on `sys.path`
+drops that line and runs through `PYTHONPATH` (the adapter's `jira-batch.md`);
+the profile's `## Tracker` names the system on its `System` line.
 Check: checklist — "The plugin set is recorded where Q10 put it"; no
-`work-jira` in the settings file or the harness files.
+`work-jira` in the settings file or the harness files, and no script in the
+local notes puts a plugin-cache path on `sys.path`.
 Applies to: projects with `work-jira`.

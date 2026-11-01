@@ -23,7 +23,8 @@ What the tracker does — its calls, its format, its quirks — is its adapter:
 `${CLAUDE_PLUGIN_ROOT}/reference/adapters/<system>.md`, the first word of the
 `System` line in `## Tracker` in lower case (`Jira Cloud, …` → `jira.md`). No
 `System` line — `jira.md`, the recommended adapter. A system with no adapter
-here stops the command with that sentence; an adapter is written to
+here — or a deployment its adapter's first line does not cover — stops the
+command with that sentence; an adapter is written to
 `${CLAUDE_PLUGIN_ROOT}/reference/adapters/contract.md`, in this plugin.
 
 **An operation the tracker lacks skips its step**, named in the command's
@@ -99,8 +100,7 @@ epic's `Scope` lists the areas, and the numbers live on the tasks.
 **Another issue is referenced as an inline card**, never as a bare key or a
 plain link: `[[PROJ-7]]` for an existing issue, `[[@<summary>]]` for one in the
 same batch that may not exist yet. The tracker renders the card with key, summary and
-status and keeps them current. Where a card cannot be produced — a comment
-posted through MCP — the link text carries key and summary, `PROJ-7 Domain
+status and keeps them current. Where the adapter cannot produce a card, the link text carries key and summary, `PROJ-7 Domain
 components`, so the reader does not have to open it.
 
 **The description is current when work starts and when the issue goes to
@@ -257,7 +257,7 @@ Descriptions and comments go to the tracker through its adapter, in the
 tracker's own format, and a tree is created in one batch that creates, resolves
 the references and links — so a description may point at a sibling that does
 not exist yet. What a format converter loses and how the editor renders
-headings, task lists and code: `${CLAUDE_PLUGIN_ROOT}/reference/adapters/jira.md`.
+headings, task lists and code: the adapter's "Writing the text".
 
 ## People
 
@@ -285,9 +285,9 @@ someone outside the team is checked by the `question-drafts` skill first.
 
 - **Into the project profile** — anything the developer decided, and anything
   that would otherwise be asked twice.
-- **Into the adapter, as a merge to this plugin** — anything true of the
-  tracker for every project: a quirk of the editor, a field missing from a
-  screen, an API that contradicts its documentation.
+- **Into this plugin, as a merge** — anything true for every project; a fact
+  of the tracker — a quirk of the editor, a field missing from a screen, an API
+  that contradicts its documentation — into its adapter.
 - **Nowhere** — anything the API answers in one call. Labels, type ids, statuses.
   A copy becomes a second truth that goes stale in silence.
 

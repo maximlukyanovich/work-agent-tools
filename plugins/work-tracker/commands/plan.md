@@ -14,7 +14,7 @@ call — ask which part of the estimate to plan, listing what is available.
 ## Steps
 
 1. **Load the conventions.** The `issues` skill, then
-   `.claude/project-profile.md` and the adapter it names (`issues`, "The adapter"). If the profile lacks `## Tracker` or
+   `.claude/project-profile.md` and the adapter the profile names (`issues`, "The adapter"). If the profile lacks `## Tracker` or
    `## Issues`, run the batch from `${CLAUDE_PLUGIN_ROOT}/reference/first-run.md` first and write the
    answers — do not plan on guesses.
 

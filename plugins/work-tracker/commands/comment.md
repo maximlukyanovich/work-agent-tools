@@ -19,7 +19,7 @@ being told to.
 2. **List them** — one line per issue, `KEY — summary` — and ask which to comment
    on: all, a subset, or none.
 
-3. **Check each issue's description first**, read through the adapter it names (`issues`, "The adapter"). QA tests against it: what shipped,
+3. **Check each issue's description first**, read through the adapter the profile names (`issues`, "The adapter"). QA tests against it: what shipped,
    what moved to other issues (cards) and the known limits must be there. A
    description that has gone stale is offered for an update before the
    comment, with the same choice as at the start — the `issues` skill,

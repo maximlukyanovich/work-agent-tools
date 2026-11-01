@@ -283,10 +283,12 @@ class BatchTest(JiraTest):
 
 class FrozenCopyTest(unittest.TestCase):
     """work-jira is frozen beside its replacement until a release removes it; the two scripts
-    stay one, so a fix made to one of them only is caught here."""
+    stay one but for the path to the batch format, so a fix made to one of them only is
+    caught here."""
 
     def test_work_jira_holds_the_same_script(self):
-        self.assertEqual((PLUGINS / "work-jira" / "scripts" / "jira.py").read_bytes(),
+        frozen = (PLUGINS / "work-jira" / "scripts" / "jira.py").read_bytes()
+        self.assertEqual(frozen.replace(b"reference/batch.md", b"reference/adapters/jira-batch.md"),
                          (SCRIPTS / "jira.py").read_bytes())
 
 

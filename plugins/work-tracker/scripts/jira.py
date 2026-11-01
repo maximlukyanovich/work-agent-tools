@@ -590,7 +590,7 @@ def batch(project, nodes, dry_run=False, assignee=None, link_type="Relates", rew
           fix_version=None, log=print):
     """Creates a tree of issues in three passes; returns summary -> key for the batch.
 
-    The node format is documented in reference/batch.md. In short: parents come before
+    The node format is documented in reference/adapters/jira-batch.md. In short: parents come before
     children; `blocks` is a function returning the description blocks, so pass two can
     render it again once every key is known; `parent` is a summary from this batch or an
     existing key.

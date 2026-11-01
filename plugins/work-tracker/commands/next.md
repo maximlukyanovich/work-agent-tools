@@ -21,7 +21,7 @@ can reach only one of them says so and ranks on what it has.
    whole project. Default: `mine`, falling back to `all` when nothing is
    assigned.
 
-2. **Read the tracker**, through the adapter it names (`issues`, "The adapter"). Every open issue in scope — status, assignee, estimate,
+2. **Read the tracker**, through the adapter the profile names (`issues`, "The adapter"). Every open issue in scope — status, assignee, estimate,
    remaining time, issue links, parent — and every issue it links to, since a
    dependency may sit outside the scope. Read the links of each candidate's
    story and epic too: a dependency set once on the parent holds for every

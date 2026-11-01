@@ -10,7 +10,7 @@ them is cheap. **Read-only.**
 
 ## Steps
 
-1. **Read the issue**, through the adapter it names (`issues`, "The adapter"): description, acceptance criteria, comments, attachments,
+1. **Read the issue**, through the adapter the profile names (`issues`, "The adapter"): description, acceptance criteria, comments, attachments,
    parent, linked issues.
 
 2. **Read what it points at**: the spec section, the design screen, related
