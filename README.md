@@ -29,8 +29,8 @@ Each plugin is enabled on its own, so a project takes only what fits.
 - `work-tracker` — work tracked in an issue tracker: issues created to one
   standard, statuses, comments, worklog. Jira Cloud is the recommended tracker
   and its adapter ships with the plugin; another tracker gets an adapter here,
-  written to the plugin's contract. It replaces `work-jira`, which is frozen and
-  marked "Replaced by" in the catalogue.
+  written to the plugin's contract. It replaced `work-jira`; the catalogue's
+  `renames` moves a project that still enables the old name.
 - `work-estimation` — a project estimated before it starts, from a spec and a
   design handoff.
 
@@ -146,7 +146,6 @@ or here for a small change. An estimate starts with
 | --- | --- | --- |
 | [`work-bootstrap`](plugins/work-bootstrap/README.md) | generator + audit | Start a project in an empty folder; initialise or audit a repository's agent harness: `AGENTS.md`, the project profile, workflow commands, skills, hooks, MCP, docs. A session-start hook says when a set-up project is behind the method. |
 | [`work-tracker`](plugins/work-tracker/README.md) | library | Tracker work to one standard: `plan`, `create`, `questions`, `status`, `comment`, `next` — hierarchy, description shape, statuses, comments, worklog. Jira is its recommended adapter; another tracker gets an adapter by its contract. Reads the project profile. |
-| [`work-jira`](plugins/work-jira/README.md) | replaced | Replaced by `work-tracker`; frozen at 1.2.0 until a later release removes it. |
 | [`work-estimation`](plugins/work-estimation/README.md) | library | Estimate a project from a spec and a design handoff: `project`, `update`, `export` — decomposition, provenance audit, a markdown report and the estimate workbook. |
 
 ## Versions and updates

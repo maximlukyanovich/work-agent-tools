@@ -5,7 +5,6 @@ jira.py writes to a live Jira, so nothing here reaches one. The credentials are 
 is answered from a dictionary of paths, a POST or a PUT is only recorded.
 """
 
-import ast
 import json
 import os
 import subprocess
@@ -344,31 +343,6 @@ class BatchTest(JiraTest):
         ])
         self.assertEqual(created, {})
         self.assertEqual(fake.writes(), [])
-
-
-class FrozenCopyTest(unittest.TestCase):
-    """work-jira is frozen beside its replacement until a release removes it. Every definition
-    of its script stays in work-tracker's as it is, but for the path to the batch format, so a
-    fix made to one of them only is caught here; what work-tracker adds is its own."""
-
-    @staticmethod
-    def definitions(source):
-        out = {}
-        for n in ast.parse(source).body:
-            if isinstance(n, (ast.Import, ast.ImportFrom)):
-                out.update({("import", a.name): "" for a in n.names})
-            elif isinstance(n, (ast.FunctionDef, ast.ClassDef)):
-                out[n.name] = ast.dump(n)
-            elif isinstance(n, (ast.Assign, ast.AnnAssign)):
-                out[ast.unparse(n.targets[0] if isinstance(n, ast.Assign) else n.target)] = ast.dump(n)
-        return out
-
-    def test_work_jira_holds_the_same_script(self):
-        frozen = (PLUGINS / "work-jira" / "scripts" / "jira.py").read_text()
-        frozen = self.definitions(frozen.replace("reference/batch.md", "reference/adapters/jira-batch.md"))
-        current = self.definitions((SCRIPTS / "jira.py").read_text())
-        for name, body in frozen.items():
-            self.assertEqual(body, current.get(name), name)
 
 
 class ConfigTest(unittest.TestCase):

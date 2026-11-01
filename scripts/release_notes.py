@@ -4,7 +4,8 @@
 Output, Markdown on stdout, prepended to the generated list of pull requests:
   ## Plugins — `Plugin | Version | Was | Change`, one row per plugin in either catalogue; Change is
      major, minor, patch, new (no version before), removed, lowered or — (unchanged);
-  ## Action needed — every plugin raised by a major, every plugin removed from the catalogue, and
+  ## Action needed — every plugin raised by a major, every plugin removed from the catalogue (or
+     renamed through its `renames`), and
      every CHANGES.md entry added since <previous-tag> with the first sentence of its `What:`, under
      the audit command that applies it; "Nothing." when there is none.
 
@@ -78,6 +79,7 @@ for r in (previous, ref):
         sys.exit(2)
 
 before, after = catalogue(previous), catalogue(ref)
+renames = json.loads(show(ref, ".claude-plugin/marketplace.json") or "{}").get("renames", {})
 rows, actions = [], []
 for name, (now, source) in after.items():
     was = before.get(name, (None, None))[0]
@@ -88,7 +90,13 @@ for name, (now, source) in after.items():
 for name, (was, _) in before.items():
     if name not in after:
         rows.append(f"| `{name}` | — | {was or '—'} | removed |")
-        actions.append(f"- `{name}` is removed from the catalogue: a project that enables it drops it from its settings.")
+        if renames.get(name) in after:
+            new = renames[name]
+            actions.append(f"- `{name}` is removed and renamed to `{new}`: Claude Code rewrites the key in a project's "
+                           f"`enabledPlugins`; the project installs `{new}` once — `claude plugin install {new}@<marketplace>` — "
+                           f"and the pull requests below say what else the move needs.")
+        else:
+            actions.append(f"- `{name}` is removed from the catalogue: a project that enables it drops it from its settings.")
 for name, (_, source) in after.items():
     old = entries(previous, source)
     added = [(i, body) for i, body in entries(ref, source).items() if i not in old]

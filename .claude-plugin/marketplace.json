@@ -6,6 +6,9 @@
     "name": "Maxim Lukyanovich",
     "email": "maximlukyanovich94@gmail.com"
   },
+  "renames": {
+    "work-jira": "work-tracker"
+  },
   "plugins": [
     {
       "name": "work-bootstrap",
@@ -17,12 +20,6 @@
       "name": "work-estimation",
       "description": "Estimate a project from a spec and a design handoff: decomposition, provenance audit, markdown report and the estimate workbook.",
       "source": "./plugins/work-estimation",
-      "category": "workflow"
-    },
-    {
-      "name": "work-jira",
-      "description": "Replaced by work-tracker — the same commands and script under a new prefix; frozen, and removed in a later release. Move with /work-bootstrap:audit.",
-      "source": "./plugins/work-jira",
       "category": "workflow"
     },
     {
