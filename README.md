@@ -6,6 +6,11 @@ work to one standard — Jira the recommended tracker — and estimates from a s
 grown on commercial projects and open to anyone — the rules are opinionated,
 and each project tunes them through its own profile.
 
+With the harness it writes, a task runs from the board to the merge as a chain
+of commands, each ending with the next one ready to paste: the developer picks
+and approves, the agent does the rest — plan, code, checks, review, commit, the
+tracker's comment and worklog.
+
 One repository: it is both the marketplace (`mluk-work-agent-tools`) and the
 home of the plugins.
 
