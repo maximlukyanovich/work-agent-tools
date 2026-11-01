@@ -1,10 +1,10 @@
 ---
-description: What work-jira can do — commands, the order they are applied in, and the conventions it carries.
+description: What work-tracker can do — commands, the order they are applied in, and the conventions it carries.
 argument-hint: '[<language code>]'
 disable-model-invocation: true
 ---
 
-# /work-jira:help
+# /work-tracker:help
 
 Introduce this plugin. **Read-only**, changes nothing, safe at any time.
 
@@ -20,22 +20,23 @@ profile's issue language — that is a different setting.
 2. **Show the usual order**, since it does not follow from the names:
 
    ```
-   /work-jira:plan      propose the tree, get it approved
-   /work-jira:create    create it
-   /work-jira:next      pick what to take next — unblocked, by what it unblocks
-   /work-jira:questions collect what is still unclear on an issue
-   /work-jira:status    check whether an issue is really done
-   /work-jira:comment   post the result comment, ask for the status, offer a worklog
+   /work-tracker:plan       propose the tree, get it approved
+   /work-tracker:create     create it
+   /work-tracker:next       pick what to take next — unblocked, by what it unblocks
+   /work-tracker:questions  collect what is still unclear on an issue
+   /work-tracker:status     check whether an issue is really done
+   /work-tracker:comment    post the result comment, ask for the status, offer a worklog
    ```
 
 3. **Name the conventions it carries**, in two or three lines each: hierarchy
    from the standard, the four required description sections, estimate
-   basis, labels taken from the instance, descriptions written as ADF with other
-   issues as cards and linked `relates to`; every question for someone
+   basis, labels taken from the instance, descriptions in the tracker's own
+   format through its adapter, other issues as cards and linked `relates to`; every question for someone
    outside the team checked against its sources as soon as it is drafted.
 
 4. **Say what it expects from the project**: a profile with `## Tracker` and
-   `## Issues`, and tracker credentials. State which of the two are present here
+   `## Issues`, and access to the tracker as its adapter names it — Jira's
+   ships here and is the recommended one. State which of the two are present here
    — one line each, no diagnostics beyond that.
 
 5. **Point at the skill** for the full rules: `${CLAUDE_PLUGIN_ROOT}/skills/issues/SKILL.md`.

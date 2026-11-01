@@ -7,10 +7,9 @@ Never ask what can be derived. Derive first:
 
 | What | From |
 | --- | --- |
-| Instance URL, project key | the profile, else `.mcp.json` / `.env` |
-| Allowed labels | `GET /rest/api/3/label` |
-| Issue types and their ids | `createmeta` for the project |
-| Workflow statuses | the workflow API |
+| Tracker system | the profile's `## Tracker`, else the adapter whose access the project has |
+| Instance URL, project key | the profile, else the adapter's access |
+| Allowed labels, issue types, workflow statuses | the adapter's `vocabulary` |
 | Platform, branches | `git remote`, `git branch` |
 | Stack, quality commands | `package.json`, `pyproject.toml`, config files |
 
@@ -46,7 +45,8 @@ Each carries a recommended default, so the answer can be a nod.
 
 ## What to write
 
-Into `.claude/project-profile.md`, sections `## Tracker` and `## Issues`. Create
+Into `.claude/project-profile.md`, sections `## Tracker` — its `System` line
+names the tracker — and `## Issues`. Create
 the file if it is absent; append the sections if it exists without them; never
 rewrite sections owned by another plugin.
 
@@ -54,6 +54,5 @@ Record deviations from the standard together with the reason for them.
 
 ## The one hard prerequisite
 
-Credentials for the tracker. Without a working `.mcp.json` the command stops and
-says how to get one — copy `.env.example`, fill it in, run the project's mcp sync
-— rather than failing with "no tools found".
+Access to the tracker, as its adapter names it. Without it the command stops
+and says how to get it, rather than failing with "no tools found".

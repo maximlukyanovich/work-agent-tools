@@ -1,6 +1,6 @@
 ---
 name: question-drafts
-description: How a question or notice for someone outside the team is checked before it is shown or posted — the sources it is held against, the table for the developer, where it is posted, the chat digest. Use for any such draft, from /work-jira:questions, a plan, a review or a register.
+description: How a question or notice for someone outside the team is checked before it is shown or posted — the sources it is held against, the table for the developer, where it is posted, the chat digest. Use for any such draft, from /work-tracker:questions, a plan, a review or a register.
 license: MIT
 metadata:
   author: Maxim Lukyanovich
@@ -14,7 +14,7 @@ metadata:
 Any draft of a question or a notice for someone outside the team — a
 designer, an analyst, the product owner, the backend — as soon as the list is
 formed, before the developer first sees it, wherever it was written:
-`/work-jira:questions`, a plan, a review, a register of discrepancies, a
+`/work-tracker:questions`, a plan, a review, a register of discrepancies, a
 message outside the tracker. A draft ages — the plan moves on, a decision
 lands — so before posting, one from an earlier session, or one that answers
 have reached since, is checked again.

@@ -3,12 +3,12 @@ description: Draft and post a result comment on the issues a branch touched, ask
 argument-hint: '[<target branch>]'
 ---
 
-# /work-jira:comment
+# /work-tracker:comment
 
 Close the loop on the issues a branch delivered: what shipped, in their language,
 on their issues.
 
-**Posts to Jira and moves statuses**, but never without showing the text and
+**Posts to the tracker and moves statuses**, but never without showing the text and
 being told to.
 
 ## Steps
@@ -19,7 +19,7 @@ being told to.
 2. **List them** — one line per issue, `KEY — summary` — and ask which to comment
    on: all, a subset, or none.
 
-3. **Check each issue's description first.** QA tests against it: what shipped,
+3. **Check each issue's description first**, read through the adapter it names (`issues`, "The adapter"). QA tests against it: what shipped,
    what moved to other issues (cards) and the known limits must be there. A
    description that has gone stale is offered for an update before the
    comment, with the same choice as at the start — the `issues` skill,
@@ -29,7 +29,7 @@ being told to.
    `${CLAUDE_PLUGIN_ROOT}/reference/handover-status.md`.
 
 4. **Draft each comment** and show it in the chat for review. A comment that
-   addresses or mentions someone takes the person and the account id from the
+   addresses or mentions someone takes the person and the tracker id from the
    project's team file (`${CLAUDE_PLUGIN_ROOT}/reference/team.md`). Shape:
 
    - A header of one readable sentence with the merge request as a link whose

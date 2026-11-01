@@ -1,13 +1,13 @@
 ---
 name: issues
-description: Conventions for creating and running Jira issues — hierarchy, description shape, estimates, labels, and the formatting quirks of the Atlassian editor. Use when creating, editing or reviewing a Jira issue, or when planning how a scope decomposes into a tree of issues.
+description: Conventions for creating and running issues in the project's tracker (Jira, Linear, …) — hierarchy, description shape, estimates, labels, and the tracker's adapter. Use when creating, editing or reviewing an issue, or when planning how a scope decomposes into a tree of issues.
 license: MIT
 metadata:
   author: Maxim Lukyanovich
   source: https://github.com/maximlukyanovich/work-agent-tools
 ---
 
-# Jira issues
+# Issues
 
 This standard is the default. The project profile overrides it. What the
 developer says in the current session overrides both.
@@ -16,6 +16,20 @@ Read `.claude/project-profile.md` before anything else. If its `## Tracker` or
 `## Issues` sections are missing, ask the six questions in
 `${CLAUDE_PLUGIN_ROOT}/reference/first-run.md` and write the answers
 there — the second run must not ask again.
+
+## The adapter
+
+What the tracker does — its calls, its format, its quirks — is its adapter:
+`${CLAUDE_PLUGIN_ROOT}/reference/adapters/<system>.md`, the first word of the
+`System` line in `## Tracker` in lower case (`Jira Cloud, …` → `jira.md`). No
+`System` line — `jira.md`, the recommended adapter. A system with no adapter
+here stops the command with that sentence; an adapter is written to
+`${CLAUDE_PLUGIN_ROOT}/reference/adapters/contract.md`, in this plugin.
+
+**An operation the tracker lacks skips its step**, named in the command's
+report in one line — `Skipped: worklog — the tracker has no time tracking`.
+Nothing is emulated in silence, and a capability the profile declines
+(`worklog: not used`) is skipped the same way.
 
 ## Hierarchy
 
@@ -84,7 +98,7 @@ epic's `Scope` lists the areas, and the numbers live on the tasks.
 
 **Another issue is referenced as an inline card**, never as a bare key or a
 plain link: `[[PROJ-7]]` for an existing issue, `[[@<summary>]]` for one in the
-same batch that may not exist yet. Jira renders the card with key, summary and
+same batch that may not exist yet. The tracker renders the card with key, summary and
 status and keeps them current. Where a card cannot be produced — a comment
 posted through MCP — the link text carries key and summary, `PROJ-7 Domain
 components`, so the reader does not have to open it.
@@ -162,7 +176,7 @@ standard, and a copy drifts from it. The same goes for anything else that has on
 canonical home.
 
 **No meta-blocks about the issue itself.** "We split this task", "renamed from
-…" — that is Jira's history, not the scope of the work. A companion issue belongs
+…" — that is the tracker's history, not the scope of the work. A companion issue belongs
 in `Out of scope`, not in a preamble about the issue's own life.
 
 ## Naming things

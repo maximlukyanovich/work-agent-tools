@@ -1,12 +1,12 @@
 ---
-description: Propose how a scope decomposes into a tree of Jira issues, and the shape of their descriptions, then wait for approval.
+description: Propose how a scope decomposes into a tree of tracker issues, and the shape of their descriptions, then wait for approval.
 argument-hint: '[<scope name or estimate file>]'
 ---
 
-# /work-jira:plan
+# /work-tracker:plan
 
 Turn a scope into a proposed tree of issues. **Nothing is created here** —
-`/work-jira:create` does that, and only after this plan is approved.
+`/work-tracker:create` does that, and only after this plan is approved.
 
 `$1` names the scope: an epic to plan, or the estimate file to read it from. Bare
 call — ask which part of the estimate to plan, listing what is available.
@@ -14,7 +14,7 @@ call — ask which part of the estimate to plan, listing what is available.
 ## Steps
 
 1. **Load the conventions.** The `issues` skill, then
-   `.claude/project-profile.md`. If the profile lacks `## Tracker` or
+   `.claude/project-profile.md` and the adapter it names (`issues`, "The adapter"). If the profile lacks `## Tracker` or
    `## Issues`, run the batch from `${CLAUDE_PLUGIN_ROOT}/reference/first-run.md` first and write the
    answers — do not plan on guesses.
 
@@ -67,11 +67,11 @@ call — ask which part of the estimate to plan, listing what is available.
    is the description shape right, and which optional sections to include.
 
 8. **End with the next step** once the answers are in:
-   `/work-jira:create <epic or plan file>` as a block ready to paste.
+   `/work-tracker:create <epic or plan file>` as a block ready to paste.
 
 ## Hard rules
 
-- **Creates nothing.** No issue, no field, no comment. Read-only against Jira.
+- **Creates nothing.** No issue, no field, no comment. Read-only against the tracker.
 - **Never invent hours.** A line with no estimate is shown without one.
 - **The developer approves the shape**, even the recommended one. Silence is not
   approval.

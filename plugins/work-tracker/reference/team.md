@@ -1,16 +1,16 @@
 # The team file
 
 `docs/local/team.md` in the project — who is who, kept by the developer.
-**Personal and gitignored**: it holds names and Jira account ids, which never
+**Personal and gitignored**: it holds names and tracker ids, which never
 go into committed harness files or into this plugin.
 
-The tracker cannot answer these questions on its own: a role in Jira is a
+The tracker cannot answer these questions on its own: a role in the tracker is a
 group, not "who decides the copy on this screen", and an assignee says who
 works on one issue, not whom to ask about the design. Without the file the
 agent guesses an addressee from context — and a question to the designer
 lands with the backend developer.
 
-Read by `/work-jira:questions` and by `/work-jira:comment` whenever a comment
+Read by `/work-tracker:questions` and by `/work-tracker:comment` whenever a comment
 addresses or mentions someone. Missing → they offer to create it from the
 shape below and ask the developer for every row; nothing is inferred.
 
@@ -21,15 +21,14 @@ shape below and ask the developer for every row; nothing is inferred.
 | --- | --- | --- |
 | <Name Surname> (<short name>) | <role as the team says it> | <what this person answers> |
 
-## Jira mentions
+## Mentions
 
-| Who | accountId |
+| Who | Tracker id |
 | --- | --- |
-| <Name Surname> | <accountId> |
+| <Name Surname> | <what the adapter's `mention` takes — an account id, a profile link> |
 
-The account id comes from the tracker's user search, never from memory. A
-mention is an ADF `mention` node with that id — typed text "@Name" notifies
-no one.
+The id comes from the tracker's user search, never from memory, and the
+adapter's `mention` writes it — typed text "@Name" notifies no one.
 
 ## Rules
 
@@ -42,6 +41,9 @@ no one.
 - Channel per role: <e.g. DevOps questions go to the team chat, not the
   tracker> — a role whose questions do not belong in issue comments.
 ```
+
+A file with the older heading `## Jira mentions` and an `accountId` column
+reads the same: the file is the developer's, and nothing rewrites it.
 
 **Keep it current**: a new person, a changed role or a new tool account is a
 one-line edit the same day. A stale row sends a question to the wrong person

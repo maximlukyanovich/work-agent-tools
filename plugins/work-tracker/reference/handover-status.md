@@ -1,6 +1,6 @@
 # Status at hand-over
 
-Read on demand: from `/work-jira:comment` before it recommends a status, from
+Read on demand: from `/work-tracker:comment` before it recommends a status, from
 the `issues` skill's "Carving a piece out", and from planning when part of a
 task's scope turns out not ready. The status is the developer's answer, never
 the agent's move.

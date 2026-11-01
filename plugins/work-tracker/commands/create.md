@@ -1,25 +1,26 @@
 ---
-description: Create the epics, stories, tasks and sub-tasks from an approved plan, with descriptions written as ADF, references resolved and issues linked.
+description: Create the epics, stories, tasks and sub-tasks from an approved plan, with descriptions in the tracker's format, references resolved and issues linked.
 argument-hint: '[<epic or plan file>] [dry-run]'
 ---
 
-# /work-jira:create
+# /work-tracker:create
 
-Create what `/work-jira:plan` proposed and the developer approved.
+Create what `/work-tracker:plan` proposed and the developer approved.
 
-**Writes to Jira.** Every creation is confirmed before it happens; `dry-run`
+**Writes to the tracker.** Every creation is confirmed before it happens; `dry-run`
 prints what would be created and exits.
 
 ## Steps
 
 1. **Refuse without an approved plan.** If this session has no approved tree from
-   `/work-jira:plan`, stop and give `/work-jira:plan` as a code block to run
+   `/work-tracker:plan`, stop and give `/work-tracker:plan` as a code block to run
    first. A plan approved in another session is re-shown
    for confirmation, not trusted silently.
 
 2. **Load conventions and coordinates.** The `issues` skill, the profile's
-   `## Tracker` and `## Issues`. Credentials from `.mcp.json`. Missing
-   credentials stop the command with the fix, not with a stack trace.
+   `## Tracker` and `## Issues`, and the adapter it names (`issues`, "The adapter"). Access as the
+   adapter names it; missing access stops the command with the fix, not with
+   a stack trace.
 
 3. **Read the instance, do not assume it.** Issue types, labels and link types
    by the adapter's `vocabulary`. Pick from what exists; creating a label is a

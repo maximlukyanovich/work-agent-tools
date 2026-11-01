@@ -27,7 +27,7 @@
     },
     {
       "name": "work-tracker",
-      "description": "Create and run Jira work to one standard: issue hierarchy, description shape, statuses, comments, worklog.",
+      "description": "Run tracker work to one standard — issue hierarchy, description shape, statuses, comments, worklog — with Jira as the recommended adapter.",
       "source": "./plugins/work-tracker",
       "category": "workflow"
     }

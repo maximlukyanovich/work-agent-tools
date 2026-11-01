@@ -3,14 +3,14 @@ description: Check whether an issue is actually done — acceptance criteria aga
 argument-hint: '<KEY-123>'
 ---
 
-# /work-jira:status
+# /work-tracker:status
 
 Answer one question: is this issue really done? **Read-only** — no status is
 moved, no comment posted.
 
 ## Steps
 
-1. **Read the issue** and its acceptance criteria.
+1. **Read the issue** and its acceptance criteria, through the adapter it names (`issues`, "The adapter").
 
 2. **Check each criterion against the code**, not against the status field. Cite
    the file and line that satisfies it, or say plainly that nothing does.

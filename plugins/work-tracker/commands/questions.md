@@ -3,14 +3,14 @@ description: Collect what is still unclear about an issue — from its own text,
 argument-hint: '<KEY-123>'
 ---
 
-# /work-jira:questions
+# /work-tracker:questions
 
 Surface the open questions on an issue **before** work starts, when answering
 them is cheap. **Read-only.**
 
 ## Steps
 
-1. **Read the issue**: description, acceptance criteria, comments, attachments,
+1. **Read the issue**, through the adapter it names (`issues`, "The adapter"): description, acceptance criteria, comments, attachments,
    parent, linked issues.
 
 2. **Read what it points at**: the spec section, the design screen, related
@@ -44,7 +44,7 @@ them is cheap. **Read-only.**
 
 - **A vague requirement is a question, not a gap to fill.** Never resolve it with
   a plausible default and move on.
-- **Nothing is posted to Jira** by this command. Posting the questions as a
+- **Nothing is posted to the tracker** by this command. Posting the questions as a
   comment is a separate, explicit step — and once posted, each goes on the
   waiting list
   (`${CLAUDE_PLUGIN_ROOT}/reference/questions-and-decisions.md`). A draft

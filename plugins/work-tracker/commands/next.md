@@ -3,7 +3,7 @@ description: Recommend the next issue to take — unblocked work first, ordered 
 argument-hint: '[<KEY-N epic> | mine | all]'
 ---
 
-# /work-jira:next
+# /work-tracker:next
 
 Answer one question: **what should I pick up next?** The answer is one
 recommended issue with the reason, then the ranked alternatives, then what is
@@ -11,7 +11,7 @@ blocked and on what. **Read-only** in the tracker — nothing is moved, assigned
 or commented.
 
 The tracker knows statuses and links; the repository knows the roadmap and the
-blockers nobody has put into Jira. The recommendation needs both, so a run that
+blockers nobody has put into the tracker. The recommendation needs both, so a run that
 can reach only one of them says so and ranks on what it has.
 
 ## Steps
@@ -21,7 +21,7 @@ can reach only one of them says so and ranks on what it has.
    whole project. Default: `mine`, falling back to `all` when nothing is
    assigned.
 
-2. **Read the tracker.** Every open issue in scope — status, assignee, estimate,
+2. **Read the tracker**, through the adapter it names (`issues`, "The adapter"). Every open issue in scope — status, assignee, estimate,
    remaining time, issue links, parent — and every issue it links to, since a
    dependency may sit outside the scope. Read the links of each candidate's
    story and epic too: a dependency set once on the parent holds for every
@@ -34,7 +34,7 @@ can reach only one of them says so and ranks on what it has.
 3. **Read the repository, when the command runs inside one.** The profile's
    roadmap and open-stubs documents (`docs/planning/roadmap.md`,
    `docs/planning/todo.md` or what the profile names), the current branch and
-   whether its work is already merged. These carry the blockers Jira does not:
+   whether its work is already merged. These carry the blockers the tracker does not:
    "adaptive design does not exist", "backend contract not published".
 
 4. **Work out, per open issue:**

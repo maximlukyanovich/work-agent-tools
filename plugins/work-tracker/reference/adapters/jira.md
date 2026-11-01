@@ -3,7 +3,30 @@
 The operations the method asks of the tracker, on Jira Cloud. Writing goes
 through `${CLAUDE_PLUGIN_ROOT}/scripts/jira.py`, REST v3 with descriptions in
 ADF; reading goes through the Atlassian MCP server. A script that imports the
-module runs with `PYTHONPATH=${CLAUDE_PLUGIN_ROOT}/scripts`.
+module runs with `PYTHONPATH=${CLAUDE_PLUGIN_ROOT}/scripts`. The form is
+`${CLAUDE_PLUGIN_ROOT}/reference/adapters/contract.md`.
+
+## Access
+
+`.mcp.json` in the project, generated from `.env` and gitignored:
+`mcpServers.jira.env` holds `JIRA_URL`, `JIRA_USERNAME` and `JIRA_API_TOKEN`.
+The script finds it from the working directory upwards, or through
+`JIRA_PROJECT_ROOT`. Without a working `.mcp.json` the command stops and says
+how to get one — copy `.env.example`, fill it in, run the project's mcp sync —
+rather than failing with "no tools found".
+
+## Capabilities
+
+| Capability | Jira |
+| --- | --- |
+| Sub-tasks | yes |
+| Estimate unit | time — `Original Estimate`, `Remaining Estimate` |
+| Time tracking | yes — worklogs |
+| Text format | ADF; Markdown through MCP loses formatting |
+| Mention | by account id |
+| Reply in a thread | yes |
+| Reaction | read only with an API token |
+| Flag | yes |
 
 ## Operations
 
