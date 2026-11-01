@@ -2,6 +2,13 @@
 
 Run Jira work to one standard.
 
+> **Replaced by [`work-tracker`](../work-tracker/README.md).** The same
+> commands under the `/work-tracker:` prefix and the same `scripts/jira.py`,
+> with the method kept apart from the Jira adapter. This plugin is frozen at
+> 1.2.0 and leaves the catalogue in a later release. A set-up project moves
+> with `/work-bootstrap:audit`; any other turns `work-tracker` on and this one
+> off, and renames `/work-jira:` to `/work-tracker:` in its files.
+
 ## Install
 
 ```bash
