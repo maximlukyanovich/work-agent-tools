@@ -64,12 +64,18 @@ def checklist(text):
     return round(100 * marks.count("x") / len(marks)) if "x" in marks else None
 
 
-def manual(value):
+def number(value):
+    return isinstance(value, (int, float)) and not isinstance(value, bool)
+
+
+def manual(key, value):
     """An estimate the user gave: [opt, pess], [opt] or a number — a single estimate."""
     if value is None:
         return None, None
-    if isinstance(value, (int, float)):
-        return float(value), float(value)
+    if number(value):
+        value = [value]
+    if not (isinstance(value, list) and len(value) in (1, 2) and all(map(number, value))):
+        sys.exit(f"estimates: {key} {value!r} — a number, [opt] or [opt, pess]")
     return float(value[0]), float(value[-1])
 
 
@@ -79,7 +85,7 @@ def setting(report, key, default):
     return default if value is None else value
 
 
-def build(report, issues, base, warn=print):
+def build(report, issues, warn=print):
     source = setting(report, "source", "tracker")
     given = setting(report, "estimates", {})
     groups = setting(report, "groups", {})
@@ -106,12 +112,15 @@ def build(report, issues, base, warn=print):
             elif opt is not None and field is not None and abs(opt - field) > 0.01:
                 warn(f"estimate differs: {key} description {opt:g} / field {field:g} — the description is taken")
         elif source == "manual":
-            opt, pess = manual(given.get(key))
+            opt, pess = manual(key, given.get(key))
         else:
             opt = pess = field
         if not opt:
             opt = pess = None
             warn(f"no estimate: {key} {i['summary']!r}")
+        elif pess < opt:
+            warn(f"pess below opt: {key} {opt:g} / {pess:g} — taken as a single {opt:g}")
+            pess = opt
         done = i["category"] == "done"
         if done and opt and not i.get("spent"):
             warn(f"no hours: {key} closed with nothing logged — is the time on its sub-tasks?")
@@ -134,6 +143,9 @@ def build(report, issues, base, warn=print):
         first.setdefault(r["group"], len(first))
     rows.sort(key=lambda r: (first[r["group"]], key_order(r["key"])))
     reasons = setting(report, "reasons", {})
+    wrong = [k for k, v in reasons.items() if v is not None and not isinstance(v, dict)]
+    if wrong:
+        sys.exit(f"reasons: {', '.join(wrong)} — each is {{\"text\": …, \"url\": …}}")
     for r in rows:
         if r["done"] and r["opt"] is not None and r["fact"] > r["opt"] + EPS:
             if r["key"] not in reasons:
@@ -232,16 +244,21 @@ def main(report_path, out_path=None):
     base = report_path.parent
     report = json.loads(report_path.read_text(encoding="utf-8"))
     issues = json.loads((base / report["issues"]).read_text(encoding="utf-8"))
-    rows = build(report, issues, base)
+    rows = build(report, issues)
     st = stats(rows)
     source = setting(report, "source", "tracker")
     single = source == "tracker" or all(r["opt"] == r["pess"] for r in rows if r["opt"] is not None)
     sections = setting(report, "sections", [])
+    custom = setting(report, "custom", [])
+    for c in custom:
+        width = len(c.get("columns") or [])
+        if any(len(row) != width for row in c.get("rows") or []):
+            sys.exit(f"custom: {c.get('title')!r} — every row has as many cells as `columns`, {width}")
     payload = {
         "rows": rows, "stats": st, "single": single, "sections": sections, "source": source,
         "date": datetime.date.today().isoformat(),
         "sourceNote": setting(report, "source_note", ""), "devDone": setting(report, "dev_done", []),
-        "notes": setting(report, "notes", []), "custom": setting(report, "custom", []),
+        "notes": setting(report, "notes", []), "custom": custom,
         "openOver": [r for r in rows if not r["done"] and r["opt"] is not None and r["fact"] > r["opt"] + EPS],
     }
     if "cumulative" in sections:
@@ -250,13 +267,18 @@ def main(report_path, out_path=None):
         payload["breakdownBy"] = setting(report, "breakdown", "epics")
         payload["breakdown"] = breakdown(rows, payload["breakdownBy"])
     if "periods" in sections:
-        payload["period"], payload["periods"] = periods(issues, report.get("period"))
+        shown = {r["key"] for r in rows}
+        payload["period"], payload["periods"] = periods([i for i in issues if i["key"] in shown], report.get("period"))
     text = strings(report, base)
     page = (HERE / "actuals.html").read_text(encoding="utf-8")
-    page = page.replace("/*DATA*/null", json.dumps(payload, ensure_ascii=False).replace("</", "<\\/"))
-    page = page.replace("/*STRINGS*/null", json.dumps(text, ensure_ascii=False).replace("</", "<\\/"))
-    page = page.replace("{{LANG}}", html.escape(text["locale"]))
-    page = page.replace("{{TITLE}}", html.escape(setting(report, "title", text["title"])))
+    # One pass, so a placeholder inside the tracker's text stays text.
+    parts = {
+        "/*DATA*/null": json.dumps(payload, ensure_ascii=False).replace("</", "<\\/"),
+        "/*STRINGS*/null": json.dumps(text, ensure_ascii=False).replace("</", "<\\/"),
+        "{{LANG}}": html.escape(text["locale"]),
+        "{{TITLE}}": html.escape(setting(report, "title", text["title"])),
+    }
+    page = re.sub("|".join(map(re.escape, parts)), lambda m: parts[m.group()], page)
     stamp = datetime.date.today().strftime("%Y%m%d")
     out = Path(out_path) if out_path else report_path.with_name(f"{report_path.stem}_{stamp}.html")
     out.write_text(page, encoding="utf-8")

@@ -98,7 +98,8 @@ A field set to `null` counts as left out.
   `"month"`; `period: null` picks month for a span over twelve weeks.
   **`custom`** — a section the user asked for in their own words: a table the
   agent computes from the issues; `request` is recomputed on a rebuild. A
-  column is a header, or `[header, 1]` for a number.
+  column is a header, or `[header, 1]` for a number; a row has a cell per
+  column.
 - **`notes`** — lines under the table, each a fact of this project: what its
   estimates include, that the fact is a lower bound when the project caps logs
   at the estimate. What "—" means is the page's own line, by the source.
@@ -108,13 +109,16 @@ A field set to `null` counts as left out.
 First one line per thing to look at: `looks dropped` (resolved as Won't Do,
 Duplicate or the like, or a bracketed marker opening the summary — not in
 `keep`), `no readiness` (in progress with neither a value, `null` included,
-nor a ticked list), `no estimate`, `no estimate in the
-description` (the field taken), `estimate differs` (description against the
-field), `no hours` (closed with nothing logged — the time may be on
-sub-tasks), `no reason` (closed over the optimistic with no entry in
-`reasons`), `no closing date` (closed without a resolution date — left out of
+nor a ticked list), `no estimate`, `pess below opt` (taken as a single
+estimate), `no estimate in the description` (the field taken), `estimate
+differs` (description against the field), `no hours` (closed with nothing
+logged — the time may be on sub-tasks), `no reason` (closed over the
+optimistic with no entry in `reasons`), `no closing date` (closed without a resolution date — left out of
 the overrun over time), `periods` (no worklogs in the issues file), `strings`
 (keys a translation lacks). Then the page's `file://` URL and the figures of
 its tiles: issues closed and between which dates, how many within each
 estimate, the fact against the estimates, the mean and by-sum deviation, the
 place in the range.
+
+An entry of `estimates`, `reasons` or `custom` in the wrong form stops the
+build, naming the field and the key or the section.

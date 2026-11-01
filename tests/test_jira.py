@@ -181,6 +181,13 @@ class WorkedTest(JiraTest):
         self.assertEqual((first["resolution"], second["resolution"]), (None, "Done"))
         self.assertIsNone(second["parent"])
 
+    def test_a_page_with_a_token_but_no_islast_is_not_the_last(self):
+        fields = "summary,status,issuetype,labels,parent,assignee,timeoriginalestimate,timespent,resolution,resolutiondate"
+        q = f"/rest/api/3/search/jql?jql=x&fields={fields}&maxResults=100"
+        self.fake({q: {"issues": [self.issue("PROJ-7")], "nextPageToken": "t"},
+                   f"{q}&nextPageToken=t": {"issues": [self.issue("PROJ-8")]}})
+        self.assertEqual([i["key"] for i in jira.worked("x")], ["PROJ-7", "PROJ-8"])
+
     def test_text_and_worklogs(self):
         log = lambda i: {"id": str(i), "author": {"displayName": "Dev"}, "started": "2026-10-29T09:00:00.000+0300",
                          "timeSpentSeconds": 5400, "comment": {"type": "doc", "content": [

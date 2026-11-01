@@ -28,10 +28,10 @@ def issue(key, category="done", spent=0, estimate=None, text="", **extra):
     return out
 
 
-def build(report, issues, base=Path("."), **extra):
+def build(report, issues, **extra):
     report = {**report, **extra}
     lines = []
-    rows = actuals.build(report, issues, base, warn=lines.append)
+    rows = actuals.build(report, issues, warn=lines.append)
     return {r["key"]: r for r in rows}, lines
 
 
@@ -88,7 +88,7 @@ class BuildTest(unittest.TestCase):
         rows = actuals.build({"source": "tracker", "groups": {"P-11": "Moved"}}, [
             issue("P-10", estimate=1), issue("P-9", estimate=1, parent=other),
             issue("P-2", estimate=1), issue("P-11", estimate=1),
-        ], Path("."), warn=lambda _: None)
+        ], warn=lambda _: None)
         self.assertEqual([(r["key"], r["group"]) for r in rows],
                          [("P-2", "Epic"), ("P-10", "Epic"), ("P-9", "Other"), ("P-11", "Moved")])
 
@@ -105,7 +105,7 @@ class ReviewFixesTest(unittest.TestCase):
         rows = actuals.build({"source": "tracker", "groups": {"P-3": "Other"}}, [
             issue("P-2", estimate=1), issue("P-3", estimate=1), issue("P-4", estimate=1, parent=other),
             issue("P-5", estimate=1),
-        ], Path("."), warn=lambda _: None)
+        ], warn=lambda _: None)
         self.assertEqual([r["key"] for r in rows], ["P-2", "P-5", "P-3", "P-4"])
 
     def test_readiness_from_a_ticked_list_unless_given(self):
@@ -144,6 +144,23 @@ class ReviewFixesTest(unittest.TestCase):
         self.assertIsNone(rows["P-2"]["opt"])
         self.assertTrue(any(l.startswith("no estimate: P-2") for l in lines))
 
+    def test_a_malformed_manual_estimate_stops(self):
+        for value in ("12", [], [4, None], [1, 2, 3], True):
+            with self.assertRaises(SystemExit) as stop:
+                build({"source": "manual", "estimates": {"P-2": value}}, [issue("P-2")])
+            self.assertIn("estimates: P-2", str(stop.exception))
+
+    def test_a_pess_below_opt_is_taken_as_single(self):
+        rows, lines = build({"source": "manual", "estimates": {"P-2": [4, 0]}}, [issue("P-2", spent=5)])
+        self.assertEqual((rows["P-2"]["opt"], rows["P-2"]["pess"]), (4, 4))
+        self.assertTrue(any(l.startswith("pess below opt: P-2") for l in lines))
+        self.assertEqual(actuals.stats(list(rows.values()))["over_pess"], 1)
+
+    def test_a_reason_that_is_not_an_object_stops(self):
+        with self.assertRaises(SystemExit) as stop:
+            build({"source": "tracker", "reasons": {"P-2": "Scope grew."}}, [issue("P-2", estimate=1, spent=2)])
+        self.assertIn("reasons: P-2", str(stop.exception))
+
     def test_an_undated_close_is_named(self):
         rows, _ = build({"source": "tracker"}, [issue("P-2", estimate=2, spent=3, resolved=None)])
         lines = []
@@ -158,7 +175,7 @@ class FiguresTest(unittest.TestCase):
             issue("P-3", text="opt 10 h, pess 20 h", spent=8, resolved="2026-10-01", assignee="B"),
             issue("P-4", text="opt 4 h, pess 6 h", spent=7, resolved="2026-10-03", assignee="A"),
             issue("P-5", category="progress", text="opt 2 h, pess 3 h", spent=3),
-        ], Path("."), warn=lambda _: None)
+        ], warn=lambda _: None)
 
     def test_stats_cover_closed_issues_only(self):
         st = actuals.stats(self.rows)
@@ -231,6 +248,24 @@ class PageTest(unittest.TestCase):
         self.assertIn("closed 1 between 2026-10-01 and 2026-10-01; within the optimistic 0", printed)
         self.assertIn("fact 5 h against 4\n", printed)
         self.assertTrue(any(l.startswith("file://") for l in printed.splitlines()))
+
+    def test_excluded_issues_leave_the_periods_too(self):
+        log = lambda h: [{"id": "1", "date": "2026-10-27", "hours": h}]
+        page, _, _ = self.run_report({"source": "tracker", "sections": ["periods"], "exclude": ["P-3"]},
+                                     [issue("P-2", estimate=2, spent=2, worklogs=log(2)),
+                                      issue("P-3", estimate=1, spent=12, worklogs=log(12))])
+        self.assertIn('"periods": [{"start": "2026-10-26", "hours": 2}]', page)
+
+    def test_a_placeholder_in_the_tracker_text_stays_text(self):
+        page, _, _ = self.run_report({"title": "Hours", "source": "tracker"},
+                                     [issue("P-2", estimate=1, spent=1, summary="{{TITLE}} /*STRINGS*/null")])
+        self.assertIn('"name": "{{TITLE}} /*STRINGS*/null"', page)
+
+    def test_a_custom_row_wider_than_its_columns_stops(self):
+        with self.assertRaises(SystemExit) as stop:
+            self.run_report({"source": "tracker", "custom": [{"title": "T", "columns": ["Key"], "rows": [["P-2", 1]]}]},
+                            [issue("P-2", estimate=1, spent=1)])
+        self.assertIn("custom: 'T'", str(stop.exception))
 
     def test_a_translation_falls_back_to_english_per_key(self):
         d = self.tmp()

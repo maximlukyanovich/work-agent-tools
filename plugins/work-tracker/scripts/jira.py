@@ -581,7 +581,7 @@ def worked(jql, text=False, worklogs=False):
                 item["worklogs"] = _worklogs(i["key"], f.get("worklog") or {})
             out.append(item)
         token = r.get("nextPageToken")
-        if not token or r.get("isLast", True):
+        if not token:
             return out
 
 
