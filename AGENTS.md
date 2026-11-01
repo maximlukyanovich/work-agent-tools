@@ -98,13 +98,23 @@ for working on the repository itself.
   use `PROJ-N`; a lesson from a live project is described as "observed on a
   live project", without saying which.
 - **Commits.** `:gitmoji: type(scope): Subject`, body as one bullet per point
-  explaining why. Scope is the plugin name (`jira`, `estimation`, `bootstrap`)
+  explaining why. Scope is the plugin name (`tracker`, `estimation`, `bootstrap`)
   or `readme` / `catalog` for the repository level. No agent attribution.
 - **Command names** are short verbs; the plugin name is the prefix, added by
   the harness with a colon. Never a colon in a filename, never the plugin name
   repeated inside a command name.
-- **Plugin names are fixed once.** Renaming one breaks every command it ships
-  and every document quoting them.
+- **A plugin is replaced, not renamed.** A new name changes every command it
+  ships and every document quoting them, and a project that follows `main`
+  would see its prefixes change on the next update, mid-task. The new plugin
+  ships beside the old one; the old one is frozen at its last version, its
+  catalogue `description` starts with "Replaced by `<new>`" and its README
+  says the same; a `CHANGES.md` entry moves projects over through `audit`. A
+  later release removes the old plugin and its catalogue entry and adds
+  `"renames": {"<old>": "<new>"}` to `marketplace.json`: Claude Code then
+  rewrites the old key in a lagging project's `enabledPlugins`, the project
+  still runs `claude plugin install <new>@<marketplace>` once, and
+  `claude plugin validate .` checks the chain. That release names it under
+  Action needed.
 - **Descriptions are the loading mechanism.** A skill's `description` decides
   when the agent loads it; a command's decides what completion shows. Both are
   written for that purpose, narrowly, and both are paid for in every session.

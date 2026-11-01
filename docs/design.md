@@ -97,9 +97,10 @@ repositories and stay there; only the shareable half moves here. The namespace
 prevents the name clash, but not the confusion of two commands doing the same
 job.
 
-**Plugin names are fixed once.** Renaming one changes every command it ships and
-every document quoting them. If a plugin's subject drifts far enough that its
-name no longer fits, that is a new plugin.
+**A plugin is replaced, not renamed.** A new name changes every command it ships
+and every document quoting them. If a plugin's subject drifts far enough that
+its name no longer fits, a new plugin ships beside it and the old one is frozen,
+then retired; the procedure is in `AGENTS.md`.
 
 ## How this grows
 
