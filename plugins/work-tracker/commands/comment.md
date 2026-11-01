@@ -28,7 +28,11 @@ being told to.
    waiting list, and pick the status to recommend by
    `${CLAUDE_PLUGIN_ROOT}/reference/handover-status.md`.
 
-4. **Draft each comment** and show it in the chat for review. A comment that
+4. **Draft each comment** and show it in the chat for review. Read the issue's
+   comments first: one that already names the same merge request — `MR !N`
+   or its link — is offered for extending, as an edit or a reply in its
+   thread (`issues` skill, "People"), instead of a second result comment
+   beside it. A comment that
    addresses or mentions someone takes the person and the tracker id from the
    project's team file (`${CLAUDE_PLUGIN_ROOT}/reference/team.md`). Shape:
 
