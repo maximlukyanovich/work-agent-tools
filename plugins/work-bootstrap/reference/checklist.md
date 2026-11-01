@@ -14,7 +14,7 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
 - [ ] The command that starts a task, when a tracker is reachable, offers the
       opening steps — in-progress transition, assignee, parent status — as one
       question carrying the current state, and loads `kickoff` before asking
-      and the testing skill before writing its plan; with `work-jira`, it
+      and the testing skill before writing its plan; with `work-tracker`, it
       also names the issue's open questions from the waiting list. It holds
       the issue's description against its sources and drafts an update in
       the plan, posted on a yes before the first code. Its plan
@@ -35,7 +35,7 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       as one question carrying the current state, and deletes the remote
       branch as the profile's `delete branch` says — `ask` (the default)
       merges without deleting; with `platform`, the platform's setting is on
-      and no branch of the chain but the last is exposed to it; with `work-jira`, a posted question goes on the waiting list
+      and no branch of the chain but the last is exposed to it; with `work-tracker`, a posted question goes on the waiting list
       and an answered one is closed there.
 - [ ] With a design source: the component skill extends the scale for an
       off-scale value, invents nothing the design does not draw, carries
@@ -151,9 +151,11 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       `.claude/settings.json` or `settings.local.json` — and the same file
       declares every marketplace it names in `extraKnownMarketplaces` —
       `mluk-work-agent-tools` with `autoUpdate` (and `ref` when Q10 pinned a
-      release), `claude-plugins-official` when its plugins are on.
-- [ ] With Jira, the profile's `## Tracker` says how a processed answer is
-      acknowledged — a reaction, or ask each time.
+      release), `claude-plugins-official` when its plugins are on — and none
+      of them is one the catalogue marks replaced.
+- [ ] With `work-tracker`, the profile's `## Tracker` names the system on its
+      `System` line and says how a processed answer is acknowledged — a
+      reaction, or ask each time.
 - [ ] No harness file contains a secret, an absolute path, or a person's name.
 - [ ] The onboarding command installs, on a yes and at local scope, the
       declared plugins this checkout lacks, prints `AGENTS.md` §2's commands

@@ -113,7 +113,7 @@ its yes is the approval this skill asks for.
    for, and until the answer the developer picks only placeholder behaviour,
    marked as a placeholder in the task report. A part with no backend
    behind it, or a screen not drawn, is asked with the options of
-   `work-jira`'s `issues` skill, "Status at hand-over", when the project
+   `work-tracker`'s `issues` skill, "Status at hand-over", when the project
    uses it.
 
 6. **Ask for approval** through the plan-approval mechanism, not with a

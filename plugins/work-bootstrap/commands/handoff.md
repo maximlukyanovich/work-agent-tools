@@ -50,7 +50,7 @@ session holds.
    | a review with an open `blocker` or `major` | "Fix the open findings of pass N from `<ledger>` (R…) by the testing skill's fix round. Plan — `<path>`. Target — `<branch or worktree>`." | no |
    | a review that reads ready | the task done: with `fix-now` ids open or techdebt rows to write, the fix prompt for them — the round's commit hands over the review of its delta, and that review the merge; without them, the merge command with the target. The merge command first only on the developer's word to ship now. Work left in the plan: "continue the task" | no |
    | before promoting | the merge command with the target | no |
-   | after a merge | the start of the next task — `/work-jira:next` or the project's start command. Findings are not listed: by now each has its place; only a gap is named — an id still `open`, or a techdebt place whose row the file lacks | no |
+   | after a merge | the start of the next task — `/work-tracker:next` or the project's start command. Findings are not listed: by now each has its place; only a gap is named — an id still `open`, or a techdebt place whose row the file lacks | no |
    | a commit in the middle of the plan, or the next slice of a long phase | the goal, what is done, where the decisions are, the next step; findings the ledger holds open come before the slice | `/compact <focus>`, then go on — by the criterion below |
 
    **A fresh session or `/compact` for the next slice.** A fresh session
