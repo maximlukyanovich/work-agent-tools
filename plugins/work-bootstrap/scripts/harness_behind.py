@@ -12,8 +12,13 @@ Reads the baseline from `.claude/project-profile.md` (section `## Harness`, line
 Silence and exit 0 otherwise — no profile (not a project these tools set up),
 `Baseline: off` (the project opted out), up to date, or a file it cannot read:
 this hook must never get in a session's way.
+
+`--entries [--project <dir>]` is the audit's mode: the baseline's state on the
+first line, then every entry after the baseline, whole — the audit reads them
+instead of the whole CHANGES.md. Contract: `reference/harness-behind.md`.
 """
 
+import argparse
 import json
 import os
 import re
@@ -31,6 +36,37 @@ def baseline(profile: Path):
         return None
     match = BASELINE.search(section.group(1))
     return match.group(1) if match else None
+
+
+def entries(text: str):
+    """(id, the entry's text from its heading to the next) for every entry."""
+    heads = list(ENTRY.finditer(text))
+    ends = [h.start() for h in heads[1:]] + [len(text)]
+    return [(h.group(1), text[h.start():end].rstrip() + "\n") for h, end in zip(heads, ends)]
+
+
+def print_entries(project: Path, plugin: Path) -> int:
+    profile = project / ".claude" / "project-profile.md"
+    if not profile.is_file():
+        print(f"no profile: {profile} does not exist", file=sys.stderr)
+        return 1
+    current = baseline(profile)
+    found = entries((plugin / "CHANGES.md").read_text(encoding="utf-8"))
+    ids = [entry_id for entry_id, _ in found]
+    if current is None:
+        print("baseline: none — run the full audit, which sets one")
+    elif current == "off":
+        print("baseline: off")
+    elif current not in ids:
+        print(f"baseline: {current} — not in the installed plugin, whose last entry is "
+              f"{ids[-1] if ids else 'none'}; update it first")
+    else:
+        newer = found[ids.index(current) + 1:]
+        print(f"baseline: {current} — {len(newer)} newer entr{'ies' if len(newer) != 1 else 'y'}")
+        for _, entry in newer:
+            print()
+            print(entry, end="")
+    return 0
 
 
 def main() -> None:
@@ -61,6 +97,12 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        parser = argparse.ArgumentParser(description="Print the CHANGES.md entries after a project's baseline.")
+        parser.add_argument("--entries", action="store_true", required=True)
+        parser.add_argument("--project", type=Path, default=Path(os.environ.get("CLAUDE_PROJECT_DIR", ".")))
+        args = parser.parse_args()
+        sys.exit(print_entries(args.project, Path(__file__).resolve().parent.parent))
     try:
         main()
     except Exception:  # noqa: BLE001 — a reminder is never worth a broken session

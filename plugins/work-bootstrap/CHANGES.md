@@ -657,3 +657,15 @@ Supersedes: review-handover — "after a task's last commit or a round of
 review fixes".
 Check: checklist — "The commit command ends every report"; audit §5.
 Applies to: projects with a commit command.
+
+## 2026-10-31 · review-target-script
+
+What: the review command takes the target of a pass from a script instead of
+reasoning it out: `scripts/review_target.py`, copied unchanged from the
+plugin's `templates/review-target/`, reads the ledger's last head, `HEAD` and
+the arguments and prints the mode — `none`, `delta`, `rewritten`, `range`,
+`whole` — the diff and the reason in one line. The command's step that set
+the target becomes the call.
+Check: checklist — "A review command, if there is one, keeps a pass ledger";
+audit §5.
+Applies to: projects with a review command and a pass ledger.

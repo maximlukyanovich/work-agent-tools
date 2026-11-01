@@ -10,7 +10,8 @@ Checks what a reviewer should never have to read for:
   - every plugin hook points at a script that exists, in its `command` or its `args`;
   - every Python script compiles;
   - every plugin text — a `*.md` under plugins/ but a README — is at most 10 KB, or a warning says
-    so: splitting it is a decision, not drift;
+    so: splitting it is a decision, not drift — and so does a plugin whose command, skill and agent
+    descriptions add up to more than 2 KB, since every session the plugin is on carries them;
   - every plugin.json has a MAJOR.MINOR.PATCH `version` and the catalogue has none; a plugin whose
     files differ from the merge base with --base, its README aside, has a version above the one at
     --base's tip, and one whose CHANGES.md gains an entry is raised by a minor at least;
@@ -162,6 +163,16 @@ for md in sorted(PLUGINS.rglob("*.md")):
     size = md.stat().st_size
     if md.name != "README.md" and size > SIZE_LIMIT:
         warnings.append((md.relative_to(ROOT), f"{size / 1024:.1f} KB, above {SIZE_LIMIT // 1024} KB"))
+
+# Descriptions are in the context of every session the plugin is on, invoked or not; one with
+# `disable-model-invocation` is counted too — `claude plugin details` counts it as always-on.
+DESCRIPTIONS_LIMIT = 2 * 1024
+for plugin in sorted(p for p in PLUGINS.iterdir() if p.is_dir()):
+    texts = [*plugin.glob("commands/*.md"), *plugin.glob("skills/*/SKILL.md"), *plugin.glob("agents/*.md")]
+    total = sum(len((frontmatter(t) or {}).get("description", "").encode()) for t in texts)
+    if total > DESCRIPTIONS_LIMIT:
+        warnings.append((plugin.relative_to(ROOT), f"descriptions add up to {total / 1024:.1f} KB, "
+                                                   f"above {DESCRIPTIONS_LIMIT // 1024} KB"))
 
 # ---------------------------------------------------------------- versions
 # Claude Code replaces an installed plugin only when its version changes: a

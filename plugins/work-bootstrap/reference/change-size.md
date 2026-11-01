@@ -1,7 +1,7 @@
 # change_size.py
 
 Measures a branch's diff against the thresholds of a small change
-(`reference/templates.md`, "The change sets the process"). Run it; this file
+(`reference/templates/task.md`, "The change sets the process"). Run it; this file
 is its contract.
 
 ```bash

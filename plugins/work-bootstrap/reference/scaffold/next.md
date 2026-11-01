@@ -62,7 +62,7 @@ Read by `/work-bootstrap:setup`.
 - **With Cache Components, `params` is not free.** `await params` is runtime
   data; with locales, the locale comes from `next/root-params`, not from the
   `params` prop. `AGENTS.md` says so once.
-- **`allowBuilds`.** `AGENTS.md` §2 carries the line from `templates.md` that
+- **`allowBuilds`.** `AGENTS.md` §2 carries the line from `templates/files.md` that
   a dependency with a build script needs an entry.
 - **The type-check is `next typegen && tsc --noEmit`.** The generated
   `layout.tsx` uses the global `LayoutProps`, which exists only after type

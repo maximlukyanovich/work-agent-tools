@@ -10,12 +10,17 @@ The harness exists; the job is to find the gaps, not to rewrite it.
 
 ## Delta or full
 
-**By default, only what changed in the method.** Read the baseline from
-`.claude/project-profile.md`, section `## Harness`, line `Baseline: <id>`.
-Take the entries of `${CLAUDE_PLUGIN_ROOT}/CHANGES.md` after that id and
-check each one's `Check:` against the project — nothing else. The report is
+**By default, only what changed in the method.** The baseline is the line
+`Baseline: <id>` in `.claude/project-profile.md`, section `## Harness`; the
+entries after it come from
+`python3 "${CLAUDE_PLUGIN_ROOT}/scripts/harness_behind.py" --entries`
+(`${CLAUDE_PLUGIN_ROOT}/reference/harness-behind.md`), whole —
+`CHANGES.md` itself is not read. Check each one's `Check:` against the
+project — nothing else. The report is
 one row per entry: the entry, its state in this project, the proposed action;
 an entry whose `Applies to:` does not fit is reported as not applicable.
+A `Check:` that names a template is read in the one file the index
+`${CLAUDE_PLUGIN_ROOT}/reference/templates.md` gives for it.
 An entry whose `Supersedes:` names an earlier one replaces the part it
 names: when the delta holds both, that part is checked against the later
 entry alone, and a project already past the earlier one applies the later
@@ -94,6 +99,10 @@ does not raise it again.
    review command say that no new work lands on a branch while its fix round
    is open, and does the commit command hand over the review alone, leaving
    what follows to the review?
+   Does the review command take its target from the project's copy of
+   `${CLAUDE_PLUGIN_ROOT}/templates/review-target/review_target.py` —
+   `diff` against the template shows nothing, the version line included —
+   rather than from prose?
    Do review groups go to `.claude/agents/review-group.md` with
    `model: inherit` — not pinned to a cheaper model — with `model=` to
    override it and refutation left to the session?
@@ -220,8 +229,7 @@ does not raise it again.
 15. **Tests by risk.** Asked as a step of its own, with its price — it reads
     every test and spends a second reviewer, so the question names the
     suite's size and an estimate. On a yes, against the project's testing
-    skill (`${CLAUDE_PLUGIN_ROOT}/reference/templates.md`, "The testing skill
-    proves a change by its risk"):
+    skill (`${CLAUDE_PLUGIN_ROOT}/reference/templates/testing-skill.md`):
     - **Every test sorted** A — proves nothing; B — its break shows in the
       live check of a change; C — it breaks silently or somewhere else. A and
       B go on the removal list. A second, independent reviewer — a subagent

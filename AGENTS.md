@@ -118,7 +118,7 @@ for working on the repository itself.
 - **A plugin command ends the way a project's does** — with its next step as
   a block ready to paste, a stop that sends to another command included, by
   "A command ends with its next step" in
-  `plugins/work-bootstrap/reference/templates.md`.
+  `plugins/work-bootstrap/reference/templates/command.md`.
 
 ## 4. Checks before a pull request
 
@@ -146,7 +146,9 @@ for working on the repository itself.
   attribution — a co-author trailer naming Claude, a "Generated with Claude
   Code" line.
 
-It also warns, without failing, about a plugin text above 10 KB — any `*.md`
+It also warns, without failing, about a plugin whose command, skill and agent
+descriptions add up to more than 2 KB — they are in every session the plugin is
+on — and about a plugin text above 10 KB — any `*.md`
 under `plugins/` but a README: splitting it is a decision, not drift.
 
 The tests under `tests/` pin what the plugins' scripts do, and CI runs them
@@ -172,6 +174,7 @@ plugins/<name>/
   skills/<name>/SKILL.md          knowledge the agent loads by itself
   reference/*.md                  read one file at a time, on instruction
   scripts/                        executed, never read into context
+  templates/                      files a project copies unchanged; audit diffs the copy
   hooks/hooks.json                plugin hooks — run wherever the plugin is on
   README.md                       for people, links to the skill
 plugins/work-bootstrap/CHANGES.md method changes a set-up project carries over
