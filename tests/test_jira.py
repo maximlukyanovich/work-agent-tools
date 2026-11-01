@@ -5,6 +5,7 @@ jira.py writes to a live Jira, so nothing here reaches one. The credentials are 
 is answered from a dictionary of paths, a POST or a PUT is only recorded.
 """
 
+import ast
 import json
 import os
 import subprocess
@@ -146,6 +147,63 @@ class HoursTest(JiraTest):
             self.assertEqual(jira.jira_hours(hours), want, hours)
 
 
+class WorkedTest(JiraTest):
+    """`worked` is what the hours report reads: hours decimal, the status category mapped,
+    the time on the issue itself, worklogs paged past the twenty a search returns."""
+
+    def issue(self, key, **fields):
+        base = {"summary": "Results grid", "issuetype": {"name": "Task"},
+                "status": {"name": "Ready for QA", "statusCategory": {"key": "indeterminate"}},
+                "labels": ["Frontend"], "parent": {"key": "PROJ-2", "fields": {"summary": "Results"}},
+                "assignee": {"displayName": "Dev"}, "timeoriginalestimate": 21600,
+                "timespent": 27000, "resolutiondate": None}
+        base.update(fields)
+        return {"key": key, "fields": base}
+
+    def test_fields_and_paging(self):
+        q = "/rest/api/3/search/jql?jql=project%20%3D%20PROJ&fields="
+        plain = "summary,status,issuetype,labels,parent,assignee,timeoriginalestimate,timespent,resolution,resolutiondate"
+        done = self.issue("PROJ-8", status={"name": "Done", "statusCategory": {"key": "done"}}, resolution={"name": "Done"},
+                          parent=None, assignee=None, timeoriginalestimate=None, timespent=None,
+                          resolutiondate="2026-10-30T12:00:00.000+0300")
+        self.fake({
+            f"{q}{plain}&maxResults=100": {"issues": [self.issue("PROJ-7")], "nextPageToken": "a b", "isLast": False},
+            f"{q}{plain}&maxResults=100&nextPageToken=a%20b": {"issues": [done], "isLast": True},
+        })
+        first, second = jira.worked("project = PROJ")
+        self.assertEqual(first["url"], BASE + "/browse/PROJ-7")
+        self.assertEqual((first["category"], first["estimate"], first["spent"]), ("progress", 6.0, 7.5))
+        self.assertEqual(first["parent"], {"key": "PROJ-2", "summary": "Results"})
+        self.assertNotIn("text", first)
+        self.assertNotIn("worklogs", first)
+        self.assertEqual((second["category"], second["estimate"], second["spent"], second["resolved"]),
+                         ("done", None, 0, "2026-10-30"))
+        self.assertEqual((first["resolution"], second["resolution"]), (None, "Done"))
+        self.assertIsNone(second["parent"])
+
+    def test_text_and_worklogs(self):
+        log = lambda i: {"id": str(i), "author": {"displayName": "Dev"}, "started": "2026-10-29T09:00:00.000+0300",
+                         "timeSpentSeconds": 5400, "comment": {"type": "doc", "content": [
+                             {"type": "paragraph", "content": [{"type": "text", "text": f"log {i}"}]}]}}
+        fields = ("summary,status,issuetype,labels,parent,assignee,timeoriginalestimate,timespent,"
+                  "resolution,resolutiondate,description,worklog")
+        item_ = lambda state, s: {"type": "taskItem", "attrs": {"localId": s, "state": state},
+                                  "content": [{"type": "text", "text": s}]}
+        issue = self.issue("PROJ-7", description={"type": "doc", "content": [
+            {"type": "paragraph", "content": [{"type": "text", "text": "Optimistic: 6 h"}]},
+            {"type": "taskList", "attrs": {"localId": "l"}, "content": [item_("DONE", "a"), item_("TODO", "b")]}]},
+            worklog={"total": 21, "worklogs": [log(i) for i in range(20)]})
+        self.fake({
+            f"/rest/api/3/search/jql?jql=x&fields={fields}&maxResults=100": {"issues": [issue], "isLast": True},
+            "/rest/api/3/issue/PROJ-7/worklog?startAt=0&maxResults=1000": {"worklogs": [log(i) for i in range(21)]},
+        })
+        [item] = jira.worked("x", text=True, worklogs=True)
+        self.assertEqual(item["text"], "Optimistic: 6 h\n[x] a\n[ ] b")
+        self.assertEqual([w["id"] for w in item["worklogs"]], [str(i) for i in range(21)])
+        self.assertEqual(item["worklogs"][20], {"id": "20", "author": "Dev", "date": "2026-10-29", "hours": 1.5,
+                                                "text": "log 20", "url": BASE + "/browse/PROJ-7?focusedWorklogId=20"})
+
+
 class WorklogTest(JiraTest):
     STARTED = "2026-10-08T09:00:00.000+0300"
 
@@ -282,14 +340,28 @@ class BatchTest(JiraTest):
 
 
 class FrozenCopyTest(unittest.TestCase):
-    """work-jira is frozen beside its replacement until a release removes it; the two scripts
-    stay one but for the path to the batch format, so a fix made to one of them only is
-    caught here."""
+    """work-jira is frozen beside its replacement until a release removes it. Every definition
+    of its script stays in work-tracker's as it is, but for the path to the batch format, so a
+    fix made to one of them only is caught here; what work-tracker adds is its own."""
+
+    @staticmethod
+    def definitions(source):
+        out = {}
+        for n in ast.parse(source).body:
+            if isinstance(n, (ast.Import, ast.ImportFrom)):
+                out.update({("import", a.name): "" for a in n.names})
+            elif isinstance(n, (ast.FunctionDef, ast.ClassDef)):
+                out[n.name] = ast.dump(n)
+            elif isinstance(n, (ast.Assign, ast.AnnAssign)):
+                out[ast.unparse(n.targets[0] if isinstance(n, ast.Assign) else n.target)] = ast.dump(n)
+        return out
 
     def test_work_jira_holds_the_same_script(self):
-        frozen = (PLUGINS / "work-jira" / "scripts" / "jira.py").read_bytes()
-        self.assertEqual(frozen.replace(b"reference/batch.md", b"reference/adapters/jira-batch.md"),
-                         (SCRIPTS / "jira.py").read_bytes())
+        frozen = (PLUGINS / "work-jira" / "scripts" / "jira.py").read_text()
+        frozen = self.definitions(frozen.replace("reference/batch.md", "reference/adapters/jira-batch.md"))
+        current = self.definitions((SCRIPTS / "jira.py").read_text())
+        for name, body in frozen.items():
+            self.assertEqual(body, current.get(name), name)
 
 
 class ConfigTest(unittest.TestCase):

@@ -11,6 +11,7 @@ skill, "The adapter".
 | Operation | What the method gets | Called by |
 | --- | --- | --- |
 | `read` | One issue: description, acceptance criteria, comments, attachments, parent, links | `next`, `questions`, `status`, `comment` |
+| `worked` | Issues by a filter, written to a file in the form of `reference/actuals.md`: status category, estimate, time logged, resolution date; the description and the worklogs on request | `check-actuals` |
 | `query` | Issues by a filter in one query — the open issues of a scope with status, assignee, estimate, remaining time, links and parent, and the issues they link to; issues by a name | `next`, `plan` |
 | `vocabulary` | Issue types, labels, link types and statuses, as the instance has them | `create`, the first run |
 | `create tree` | A tree from nodes, parents first, references between them resolved and linked, and a dry run that writes nothing | `create` |

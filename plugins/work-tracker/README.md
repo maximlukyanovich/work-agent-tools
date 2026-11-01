@@ -25,6 +25,7 @@ Other scopes and updating: [Quick start](../../README.md#quick-start).
 | `/work-tracker:questions` | Open questions on an issue — from the tracker, the design and the branch state. |
 | `/work-tracker:status` | Checks whether an issue is actually done. Read-only. |
 | `/work-tracker:comment` | Drafts and posts a result comment on the issues a branch touched, asks for their status; offers a worklog afterwards. |
+| `/work-tracker:check-actuals` | Hours logged on a selection of issues against their estimate, as a dated local HTML report in `docs/local/actuals/`, rebuilt by one command. Read-only in the tracker. |
 | `/work-tracker:help` | What this plugin can do: commands, the order they are applied in, the conventions it carries. Optional language argument. |
 
 Starting work on an issue — branch, plan, quality gate — stays a **project**

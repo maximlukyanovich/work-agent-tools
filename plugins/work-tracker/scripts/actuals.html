@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="{{LANG}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<style>
+:root {
+  color-scheme: light;
+  --surface: #fcfcfb;
+  --surface-2: #f3f2ef;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #7a7974;
+  --border: #e4e3df;
+  --grid: #ecebe7;
+  --band: #d9e6f7;
+  --opt-tick: #52514e;
+  --series-1: #2a78d6;
+  --series-2: #7a7974;
+  --critical: #c42b2b;
+  --good: #137a3d;
+  --warning: #946200;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --surface: #1a1a19;
+    --surface-2: #232321;
+    --text-primary: #f0efec;
+    --text-secondary: #c3c2b7;
+    --text-muted: #8f8e88;
+    --border: #34332f;
+    --grid: #2a2a27;
+    --band: #233a57;
+    --opt-tick: #c3c2b7;
+    --series-1: #3987e5;
+    --series-2: #8f8e88;
+    --critical: #e66767;
+    --good: #4cc27a;
+    --warning: #e0a526;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface: #1a1a19;
+  --surface-2: #232321;
+  --text-primary: #f0efec;
+  --text-secondary: #c3c2b7;
+  --text-muted: #8f8e88;
+  --border: #34332f;
+  --grid: #2a2a27;
+  --band: #233a57;
+  --opt-tick: #c3c2b7;
+  --series-1: #3987e5;
+  --series-2: #8f8e88;
+  --critical: #e66767;
+  --good: #4cc27a;
+  --warning: #e0a526;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--surface); color: var(--text-primary);
+  font: 14px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+main { max-width: 960px; margin: 0 auto; padding: 32px 16px 64px; }
+h1 { font-size: 22px; margin: 0 0 4px; }
+h2 { font-size: 16px; margin: 40px 0 4px; }
+.sub { color: var(--text-secondary); margin: 0; }
+.head { display: flex; align-items: flex-start; gap: 12px; position: sticky; top: 0; z-index: 3;
+  background: var(--surface); padding: 12px 0 8px; margin-top: -12px; }
+.head h1 { flex: 1; }
+.theme { flex: none; display: grid; place-items: center; width: 32px; height: 32px; padding: 0; cursor: pointer;
+  color: var(--text-secondary); background: transparent; border: 1px solid var(--border); border-radius: 8px; }
+.theme:hover { color: var(--text-primary); background: var(--surface-2); }
+.theme svg { width: 16px; height: 16px; }
+.theme .sun { display: none; }
+:root[data-dark] .theme .sun { display: block; }
+:root[data-dark] .theme .moon { display: none; }
+select { font: inherit; color: var(--text-primary); background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 2px 6px; }
+.caption { color: var(--text-muted); font-size: 13px; margin: 0 0 12px; }
+.caption.after { margin-top: 10px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-top: 24px; }
+.tile { background: var(--surface-2); border-radius: 8px; padding: 14px 16px; }
+.tile .label { color: var(--text-secondary); font-size: 13px; }
+.tile .value { font-size: 26px; font-weight: 600; margin-top: 2px; }
+.tile .hint { color: var(--text-muted); font-size: 12px; white-space: pre-line; }
+.corridor { background: var(--surface-2); border-radius: 8px; padding: 8px 16px; margin-top: 12px; }
+ul.notes { padding-left: 18px; margin: 8px 0 0; }
+ul.notes li { margin: 4px 0; }
+.chart { position: relative; width: 100%; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart text { fill: var(--text-secondary); font-size: 12px; }
+.chart .muted { fill: var(--text-muted); }
+.key { display: flex; gap: 18px; flex-wrap: wrap; color: var(--text-secondary); font-size: 12px; margin: 0 0 8px; }
+.key span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { display: inline-block; }
+.sw.band { width: 22px; height: 10px; background: var(--band); border-radius: 3px; }
+.sw.tick { width: 2px; height: 12px; background: var(--opt-tick); }
+.sw.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--series-1); }
+.sw.line { width: 22px; height: 2px; background: var(--series-1); }
+.sw.dash { width: 22px; height: 0; border-top: 2px dashed var(--series-2); }
+.tip {
+  position: absolute; pointer-events: none; z-index: 2; display: none;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 0.12); padding: 8px 10px; font-size: 12px; min-width: 170px;
+}
+.tip b { display: block; font-size: 13px; margin-bottom: 4px; }
+.tip .r { display: flex; justify-content: space-between; gap: 16px; color: var(--text-secondary); }
+.tip .r span:last-child { color: var(--text-primary); }
+.controls { display: flex; align-items: center; gap: 8px; margin: 8px 0 12px; color: var(--text-secondary); }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--border); }
+th { color: var(--text-secondary); font-weight: 600; white-space: nowrap; }
+td.n, th.n { text-align: right; white-space: nowrap; }
+td.jkey { white-space: nowrap; color: var(--text-secondary); }
+main a { color: var(--series-1); text-decoration: none; }
+main a:hover { text-decoration: underline; }
+ul.notes a { white-space: nowrap; }
+.chart a.issue { fill: var(--series-1); }
+.chart a.issue:hover { text-decoration: underline; }
+tr.group td { background: var(--surface-2); font-weight: 600; color: var(--text-secondary); font-size: 12px; }
+tr.total td { font-weight: 600; border-top: 2px solid var(--border); border-bottom: none; }
+.status { color: var(--text-muted); font-size: 12px; margin-left: 6px; white-space: nowrap; }
+.f-good { color: var(--good); }
+.f-warn { color: var(--warning); }
+.f-bad { color: var(--critical); }
+details.reasons { margin-top: 12px; }
+details.reasons summary { cursor: pointer; color: var(--text-secondary); }
+details.reasons ol { padding-left: 20px; margin: 8px 0 0; }
+details.reasons li { margin: 4px 0; }
+details.reasons a.src { color: var(--text-muted); font-size: 12px; margin-left: 4px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="head">
+    <h1>{{TITLE}}</h1>
+    <button class="theme" id="theme" type="button">
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button>
+  </div>
+  <p class="sub" id="sub"></p>
+  <div class="tiles" id="tiles"></div>
+  <div class="corridor" id="corridor"></div>
+  <h2 data-t="notes_title"></h2>
+  <ul class="notes" id="notes"></ul>
+  <details class="reasons" id="reasons"><summary></summary><ol></ol></details>
+  <section id="range-section">
+    <h2 data-t="range_title"></h2>
+    <p class="caption" id="range-caption"></p>
+    <div class="key" id="range-key"></div>
+    <div class="chart" id="range"></div>
+  </section>
+  <div id="extra"></div>
+  <h2 data-t="table_title"></h2>
+  <label class="controls"><span data-t="table_show"></span>
+    <select id="scope">
+      <option value="active" selected data-t="scope_active"></option>
+      <option value="done" data-t="scope_done"></option>
+      <option value="all" data-t="scope_all"></option>
+    </select></label>
+  <p class="caption" id="table-caption"></p>
+  <div class="table-wrap"><table id="table"></table></div>
+  <div id="table-notes"></div>
+</main>
+<div class="tip" id="tip"></div>
+<script>
+const DATA = /*DATA*/null;
+const T = /*STRINGS*/null;
+const NS = "http://www.w3.org/2000/svg";
+const S = DATA.stats, SINGLE = DATA.single;
+const done = DATA.rows.filter(r => r.done && r.opt);
+
+// t("key", {n: 3}) — a string of the report's language with its {placeholders} filled.
+const t = (key, vars = {}) => (T[key] ?? key).replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? "");
+const tm = (one, single, vars) => t(SINGLE ? single : one, vars);
+const num = new Intl.NumberFormat(T.locale, { maximumFractionDigits: 2 });
+const fmtH = v => (v == null ? "—" : num.format(v));
+const fmtP = v => (v == null ? "—" : (v >= 0 ? "+" : "−") + Math.abs(Math.round(v * 100)) + "%");
+const day = s => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+const fmtD = s => (s ? day(s).toLocaleDateString(T.locale, { day: "2-digit", month: "2-digit" }) : "—");
+const fmtDY = s => day(s).toLocaleDateString(T.locale, { day: "2-digit", month: "2-digit", year: "numeric" });
+const fmtM = s => day(s).toLocaleDateString(T.locale, { month: "short", year: "numeric" });
+
+document.querySelectorAll("[data-t]").forEach(e => (e.textContent = t(e.dataset.t)));
+
+// Theme: the system's until the button is pressed; the choice is remembered in this browser only.
+(function () {
+  const root = document.documentElement, button = document.getElementById("theme");
+  const system = matchMedia("(prefers-color-scheme: dark)");
+  let chosen = null;
+  try { chosen = localStorage.getItem("actuals-theme"); } catch (e) {}
+  const show = () => {
+    if (chosen) root.dataset.theme = chosen; else delete root.dataset.theme;
+    const dark = chosen ? chosen === "dark" : system.matches;
+    root.toggleAttribute("data-dark", dark);
+    button.title = button.ariaLabel = t(dark ? "theme_to_light" : "theme_to_dark");
+  };
+  button.addEventListener("click", () => {
+    chosen = root.hasAttribute("data-dark") ? "light" : "dark";
+    try { localStorage.setItem("actuals-theme", chosen); } catch (e) {}
+    show();
+  });
+  system.addEventListener("change", show);
+  show();
+})();
+document.getElementById("sub").textContent = [t("subtitle", { date: fmtDY(DATA.date) }), DATA.sourceNote].filter(Boolean).join(" ");
+
+function el(tag, attrs, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function node(tag, text, cls, parent) {
+  const e = document.createElement(tag);
+  if (text != null) e.textContent = text;
+  if (cls) e.className = cls;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const tip = document.getElementById("tip");
+function showTip(evt, title, pairs) {
+  tip.replaceChildren(node("b", title));
+  pairs.forEach(([k, v]) => { const r = node("div", null, "r", tip); node("span", k, "", r); node("span", v, "", r); });
+  tip.style.display = "block";
+  const w = tip.offsetWidth, x = evt.pageX + 14;
+  tip.style.left = (x + w > window.scrollX + innerWidth - 8 ? evt.pageX - w - 14 : x) + "px";
+  tip.style.top = evt.pageY + 14 + "px";
+}
+const hideTip = () => (tip.style.display = "none");
+// An issue key as a link to the tracker, wherever the page names one.
+function keyLink(r, parent) {
+  if (!r.url) return node("span", r.key, "", parent);
+  const a = node("a", r.key, "", parent);
+  a.href = r.url; a.target = "_blank"; a.rel = "noopener";
+  return a;
+}
+// A string whose {list} is a run of issues: each key a link, `tail(r)` after it.
+function withKeys(parent, text, rows, tail) {
+  const [before, after] = text.split("{list}");
+  parent.append(before);
+  rows.forEach((r, i) => { if (i) parent.append(", "); keyLink(r, parent); parent.append(tail(r)); });
+  parent.append(after ?? "");
+  return parent;
+}
+function hover(target, title, pairs) {
+  target.addEventListener("mousemove", e => showTip(e, title, pairs));
+  target.addEventListener("mouseleave", hideTip);
+}
+function keyRow(parent, items) {
+  const k = node("div", null, "key", parent);
+  items.forEach(([sw, label]) => { const s = node("span", null, "", k); node("i", null, "sw " + sw, s); s.append(label); });
+}
+const over = r => r.fact / r.opt - 1;
+const overPess = r => (r.pess ? r.fact / r.pess - 1 : null);
+
+// Tiles
+const tiles = SINGLE ? [
+  [t("tile_closed"), S.count, t("tile_closed_hint_single", { n: S.within_opt })],
+  [t("tile_fact"), fmtH(S.fact), t("tile_fact_hint_single", { opt: fmtH(S.opt) })],
+  [t("tile_over_single"), fmtP(S.mean_over), t("tile_over_hint", { p: fmtP(S.sum_over) })],
+] : [
+  [t("tile_closed"), S.count, t("tile_closed_hint", { n: S.within_opt, m: S.within_pess })],
+  [t("tile_fact"), fmtH(S.fact), t("tile_fact_hint", { opt: fmtH(S.opt), pess: fmtH(S.pess) })],
+  [t("tile_over"), fmtP(S.mean_over), t("tile_over_hint", { p: fmtP(S.sum_over) })],
+  [t("tile_over_pess"), fmtP(S.mean_over_pess), t("tile_over_hint", { p: fmtP(S.sum_over_pess) })],
+];
+const tileBox = document.getElementById("tiles");
+tiles.forEach(([label, value, hint]) => {
+  const d = node("div", null, "tile", tileBox);
+  node("div", label, "label", d); node("div", String(value), "value", d); node("div", hint, "hint", d);
+});
+
+// The range of all closed issues, drawn like a row of the range chart; the scale spans the
+// range only, not from zero, and on a phone the label goes above the band.
+(function () {
+  const root = document.getElementById("corridor");
+  if (SINGLE || S.corridor == null || !done.length) { root.remove(); return; }
+  const narrow = root.clientWidth < 560;
+  const W = Math.max(root.clientWidth - 32, 280), top = narrow ? 22 : 0, H = top + 60, cy = top + 30;
+  const x0 = narrow ? 0 : 220, x1 = W;
+  const lo = Math.min(S.opt, S.fact), hi = Math.max(S.pess, S.fact), pad = (hi - lo) * 0.18 || 1;
+  const x = v => x0 + ((v - (lo - pad)) / (hi - lo + 2 * pad)) * (x1 - x0);
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": t("corridor_label") }, root);
+  svg.style.cssText = "display:block;width:100%;height:auto;overflow:visible";
+  const label = el("text", { x: 0, y: narrow ? 14 : cy + 5, style: "fill: var(--text-secondary); font-size: 13px" }, svg);
+  label.textContent = t("corridor_label") + " ";
+  el("tspan", { style: "fill: var(--text-primary); font-weight: 600" }, label).textContent = Math.round(S.corridor * 100) + "%";
+  el("rect", { x: x(S.opt), y: cy - 5, width: Math.max(x(S.pess) - x(S.opt), 2), height: 10, rx: 3, fill: "var(--band)" }, svg);
+  el("line", { x1: x(S.opt), x2: x(S.opt), y1: cy - 7, y2: cy + 7, stroke: "var(--opt-tick)", "stroke-width": 2 }, svg);
+  el("circle", { cx: x(S.fact), cy, r: 5, fill: "var(--series-1)", stroke: "var(--surface-2)", "stroke-width": 2 }, svg);
+  const small = (v, y, text, ink) => (el("text", { x: x(v), y, "text-anchor": "middle", style: `fill: var(${ink}); font-size: 11px` }, svg).textContent = text);
+  small(S.fact, cy - 12, t("corridor_fact", { v: fmtH(S.fact) }), "--text-primary");
+  small(S.opt, cy + 22, t("corridor_opt", { v: fmtH(S.opt) }), "--text-muted");
+  small(S.pess, cy + 22, t("corridor_pess", { v: fmtH(S.pess) }), "--text-muted");
+  hover(el("rect", { x: x0, y: top, width: x1 - x0, height: H - top, fill: "transparent" }, svg), t("corridor_tip"), [
+    [t("tip_opt"), fmtH(S.opt) + " " + t("unit_h")], [t("tip_pess"), fmtH(S.pess) + " " + t("unit_h")],
+    [t("tip_fact"), fmtH(S.fact) + " " + t("unit_h")], [t("corridor_label"), Math.round(S.corridor * 100) + "%"]]);
+})();
+
+// Notes
+const worst = [...done].sort((a, b) => over(b) - over(a)).filter(r => over(r) > 0).slice(0, 3);
+const notes = [];
+if (SINGLE) {
+  notes.push(t("note_mean_single", { mean: fmtP(S.mean_over), sum: fmtP(S.sum_over) }));
+  notes.push(t("note_within_single", { n: S.within_opt, count: S.count }));
+} else {
+  notes.push(t(S.corridor == null ? "note_mean_nocorridor" : "note_mean", { mean: fmtP(S.mean_over), sum: fmtP(S.sum_over), corridor: Math.round((S.corridor || 0) * 100) }));
+  notes.push(S.over_pess ? t("note_pess_some", { n: S.over_pess, count: S.count }) : t("note_pess_none", { n: S.within_opt, count: S.count }));
+}
+if (S.unestimated) notes.push(t("note_unestimated", { n: S.unestimated }));
+const ul = document.getElementById("notes");
+notes.forEach(n => node("li", n, "", ul));
+const keep = { list: "{list}" };
+if (worst.length) ul.insertBefore(withKeys(node("li"), tm("note_worst", "note_worst_single", keep), worst, r => " " + fmtP(over(r))), ul.children[2] || null);
+if (DATA.openOver.length) ul.insertBefore(withKeys(node("li"), tm("note_open", "note_open_single", keep), DATA.openOver, r => ` (${fmtH(r.fact)} / ${fmtH(r.opt)})`), S.unestimated ? ul.lastChild : null);
+
+// Reasons: issues above the pessimistic first, their deviation to it in red.
+(function () {
+  const box = document.getElementById("reasons");
+  const abovePess = r => !SINGLE && r.pess != null && r.fact > r.pess + 1e-9;
+  const list = done.filter(r => r.fact > r.opt + 1e-9).sort((a, b) => abovePess(b) - abovePess(a) || over(b) - over(a));
+  if (!list.length) { box.remove(); return; }
+  box.querySelector("summary").textContent = SINGLE ? t("reasons_title_single")
+    : t(list.some(abovePess) ? "reasons_title_both" : "reasons_title");
+  const ol = box.querySelector("ol");
+  list.forEach(r => {
+    const li = node("li", null, "", ol);
+    const b = node("b", null, "", li);
+    keyLink(r, b);
+    b.append(" " + (SINGLE ? fmtP(over(r)) : t("reason_to_opt", { p: fmtP(over(r)) })));
+    if (abovePess(r)) node("span", t("reason_to_pess", { p: fmtP(overPess(r)) }), "f-bad", b);
+    li.append(" — " + (r.reason || t("reason_none")));
+    if (r.reason && r.reasonUrl) {
+      const a = node("a", t("reason_link"), "src", li);
+      a.href = r.reasonUrl; a.target = "_blank"; a.rel = "noopener";
+    }
+  });
+})();
+
+// Range chart: one row per closed issue — the opt.–pess. band, the opt. tick, the fact.
+(function () {
+  if (!done.length) { document.getElementById("range-section").remove(); return; }
+  document.getElementById("range-caption").textContent = tm("range_caption", "range_caption_single");
+  keyRow(document.getElementById("range-key"), SINGLE
+    ? [["tick", t("key_estimate")], ["dot", t("key_fact")]]
+    : [["band", t("key_band")], ["tick", t("key_opt")], ["dot", t("key_fact")]]);
+  const root = document.getElementById("range");
+  const narrow = root.clientWidth < 560;
+  const W = Math.max(root.clientWidth, 320), rowH = 28, top = 8, bottom = 28;
+  const labelW = narrow ? 64 : 250, colW = narrow ? 44 : 60, valueW = colW * (SINGLE ? 1 : 2);
+  const head = 24, H = head + top + done.length * rowH + bottom;
+  const max = Math.ceil(Math.max(...done.map(r => Math.max(r.pess, r.fact))) / 5) * 5 || 5;
+  const step = max > 100 ? 20 : max > 40 ? 10 : 5;
+  const x0 = labelW + 8, x1 = W - valueW - 8;
+  const x = v => x0 + (v / max) * (x1 - x0);
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": t("range_title") }, root);
+  const hs = "font-weight: 600";
+  el("text", { x: labelW, y: 14, "text-anchor": "end", style: hs }, svg).textContent = t("col_issue");
+  el("text", { x: (x0 + x1) / 2, y: 14, "text-anchor": "middle", style: hs }, svg).textContent = t("col_hours");
+  const cols = SINGLE ? [[W, narrow ? t("col_to_est_short") : t("col_to_est")]]
+    : [[W - colW, narrow ? t("col_to_opt_short") : t("col_to_opt")], [W, narrow ? t("col_to_pess_short") : t("col_to_pess")]];
+  cols.forEach(([cx, label]) => (el("text", { x: cx, y: 14, "text-anchor": "end", style: hs }, svg).textContent = label));
+  el("line", { x1: 0, x2: W, y1: head - 2, y2: head - 2, stroke: "var(--border)" }, svg);
+  for (let v = 0; v <= max; v += step) {
+    el("line", { x1: x(v), x2: x(v), y1: head + top, y2: H - bottom, stroke: "var(--grid)" }, svg);
+    el("text", { x: x(v), y: H - bottom + 18, "text-anchor": "middle", class: "muted" }, svg).textContent = num.format(v) + " " + t("unit_h");
+  }
+  done.forEach((r, i) => {
+    const cy = head + top + i * rowH + rowH / 2;
+    const g = el("g", {}, svg);
+    const label = el("text", { x: labelW, y: cy + 4, "text-anchor": "end" }, g);
+    if (r.url) el("a", { href: r.url, target: "_blank", rel: "noopener", class: "issue" }, label).textContent = r.key;
+    else label.textContent = r.key;
+    if (!narrow) label.append("  " + (r.name.length > 30 ? r.name.slice(0, 29) + "…" : r.name));
+    if (!SINGLE) el("rect", { x: x(r.opt), y: cy - 5, width: Math.max(x(r.pess) - x(r.opt), 2), height: 10, rx: 3, fill: "var(--band)" }, g);
+    el("line", { x1: x(r.opt), x2: x(r.opt), y1: cy - 7, y2: cy + 7, stroke: "var(--opt-tick)", "stroke-width": 2 }, g);
+    el("circle", { cx: x(r.fact), cy, r: 5, fill: "var(--series-1)", stroke: "var(--surface)", "stroke-width": 2 }, g);
+    const values = SINGLE ? [fmtP(over(r))] : [fmtP(over(r)), fmtP(overPess(r))];
+    values.forEach((v, j) => (el("text", { x: cols[j][0], y: cy + 4, "text-anchor": "end", style: "fill: var(--text-primary)" }, g).textContent = v));
+    const hit = el("rect", { x: labelW + 4, y: cy - rowH / 2, width: W - labelW - 4, height: rowH, fill: "transparent" }, g);
+    hover(hit, `${r.key} ${r.name}`, SINGLE
+      ? [[t("tip_estimate"), fmtH(r.opt) + " " + t("unit_h")], [t("tip_fact"), fmtH(r.fact) + " " + t("unit_h")],
+         [t("tip_to_est"), fmtP(over(r))], [t("tip_closed"), fmtD(r.closed)]]
+      : [[t("tip_opt"), fmtH(r.opt) + " " + t("unit_h")], [t("tip_pess"), fmtH(r.pess) + " " + t("unit_h")],
+         [t("tip_fact"), fmtH(r.fact) + " " + t("unit_h")], [t("tip_to_opt"), fmtP(over(r))],
+         [t("tip_to_pess"), fmtP(overPess(r))], [t("tip_closed"), fmtD(r.closed)]]);
+  });
+})();
+
+// A plain table: columns as [label, numeric], rows as arrays of text.
+function table(parent, columns, rows, classes) {
+  const wrap = node("div", null, "table-wrap", parent);
+  const tb = node("table", null, "", wrap);
+  const hr = node("tr", null, "", node("thead", null, "", tb));
+  columns.forEach(([label, n]) => node("th", label, n ? "n" : "", hr));
+  const body = node("tbody", null, "", tb);
+  rows.forEach((cells, i) => {
+    const tr = node("tr", null, (classes && classes[i]) || "", body);
+    cells.forEach((c, j) => {
+      const td = node("td", null, columns[j][1] ? "n" : "", tr);
+      if (c && typeof c === "object") { td.className = "jkey"; keyLink(c, td); } else td.textContent = c == null ? "—" : String(c);
+    });
+  });
+  return tb;
+}
+function section(title, caption) {
+  const box = node("section", null, "", document.getElementById("extra"));
+  node("h2", title, "", box);
+  if (caption) node("p", caption, "caption", box);
+  return box;
+}
+const has = name => DATA.sections.includes(name);
+
+// Cumulative overrun by closing date
+if (has("cumulative") && DATA.cumulative.length) (function () {
+  const box = section(t("cum_title"), tm("cum_caption", "cum_caption_single"));
+  keyRow(box, SINGLE ? [["line", t("key_cum_est")]] : [["line", t("key_cum_opt")], ["dash", t("key_cum_pess")]]);
+  const root = node("div", null, "chart", box);
+  const pts = DATA.cumulative, W = Math.max(root.clientWidth, 320), H = 240, L = 48, R = 12, top = 12, bottom = 28;
+  const vals = pts.flatMap(p => (SINGLE ? [p.opt] : [p.opt, p.pess])).concat(0);
+  const lo = Math.min(...vals), hi = Math.max(...vals), span = hi - lo || 1;
+  const x = i => L + (pts.length < 2 ? (W - L - R) / 2 : (i / (pts.length - 1)) * (W - L - R));
+  const y = v => top + (1 - (v - lo) / span) * (H - top - bottom);
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": t("cum_title") }, root);
+  [...new Set([lo, 0, hi])].forEach(v => {
+    el("line", { x1: L, x2: W - R, y1: y(v), y2: y(v), stroke: "var(--grid)" }, svg);
+    el("text", { x: L - 6, y: y(v) + 4, "text-anchor": "end", class: "muted" }, svg).textContent = num.format(Math.round(v)) + " " + t("unit_h");
+  });
+  el("line", { x1: L, x2: W - R, y1: y(0), y2: y(0), stroke: "var(--opt-tick)" }, svg);
+  const path = k => pts.map((p, i) => (i ? "L" : "M") + x(i) + " " + y(p[k])).join(" ");
+  if (!SINGLE) el("path", { d: path("pess"), fill: "none", stroke: "var(--series-2)", "stroke-width": 2, "stroke-dasharray": "5 4" }, svg);
+  el("path", { d: path("opt"), fill: "none", stroke: "var(--series-1)", "stroke-width": 2 }, svg);
+  const every = Math.max(1, Math.ceil(pts.length / Math.floor((W - L) / 64)));
+  pts.forEach((p, i) => {
+    if (i % every === 0 || i === pts.length - 1)
+      el("text", { x: x(i), y: H - 8, "text-anchor": "middle", class: "muted" }, svg).textContent = fmtD(p.date);
+    el("circle", { cx: x(i), cy: y(p.opt), r: 3, fill: "var(--series-1)" }, svg);
+    const hit = el("rect", { x: x(i) - 8, y: top, width: 16, height: H - top - bottom, fill: "transparent" }, svg);
+    hover(hit, `${p.key} · ${fmtD(p.date)}`, SINGLE ? [[t("key_cum_est"), fmtH(p.opt) + " " + t("unit_h")]]
+      : [[t("key_cum_opt"), fmtH(p.opt) + " " + t("unit_h")], [t("key_cum_pess"), fmtH(p.pess) + " " + t("unit_h")]]);
+  });
+})();
+
+// Breakdown by people or by epics
+if (has("breakdown") && DATA.breakdown.length) (function () {
+  const people = DATA.breakdownBy === "people";
+  const box = section(t(people ? "bd_title_people" : "bd_title_epics"), t("bd_caption"));
+  const cols = [[t(people ? "bd_col_person" : "bd_col_epic")], [t("bd_col_count"), 1]]
+    .concat(SINGLE ? [[t("col_est"), 1]] : [[t("col_opt"), 1], [t("col_pess"), 1]], [[t("col_fact"), 1], [tm("bd_col_over", "bd_col_over_single"), 1]]);
+  table(box, cols, DATA.breakdown.map(b => [b.name || t(people ? "no_person" : "no_group"), b.count]
+    .concat(SINGLE ? [fmtH(b.opt)] : [fmtH(b.opt), fmtH(b.pess)], [fmtH(b.fact), fmtP(b.opt ? b.fact / b.opt - 1 : null)])));
+})();
+
+// Open issues already over the estimate
+if (has("open")) (function () {
+  const box = section(tm("open_title", "open_title_single"), DATA.openOver.length ? "" : t("open_none"));
+  if (!DATA.openOver.length) return;
+  const cols = [[t("col_key")], [t("col_issue")], [t("col_status")]]
+    .concat(SINGLE ? [[t("col_est"), 1]] : [[t("col_opt"), 1], [t("col_pess"), 1]], [[t("col_fact"), 1], [tm("col_to_opt", "col_to_est"), 1]]);
+  table(box, cols, DATA.openOver.map(r => [r, r.name, r.status]
+    .concat(SINGLE ? [fmtH(r.opt)] : [fmtH(r.opt), fmtH(r.pess)], [fmtH(r.fact), fmtP(over(r))])));
+})();
+
+// Hours logged by period
+if (has("periods") && DATA.periods && DATA.periods.length) (function () {
+  const week = DATA.period === "week";
+  const box = section(t(week ? "per_title_week" : "per_title_month"), t("per_caption"));
+  const root = node("div", null, "chart", box);
+  const ps = DATA.periods, W = Math.max(root.clientWidth, 320), H = 220, L = 8, top = 20, bottom = 28;
+  const max = Math.max(...ps.map(p => p.hours)) || 1, bw = (W - L * 2) / ps.length;
+  const y = v => top + (1 - v / max) * (H - top - bottom);
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": box.firstChild.textContent }, root);
+  el("line", { x1: L, x2: W - L, y1: H - bottom, y2: H - bottom, stroke: "var(--border)" }, svg);
+  const every = Math.max(1, Math.ceil(ps.length / Math.floor(W / 56)));
+  ps.forEach((p, i) => {
+    const bx = L + i * bw + bw * 0.15, w = bw * 0.7;
+    el("rect", { x: bx, y: y(p.hours), width: w, height: H - bottom - y(p.hours), rx: 3, fill: "var(--series-1)" }, svg);
+    if (w >= 22) el("text", { x: bx + w / 2, y: y(p.hours) - 4, "text-anchor": "middle" }, svg).textContent = num.format(Math.round(p.hours));
+    if (i % every === 0) el("text", { x: bx + w / 2, y: H - 8, "text-anchor": "middle", class: "muted" }, svg).textContent = week ? fmtD(p.start) : fmtM(p.start);
+    hover(el("rect", { x: L + i * bw, y: top, width: bw, height: H - top - bottom, fill: "transparent" }, svg),
+      week ? t("per_tip_week", { date: fmtD(p.start) }) : fmtM(p.start), [[t("tip_hours"), fmtH(p.hours) + " " + t("unit_h")]]);
+  });
+})();
+
+// The report's own sections: tables the agent computed for a request of the user.
+DATA.custom.forEach(c => {
+  const box = section(c.title, c.caption);
+  table(box, (c.columns || []).map(h => (Array.isArray(h) ? h : [h])), c.rows || []);
+});
+
+// Table of the whole selection
+// Fact colour: within the optimistic — green, between — yellow, above the pessimistic — red.
+function factClass(r) {
+  if (!r.fact || r.opt == null) return "";
+  if (r.fact <= r.opt + 1e-9) return "f-good";
+  return SINGLE || r.fact > r.pess + 1e-9 ? "f-bad" : "f-warn";
+}
+document.getElementById("table-caption").textContent = DATA.devDone.length
+  ? t("table_caption_statuses", { statuses: DATA.devDone.join(", ") }) : t("table_caption");
+function renderTable() {
+  const scope = document.getElementById("scope").value;
+  const rows = DATA.rows.filter(r => scope === "all" || r.done || (scope === "active" && r.started));
+  const tb = document.getElementById("table");
+  tb.replaceChildren();
+  const cols = [[t("col_key")], [t("col_issue")]].concat(SINGLE ? [[t("col_est"), 1]] : [[t("col_opt"), 1], [t("col_pess"), 1]], [[t("col_fact"), 1], [t("col_ready"), 1]]);
+  const hr = node("tr", null, "", node("thead", null, "", tb));
+  cols.forEach(([label, n]) => node("th", label, n ? "n" : "", hr));
+  const body = node("tbody", null, "", tb);
+  let group;
+  rows.forEach(r => {
+    if (r.group !== group || !body.children.length) {
+      group = r.group;
+      node("td", group || t("no_group"), "", node("tr", null, "group", body)).colSpan = cols.length;
+    }
+    const tr = node("tr", null, "", body);
+    const k = node("td", null, "jkey", tr);
+    keyLink(r, k);
+    const name = node("td", r.name, "", tr);
+    if (!r.done) node("span", r.status, "status", name);
+    (SINGLE ? [r.opt] : [r.opt, r.pess]).forEach(v => node("td", fmtH(v), "n", tr));
+    node("td", r.fact ? fmtH(r.fact) : "—", "n " + factClass(r), tr);
+    node("td", r.readiness == null ? "—" : r.readiness + "%", "n", tr);
+  });
+  const sum = k => rows.reduce((a, r) => a + (r[k] || 0), 0);
+  // Total readiness — the mean weighted by the optimistic estimate of the issues that have both.
+  const known = rows.filter(r => r.readiness != null && r.opt);
+  const ko = known.reduce((a, r) => a + r.opt, 0);
+  const ready = ko ? Math.round(known.reduce((a, r) => a + r.opt * r.readiness, 0) / ko) + "%" : "—";
+  const tr = node("tr", null, "total", body);
+  [t("total"), t("total_count", { n: rows.length })].forEach(v => node("td", v, "", tr));
+  (SINGLE ? ["opt"] : ["opt", "pess"]).forEach(k => node("td", fmtH(sum(k)), "n", tr));
+  node("td", fmtH(sum("fact")), "n", tr);
+  node("td", ready, "n", tr);
+}
+document.getElementById("scope").addEventListener("change", renderTable);
+renderTable();
+
+// Under the table: the report's notes, what "—" means, what the colours mean.
+(function () {
+  const box = document.getElementById("table-notes");
+  DATA.notes.concat([t("note_dash_" + DATA.source)]).forEach(n => node("p", n, "caption after", box));
+  const legend = node("p", null, "caption after", box);
+  // Only the colour's name is coloured; what it means stays plain text.
+  const parts = SINGLE
+    ? [["", "legend_lead"], ["f-good", "legend_green"], ["", "legend_good_single"], ["", "legend_sep"], ["f-bad", "legend_red"], ["", "legend_bad_single"]]
+    : [["", "legend_lead"], ["f-good", "legend_green"], ["", "legend_good"], ["", "legend_sep"], ["f-warn", "legend_yellow"], ["", "legend_warn"],
+       ["", "legend_sep"], ["f-bad", "legend_red"], ["", "legend_bad"]];
+  parts.forEach(([cls, key]) => (cls ? node("span", t(key), cls, legend) : legend.append(t(key))));
+})();
+</script>
+</body>
+</html>

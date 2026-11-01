@@ -26,6 +26,7 @@ profile's issue language — that is a different setting.
    /work-tracker:questions  collect what is still unclear on an issue
    /work-tracker:status     check whether an issue is really done
    /work-tracker:comment    post the result comment, ask for the status, offer a worklog
+   /work-tracker:check-actuals  once work is under way: hours logged against the estimate
    ```
 
 3. **Name the conventions it carries**, in two or three lines each: hierarchy
