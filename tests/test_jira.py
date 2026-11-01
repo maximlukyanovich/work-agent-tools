@@ -14,7 +14,8 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-SCRIPTS = Path(__file__).resolve().parents[1] / "plugins" / "work-jira" / "scripts"
+PLUGINS = Path(__file__).resolve().parents[1] / "plugins"
+SCRIPTS = PLUGINS / "work-tracker" / "scripts"
 BASE = "https://example.atlassian.net"
 
 _ROOT = tempfile.TemporaryDirectory()
@@ -278,6 +279,15 @@ class BatchTest(JiraTest):
         ])
         self.assertEqual(created, {})
         self.assertEqual(fake.writes(), [])
+
+
+class FrozenCopyTest(unittest.TestCase):
+    """work-jira is frozen beside its replacement until a release removes it; the two scripts
+    stay one, so a fix made to one of them only is caught here."""
+
+    def test_work_jira_holds_the_same_script(self):
+        self.assertEqual((PLUGINS / "work-jira" / "scripts" / "jira.py").read_bytes(),
+                         (SCRIPTS / "jira.py").read_bytes())
 
 
 class ConfigTest(unittest.TestCase):
