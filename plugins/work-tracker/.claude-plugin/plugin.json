@@ -1,0 +1,12 @@
+{
+  "name": "work-tracker",
+  "version": "1.0.0",
+  "description": "Create and run Jira work to one standard: issue hierarchy, description shape, statuses, comments, worklog.",
+  "author": {
+    "name": "Maxim Lukyanovich",
+    "email": "maximlukyanovich94@gmail.com"
+  },
+  "homepage": "https://github.com/maximlukyanovich/work-agent-tools/tree/main/plugins/work-tracker",
+  "repository": "https://github.com/maximlukyanovich/work-agent-tools",
+  "license": "MIT"
+}
