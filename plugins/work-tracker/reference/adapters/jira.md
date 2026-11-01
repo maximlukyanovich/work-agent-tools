@@ -52,12 +52,8 @@ Descriptions go to the API as ADF through
 `${CLAUDE_PLUGIN_ROOT}/scripts/jira.py`, not as Markdown through the MCP layer.
 The MCP converter rewrites Markdown into wiki markup and loses formatting on the
 way: a link under bold loses its target, bold inside a list item becomes literal
-asterisks, and task lists do not survive at all.
-
-A tree is created with `jira.batch`, in three passes — create, resolve the
-references, link — so a description may point at a sibling that does not exist
-yet when it is written. The node format and the inline notation are in
-`${CLAUDE_PLUGIN_ROOT}/reference/adapters/jira-batch.md`.
+asterisks, and task lists do not survive at all. The node format and the inline
+notation of a batch are in `jira-batch.md`.
 
 Consequences worth knowing:
 
