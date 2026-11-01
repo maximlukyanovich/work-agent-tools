@@ -21,8 +21,7 @@ it blocks.
   closing the issue, starting work it blocks — read that open line's thread,
   one call each; closed lines are skipped. A sweep across every issue with an
   open question is long and costly: offer it, and run it only on a yes. The
-  tracker's notification feed is no shortcut: read with an API token, it comes
-  back empty.
+  tracker's notification feed is no shortcut where the adapter says so.
 - **A question closes on an answer or a decision** — a reply in its thread, an
   answer the developer relays, or the question dropped. Mark the line with the
   date and where the answer is, and copy the decision into the decisions file
@@ -34,16 +33,10 @@ it blocks.
   something to say (a clarification, a follow-up, a disagreement). Which one is
   the developer's choice, asked once and recorded in the profile's
   `## Tracker`: a fixed reaction (offer ✅, "check mark button"), or asking each
-  time whether to react or to reply. An API token cannot set a Jira reaction —
-  the reactions gateway answers 401 and the GraphQL `addReaction` covers
-  Confluence only — so a reaction is the developer's click: hand over the list,
-  issue · comment id · link `…/browse/KEY?focusedCommentId=ID`. Leave out the
-  ones already reacted to: the token can read them — GraphQL
-  `graphStore_userReactedToIssueComment(id: "ari:cloud:identity::user/<accountId>",
-  queryContext: "ari:cloud:platform::site/<cloudId>")` with
-  `@optIn(to: "GraphStoreUserReactedToIssueComment")` returns the comments the
-  developer reacted to, any emoji, as `…:issue-comment/<issueId>/<commentId>`.
-  A reply goes through `comment(..., reply_to=<root id>)`.
+  time whether to react or to reply. When the adapter cannot react, the
+  reaction is the developer's click: hand over the list — issue · comment id ·
+  link — without the ones already reacted to, as the adapter reads them. A
+  reply goes into the comment's thread.
 
 ## Decisions already made
 
@@ -51,8 +44,8 @@ An answer settles more than the question it was asked under: the next
 question, on a neighbouring screen or another issue, often has it already.
 So the decisions are kept too — `docs/local/decisions.md`, personal and
 gitignored like the waiting list — **grouped by topic, not by issue**: one
-line per decision · who decided · a link to the comment
-(`…/browse/KEY?focusedCommentId=ID`) · the date.
+line per decision · who decided · a link to the comment (the adapter's
+`comment`) · the date.
 
 - **Written whenever a decision lands**: a question closing on the waiting
   list, an answer under some other issue, a call the developer relays. A

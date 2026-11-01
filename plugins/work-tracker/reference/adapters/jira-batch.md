@@ -4,6 +4,11 @@
 The command writes the list in a short Python script inside the project's local
 notes and runs it; the script is the record of what was created and how.
 
+The script carries no path to `jira.py`: the command runs it as
+`PYTHONPATH=${CLAUDE_PLUGIN_ROOT}/scripts python3 <script> [--dry-run]`. A path
+written into the script points into the plugin cache under a version and stops
+resolving on the next one.
+
 ## A node
 
 | Field | Meaning |

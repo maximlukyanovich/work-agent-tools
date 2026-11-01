@@ -21,13 +21,11 @@ prints what would be created and exits.
    `## Tracker` and `## Issues`. Credentials from `.mcp.json`. Missing
    credentials stop the command with the fix, not with a stack trace.
 
-3. **Read the instance, do not assume it.** Issue type ids from `createmeta`,
-   labels from `GET /rest/api/3/label`, link types from
-   `GET /rest/api/3/issueLinkType`. Pick from what exists; creating a label is a
+3. **Read the instance, do not assume it.** Issue types, labels and link types
+   by the adapter's `vocabulary`. Pick from what exists; creating a label is a
    question for the developer, never a side effect.
 
-4. **Write the batch script** — the node format is
-   `${CLAUDE_PLUGIN_ROOT}/reference/batch.md`. One node per issue, parents
+4. **Write the batch script** — the adapter's `create tree` names its format. One node per issue, parents
    first; `blocks` a function of `h`, `p`, `ul`, `checklist` in the section order
    the skill fixes, `Estimate` last on tasks and absent on epics. Another issue is
    referenced as a card — `[[PROJ-7]]` when it exists, `[[@<summary>]]` when it is
@@ -58,7 +56,7 @@ prints what would be created and exits.
    the skill's `Links` rule. Show the count, the total hours, the assignee and
    the dependency sentences, and wait for a yes.
 
-7. **Run.** `jira.batch` does the three passes: create top-down with estimates
+7. **Run.** The batch does the three passes: create top-down with estimates
    and assignee; render every new description again and update the ones whose
    references resolved; link each issue to the issues it references. A re-run
    after a partial failure skips existing summaries — `rewrite=True` only when

@@ -35,6 +35,6 @@ time logged, new estimate, new remaining, the budget moved.
 
 ## The move
 
-The transition is one the tracker offers for the issue —
-`jira.transition(key, status)` matches the name against them — never a guessed
-id or a status name copied into a file.
+The transition is one the tracker offers for the issue — the adapter's
+`transition` matches the name against them — never a guessed id or a status
+name copied into a file.

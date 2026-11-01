@@ -78,10 +78,9 @@ Four are offered before creation and used when they earn their place:
 Foundation and cross-cutting issues legitimately carry a reduced set. That is not
 an omission.
 
-**An epic carries no `Estimate` section and no task count.** Jira sums the
-children on the epic itself; a copy in the text goes stale the first time a
-child changes — it did, within a day. The epic's `Scope` lists the areas, and
-the numbers live on the tasks.
+**An epic carries no `Estimate` section and no task count.** A copy in the
+text goes stale the first time a child changes — it did, within a day. The
+epic's `Scope` lists the areas, and the numbers live on the tasks.
 
 **Another issue is referenced as an inline card**, never as a bare key or a
 plain link: `[[PROJ-7]]` for an existing issue, `[[@<summary>]]` for one in the
@@ -145,9 +144,8 @@ cannot be finished before it.
   its provider is open; the link is about finishing. Say so in the consumer's
   `Technical notes` when that is the plan.
 - **Blocked by something outside the team** — a backend issue in the backlog,
-  a design not delivered, a decision not taken: Jira's flag (`flag(key)`, the
-  "Impediment" the board draws in red) plus an `is blocked by` link to the
-  cause. Agree this convention with the developer once per project and record
+  a design not delivered, a decision not taken: the tracker's flag (the
+  adapter's `flag`) plus an `is blocked by` link to the cause. Agree this convention with the developer once per project and record
   it in the profile's `## Tracker` — a project may prefer a status of its own.
   Clear the flag when the cause is gone.
 - **Other types, when they earn it.** `Issue split` (`split to` / `split
@@ -198,14 +196,9 @@ addition, and which of the two numbers went into the field:
 Infrastructure issues with no product code get no test percentage — say so in the
 section rather than leaving the reader to wonder.
 
-`Original Estimate` is set by a **second request**: the field is absent from the
-create screen.
-
-**Re-estimating moves Remaining too.** Jira fills `Remaining Estimate` from
-`Original Estimate` only while Remaining is empty; once set, an edit to the
-original leaves it alone. An estimate cut, carved or cancelled to 0 then keeps
-showing the old hours as work left — set both in the same request
-(`set_estimate(key, new, remaining=…)`). With nothing logged, Remaining equals
+**Re-estimating moves Remaining too.** An estimate cut, carved or cancelled to
+0 must not keep showing the old hours as work left — set both together, by the
+adapter's `estimate`. With nothing logged, Remaining equals
 the new original. With time logged it drops by the amount the estimate lost, but
 what Remaining means past that is the project's decision, recorded in the
 profile: some teams keep the leftover as a visible reserve and never zero it,
@@ -240,52 +233,28 @@ new remaining, carved budget — before changing anything.
 
 ## Labels
 
-Pick from the labels the instance already has — `GET /rest/api/3/label`. Never
-invent one. Jira does not normalise case, so `frontend` and `Frontend` live side
-by side forever, and the wrong one is invisible in a filter.
+Pick from the labels the tracker already has — the adapter's `vocabulary`.
+Never invent one: a near-duplicate lives beside the original forever, and the
+wrong one is invisible in a filter.
 
 ## Writing the text
 
-Descriptions go to the API as ADF through
-`${CLAUDE_PLUGIN_ROOT}/scripts/jira.py`, not as Markdown through the MCP layer.
-The MCP converter rewrites Markdown into wiki markup and loses formatting on the
-way: a link under bold loses its target, bold inside a list item becomes literal
-asterisks, and task lists do not survive at all.
-
-A tree is created with `jira.batch`, in three passes — create, resolve the
-references, link — so a description may point at a sibling that does not exist
-yet when it is written. The node format and the inline notation are in
-`${CLAUDE_PLUGIN_ROOT}/reference/batch.md`.
-
-Consequences worth knowing:
-
-- **Acceptance criteria are a real task list** (`checklist(...)`), tickable in
-  the UI. Dashes are a fallback, not the format.
-- **A section heading is a wholly bold paragraph.** Bold that starts a list item
-  renders as asterisks in the new editor.
-- **Inline code goes in backticks**, including when it contains braces —
-  `/clients/{id}` renders fine. Literal `{{...}}` does not.
-- **Issue keys are inline cards** — `[[PROJ-7]]`, or `[[@<summary>]]` for an
-  issue created in the same batch. A plain link shows only the key; bold around
-  a link loses the target.
-
-MCP remains the right tool for reading issues, moving statuses and logging
-work. Comments go the same way as descriptions — `comment()` / `edit_comment()`
-in the script — as soon as they carry a link or code: posted as Markdown, a URL
-is stored as plain text and Jira does not auto-link it.
+Descriptions and comments go to the tracker through its adapter, in the
+tracker's own format, and a tree is created in one batch that creates, resolves
+the references and links — so a description may point at a sibling that does
+not exist yet. What a format converter loses and how the editor renders
+headings, task lists and code: `${CLAUDE_PLUGIN_ROOT}/reference/adapters/jira.md`.
 
 ## People
 
 Whom to ask and how to mention them lives in the project's team file,
 personal and gitignored — names and account ids stay out of committed files.
 Its shape and why it exists: `${CLAUDE_PLUGIN_ROOT}/reference/team.md`. A
-mention in a comment is an ADF `mention` node with the account id from that
-file; a typed "@Name" notifies no one — `mention(name)` and `header(title, *names)` in
-the script read the id from the file. A comment handed to the developer is a
-link, `comment_url(key, id)`, never a bare id: they open it and forward it. A
-thread is read with `thread(key, root_id)`. A follow-up to an existing comment — a
-question it left open, an UPD — is a reply in its thread (`comment(...,
-reply_to=<id>)`, the editor's Reply), not a new top-level comment.
+mention uses the tracker id from that file — a typed "@Name" notifies no one
+(the adapter's `mention`). A comment handed to the developer is a link, never a
+bare id: they open it and forward it. A follow-up to an existing comment — a
+question it left open, an UPD — is a reply in its thread, not a new top-level
+comment (the adapter's `comment`).
 
 ## Questions and decisions
 
@@ -302,9 +271,9 @@ someone outside the team is checked by the `question-drafts` skill first.
 
 - **Into the project profile** — anything the developer decided, and anything
   that would otherwise be asked twice.
-- **Into this plugin, as a merge** — anything true for every project: a quirk of
-  the editor, a field missing from a screen, an API that contradicts its
-  documentation.
+- **Into the adapter, as a merge to this plugin** — anything true of the
+  tracker for every project: a quirk of the editor, a field missing from a
+  screen, an API that contradicts its documentation.
 - **Nowhere** — anything the API answers in one call. Labels, type ids, statuses.
   A copy becomes a second truth that goes stale in silence.
 

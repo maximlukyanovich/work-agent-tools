@@ -25,7 +25,7 @@ can reach only one of them says so and ranks on what it has.
    remaining time, issue links, parent — and every issue it links to, since a
    dependency may sit outside the scope. Read the links of each candidate's
    story and epic too: a dependency set once on the parent holds for every
-   child. One JQL, not one call per issue.
+   child. One query, not one call per issue — the adapter's `query`.
    Then drop what is not a unit of work: epics and stories (they wait on
    their children and are never «taken»), and hour buckets — issues with no
    estimate that stay `In Progress` to collect time for meetings or analysis.

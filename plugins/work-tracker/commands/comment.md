@@ -56,18 +56,15 @@ being told to.
 
 5. **Ask two questions in one questionnaire** — post the comments, and which
    status, the recommended one first. The answers are separate. **Post only on
-   an explicit go-ahead**, through `scripts/jira.py` as ADF —
-   `comment(key, doc(p(header), ul([...])))`, `edit_comment` to amend,
-   `comment(..., reply_to=<id>)` to answer in an earlier comment's thread. Not
-   through MCP: a Markdown comment stores a URL as plain text, which Jira does
-   not auto-link, so the merge-request link arrives dead. Formatting rules from
-   the `issues` skill apply: backticks for inline code, `[[KEY-1]]` for an
-   issue card, no bold inside list items. A comment that asks someone
+   an explicit go-ahead**, by the adapter's `comment` — new, an edit to amend,
+   a reply to answer in an earlier comment's thread — in the format and with
+   the formatting rules the adapter gives, so the merge-request link arrives
+   live. A comment that asks someone
    something goes on the waiting list when it is posted; a reply that answers
    or drops a listed question closes its line
    (`${CLAUDE_PLUGIN_ROOT}/reference/questions-and-decisions.md`). Hand each
-   posted comment back as a link, `comment_url(key, id)`. Move the status on
-   its own answer, through `jira.transition`.
+   posted comment back as a link. Move the status on its own answer, by the
+   adapter's `transition`.
 
 6. **Then, separately, offer a worklog.** Propose one short sentence per issue.
    The default answer is "text only" — the developer may want the wording but log
