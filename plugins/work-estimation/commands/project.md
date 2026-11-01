@@ -86,4 +86,4 @@ tokens, and everything it needs from the module is in that reference.
 - **Never invent a requirement** to make a line countable. An undefined area is
   estimated coarsely and the reason is written into its risk.
 - **Every line carries a provenance.** No exceptions; "ours" is a valid answer.
-- **Nothing is filed anywhere.** Creating issues from this is `/work-jira:plan`.
+- **Nothing is filed anywhere.** Creating issues from this is `/work-tracker:plan`.

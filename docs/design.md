@@ -17,7 +17,7 @@ entry it applied as its baseline, a `SessionStart` hook says when it is
 behind, and `/work-bootstrap:audit` checks only the entries after it.
 
 **A library** keeps its commands and skills here and is invoked from any project.
-The project contributes only a profile that steers them. `work-jira` and
+The project contributes only a profile that steers them. `work-tracker` and
 `work-estimation` are libraries — the method is identical everywhere, and the
 differences (tracker key, language, prefixes, which description sections apply)
 are data, not code.
@@ -44,7 +44,8 @@ procedure differs, it is a local command.
 
 **Here — the method.** How to estimate, which sections an issue description
 carries, how to work around the Jira editor's quirks, templates for `AGENTS.md`
-and skills, wrappers over the APIs.
+and skills, wrappers over the APIs. An adapter for a tracker is here too, not in
+the project: it holds for every project on that tracker.
 
 **In the project — the profile and the domain.** Tracker key, hourly rates,
 coefficients, links to the spec and the design, domain skills (design system,
@@ -72,22 +73,22 @@ plugin follows it.
 ## Command naming
 
 Claude Code prefixes a plugin's commands with the plugin name and a colon by
-itself — `/figma:figma-use`, and so `/work-jira:create` here. So the prefix lives
+itself — `/figma:figma-use`, and so `/work-tracker:create` here. So the prefix lives
 in the **plugin name**, and the command name stays short.
 
 | Plugin | Commands |
 | --- | --- |
 | `work-bootstrap` | `/work-bootstrap:new`, `:setup`, `:audit`, `:handoff`, `:help` |
-| `work-jira` | `/work-jira:plan`, `:create`, `:questions`, `:status`, `:comment`, `:next`, `:help` |
+| `work-tracker` | `/work-tracker:plan`, `:create`, `:questions`, `:status`, `:comment`, `:next`, `:help` |
 | `work-estimation` | `/work-estimation:project`, `:update`, `:export`, `:help` |
 
 Two levels of filtering fall out of it: typing `work` lists everything shipped
-from here, `work-jira` narrows to one plugin. Nothing is repeated — the area is
+from here, `work-tracker` narrows to one plugin. Nothing is repeated — the area is
 in the plugin, the verb is in the command.
 
 **Never put a colon in a filename.** The separator is the harness's; a file named
 `plan:create.md` cannot be checked out on Windows. And never repeat the plugin
-name inside the command name: `/work-jira:jira-create` is what that produces.
+name inside the command name: `/work-tracker:tracker-create` is what that produces.
 
 Two rules follow.
 
@@ -97,9 +98,10 @@ repositories and stay there; only the shareable half moves here. The namespace
 prevents the name clash, but not the confusion of two commands doing the same
 job.
 
-**Plugin names are fixed once.** Renaming one changes every command it ships and
-every document quoting them. If a plugin's subject drifts far enough that its
-name no longer fits, that is a new plugin.
+**A plugin is replaced, not renamed.** A new name changes every command it ships
+and every document quoting them. If a plugin's subject drifts far enough that
+its name no longer fits, a new plugin ships beside it and the old one is frozen,
+then retired; the procedure is in `AGENTS.md`.
 
 ## How this grows
 

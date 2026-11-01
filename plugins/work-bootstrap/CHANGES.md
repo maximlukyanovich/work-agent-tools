@@ -669,3 +669,20 @@ the target becomes the call.
 Check: checklist — "A review command, if there is one, keeps a pass ledger";
 audit §5.
 Applies to: projects with a review command and a pass ledger.
+
+## 2026-11-01 · tracker-plugin
+
+What: `work-jira` is replaced by `work-tracker` — the same commands and the
+same `scripts/jira.py` under a new prefix, the method kept apart from the
+tracker's transport, Jira its recommended adapter. `work-jira` stays frozen at
+1.2.0 until a later release takes it out of the catalogue. A project moves:
+`work-tracker@mluk-work-agent-tools` enabled where `work-jira` was and
+`work-jira` off; every `/work-jira:` in the harness becomes `/work-tracker:`,
+and a line naming the `work-jira` plugin's script names `work-tracker`; a
+batch script in the local notes that puts a path to `jira.py` on `sys.path`
+drops that line and runs through `PYTHONPATH` (the adapter's `jira-batch.md`);
+the profile's `## Tracker` names the system on its `System` line.
+Check: checklist — "The plugin set is recorded where Q10 put it"; no
+`work-jira` in the settings file or the harness files, and no script in the
+local notes puts a plugin-cache path on `sys.path`.
+Applies to: projects with `work-jira`.

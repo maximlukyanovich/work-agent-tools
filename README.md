@@ -1,8 +1,8 @@
 # work-agent-tools
 
 Claude Code plugins for a software project run by a team through a tracker:
-setting up the agent harness with the project's own workflow commands, Jira work
-to one standard, and estimates from a spec and a design. One author's toolkit,
+setting up the agent harness with the project's own workflow commands, tracker
+work to one standard — Jira the recommended tracker — and estimates from a spec and a design. One author's toolkit,
 grown on commercial projects and open to anyone — the rules are opinionated,
 and each project tunes them through its own profile.
 
@@ -10,7 +10,7 @@ One repository: it is both the marketplace (`mluk-work-agent-tools`) and the
 home of the plugins.
 
 Why it exists: the method must not live as copies in every repository. Estimation
-rules, the shape of a Jira issue and the order of project bootstrap are the same
+rules, the shape of an issue and the order of project bootstrap are the same
 everywhere; only keys, rates and the domain differ, and those stay in the project.
 
 ## Does it fit your project
@@ -21,8 +21,11 @@ Each plugin is enabled on its own, so a project takes only what fits.
   library, CLI. It writes the harness into the project, including workflow
   commands shaped to its branch chain, its forge (GitHub, or GitLab including
   self-hosted) and its tracker, and keeps it current with the method.
-- `work-jira` — work tracked in Jira Cloud: issues created to one standard,
-  statuses, comments, worklog.
+- `work-tracker` — work tracked in an issue tracker: issues created to one
+  standard, statuses, comments, worklog. Jira Cloud is the recommended tracker
+  and its adapter ships with the plugin; another tracker gets an adapter here,
+  written to the plugin's contract. It replaces `work-jira`, which is frozen and
+  marked "Replaced by" in the catalogue.
 - `work-estimation` — a project estimated before it starts, from a spec and a
   design handoff.
 
@@ -38,8 +41,8 @@ workflow commands ship in a plugin instead of being written into the project.
 - `python3` in `PATH` — Linux, macOS or WSL — for the plugins' scripts and the
   `work-bootstrap` session-start hook. Without it the hook fails as a
   non-blocking error and the session starts without the reminder.
-- For `work-jira`: a Jira Cloud site and a working `.mcp.json` with its
-  credentials; without one the commands stop and say what is missing.
+- For `work-tracker` on Jira: a Jira Cloud site and a working `.mcp.json` with
+  its credentials; without one the commands stop and say what is missing.
 - For `/work-estimation:export`: the `.xlsx` workbook template to fill; its map
   is proposed on the first export.
 
@@ -90,7 +93,7 @@ Which plugins to enable:
 | Project | Plugins |
 | --- | --- |
 | any repository | `work-bootstrap` |
-| issues in Jira | + `work-jira` |
+| issues in a tracker — Jira recommended | + `work-tracker` |
 | estimated before it starts | + `work-estimation` |
 
 How a new version arrives is in [Versions and updates](#versions-and-updates).
@@ -101,7 +104,7 @@ Every plugin can introduce itself — read-only, safe to run at any time:
 
 ```bash
 /work-bootstrap:help          what it can do for a repository's harness
-/work-jira:help               what it can do with issues
+/work-tracker:help            what it can do with issues
 /work-estimation:help  ru     what it can do with estimates, in Russian
 ```
 
@@ -113,11 +116,11 @@ no context until typed.
 
 The workflow commands are the project's own — `setup` writes them, and their
 names and steps differ between repositories; the plugins supply the shared
-half. A task in a Jira project typically runs in phases, each in a fresh
+half. A task in a project with a tracker typically runs in phases, each in a fresh
 session; a small change runs whole in one:
 
 ```bash
-/work-jira:next          what to take next from the board
+/work-tracker:next       what to take next from the board
 /task PROJ-12            the project's command: branch, plan, open questions; no code before your yes
 /commit                  the project's command: stage, check what changed, message by its convention
 /code-review             the project's command: findings by severity, each with file:line
@@ -134,7 +137,8 @@ or here for a small change. An estimate starts with
 | Plugin | Kind | What it does |
 | --- | --- | --- |
 | [`work-bootstrap`](plugins/work-bootstrap/README.md) | generator + audit | Start a project in an empty folder; initialise or audit a repository's agent harness: `AGENTS.md`, the project profile, workflow commands, skills, hooks, MCP, docs. A session-start hook says when a set-up project is behind the method. |
-| [`work-jira`](plugins/work-jira/README.md) | library | Jira work to one standard: `plan`, `create`, `questions`, `status`, `comment`, `next` — hierarchy, description shape, statuses, comments, worklog. Reads the project profile. |
+| [`work-tracker`](plugins/work-tracker/README.md) | library | Tracker work to one standard: `plan`, `create`, `questions`, `status`, `comment`, `next` — hierarchy, description shape, statuses, comments, worklog. Jira is its recommended adapter; another tracker gets an adapter by its contract. Reads the project profile. |
+| [`work-jira`](plugins/work-jira/README.md) | replaced | Replaced by `work-tracker`; frozen at 1.2.0 until a later release removes it. |
 | [`work-estimation`](plugins/work-estimation/README.md) | library | Estimate a project from a spec and a design handoff: `project`, `update`, `export` — decomposition, provenance audit, a markdown report and the estimate workbook. |
 
 ## Versions and updates
@@ -155,7 +159,7 @@ needs no credential. By hand:
 
 ```bash
 claude plugin marketplace update mluk-work-agent-tools
-claude plugin update work-jira@mluk-work-agent-tools --scope project   # each installed plugin at its scope, then /reload-plugins
+claude plugin update work-tracker@mluk-work-agent-tools --scope project   # each installed plugin at its scope, then /reload-plugins
 ```
 
 Updating delivers the method; it never edits a project. When a set-up project
@@ -236,7 +240,7 @@ source, its `ref` included.
 `work-bootstrap` generates: what `setup` writes, the workflow commands included,
 becomes the project's own code, and a method change reaches it as an entry in
 [`CHANGES.md`](plugins/work-bootstrap/CHANGES.md) that `audit` applies.
-`work-jira` and `work-estimation` are libraries: the procedure stays here, and
+`work-tracker` and `work-estimation` are libraries: the procedure stays here, and
 the project contributes a profile, `.claude/project-profile.md`, that every
 command reads first. The model — generator versus library, what lives here and
 what in the project, precedence, command naming — is in

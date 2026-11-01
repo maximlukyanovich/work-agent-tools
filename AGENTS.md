@@ -98,13 +98,23 @@ for working on the repository itself.
   use `PROJ-N`; a lesson from a live project is described as "observed on a
   live project", without saying which.
 - **Commits.** `:gitmoji: type(scope): Subject`, body as one bullet per point
-  explaining why. Scope is the plugin name (`jira`, `estimation`, `bootstrap`)
+  explaining why. Scope is the plugin name (`tracker`, `estimation`, `bootstrap`)
   or `readme` / `catalog` for the repository level. No agent attribution.
 - **Command names** are short verbs; the plugin name is the prefix, added by
   the harness with a colon. Never a colon in a filename, never the plugin name
   repeated inside a command name.
-- **Plugin names are fixed once.** Renaming one breaks every command it ships
-  and every document quoting them.
+- **A plugin is replaced, not renamed.** A new name changes every command it
+  ships and every document quoting them, and a project that follows `main`
+  would see its prefixes change on the next update, mid-task. The new plugin
+  ships beside the old one; the old one is frozen at its last version, its
+  catalogue `description` starts with "Replaced by `<new>`" and its README
+  says the same; a `CHANGES.md` entry moves projects over through `audit`. A
+  later release removes the old plugin and its catalogue entry and adds
+  `"renames": {"<old>": "<new>"}` to `marketplace.json`: Claude Code then
+  rewrites the old key in a lagging project's `enabledPlugins`, the project
+  still runs `claude plugin install <new>@<marketplace>` once, and
+  `claude plugin validate .` checks the chain. That release names it under
+  Action needed.
 - **Descriptions are the loading mechanism.** A skill's `description` decides
   when the agent loads it; a command's decides what completion shows. Both are
   written for that purpose, narrowly, and both are paid for in every session.
@@ -156,6 +166,16 @@ after the gate: every test passes — `python3 -m unittest discover -s tests`.
 They live outside the plugins, so a change to a test raises no plugin's
 version.
 
+A change to a command that has cases under its plugin's `evals/` runs them
+once, and the pull request names the scores — `claude plugin eval
+plugins/<plugin> --scaffold --runs 1 --ablation with-without --max-cost-usd 5
+--allow-tools Write Edit Bash "WebFetch(domain:localhost)"`. Each run is a paid
+session, so only then. Bash runs in the OS sandbox and reaches
+no network but the domains granted: a case that needs a tracker starts a
+read-only stub on the host, which the sandbox's proxy reaches as `localhost.`
+— a plain `localhost` is in the sandbox's `no_proxy`, and a direct connection
+from the sandbox does not reach the host.
+
 The pull request names the growth in bytes of every plugin text it changes;
 a notable growth is explained in its body or cut.
 
@@ -176,6 +196,7 @@ plugins/<name>/
   scripts/                        executed, never read into context
   templates/                      files a project copies unchanged; audit diffs the copy
   hooks/hooks.json                plugin hooks — run wherever the plugin is on
+  evals/<case>/                   claude plugin eval cases, run before a pull request
   README.md                       for people, links to the skill
 plugins/work-bootstrap/CHANGES.md method changes a set-up project carries over
 docs/design.md                    the model behind the plugins

@@ -25,12 +25,15 @@ confirmation through, branching logic and a costly break where nobody looks
 (`reference/templates/testing-skill.md`),
 with a recorded live check for the rest.
 
-**Q4. Task tracker and key prefix.** Jira (needs the project key), Linear, GitHub
-Issues, none. Affects the commit subject, branch names, the PR body, whether a
-tracker-conventions skill exists, and which MCP is configured. With Jira, also:
-how an answer the agent has acted on is acknowledged — a fixed reaction (offer
-✅, "check mark button") or ask each time whether to react or to reply
-(`work-jira`, its waiting list of questions).
+**Q4. Task tracker and key prefix.** Jira — recommended, its adapter ships with
+`work-tracker` (needs the project key); another tracker — the same method
+through an adapter written to its contract, in the library, not the project;
+none. Affects the commit subject, branch names, the PR body, whether a
+tracker-conventions skill exists, and which MCP is configured. With a tracker,
+also: the profile's `## Tracker` names it on its `System` line, and how an
+answer the agent has acted on is acknowledged — a fixed reaction (offer ✅,
+"check mark button") or ask each time whether to react or to reply
+(`work-tracker`, its waiting list of questions).
 
 **Q5. Source of design** — only if the repository has UI. A handoff bundle,
 Figma, screenshots plus prose, or none. Affects design-reading skills, the

@@ -16,7 +16,7 @@ asks **one question**, once the issue is read and before the branch is cut:
 
 Carry the state into the question — «Backlog, assigned to you, story still in
 Backlog» — and do only what is answered. When the project keeps a waiting
-list of posted questions (`work-jira`), name this issue's open
+list of posted questions (`work-tracker`), name this issue's open
 ones in the same message: an unanswered question is often why the issue is
 still open. Hour buckets and issues already in
 progress are left alone. With no reachable tracker the step is skipped and
@@ -27,7 +27,7 @@ sources — the design, the backend, the answers and decisions recorded. A
 description that has drifted gets a draft as a section of the plan, posted on
 the developer's yes right after the plan is approved and before the first
 code, not in the last slice; a developer without the right to edit the issue
-posts the change as a comment for whoever keeps it. With `work-jira`, the
+posts the change as a comment for whoever keeps it. With `work-tracker`, the
 rules are its `issues` skill's "Description".
 
 The same command loads the `kickoff` skill before its first question to the

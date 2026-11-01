@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "mluk-work-agent-tools",
-  "description": "Shared Claude Code tooling for team projects: repository bootstrap, project estimation, and Jira workflow.",
+  "description": "Shared Claude Code tooling for team projects: repository bootstrap, project estimation, and tracker workflow with a Jira adapter.",
   "owner": {
     "name": "Maxim Lukyanovich",
     "email": "maximlukyanovich94@gmail.com"
@@ -21,8 +21,14 @@
     },
     {
       "name": "work-jira",
-      "description": "Create and run Jira work to one standard: issue hierarchy, description shape, statuses, comments, worklog.",
+      "description": "Replaced by work-tracker — the same commands and script under a new prefix; frozen, and removed in a later release. Move with /work-bootstrap:audit.",
       "source": "./plugins/work-jira",
+      "category": "workflow"
+    },
+    {
+      "name": "work-tracker",
+      "description": "Run tracker work to one standard — issue hierarchy, description shape, statuses, comments, worklog — with Jira as the recommended adapter.",
+      "source": "./plugins/work-tracker",
       "category": "workflow"
     }
   ]

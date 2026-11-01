@@ -1,0 +1,116 @@
+---
+description: Recommend the next issue to take — unblocked work first, ordered by what it unblocks, the repository's roadmap and size. Read-only in the tracker.
+argument-hint: '[<KEY-N epic> | mine | all]'
+---
+
+# /work-tracker:next
+
+Answer one question: **what should I pick up next?** The answer is one
+recommended issue with the reason, then the ranked alternatives, then what is
+blocked and on what. **Read-only** in the tracker — nothing is moved, assigned
+or commented.
+
+The tracker knows statuses and links; the repository knows the roadmap and the
+blockers nobody has put into the tracker. The recommendation needs both, so a run that
+can reach only one of them says so and ranks on what it has.
+
+## Steps
+
+1. **Scope.** `$1` narrows the candidates: an epic key limits to its children,
+   `mine` to issues assigned to the developer running the command, `all` to the
+   whole project. Default: `mine`, falling back to `all` when nothing is
+   assigned.
+
+2. **Read the tracker**, through the adapter the profile names (`issues`, "The adapter"). Every open issue in scope — status, assignee, estimate,
+   remaining time, issue links, parent — and every issue it links to, since a
+   dependency may sit outside the scope. Read the links of each candidate's
+   story and epic too: a dependency set once on the parent holds for every
+   child. One query, not one call per issue — the adapter's `query`.
+   Then drop what is not a unit of work: epics and stories (they wait on
+   their children and are never «taken»), and hour buckets — issues with no
+   estimate that stay `In Progress` to collect time for meetings or analysis.
+   A story appears in the report only as the parent of a candidate.
+
+3. **Read the repository, when the command runs inside one.** The profile's
+   roadmap and open-stubs documents (`docs/planning/roadmap.md`,
+   `docs/planning/todo.md` or what the profile names), the current branch and
+   whether its work is already merged. These carry the blockers the tracker does not:
+   "adaptive design does not exist", "backend contract not published".
+
+4. **Work out, per open issue:**
+   - **Blocked or not**, and by what — an unresolved `is blocked by` link to
+     open work, a dependency the issue's own description names («components
+     from KEY-7», «through the API layer, KEY-10»), a roadmap order that puts
+     it after open work, or a repository stub its scope depends on. A
+     dependency that is `Done` or already merged does not block. **`Relates`
+     is not a dependency:** it is symmetric, so reading it as one blocks
+     every issue by every other — the direction comes from `Blocks`, the
+     description or the roadmap, never from a `relates to` link alone.
+     **A parent's blocker is the child's:** a sub-task whose story or epic
+     `is blocked by` open work waits on it too, even with no link of its own.
+     Name where the block comes from — «waits on KEY-3 through its epic».
+   - **A link that reads backwards** against the `issues` skill's `Links`
+     rule is not used for ranking; it goes to Housekeeping as a link to
+     reverse.
+   - **What it unblocks** — how many open issues link to it as a dependency.
+   - **Roadmap position** — where the repository's roadmap lists it, if at all.
+   - **Design approved**, for an issue built from screens: by the design's
+     per-screen statuses the profile's `## Sources of truth` names, or a
+     designer's word in the decisions file, quoted with its date and the
+     design's version. Neither, for the recommended candidate: ask the
+     developer before the report and record the answer there — where the
+     statuses are kept, or the quote. Every other candidate carries «design
+     not confirmed: <screens>» in its line.
+   - **Signals from the board** — `Selected for Development` outranks
+     `Backlog`; an issue already `In Progress` with nothing left is
+     housekeeping, not work.
+   - **Nothing left is read from the issue, not from its status.** Open its
+     acceptance criteria and its `is blocked by` links: every criterion
+     delivered makes it housekeeping; criteria still open on other work make
+     it Blocked, with what each one waits on. A merged branch or a review
+     that read ready closes only the criteria it delivered.
+
+5. **Rank the unblocked candidates**: first the roadmap order, then the number
+   of issues each one unblocks, then the smaller estimate. When two are equal,
+   the one whose design is approved, by the same source. Say the tie-break
+   used.
+
+6. **Report**, in the conversation's language:
+   - **Recommended:** `KEY — summary`, estimate, one paragraph of reasoning
+     that names what it unblocks and why it goes before the runner-up, and
+     a drift this run saw between its description and its sources.
+   - **Also ready:** the rest of the unblocked list, one line each with the
+     reason it ranks lower.
+   - **Blocked:** one line each — `KEY — summary — waits on X`.
+   - **Housekeeping:** issues finished but not moved, delivered work without a
+     result comment or without a merge request, open questions that block the
+     next step and should go to the designer or the product owner *before*
+     the work starts. Hour buckets are not housekeeping — they are meant to
+     stay open.
+     Plus the waiting list's open questions, those that block delivery first —
+     read from the file; a sweep of the tracker only if the developer asks.
+   - **The next fork**, when nothing is ready but the recommended issue: what
+     becomes ready once it lands, and any decision that must be taken before
+     that — pulling the mock half of a blocked task forward, say. A decision
+     is named as one, not ranked as work.
+
+7. **End with the prompt that starts it**, in a code block, ready to paste
+   into a fresh session: the project's start command for the recommended
+   issue (`/task KEY` or what the profile names), then one or two lines on
+   what to read first — where the contract and the decisions for it are
+   recorded, the design screen, a related housekeeping item worth doing on
+   the same branch. Only pointers that this run found; nothing to be
+   looked up later.
+
+## Hard rules
+
+- **Read-only.** No transition, no assignment, no comment, no worklog. The
+  developer starts the issue with the project's own command (`/task` or its
+  equivalent).
+- **A dependency is what the tracker or the repository says, not a guess.** An
+  issue with no `Blocks` link, no named dependency in its text and no roadmap
+  mention is "unranked on dependencies", not "unblocked".
+- **Estimates are the tracker's.** Never re-estimate here; `work-estimation` is
+  for that.
+- **One recommendation, stated as one.** A list of five "you could" is the
+  question handed back.
