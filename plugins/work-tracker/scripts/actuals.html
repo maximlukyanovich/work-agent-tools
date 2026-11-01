@@ -18,9 +18,9 @@
   --opt-tick: #52514e;
   --series-1: #2a78d6;
   --series-2: #7a7974;
-  --critical: #c42b2b;
-  --good: #137a3d;
-  --warning: #946200;
+  --critical: #dc2626;
+  --good: #16a34a;
+  --warning: #ca8a04;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -124,6 +124,7 @@ ul.notes a { white-space: nowrap; }
 tr.group td { background: var(--surface-2); font-weight: 600; color: var(--text-secondary); font-size: 12px; }
 tr.total td { font-weight: 600; border-top: 2px solid var(--border); border-bottom: none; }
 .status { color: var(--text-muted); font-size: 12px; margin-left: 6px; white-space: nowrap; }
+.f-good, .f-warn, .f-bad { font-weight: 600; }
 .f-good { color: var(--good); }
 .f-warn { color: var(--warning); }
 .f-bad { color: var(--critical); }
