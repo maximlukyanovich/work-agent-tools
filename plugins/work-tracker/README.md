@@ -6,7 +6,8 @@ adapter ships here.
 Replaced `work-jira`: the same commands under a new prefix, the same
 `scripts/jira.py`, the method kept apart from the tracker's transport. A
 project still on `work-jira` has its key rewritten by the catalogue's
-`renames` and moves over with `/work-bootstrap:audit`.
+`renames`, installs `work-tracker` once, as below, and moves over with
+`/work-bootstrap:audit`.
 
 ## Install
 

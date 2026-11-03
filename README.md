@@ -29,8 +29,10 @@ Each plugin is enabled on its own, so a project takes only what fits.
 - `work-tracker` — work tracked in an issue tracker: issues created to one
   standard, statuses, comments, worklog. Jira Cloud is the recommended tracker
   and its adapter ships with the plugin; another tracker gets an adapter here,
-  written to the plugin's contract. It replaced `work-jira`; the catalogue's
-  `renames` moves a project that still enables the old name.
+  written to the plugin's contract. It replaced `work-jira`: in a project that
+  still enables the old name the catalogue's `renames` rewrites the key; the
+  project installs `work-tracker` once and moves over with
+  `/work-bootstrap:audit`.
 - `work-estimation` — a project estimated before it starts, from a spec and a
   design handoff.
 
