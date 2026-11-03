@@ -3,9 +3,11 @@
 Run tracker work to one standard. Jira is the recommended tracker, and its
 adapter ships here.
 
-Replaces `work-jira`: the same commands under a new prefix, the same
+Replaced `work-jira`: the same commands under a new prefix, the same
 `scripts/jira.py`, the method kept apart from the tracker's transport. A
-project moves over with `/work-bootstrap:audit`.
+project still on `work-jira` has its key rewritten by the catalogue's
+`renames`, installs `work-tracker` once, as below, and moves over with
+`/work-bootstrap:audit`.
 
 ## Install
 
