@@ -115,6 +115,21 @@ class ChangeSizeTest(unittest.TestCase):
         self.assertEqual(self.in_repo()[1],
                          "size: small · files 1 · +0 −0 · prose-only no · uncommitted no")
 
+    def test_new_files_and_the_wiring_are_shown_apart(self):
+        self.write("src/routes.ts", "a\n" * 10)
+        self.write("src/nav.ts", "b\n" * 10)
+        self.write("src/old.ts", "c\n" * 40)
+        self.commit("base files")
+        run(self.repo, "git", "push", "-q", "origin", "feat/x:main")
+        self.write("src/page.ts", "p\n" * 120)
+        self.write("src/routes.ts", "r\n" * 2, "a")
+        self.write("src/nav.ts", "n\n" * 5, "a")
+        run(self.repo, "git", "mv", "src/old.ts", "src/moved.ts")
+        self.commit("page")
+        self.assertEqual(self.in_repo()[1],
+                         "size: normal · files 4 · +127 −0 · prose-only no · uncommitted no"
+                         " · new 1 +120 · changed 3 +7 −0, largest 5 — lines 127 > 100")
+
     def test_uncommitted_is_noticed_not_counted(self):
         self.lines_in(1, 10)
         self.write("src/f0.ts", "y\n" * 500, "a")

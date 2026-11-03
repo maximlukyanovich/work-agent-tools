@@ -715,3 +715,16 @@ Check: checklist — "Deterministic layer"; audit §6.
 Applies to: projects with a commit, review or merge command.
 Supersedes: gate-once-per-tree — "every command skips a tree already
 recorded green"; commit-skips-validated-gate — the record it names.
+
+## 2026-11-03 · change-level-surface
+
+What: the task command names the level by the surface of behaviour: a new
+isolated page or module whose rest of the diff is wiring — the route
+registry, navigation links, catalogue rows, tests updated to the new link,
+documentation lines — is small, whatever the thresholds say, and a file of a
+risk class touched only to register the new path takes a test of that
+registration, not the critical level. A small change's targeted checks stand
+for the full gate. The handoff reads `new` and `changed` in the measure and
+does not raise such a change.
+Check: checklist — the task command item; audit §8.
+Applies to: projects with a task command.

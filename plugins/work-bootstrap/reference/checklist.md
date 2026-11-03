@@ -23,8 +23,10 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       the plan, posted on a yes before the first code. Its plan
       carries `kickoff`'s state table — the testing skill's state lists among
       its rows — framework pointers and structural line. Its answer names
-      the change's level on its first line — small, normal or critical — and
-      a small change gets a short plan in chat and a yes, not plan mode.
+      the change's level on its first line — small, normal or critical — by
+      the surface of behaviour, a new isolated module with its wiring being
+      small, and a small change gets a short plan in chat and a yes, not
+      plan mode.
 - [ ] The command that starts a task takes an optional `worktree` argument
       and offers one when a live `git status` finds the tree busy: beside the
       repository, with the ignored files the work reads linked in, generated

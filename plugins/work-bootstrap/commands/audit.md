@@ -157,8 +157,9 @@ does not raise it again.
    testing skill before it writes the plan — and does its plan carry the
    state table, with the testing skill's state lists among its rows, the
    framework pointers and the structural line? Does its answer name the
-   change's level on its first line — small, normal, critical — with a short
-   plan and a yes for a small change, and does the review recommend a fresh
+   change's level on its first line — small, normal, critical — by the
+   surface of behaviour, a new isolated module with its wiring small, with
+   a short plan and a yes for a small change, and does the review recommend a fresh
    session except for a small change, stopping on a critical one in the
    session that edited it? Does it
    take a `worktree` argument and offer one when a live `git status` finds

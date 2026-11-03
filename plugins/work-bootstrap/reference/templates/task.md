@@ -54,9 +54,16 @@ diff yet:
 - **small** — prose, or a change that keeps behaviour, within the
   thresholds `/work-bootstrap:handoff` measures (at most 100 lines and 5
   files, prose alone up to 300; `${CLAUDE_PLUGIN_ROOT}/reference/change-size.md`),
-  and in no risk class of the testing skill. A short plan in chat — what
-  changes, which files, how it is proven — and the developer's yes before
-  code take the place of the questionnaire and plan mode; the review and
+  and in no risk class of the testing skill. A new isolated page or module
+  is small too, whatever the thresholds say, when the rest of its diff is
+  wiring — the route registry, navigation links, catalogue rows, tests
+  updated to the new link, documentation lines: the level follows the
+  surface of behaviour, not the count of files. A file of a risk class
+  touched only to register the new path takes a test of that registration,
+  not the critical level. A short plan in chat — what changes, which files,
+  how it is proven — and the developer's yes before code take the place of
+  the questionnaire and plan mode; the targeted checks stand for the full
+  gate (`command.md`, "The full gate runs once per branch"); the review and
   the merge run in the same session;
 - **critical** — money, access, a migration, deleted data. Its review runs
   only in a fresh session;
@@ -64,9 +71,12 @@ diff yet:
 
 The developer may raise the level at any time; the agent never lowers a
 critical one. The handoff measures the diff and raises a small change that
-outgrew the thresholds, in one line. Observed on a live project: a 31-line
-documentation change took nine sessions, nearly nine tenths of its cost
-spent on their starts.
+outgrew the thresholds, in one line, unless the overage is that wiring.
+Observed on a live project: a 31-line documentation change took nine
+sessions, nearly nine tenths of its cost spent on their starts; a new static
+page — half an hour of work, sixteen files, most of them wiring — went
+through the whole normal cycle: a plan, a review in its own session, a round
+of fixes, the full gate twice.
 
 ### A command that starts a task can open it in a worktree
 

@@ -30,7 +30,9 @@ session holds.
    `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/change_size.py" <target> --base <base>`
    (`${CLAUDE_PLUGIN_ROOT}/reference/change-size.md`). A small change whose
    measure reads `normal` becomes normal, said in one line with the
-   script's reason; the measure never lowers a level.
+   script's reason — unless the overage is the wiring of a new isolated
+   page or module (`new` and `changed` in the line, by the task command's
+   level), which the line names instead; the measure never lowers a level.
 
 2. **Collect pointers, not content.** The files the next phase reads, those
    that exist: the plan (the session's plan file, `~/.claude/plans/` unless
