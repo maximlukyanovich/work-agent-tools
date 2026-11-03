@@ -269,8 +269,11 @@ does not raise it again.
 
 ## Report
 
-A table: finding → layer → severity → proposed action. Apply changes after
-confirmation, one group at a time, never all at once.
+A table: finding → layer → severity → proposed action. What the developer
+must decide is asked with the questionnaire tool, never as a list in the
+report's text: load the `work-bootstrap:kickoff` skill first — its
+questionnaire rules apply, a closing "anything to add?" included. Apply
+changes after confirmation, one group at a time, never all at once.
 
 End with the next step as a block: changes applied — `/reload-skills` when a
 command or skill changed, the project's commit command in this same session,
