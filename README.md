@@ -122,16 +122,17 @@ no context until typed.
 ## Everyday use
 
 The workflow commands are the project's own — `setup` writes them, and their
-names and steps differ between repositories; the plugins supply the shared
+steps differ between repositories; their names carry the project's prefix,
+`my-` here, so none hides a built-in command. The plugins supply the shared
 half. A task in a project with a tracker typically runs in phases, each in a fresh
 session; a small change runs whole in one:
 
 ```bash
 /work-tracker:next       what to take next from the board
-/task PROJ-12            the project's command: branch, plan, open questions; no code before your yes
-/commit                  the project's command: stage, check what changed, message by its convention
-/code-review             the project's command: findings by severity, each with file:line
-/promote                 the project's command: merge along the branch chain, then the result comment and the worklog
+/my-task PROJ-12         the project's command: branch, plan, open questions; no code before your yes
+/my-commit               the project's command: stage, check what changed, message by its convention
+/my-review               the project's command: findings by severity, each with file:line
+/my-promote              the project's command: merge along the branch chain, then the result comment and the worklog
 ```
 
 Every command ends with the next step as a block ready to copy;

@@ -11,6 +11,9 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       `.agents/skills/`, each with a precise `description`.
 - [ ] Commands: only the ones actually needed, each with frontmatter and a hard-
       rules section; shared rules live in the index, not in every file.
+- [ ] Every command is named `<prefix>-<verb>` with the profile's
+      `Command prefix`; with `none`, no name is a built-in command or a
+      bundled skill (`reference/layout.md` → Command names).
 - [ ] The command that starts a task, when a tracker is reachable, offers the
       opening steps — in-progress transition, assignee, parent status — as one
       question carrying the current state, and loads `kickoff` before asking

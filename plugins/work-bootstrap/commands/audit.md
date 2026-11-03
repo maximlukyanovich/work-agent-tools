@@ -252,6 +252,16 @@ does not raise it again.
       by a run (a spy, a counter) before it enters the plan. Observed: one
       such claim was refuted by a spy that counted zero requests.
 
+16. **Command names.** Is every file in `.claude/commands/` named
+    `<prefix>-<verb>` with the profile's `Command prefix`
+    (`${CLAUDE_PLUGIN_ROOT}/reference/layout.md` → Command names)? A project
+    without the line is asked Q12 (`${CLAUDE_PLUGIN_ROOT}/reference/questions.md`),
+    its options in that order, `my` the recommended one — a prefix is
+    recommended, not required:
+    `none` with its reason is a decline. With `none`, each name is checked
+    against the page that rule names; a name on it is a defect — the
+    project's command hides the built-in — and its rename is proposed.
+
 ## Report
 
 A table: finding → layer → severity → proposed action. Apply changes after

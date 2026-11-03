@@ -31,7 +31,7 @@ The order is fixed. Steps are not reordered or skipped.
 
 2. **Ask what the code cannot answer.** One or two batches, never one question
    per turn, every question with an explicit default. The list is in
-   `${CLAUDE_PLUGIN_ROOT}/reference/questions.md` — eleven of them, and the
+   `${CLAUDE_PLUGIN_ROOT}/reference/questions.md` — twelve of them, and the
    most valuable is "what has already gone wrong here", because without it the
    hook set comes out speculative. Before Q6, read the facts its branch
    deletion question carries — the platform's setting, the default and the
@@ -64,6 +64,7 @@ The order is fixed. Steps are not reordered or skipped.
    `curl -fsSL https://raw.githubusercontent.com/maximlukyanovich/work-agent-tools/<tag>/plugins/work-bootstrap/CHANGES.md`:
    a pinned clone installs the plugin from the tag, and its `SessionStart`
    hook reports a later id as unknown on every start, which no update cures.
+   The section's `Command prefix:` is Q12's answer, and the commands are named by it.
 
    The plugin set goes where Q10 put it:
    `claude plugin install <plugin>@mluk-work-agent-tools --scope project` — or

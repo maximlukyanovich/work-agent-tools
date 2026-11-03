@@ -41,6 +41,7 @@ checks — a row per path class with a command that narrows.
 
 ## Harness
 Baseline: <id> — the last `work-bootstrap` change (CHANGES.md) applied here.
+Command prefix: <prefix> — or `none — <reason>`; Q12, `reference/layout.md` → Command names.
 ```
 
 Two rules that keep it useful:

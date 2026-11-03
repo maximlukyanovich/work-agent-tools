@@ -29,7 +29,7 @@ Other scopes and updating: [Quick start](../../README.md#quick-start).
 | `/work-tracker:help` | What this plugin can do: commands, the order they are applied in, the conventions it carries. Optional language argument. |
 
 Starting work on an issue — branch, plan, quality gate — stays a **project**
-command, usually `/task`. That procedure is tied to branch naming and the local
+command, usually `/my-task`. That procedure is tied to branch naming and the local
 gate, and those differ between repositories; only the tracker half is shared.
 
 ## Where the rules live
