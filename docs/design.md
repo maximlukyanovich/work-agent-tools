@@ -98,6 +98,10 @@ repositories and stay there; only the shareable half moves here. The namespace
 prevents the name clash, but not the confusion of two commands doing the same
 job.
 
+**A project's own commands carry a prefix of their own** — `/my-task`, not
+`/task`. A project command named like a built-in takes its place without a
+warning; `reference/layout.md` in `work-bootstrap` holds the rule.
+
 **A plugin is replaced, not renamed.** A new name changes every command it ships
 and every document quoting them. If a plugin's subject drifts far enough that
 its name no longer fits, a new plugin ships beside it and the old one is frozen,

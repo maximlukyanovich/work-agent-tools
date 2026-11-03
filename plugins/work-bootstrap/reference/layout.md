@@ -77,3 +77,25 @@ once:
 ```bash
 ln -s ../../.claude/skills/<name> .agents/skills/<name>
 ```
+
+## Command names
+
+**A project command is named `<prefix>-<verb>`** — `/my-task`, `/my-commit`,
+`/my-review`. A file in `.claude/commands/` named like a built-in command or a
+bundled skill of Claude Code takes its place in the project, without a
+warning: `review.md` answers `/review`, `code-review.md` answers
+`/code-review`, and the built-in is out of reach (probed on Claude Code
+2.1.316). The prefix keeps today's built-ins and tomorrow's reachable, and
+typing `/my` lists the project's commands together. One rule for every
+command, the onboarding one included.
+
+The prefix is Q12's answer, kept in the profile's `## Harness` as
+`Command prefix: my`. `Command prefix: none — <reason>` keeps bare names;
+then each name is checked against the built-in commands and bundled skills
+listed at `https://code.claude.com/docs/en/commands` — fetched for the check,
+never copied into a plugin — and a name on that list is renamed.
+
+A rename moves the file and every reference to it — `AGENTS.md`,
+`.claude/COMMANDS.md`, `.claude/README.md`, the other commands, skills and
+docs: `grep -rn '/<old>\b'` finds them — and the agent's memory of the
+project, which lives outside the repository.

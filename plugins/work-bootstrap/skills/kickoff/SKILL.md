@@ -17,7 +17,7 @@ the developer's decisions — recorded, not remembered.
 
 Any task whose answer is not obvious from one file: a feature, an integration,
 a refactor across modules, a workflow change. A typo, a one-line fix or a
-rename does not need this. When the project has a `/task` command, it collects
+rename does not need this. When the project has a command that starts a task (`/my-task`), it collects
 the issue, offers its status transition and prepares the branch (see
 `reference/templates/task.md`); this skill governs the planning
 around it. The task command names the change's level first — small, normal

@@ -105,3 +105,13 @@ settings change.
 **Q11. Local notes.** Does the developer keep local material — specs, excerpts,
 estimates, plans — and where should it live. Default `docs/local/`, fully
 gitignored except its own README.
+
+**Q12. Command prefix.** The project's commands are named `<prefix>-<verb>`
+(`reference/layout.md` → Command names). The options, in this order: `my` —
+first and recommended, the same in every project, so the habit carries over; a
+short code of this project, two to four letters, proposed as a concrete one;
+no prefix. The developer's own prefix is the free answer, offered last; `work`
+comes with a warning that it merges with the `work-*` plugins in the command
+menu. No prefix asks its reason next, in the developer's own words — never one
+the agent supplies: names that collide with no built-in are what `none`
+requires, not a reason.

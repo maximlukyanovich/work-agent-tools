@@ -686,3 +686,14 @@ Check: checklist — "The plugin set is recorded where Q10 put it"; no
 `work-jira` in the settings file or the harness files, and no script in the
 local notes puts a plugin-cache path on `sys.path`.
 Applies to: projects with `work-jira`.
+
+## 2026-11-03 · command-prefix
+
+What: the project's commands are named `<prefix>-<verb>` — `/my-task`,
+`/my-commit` — and the profile's `## Harness` records `Command prefix:
+<prefix>`: a command named like a built-in command or a bundled skill of
+Claude Code hides it in the project. A project renames its commands and every
+reference to them in the harness, or declines with `Command prefix: none —
+<reason>`; with `none`, a name that is a built-in is renamed all the same.
+Check: checklist — "Every command is named `<prefix>-<verb>`"; audit §16.
+Applies to: projects with commands in `.claude/commands/`.

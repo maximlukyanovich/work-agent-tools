@@ -96,7 +96,7 @@ can reach only one of them says so and ranks on what it has.
 
 7. **End with the prompt that starts it**, in a code block, ready to paste
    into a fresh session: the project's start command for the recommended
-   issue (`/task KEY` or what the profile names), then one or two lines on
+   issue (`/my-task KEY` or the name the project gave it), then one or two lines on
    what to read first — where the contract and the decisions for it are
    recorded, the design screen, a related housekeeping item worth doing on
    the same branch. Only pointers that this run found; nothing to be
@@ -105,7 +105,7 @@ can reach only one of them says so and ranks on what it has.
 ## Hard rules
 
 - **Read-only.** No transition, no assignment, no comment, no worklog. The
-  developer starts the issue with the project's own command (`/task` or its
+  developer starts the issue with the project's own command (`/my-task` or its
   equivalent).
 - **A dependency is what the tracker or the repository says, not a guess.** An
   issue with no `Blocks` link, no named dependency in its text and no roadmap

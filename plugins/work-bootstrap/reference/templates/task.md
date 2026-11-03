@@ -6,7 +6,7 @@ The status of an issue is the only thing the rest of the team sees of work
 that has not shipped. A task started without moving it reads as untouched
 for days — and the move, left to memory, is the step that gets skipped. So
 when the profile names a tracker the agent can reach (an MCP server or the
-plugin's script), the command that starts a task (`/task` or its equivalent)
+plugin's script), the command that starts a task (`/my-task` or its equivalent)
 asks **one question**, once the issue is read and before the branch is cut:
 
 - **the transition to the workflow's in-progress status**, chosen from the
