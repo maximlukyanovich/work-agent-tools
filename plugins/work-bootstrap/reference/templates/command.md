@@ -27,8 +27,8 @@ worktree path — and run there from the main workspace:
   `git rev-parse --verify` resolves is a branch, and
   `git worktree list --porcelain` says where it is checked out.
 - **Run there.** Every git call as `git -C <tree>`, the gate as
-  `cd <tree> && <gate>`; a record the commands share, such as a validated
-  tree, goes in that tree's own git directory
+  `cd <tree> && <gate>`; a record the commands share, such as the gate
+  record, goes in that tree's own git directory
   (`git -C <tree> rev-parse --git-dir`).
 - **A branch checked out nowhere** has no tree for the gate: the review reads
   it by refs and reports the gate as not run; commit and merge stop and say
@@ -56,13 +56,17 @@ expensive place for the next phase, and a review must not run there at all.
 A small change is the exception (`task.md`, "The change sets the process"): its
 phases stay in the session that started it while its diff stays small.
 
-### The gate runs once per tree
+### The full gate runs once per branch
 
 The full gate costs minutes. Run after every edit and again by every command,
 it makes a fix wait longer than the fix. Observed on a live project: the
 commit command and then the review ran a six-minute gate on the same tree,
-and an amend of six files took half an hour. So the commands that commit,
-review, sync and merge share one rule:
+and an amend of six files took half an hour; on another, a half-hour task's
+merge ran the full gate again after a review fix that had passed its
+targeted checks. So the commands that commit, review, sync and merge share
+one rule, and the record behind it is kept by
+`${CLAUDE_PLUGIN_ROOT}/scripts/gate_record.py`
+(`${CLAUDE_PLUGIN_ROOT}/reference/gate-record.md`):
 
 - **Between edits, in a commit, after a sync — the targeted checks.** The
   profile names a row per path class with a command that really narrows:
@@ -72,15 +76,46 @@ review, sync and merge share one rule:
   configuration among them: the lockfile, the linter's, type-checker's or
   test runner's config — runs the full gate. A filter that silently runs the
   whole suite is not a targeted check; it is tried once before it is written
-  down.
-- **The full gate — once per tree.** The review runs it on the head it reads,
-  in the background while the rubric runs; the merge command runs it before
-  the push. Every green full run on a clean tree records the tree —
-  `git rev-parse HEAD^{tree}` into `validated-tree` in that tree's git
-  directory — and every command skips a recorded tree, saying so.
+  down. A commit whose every path had its row, green, on a clean tree after
+  the commit, is recorded `targeted`.
+- **A hub file takes the tests of its areas.** The tests related to a file
+  most of the code imports — the route registry, a shared config, shared
+  types — are the whole suite. The profile's `hub files` lists such files; a
+  change to one runs the tests of the areas whose behaviour the diff changes,
+  by a path filter (`vitest run <dir>` keeps the test files whose path
+  contains it), and leaves the whole suite to the branch's full gate: such a
+  commit is not recorded `targeted`. Observed on a live project: `related`
+  on a route registry ran 1749 tests beside a running dev server — timeouts
+  and two reruns.
+- **The full gate — once per branch.** The review runs it on the head it
+  reads, in the background while the rubric runs; the merge command runs it
+  before the push. Each first runs `gate_record.py check` and skips on
+  `skip`, saying so: the head's tree passed it, or a run earlier on the
+  branch did and every commit since is recorded. Every green full run on a
+  clean tree is recorded `full`. A small change (`task.md`, "The change sets
+  the process") checks with `--small`: its commits' targeted checks stand
+  for the gate, and the review runs the full gate once only when a commit
+  touched a hub file or a path no row covers.
+- **Where the full gate runs is the project's call** — the profile's
+  `full gate`. `local`, and no key: as above. `ci`: the pipeline runs it on
+  every merge request and nothing records it locally; the review runs the
+  targeted checks of its range and reports the pipeline's status on its
+  head, and the merge command waits for the pipeline — `gh pr checks
+  --watch`, or `glab ci status --live` and then its status from
+  `--output json` — and never merges on red or pending. A red pipeline is
+  fixed by a new commit: the commit is already on the remote. Before the
+  push the command offers the full gate locally as the second option, only
+  with a reason — the diff touches what the targeted checks do not narrow
+  (configuration, dependencies, hub files, the gate itself); the commits
+  will still change (a review or a round of fixes ahead, an amend); the
+  merge does not squash — with CI recommended, the local run's price (the
+  gate's measured time) and its gain (an amend instead of a fix commit, a
+  pipeline that stays green). No reason, no question.
 - **Red under load is not red by code.** When only timeouts fail while the
   machine is busy, the failing files are rerun alone, and both runs and the
-  load are reported.
+  load are reported. A dev server or stack the session started is stopped
+  before a test run wider than a few files; one the developer runs is named
+  in the report.
 - **A gate of several parts picks them by content.** A part whose content is
   unchanged since its last green run is skipped — a fingerprint of the part's
   tree, kept in the git common directory so every worktree shares it, taken

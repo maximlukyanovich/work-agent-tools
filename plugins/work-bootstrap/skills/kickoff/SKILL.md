@@ -121,8 +121,8 @@ its yes is the approval this skill asks for.
    again.
 
 7. **After approval**: code in slices, the targeted checks of what changed
-   after each edit — the full gate runs once per tree, in the review and
-   before the push — verify in the real environment, commit each slice
+   after each edit — the full gate runs once per branch, in the review or
+   before the push, or in CI — verify in the real environment, commit each slice
    through the project's commit procedure — only on an explicit go-ahead,
    and never pushed without its own. Each change carries its proof by risk,
    as the project's testing skill says — a test for a change in a risk class

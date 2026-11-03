@@ -697,3 +697,21 @@ reference to them in the harness, or declines with `Command prefix: none —
 <reason>`; with `none`, a name that is a built-in is renamed all the same.
 Check: checklist — "Every command is named `<prefix>-<verb>`"; audit §16.
 Applies to: projects with commands in `.claude/commands/`.
+
+## 2026-11-03 · gate-per-branch
+
+What: the full gate runs once per branch, not once per tree. The commit
+command records a commit whose every changed path passed its targeted row
+(`gate_record.py record targeted`), the review and the merge command record
+a green full run (`record full`) and skip the gate when `gate_record.py
+check` says so — a full run earlier on the branch and every commit since
+recorded. The profile's `## Repository` lists the hub files, whose related
+tests are the whole suite: a change to one runs the tests of its areas by a
+path filter, and the commit is not recorded. It also records `full gate:
+local | ci`: with `ci` the review runs the targeted checks of its range and
+reports the pipeline's status, and the merge command waits for a green
+pipeline instead of running the gate.
+Check: checklist — "Deterministic layer"; audit §6.
+Applies to: projects with a commit, review or merge command.
+Supersedes: gate-once-per-tree — "every command skips a tree already
+recorded green"; commit-skips-validated-gate — the record it names.

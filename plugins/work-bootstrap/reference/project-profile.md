@@ -37,7 +37,10 @@ and which status means ready.
 Branch chain and platform. Who deletes a merged branch on the remote —
 `delete branch: ask | merge | platform`, `ask` without the key. Languages:
 committed, user-facing, conversation. The gate command, and the targeted
-checks — a row per path class with a command that narrows.
+checks — a row per path class with a command that narrows. Where the full gate
+runs — `full gate: local | ci`, `local` without the key. The hub files — those
+whose related tests are the whole suite — and the command that runs one
+area's tests by path.
 
 ## Harness
 Baseline: <id> — the last `work-bootstrap` change (CHANGES.md) applied here.

@@ -53,8 +53,10 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       `validate` command that runs them; the commit runs the targeted checks
       of the changed paths — a profile row per path class whose command
       narrows, tried once — and the full gate only for a path no row covers;
-      the review and the push run the full gate once per tree and skip a tree
-      already recorded green; no git hook runs the whole gate, and lint-staged
+      the review and the push run the full gate once per branch and skip it
+      when `gate_record.py check` says so; the profile records `full gate`
+      (`local` or `ci`) and lists its `hub files`, each changed with the
+      tests of its areas, not `related`; no git hook runs the whole gate, and lint-staged
       runs the formatter after the linter's fixes.
 - [ ] The gate is fast: one of several parts skips a part whose content is
       unchanged since its last green run — fingerprinted before and after its

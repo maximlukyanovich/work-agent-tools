@@ -109,8 +109,12 @@ does not raise it again.
 
 6. **Where the gate runs.** Does the commit command run the targeted checks
    of the changed paths, with the full gate only for a path no row covers —
-   and do the review and the push run the full gate once per tree, skipping
-   a tree already recorded green? Does every code path have a targeted row
+   and do the review and the push run the full gate once per branch,
+   skipping it when `gate_record.py check` says so? Does the profile record
+   `full gate`, and with `ci` does the pipeline really run the full gate on
+   every merge request — if not, a finding with a question, never an edit?
+   Does it list its `hub files`, and does a change to one run the tests of
+   its areas rather than `related`? Does every code path have a targeted row
    whose command narrows, and does a gate of several parts skip a part whose
    content is unchanged — content being everything its tool reads, imports
    and disk reads included? Does every path a part excludes name its probe
