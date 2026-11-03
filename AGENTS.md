@@ -58,8 +58,8 @@ for working on the repository itself.
 - **Scripts are run, not read.** Their formats are documented under
   `reference/`; opening a script to learn its input costs thousands of tokens
   and teaches nothing the reference does not.
-- **A plugin command never takes over a job the project owns** — `/task`,
-  `/commit`, `/promote`, `/sync`, `/start` stay in the projects. Only the
+- **A plugin command never takes over a job the project owns** — the task,
+  commit, promote, sync and start commands stay in the projects. Only the
   shareable half of a procedure moves here.
 - **The method lives here; project specifics live in the project profile.** A
   rule that names a concrete path, key or design system does not belong in a

@@ -34,7 +34,7 @@ times. That is the exact failure this repository exists to prevent.
 
 **When a command still belongs to the project:** when the procedure itself
 differs, not just its parameters. One project has `/prepare-pr-texts`, another
-has `/promote` and `/sync` — different processes around GitLab, too early to unify.
+has its own promote and sync commands — different processes around GitLab, too early to unify.
 Such commands stay local and coexist with the plugin's.
 
 The test: if the difference fits in a profile line, it is a library. If the
@@ -92,8 +92,8 @@ name inside the command name: `/work-tracker:tracker-create` is what that produc
 
 Two rules follow.
 
-**A plugin command never takes over a job the project owns.** `/task`,
-`/commit`, `/promote`, `/sync`, `/start` are procedures that differ between
+**A plugin command never takes over a job the project owns.** The task,
+commit, promote, sync and start commands are procedures that differ between
 repositories and stay there; only the shareable half moves here. The namespace
 prevents the name clash, but not the confusion of two commands doing the same
 job.

@@ -93,7 +93,11 @@ The prefix is Q12's answer, kept in the profile's `## Harness` as
 `Command prefix: my`. `Command prefix: none — <reason>` keeps bare names;
 then each name is checked against the built-in commands and bundled skills
 listed at `https://code.claude.com/docs/en/commands` — fetched for the check,
-never copied into a plugin — and a name on that list is renamed.
+never copied into a plugin — and a name on that list is renamed: the project
+takes a prefix after all, or that command alone gets a verb not on the list
+(`code-review` → `inspect`). With `none`, `<prefix>-` drops out of every name
+the plugin texts give: `task.md`, `/task`. No line, in a project set up before
+the rule, reads as `none` until `audit` asks Q12.
 
 A rename moves the file and every reference to it — `AGENTS.md`,
 `.claude/COMMANDS.md`, `.claude/README.md`, the other commands, skills and
