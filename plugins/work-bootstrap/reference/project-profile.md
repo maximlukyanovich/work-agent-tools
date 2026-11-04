@@ -39,7 +39,7 @@ Branch chain and platform. Who deletes a merged branch on the remote —
 committed, user-facing, conversation. The gate command, and the targeted
 checks — a row per path class with a command that narrows. Where the full gate
 runs — `full gate: local | ci`, `local` without the key. The hub files — those
-whose related tests are the whole suite — and the command that runs one
+whose related tests are most of the suite — and the command that runs one
 area's tests by path.
 
 ## Harness

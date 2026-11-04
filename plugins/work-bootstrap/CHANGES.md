@@ -710,7 +710,7 @@ records it (`record full`), an amend that ran only its own rows over one is
 not recorded, the review and the merge command record a green full run the
 same way and skip the gate when `gate_record.py check` says so — a full run
 earlier on the branch and every commit since recorded. The profile's
-`## Repository` lists the hub files, whose related tests are the whole suite:
+`## Repository` lists the hub files, whose related tests are most of the suite:
 a change to one runs the tests of its areas by a path filter, and the commit
 is not recorded. Its `full gate` says where the gate runs, `local` without the
 key: with `ci` a path no row covers goes to the pipeline and its commit is not
@@ -718,9 +718,11 @@ recorded, the review reports the pipeline's status without rerunning the
 commits' targeted checks, and the merge command waits for a green pipeline
 instead of running the gate. A dev server or stack the session started is
 stopped before a test run wider than a few files; one the developer runs is
-named in the report.
+named in the report. A full run red by timeouts alone is green for the record
+once its failing files pass alone and nothing is left unrun, and a sync sent
+to the full gate records it.
 Check: checklist — "Deterministic layer"; audit §6.
-Applies to: projects with a commit, review or merge command.
+Applies to: projects with a commit, review, sync or merge command.
 Supersedes: gate-once-per-tree — "every command skips a tree already
 recorded green"; commit-skips-validated-gate — the record it names.
 

@@ -20,8 +20,10 @@ python3 scripts/gate_record.py check [<target>] [--base <branch>] [--small]
   an amend or a rebase that keeps the content keeps its record. A tree
   recorded `full` once stays full.
 - **`record`** appends the head's tree only when the tree is clean, untracked
-  files included. `full` — after a green full gate; `targeted` — after a
-  commit whose every changed path had a targeted row and the rows passed. The
+  files included. `full` — after a green full gate, or a run red by timeouts
+  alone that "Red under load" calls green, nothing left unrun; `targeted` —
+  after a commit whose every changed path had a targeted row and the rows
+  passed. The
   paths are the whole commit's (`git show --name-only HEAD`): an amend counts
   what the commit already held, not only the round's. A commit that touched
   a hub file ran only its areas' tests and is not recorded: the full gate is

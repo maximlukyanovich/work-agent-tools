@@ -77,7 +77,8 @@ one rule, and the record behind it is kept by the project's
   configuration among them: the lockfile, the linter's, type-checker's or
   test runner's config — runs the full gate. With `full gate: ci` it goes to
   the pipeline instead: the step runs no full gate, and such a commit is not
-  recorded. A filter that silently runs the whole suite is not a targeted
+  recorded. A sync the rule sends to the full gate records `full` when it is
+  green on a clean tree. A filter that silently runs the whole suite is not a targeted
   check; it is tried once before it is written down. A commit whose every
   path had its row, green, on a clean tree after
   the commit, is recorded `targeted`. The paths are the whole commit's
@@ -86,7 +87,7 @@ one rule, and the record behind it is kept by the project's
   the last, with `--commits <n>`.
 - **A hub file takes the tests of its areas.** The tests related to a file
   most of the code imports — the route registry, a shared config, shared
-  types — are the whole suite. The profile's `hub files` lists such files; a
+  types — are most of the suite. The profile's `hub files` lists such files; a
   change to one runs the tests of the areas whose behaviour the diff changes,
   by a path filter (`vitest run <dir>` keeps the test files whose path
   contains it), and leaves the whole suite to the branch's full gate: such a
@@ -127,9 +128,12 @@ one rule, and the record behind it is kept by the project's
   pipeline that stays green). No reason, no question.
 - **Red under load is not red by code.** When only timeouts fail while the
   machine is busy, the failing files are rerun alone, and both runs and the
-  load are reported. A dev server or stack the session started is stopped
-  before a test run wider than a few files; one the developer runs is named
-  in the report.
+  load are reported. Passing alone, they make the full run green for the
+  record once nothing is left unrun: a gate or a runner that stopped at the
+  first failure has the parts and files after it run too, and they pass. Any
+  other failure keeps it red. A dev server or stack the session started is
+  stopped before a test run wider than a few files; one the developer runs
+  is named in the report.
 - **A gate of several parts picks them by content.** A part whose content is
   unchanged since its last green run is skipped — a fingerprint of the part's
   tree, kept in the git common directory so every worktree shares it, taken

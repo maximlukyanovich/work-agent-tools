@@ -49,7 +49,7 @@ The order is fixed. Steps are not reordered or skipped.
    written. Which layer each rule
    belongs on: the `layers` skill. A review command comes with
    `${CLAUDE_PLUGIN_ROOT}/templates/review-target/review_target.py`, and a
-   commit, review or merge command with
+   commit, review, sync or merge command with
    `${CLAUDE_PLUGIN_ROOT}/templates/gate-record/gate_record.py`, each copied
    unchanged into the project's scripts folder — a project command cannot
    reach the plugin's own files.

@@ -18,7 +18,7 @@ rather than asking from scratch.
 **Q3. What "verified" means.** Which command is the full gate, and which narrow
 commands check a change between edits and in a commit — the linter on the
 changed files, the type-check, the tests related to them, each tried once to
-see that it narrows; which hub files make "related" the whole suite, and the
+see that it narrows; which hub files make "related" most of the suite, and the
 command that runs one area's tests by path instead — asked by the measured
 cost, not the mechanism: "a change to `<file>` makes `related` run N of the
 suite's M test files". Where the full gate runs —
