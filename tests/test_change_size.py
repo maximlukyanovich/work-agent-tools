@@ -71,11 +71,12 @@ class ChangeSizeTest(unittest.TestCase):
     def test_lines_at_the_edge(self):
         self.lines_in(1, 100)
         self.assertEqual(self.in_repo()[1],
-                         "size: small · files 1 · +100 −0 · prose-only no · uncommitted no")
+                         "size: small · files 1 · +100 −0 · prose-only no · uncommitted no · new 1 +100")
         self.write("src/f0.ts", "x\n", "a")
         self.commit("one more")
         self.assertEqual(self.in_repo()[1],
-                         "size: normal · files 1 · +101 −0 · prose-only no · uncommitted no — lines 101 > 100")
+                         "size: normal · files 1 · +101 −0 · prose-only no · uncommitted no"
+                         " · new 1 +101 — lines 101 > 100")
 
     def test_files_at_the_edge(self):
         self.lines_in(5, 10)
@@ -88,7 +89,7 @@ class ChangeSizeTest(unittest.TestCase):
         self.write("NOTES.md", "x\n" * 150)
         self.commit("prose")
         self.assertEqual(self.in_repo()[1],
-                         "size: small · files 2 · +300 −0 · prose-only yes · uncommitted no")
+                         "size: small · files 2 · +300 −0 · prose-only yes · uncommitted no · new 2 +300")
         self.write("NOTES.md", "x\n", "a")
         self.commit("one more")
         self.assertTrue(self.in_repo()[1].endswith("— prose lines 301 > 300"))
@@ -104,7 +105,7 @@ class ChangeSizeTest(unittest.TestCase):
         self.write("img.png", "\0\1\2binary", "w")
         self.commit("binary")
         self.assertEqual(self.in_repo()[1],
-                         "size: small · files 1 · +0 −0 · prose-only no · uncommitted no")
+                         "size: small · files 1 · +0 −0 · prose-only no · uncommitted no · new 1 +0")
 
     def test_rename_counts_once(self):
         self.write("src/old.ts", "x\n" * 80)
@@ -130,15 +131,22 @@ class ChangeSizeTest(unittest.TestCase):
                          "size: normal · files 4 · +127 −0 · prose-only no · uncommitted no"
                          " · new 1 +120 · changed 3 +7 −0, largest 5 — lines 127 > 100")
 
+    def test_new_files_alone_are_shown(self):
+        self.write("src/page.ts", "p\n" * 120)
+        self.commit("page")
+        self.assertEqual(self.in_repo()[1],
+                         "size: normal · files 1 · +120 −0 · prose-only no · uncommitted no"
+                         " · new 1 +120 — lines 120 > 100")
+
     def test_uncommitted_is_noticed_not_counted(self):
         self.lines_in(1, 10)
         self.write("src/f0.ts", "y\n" * 500, "a")
         self.assertEqual(self.in_repo()[1],
-                         "size: small · files 1 · +10 −0 · prose-only no · uncommitted yes")
+                         "size: small · files 1 · +10 −0 · prose-only no · uncommitted yes · new 1 +10")
 
     def test_target_directory_and_branch(self):
         self.lines_in(1, 20)
-        expected = "size: small · files 1 · +20 −0 · prose-only no · uncommitted no"
+        expected = "size: small · files 1 · +20 −0 · prose-only no · uncommitted no · new 1 +20"
         self.assertEqual(self.size(str(self.repo))[1], expected)
         tree = Path(self.tmp.name) / "repo-y"
         run(self.repo, "git", "worktree", "add", "-q", "-b", "feat/y", str(tree), "main")
@@ -146,7 +154,7 @@ class ChangeSizeTest(unittest.TestCase):
         run(tree, "git", "add", "-A")
         run(tree, "git", "commit", "-q", "-m", "y")
         self.assertEqual(self.in_repo("feat/y")[1],
-                         "size: small · files 1 · +3 −0 · prose-only no · uncommitted no")
+                         "size: small · files 1 · +3 −0 · prose-only no · uncommitted no · new 1 +3")
         run(self.repo, "git", "branch", "-q", "feat/z", "feat/x")
         self.assertEqual(self.in_repo("feat/z")[1], expected)
 

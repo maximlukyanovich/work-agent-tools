@@ -54,7 +54,7 @@ merge — the block is for a fresh session and comes from
 `/work-bootstrap:handoff`: the session that did the work is the most
 expensive place for the next phase, and a review must not run there at all.
 A small change is the exception (`task.md`, "The change sets the process"): its
-phases stay in the session that started it while its diff stays small.
+phases stay in the session that started it while the handoff leaves it small.
 
 ### The full gate runs once per branch
 
@@ -64,9 +64,10 @@ commit command and then the review ran a six-minute gate on the same tree,
 and an amend of six files took half an hour; on another, a half-hour task's
 merge ran the full gate again after a review fix that had passed its
 targeted checks. So the commands that commit, review, sync and merge share
-one rule, and the record behind it is kept by
-`${CLAUDE_PLUGIN_ROOT}/scripts/gate_record.py`
-(`${CLAUDE_PLUGIN_ROOT}/reference/gate-record.md`):
+one rule, and the record behind it is kept by the project's
+`scripts/gate_record.py` — a copy of
+`${CLAUDE_PLUGIN_ROOT}/templates/gate-record/gate_record.py`, its contract
+`${CLAUDE_PLUGIN_ROOT}/reference/gate-record.md`:
 
 - **Between edits, in a commit, after a sync — the targeted checks.** The
   profile names a row per path class with a command that really narrows:
@@ -74,10 +75,15 @@ one rule, and the record behind it is kept by
   (`vitest related <files> --run`, one app's tests with `--keepdb`). A step
   runs the rows of the paths it changed; a path no row covers — shared
   configuration among them: the lockfile, the linter's, type-checker's or
-  test runner's config — runs the full gate. A filter that silently runs the
-  whole suite is not a targeted check; it is tried once before it is written
-  down. A commit whose every path had its row, green, on a clean tree after
-  the commit, is recorded `targeted`.
+  test runner's config — runs the full gate. With `full gate: ci` it goes to
+  the pipeline instead: the step runs no full gate, and such a commit is not
+  recorded. A filter that silently runs the whole suite is not a targeted
+  check; it is tried once before it is written down. A commit whose every
+  path had its row, green, on a clean tree after
+  the commit, is recorded `targeted`. The paths are the whole commit's
+  (`git show --name-only HEAD`): an amend counts what the commit already
+  held, not only the round's. Several groups of one run are recorded after
+  the last, with `--commits <n>`.
 - **A hub file takes the tests of its areas.** The tests related to a file
   most of the code imports — the route registry, a shared config, shared
   types — are the whole suite. The profile's `hub files` lists such files; a
@@ -89,19 +95,25 @@ one rule, and the record behind it is kept by
   and two reruns.
 - **The full gate — once per branch.** The review runs it on the head it
   reads, in the background while the rubric runs; the merge command runs it
-  before the push. Each first runs `gate_record.py check` and skips on
+  before the push. Each first runs
+  `python3 scripts/gate_record.py check <tree> --base <base>` and skips on
   `skip`, saying so: the head's tree passed it, or a run earlier on the
   branch did and every commit since is recorded. Every green full run on a
   clean tree is recorded `full`. A small change (`task.md`, "The change sets
   the process") checks with `--small`: its commits' targeted checks stand
   for the gate, and the review runs the full gate once only when a commit
-  touched a hub file or a path no row covers.
+  is not recorded: it touched a hub file, or an amend ran only its own rows
+  over a path no row covers. Such a path otherwise ran it in its commit,
+  recorded `full`.
 - **Where the full gate runs is the project's call** — the profile's
   `full gate`. `local`, and no key: as above. `ci`: the pipeline runs it on
-  every merge request and nothing records it locally; the review reports the
+  every merge request, and its status decides — no command runs it on its
+  own, a commit whose paths all have rows still records `targeted`, and a
+  local run `full`; the review reports the
   pipeline's status on its head and does not rerun the targeted checks —
   its commits ran them, and over a whole range "related" nears the whole
-  suite; a head not yet pushed rests on its commits' checks. The merge
+  suite; a head not yet pushed, or pushed with no merge request, rests on
+  its commits' checks. The merge
   command waits for the pipeline — `gh pr checks
   --watch`, or `glab ci status --live` and then its status from
   `--output json` — and never merges on red or pending. A red pipeline is

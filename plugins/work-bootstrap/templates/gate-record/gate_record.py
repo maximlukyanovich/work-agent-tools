@@ -1,13 +1,20 @@
 #!/usr/bin/env python3
 """Record green gate runs and say whether a branch still needs the full gate.
-Usage: gate_record.py record full|targeted [<target>]
-       gate_record.py check [<target>] [--base <branch>] [--small]
+
+Template: work-bootstrap gate-record v1 — copied by /work-bootstrap:setup into
+the project's scripts folder; /work-bootstrap:audit compares the copy with the
+template. Python 3.9+, standard library only.
+
+    python3 scripts/gate_record.py record full|targeted [<target>] [--commits <n>]
+    python3 scripts/gate_record.py check [<target>] [--base <branch>] [--small]
+
 The target is a worktree directory or a branch checked out in one; none means
 the current directory. `record` appends the head's tree to `gate-record` in
-that tree's git directory, only when the tree is clean. `check` prints one line:
+that tree's git directory, only when the tree is clean; `--commits`, with
+`targeted`, appends the last n first-parent commits. `check` prints one line:
     gate: skip · full green at 1a2b3c4 · targeted since: 2
     gate: run — 5d6e7f8 has no green record
-The format is documented in `reference/gate-record.md`; which run counts as
+The format is documented in the plugin's `reference/gate-record.md`; which run counts as
 `targeted` is the agent's to judge, not this script's.
 """
 
@@ -75,13 +82,16 @@ def tree_of(cwd, rev):
     return git(cwd, "rev-parse", f"{rev}^{{tree}}").strip()
 
 
-def record(cwd, kind):
+def record(cwd, kind, commits):
+    if commits < 1 or (kind == "full" and commits > 1):
+        raise Failure("--commits takes a number from 1, above 1 with targeted only")
     if not is_clean(cwd):
         return "gate: not recorded — the tree has uncommitted changes"
-    tree = tree_of(cwd, "HEAD")
+    revs = git(cwd, "rev-list", "--first-parent", "-n", str(commits), "HEAD").split()
+    trees = [tree_of(cwd, rev) for rev in revs]
     with open(record_path(cwd), "a") as f:
-        f.write(f"{kind} {tree}\n")
-    return f"gate: recorded {kind} {tree[:7]}"
+        f.writelines(f"{kind} {tree}\n" for tree in trees)
+    return f"gate: recorded {kind} {trees[0][:7]}" + (f" · {len(trees)} commits" if len(trees) > 1 else "")
 
 
 def default_base(cwd):
@@ -130,6 +140,7 @@ def main(argv=None):
     rec = sub.add_parser("record")
     rec.add_argument("kind", choices=KINDS)
     rec.add_argument("target", nargs="?")
+    rec.add_argument("--commits", type=int, default=1)
     chk = sub.add_parser("check")
     chk.add_argument("target", nargs="?")
     chk.add_argument("--base")
@@ -138,7 +149,7 @@ def main(argv=None):
     try:
         cwd = resolve_tree(args.target)
         if args.action == "record":
-            print(record(cwd, args.kind))
+            print(record(cwd, args.kind, args.commits))
         else:
             print(check(cwd, args.base or default_base(cwd), args.small))
     except Failure as error:

@@ -9,7 +9,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "plugins" / "work-bootstrap" / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "plugins" / "work-bootstrap" / "templates" / "gate-record"))
 
 import gate_record  # noqa: E402
 
@@ -86,6 +86,20 @@ class GateRecordTest(unittest.TestCase):
         self.here("record", "full")
         run(self.repo, "git", "commit", "-q", "--amend", "-m", "reworded")
         self.assertEqual(self.here("check")[1], "gate: skip · full green on this tree")
+
+    def test_groups_of_one_run_are_recorded_after_the_last(self):
+        anchor = self.commit("a")
+        self.here("record", "full")
+        self.commit("group1")
+        self.commit("group2")
+        self.assertTrue(self.here("record", "targeted", "--commits", "2")[1].endswith(" · 2 commits"))
+        self.assertEqual(self.here("check")[1], f"gate: skip · full green at {anchor} · targeted since: 2")
+
+    def test_commits_goes_with_targeted_only(self):
+        self.commit("a")
+        self.commit("b")
+        self.assertEqual(self.here("record", "full", "--commits", "2")[0], 2)
+        self.assertEqual(self.here("record", "targeted", "--commits", "0")[0], 2)
 
     def test_a_targeted_record_never_stands_for_full(self):
         self.commit("a")
