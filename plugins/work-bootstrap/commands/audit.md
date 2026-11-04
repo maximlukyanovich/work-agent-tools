@@ -113,8 +113,9 @@ does not raise it again.
    skipping it when `gate_record.py check` says so? Does the profile record
    `full gate`, and with `ci` does the pipeline really run the full gate on
    every merge request — if not, a finding with a question, never an edit?
-   Does it list its `hub files`, and does a change to one run the tests of
-   its areas rather than `related`? Does every code path have a targeted row
+   Does it list its `hub files` — a missing list asked as Q3 asks it — and
+   does a change to one run the tests of its areas rather than `related`?
+   Does every code path have a targeted row
    whose command narrows, and does a gate of several parts skip a part whose
    content is unchanged — content being everything its tool reads, imports
    and disk reads included? Does every path a part excludes name its probe

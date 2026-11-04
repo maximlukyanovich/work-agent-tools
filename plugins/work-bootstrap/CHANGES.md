@@ -708,8 +708,8 @@ check` says so — a full run earlier on the branch and every commit since
 recorded. The profile's `## Repository` lists the hub files, whose related
 tests are the whole suite: a change to one runs the tests of its areas by a
 path filter, and the commit is not recorded. It also records `full gate:
-local | ci`: with `ci` the review runs the targeted checks of its range and
-reports the pipeline's status, and the merge command waits for a green
+local | ci`: with `ci` the review reports the pipeline's status without
+rerunning the commits' targeted checks, and the merge command waits for a green
 pipeline instead of running the gate.
 Check: checklist — "Deterministic layer"; audit §6.
 Applies to: projects with a commit, review or merge command.

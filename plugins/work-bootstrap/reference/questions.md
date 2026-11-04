@@ -19,7 +19,9 @@ rather than asking from scratch.
 commands check a change between edits and in a commit — the linter on the
 changed files, the type-check, the tests related to them, each tried once to
 see that it narrows; which hub files make "related" the whole suite, and the
-command that runs one area's tests by path instead. Where the full gate runs —
+command that runs one area's tests by path instead — asked by the measured
+cost, not the mechanism: "a change to `<file>` makes `related` run N of the
+suite's M test files". Where the full gate runs —
 `ci` when a pipeline already runs it on every merge request, recommended then;
 `local` otherwise, and the default (`reference/templates/command.md`, "The full
 gate runs once per branch"). Whether a manual step is required — a browser, a

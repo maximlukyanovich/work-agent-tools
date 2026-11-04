@@ -125,8 +125,8 @@ update it stays empty.
 
 - Run the gate once on the target, in the background while the rubric runs,
   unless `gate_record.py check` says skip — with `full gate: ci`, the
-  targeted checks of the range instead ("The full gate runs once per
-  branch"). A
+  pipeline's status on the head instead, the commits' targeted checks not
+  rerun ("The full gate runs once per branch"). A
   red gate is one finding; what the linter and the git hooks catch is not
   repeated as judgement.
 - Async code and stateful hooks: walk the lifecycle transitions (A→B mid-event,

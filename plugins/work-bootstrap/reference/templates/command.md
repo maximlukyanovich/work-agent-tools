@@ -98,9 +98,11 @@ one rule, and the record behind it is kept by
   touched a hub file or a path no row covers.
 - **Where the full gate runs is the project's call** — the profile's
   `full gate`. `local`, and no key: as above. `ci`: the pipeline runs it on
-  every merge request and nothing records it locally; the review runs the
-  targeted checks of its range and reports the pipeline's status on its
-  head, and the merge command waits for the pipeline — `gh pr checks
+  every merge request and nothing records it locally; the review reports the
+  pipeline's status on its head and does not rerun the targeted checks —
+  its commits ran them, and over a whole range "related" nears the whole
+  suite; a head not yet pushed rests on its commits' checks. The merge
+  command waits for the pipeline — `gh pr checks
   --watch`, or `glab ci status --live` and then its status from
   `--output json` — and never merges on red or pending. A red pipeline is
   fixed by a new commit: the commit is already on the remote. Before the
