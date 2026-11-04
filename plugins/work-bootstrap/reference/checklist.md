@@ -23,8 +23,10 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       the plan, posted on a yes before the first code. Its plan
       carries `kickoff`'s state table — the testing skill's state lists among
       its rows — framework pointers and structural line. Its answer names
-      the change's level on its first line — small, normal or critical — and
-      a small change gets a short plan in chat and a yes, not plan mode.
+      the change's level on its first line — small, normal or critical — by
+      the surface of behaviour, a new isolated module with its wiring being
+      small, and a small change gets a short plan in chat and a yes, not
+      plan mode.
 - [ ] The command that starts a task takes an optional `worktree` argument
       and offers one when a live `git status` finds the tree busy: beside the
       repository, with the ignored files the work reads linked in, generated
@@ -52,10 +54,18 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
 - [ ] Deterministic layer: linter, formatter, types, tests, git hooks, and one
       `validate` command that runs them; the commit runs the targeted checks
       of the changed paths — a profile row per path class whose command
-      narrows, tried once — and the full gate only for a path no row covers;
-      the review and the push run the full gate once per tree and skip a tree
-      already recorded green; no git hook runs the whole gate, and lint-staged
-      runs the formatter after the linter's fixes.
+      narrows, tried once — and the full gate only for a path no row covers,
+      which `full gate: ci` leaves to the pipeline;
+      the review and the push run the full gate once per branch and skip it
+      when `gate_record.py check` says so, from the project's copy of
+      `templates/gate-record/gate_record.py`, the template's version line and
+      no difference; the profile records `full gate: ci` when a pipeline runs
+      it, `local` without the key, and lists its `hub files`, each changed
+      with the tests of its areas, not `related`; a sync sent to the full
+      gate records it; a run red by timeouts alone is green for the record
+      only once its failing files pass alone and nothing is left unrun; no
+      git hook runs the whole gate, and lint-staged runs the formatter after
+      the linter's fixes.
 - [ ] The gate is fast: one of several parts skips a part whose content is
       unchanged since its last green run — fingerprinted before and after its
       checks, recorded only when the two match — and `--all` runs everything;

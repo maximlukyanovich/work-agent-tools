@@ -108,9 +108,22 @@ does not raise it again.
    override it and refutation left to the session?
 
 6. **Where the gate runs.** Does the commit command run the targeted checks
-   of the changed paths, with the full gate only for a path no row covers —
-   and do the review and the push run the full gate once per tree, skipping
-   a tree already recorded green? Does every code path have a targeted row
+   of the changed paths, with the full gate only for a path no row covers,
+   which `full gate: ci` leaves to the pipeline —
+   and do the review and the push run the full gate once per branch,
+   skipping it when `gate_record.py check` says so? Does a sync the rule
+   sends to the full gate record it, and does a run red by timeouts alone
+   count as green only once its failing files pass alone and nothing is left
+   unrun? Is
+   `scripts/gate_record.py` the project's copy of
+   `${CLAUDE_PLUGIN_ROOT}/templates/gate-record/gate_record.py` — `diff`
+   against the template shows nothing, the version line included? With
+   `full gate: ci` in the profile — `local` without the key — does the
+   pipeline really run the full gate on every merge request — if not, a
+   finding with a question, never an edit?
+   Does it list its `hub files` — a missing list asked as Q3 asks it — and
+   does a change to one run the tests of its areas rather than `related`?
+   Does every code path have a targeted row
    whose command narrows, and does a gate of several parts skip a part whose
    content is unchanged — content being everything its tool reads, imports
    and disk reads included? Does every path a part excludes name its probe
@@ -153,8 +166,9 @@ does not raise it again.
    testing skill before it writes the plan — and does its plan carry the
    state table, with the testing skill's state lists among its rows, the
    framework pointers and the structural line? Does its answer name the
-   change's level on its first line — small, normal, critical — with a short
-   plan and a yes for a small change, and does the review recommend a fresh
+   change's level on its first line — small, normal, critical — by the
+   surface of behaviour, a new isolated module with its wiring small, with
+   a short plan and a yes for a small change, and does the review recommend a fresh
    session except for a small change, stopping on a critical one in the
    session that edited it? Does it
    take a `worktree` argument and offer one when a live `git status` finds
@@ -264,8 +278,11 @@ does not raise it again.
 
 ## Report
 
-A table: finding → layer → severity → proposed action. Apply changes after
-confirmation, one group at a time, never all at once.
+A table: finding → layer → severity → proposed action. What the developer
+must decide is asked with the questionnaire tool, never as a list in the
+report's text: load the `work-bootstrap:kickoff` skill first — its
+questionnaire rules apply, a closing "anything to add?" included. Apply
+changes after confirmation, one group at a time, never all at once.
 
 End with the next step as a block: changes applied — `/reload-skills` when a
 command or skill changed, the project's commit command in this same session,

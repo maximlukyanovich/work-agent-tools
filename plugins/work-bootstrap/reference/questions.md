@@ -15,15 +15,21 @@ plus a shared layer, each module's public API through a single entry file. If
 boundaries are already visible in the tree, state them and ask for confirmation
 rather than asking from scratch.
 
-**Q3. What "verified" means.** Which command is the full gate, and which
-narrow commands check a change between edits and in a commit — the linter on
-the changed files, the type-check, the tests related to them, each tried once
-to see that it narrows. Whether a manual step is required — a browser, a real
-request, a migration. Separately: which changes need a test — the default
+**Q3. What "verified" means.** Which command is the full gate, and which narrow
+commands check a change between edits and in a commit — the linter on the
+changed files, the type-check, the tests related to them, each tried once to
+see that it narrows; which hub files make "related" most of the suite, and the
+command that runs one area's tests by path instead — asked by the measured
+cost, not the mechanism: "a change to `<file>` makes `related` run N of the
+suite's M test files". Where the full gate runs —
+`ci` when a pipeline already runs it on every merge request, recommended then;
+`local` otherwise, and the default (`reference/templates/command.md`, "The full
+gate runs once per branch"). Whether a manual step is required — a browser, a
+real request, a migration. Separately: which changes need a test — the default
 risk classes are money, data written or deleted, access, merges, what lets a
 confirmation through, branching logic and a costly break where nobody looks
-(`reference/templates/testing-skill.md`),
-with a recorded live check for the rest.
+(`reference/templates/testing-skill.md`), with a recorded live check for the
+rest.
 
 **Q4. Task tracker and key prefix.** Jira — recommended, its adapter ships with
 `work-tracker` (needs the project key); another tracker — the same method

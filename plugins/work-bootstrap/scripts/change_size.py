@@ -10,7 +10,9 @@ local `<base>` when the remote has none) to the target's head. One line out:
 
     size: small · files 1 · +29 −2 · prose-only yes · uncommitted no
 
-followed by ` — <reason>` when the size is normal. Exit 2 when the target or
+with ` · new 2 +180` when the diff adds files and ` · changed 4 +12 −3,
+largest 5` when it changes others too, followed by ` — <reason>` when the
+size is normal. Exit 2 when the target or
 the base cannot be resolved. The format is documented in
 `reference/change-size.md`; the risk class is the agent's to judge, not this
 script's.
@@ -88,6 +90,25 @@ def numstat(cwd, start, head):
         yield lines[0], lines[1], path
 
 
+def added_paths(cwd, start, head):
+    out = git(cwd, "diff", "--name-only", "-z", "-M", "--diff-filter=A", start, head)
+    return set(filter(None, out.split("\0")))
+
+
+def parts(files, added):
+    """The new files, and the changed ones beside them; '' without new ones."""
+    new = [f for f in files if f[2] in added]
+    changed = [f for f in files if f[2] not in added]
+    if not new:
+        return ""
+    line = f" · new {len(new)} +{sum(f[0] for f in new)}"
+    if not changed:
+        return line
+    largest = max(f[0] + f[1] for f in changed)
+    return (f"{line} · changed {len(changed)} +{sum(f[0] for f in changed)} −{sum(f[1] for f in changed)}"
+            f", largest {largest}")
+
+
 def is_prose(path):
     return path.endswith(PROSE_SUFFIXES) or path.startswith(PROSE_DIRS)
 
@@ -108,6 +129,7 @@ def measure(cwd, head, has_tree, base, max_lines, max_files, max_prose_lines):
     line = (
         f"size: {'normal' if reasons else 'small'} · files {len(files)} · +{added} −{deleted}"
         f" · prose-only {'yes' if prose_only else 'no'} · uncommitted {'yes' if uncommitted else 'no'}"
+        f"{parts(files, added_paths(cwd, start, head))}"
     )
     return line + (f" — {', '.join(reasons)}" if reasons else "")
 

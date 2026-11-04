@@ -29,9 +29,16 @@ One line on stdout, exit 0:
 ```
 size: small · files 1 · +29 −2 · prose-only yes · uncommitted no
 size: normal · files 9 · +77 −21 · prose-only no · uncommitted no — files 9 > 5
+size: normal · files 16 · +287 −47 · prose-only no · uncommitted no · new 3 +210 · changed 13 +77 −47, largest 18 — files 16 > 5, lines 334 > 100
+size: normal · files 3 · +180 −0 · prose-only no · uncommitted no · new 3 +180 — lines 180 > 100
 ```
 
-A normal size ends with ` — ` and every threshold it crossed. `uncommitted`
+A diff that adds files shows them as `new`; when it changes others too,
+`changed` follows — the rest, renames included, with the largest edit of one
+file in lines. A new isolated module whose `changed` part is
+small edits spread over many files is the module and its wiring; the
+thresholds are a hint, and the level is the agent's to name. A normal size
+ends with ` — ` and every threshold it crossed. `uncommitted`
 says the tree has changes the measure does not count: commit them first and
 measure again.
 

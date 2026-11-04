@@ -124,7 +124,10 @@ update it stays empty.
 **The rubric additions that repeated passes showed were missing:**
 
 - Run the gate once on the target, in the background while the rubric runs,
-  and skip a tree already recorded green ("The gate runs once per tree"). A
+  unless `python3 scripts/gate_record.py check <tree> --base <base>`
+  (`--small` for a small change) says skip — with `full gate: ci`, the
+  pipeline's status on the head instead, the commits' targeted checks not
+  rerun ("The full gate runs once per branch"). A
   red gate is one finding; what the linter and the git hooks catch is not
   repeated as judgement.
 - Async code and stateful hooks: walk the lifecycle transitions (A→B mid-event,

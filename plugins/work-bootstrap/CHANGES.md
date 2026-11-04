@@ -697,3 +697,45 @@ reference to them in the harness, or declines with `Command prefix: none —
 <reason>`; with `none`, a name that is a built-in is renamed all the same.
 Check: checklist — "Every command is named `<prefix>-<verb>`"; audit §16.
 Applies to: projects with commands in `.claude/commands/`.
+
+## 2026-11-03 · gate-per-branch
+
+What: the full gate runs once per branch, not once per tree. The record is
+kept by `scripts/gate_record.py`, copied unchanged from the plugin's
+`templates/gate-record/`. The commit command records a commit whose every
+changed path, the whole commit's after an amend, passed its targeted row
+(`gate_record.py record targeted`, with `--commits <n>` after several
+groups), a step that changed a path no row covers ran the full gate and
+records it (`record full`), an amend that ran only its own rows over one is
+not recorded, the review and the merge command record a green full run the
+same way and skip the gate when `gate_record.py check` says so — a full run
+earlier on the branch and every commit since recorded. The profile's
+`## Repository` lists the hub files, whose related tests are most of the suite:
+a change to one runs the tests of its areas by a path filter, and the commit
+is not recorded. Its `full gate` says where the gate runs, `local` without the
+key: with `ci` a path no row covers goes to the pipeline and its commit is not
+recorded, the review reports the pipeline's status without rerunning the
+commits' targeted checks, and the merge command waits for a green pipeline
+instead of running the gate. A dev server or stack the session started is
+stopped before a test run wider than a few files; one the developer runs is
+named in the report. A full run red by timeouts alone is green for the record
+once its failing files pass alone and nothing is left unrun, and a sync sent
+to the full gate records it.
+Check: checklist — "Deterministic layer"; audit §6.
+Applies to: projects with a commit, review, sync or merge command.
+Supersedes: gate-once-per-tree — "every command skips a tree already
+recorded green"; commit-skips-validated-gate — the record it names.
+
+## 2026-11-03 · change-level-surface
+
+What: the task command names the level by the surface of behaviour: a new
+isolated page or module whose rest of the diff is wiring — the route
+registry, navigation links, catalogue rows, tests updated to the new link,
+documentation lines — is small, whatever the thresholds say, and a file of a
+risk class touched only to register the new path takes a test of that
+registration, not the critical level. A small change's targeted checks stand
+for the full gate, unless a commit touched a hub file or a path no row covers.
+The handoff reads `new` in the measure, `changed` beside it when there is
+wiring, and does not raise such a change.
+Check: checklist — the task command item; audit §8.
+Applies to: projects with a task command.

@@ -121,8 +121,8 @@ its yes is the approval this skill asks for.
    again.
 
 7. **After approval**: code in slices, the targeted checks of what changed
-   after each edit — the full gate runs once per tree, in the review and
-   before the push — verify in the real environment, commit each slice
+   after each edit — the full gate runs once per branch, in the review or
+   before the push, or in CI — verify in the real environment, commit each slice
    through the project's commit procedure — only on an explicit go-ahead,
    and never pushed without its own. Each change carries its proof by risk,
    as the project's testing skill says — a test for a change in a risk class
@@ -138,8 +138,8 @@ its yes is the approval this skill asks for.
    after a commit, one made outside the project's commit command included,
    after a review, before and after a merge — with `/work-bootstrap:handoff`,
    and the next one starts in a fresh session — a small change's stays here
-   while its measured diff stays small, a critical change's review is never
-   here; inside a long phase, `/compact` with a focus.
+   while `/work-bootstrap:handoff` leaves it small, a critical change's review
+   is never here; inside a long phase, `/compact` with a focus.
 
 8. **After a decision worth keeping** — a convention, a rule for how to ask, a
    preset — propose the matching change in `mluk-work-agent-tools` in one line:
