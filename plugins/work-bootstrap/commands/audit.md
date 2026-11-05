@@ -32,13 +32,27 @@ as a change of its own.
   set a real baseline at the end.
 - **Baseline not in `CHANGES.md`**: the installed plugin is older than the
   one that set it — say so; run nothing until the plugin is updated.
+- **`0 newer entries`** speaks of the installed plugin alone, so it is a
+  result only once that plugin is known current. A `source` with a `ref`
+  stays on its tag: nothing is compared, §13 reports a newer one. Otherwise
+  compare the `version` in `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`
+  with `main`'s —
+  `curl -fsS https://raw.githubusercontent.com/maximlukyanovich/work-agent-tools/main/plugins/work-bootstrap/.claude-plugin/plugin.json`.
+  Older: there is no result, and an entry seen in `main` is not judged. Print
+  `claude plugin marketplace update mluk-work-agent-tools` and
+  `claude plugin update work-bootstrap@mluk-work-agent-tools --scope <scope>`
+  as a block, then this audit in a new session. No answer from `main`: say
+  the delta is unconfirmed.
 - **`full`**: every check below, then the baseline.
 
 **The efficiency journal is read in either mode** — section 14 below.
 
 **Moving the baseline is the last step, and it is asked.** Once each entry is
 applied, declined with a recorded reason, or not applicable, offer to set
-`Baseline:` to the last entry. A declined entry stays declined: its reason
+`Baseline:` to the last entry of the delta; an entry seen elsewhere — in
+`main`, in a release's notes — moves nothing. Not applicable is the result
+of the check, never of the topic: a `What:` naming several changes has each
+one checked. A declined entry stays declined: its reason
 goes into the project's own docs, not into the baseline, so the next delta
 does not raise it again.
 
