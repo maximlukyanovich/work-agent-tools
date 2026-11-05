@@ -766,3 +766,12 @@ and what it says each step records, "its commit is not recorded" included;
 gate-merge-paths — "a merge's paths for the gate's record", "A run red by
 timeouts alone counts as green" and its sync item; each for a project with
 `full gate: ci`.
+
+## 2026-11-06 · merge-request-shown
+
+What: a command that opens a merge request shows its title and description in
+the chat as a code block before the confirmation of the push, the way the
+commit command shows a message. A file path or a pointer alone is not showing
+it.
+Check: checklist — "A command that opens a merge request"; audit §8.
+Applies to: projects with a merge command.

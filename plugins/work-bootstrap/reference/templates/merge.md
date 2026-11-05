@@ -1,5 +1,13 @@
 # Templates — A command that merges
 
+### A merge request is shown before it is opened
+
+Its title and description go into the chat as a code block, the way the
+commit command shows a message, before the confirmation of the push. A file
+path or a pointer alone is not showing it; the question that follows names
+only the title. Observed on a live project: a push was confirmed against a
+text the chat neither held nor located.
+
 ### A command that merges must offer the closing steps
 
 Merging is the moment a task stops being visible. Whatever is not done in the

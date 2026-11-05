@@ -35,6 +35,8 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       `.env` Compose reads, not a service's `env_file:` — each in a file
       copied into the tree, not linked; the merge command's closing steps
       remove it with its branch.
+- [ ] A command that opens a merge request shows its title and description
+      in the chat as a code block before the confirmation of the push.
 - [ ] Any command that merges ends by offering the closing steps — result
       comment, worklog, branch deletion, anything raised for another team —
       as one question carrying the current state, and deletes the remote

@@ -176,6 +176,8 @@ does not raise it again.
    question to the user, never an edit. A command that merges and stops is how
    issues end up delivered but undocumented and untracked, and the gap is
    invisible precisely because the code shipped.
+   Does a command that opens a merge request show its title and description
+   in the chat as a code block before the confirmation of the push?
    The mirror check: does the command that starts a task offer the opening
    steps — the in-progress transition, the assignee, the parent's status —
    when a tracker is reachable, hold the issue's description against its
