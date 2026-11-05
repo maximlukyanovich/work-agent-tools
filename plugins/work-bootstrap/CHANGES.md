@@ -766,3 +766,38 @@ and what it says each step records, "its commit is not recorded" included;
 gate-merge-paths — "a merge's paths for the gate's record", "A run red by
 timeouts alone counts as green" and its sync item; each for a project with
 `full gate: ci`.
+
+## 2026-11-06 · merge-request-shown
+
+What: a command that opens a merge request shows its title and description in
+the chat as a code block before the confirmation of the push, the way the
+commit command shows a message. A file path or a pointer alone is not showing
+it.
+Check: checklist — "A command that opens a merge request"; audit §8.
+Applies to: projects with a merge command.
+
+## 2026-11-06 · ci-wait
+
+What: with `full gate: ci` the merge command waits by the block in
+`reference/templates/merge.md`, "Waiting for CI", which replaces the wait on
+`glab ci status`, a read by branch, and on `gh pr checks --watch`, whose exit
+code does not decide. The status comes from the merge request: on GitLab it
+counts only for a `merge_request_event` pipeline of the pushed head (`push`
+for a gate in branch pipelines), since one sha carries two pipelines. The wait
+is bounded, an error ends it where it can be seen, and only `success` is
+green. The review reads its head the same way, once.
+Check: checklist — "waits by `merge.md`"; audit §6.
+Applies to: projects with `full gate: ci`.
+Supersedes: gate-per-branch — "the merge command waits for a green pipeline",
+as to how it reads the pipeline.
+
+## 2026-11-06 · ci-pipeline-template
+
+What: `reference/templates/pipeline.md` is the skeleton of a pipeline for
+`full gate: ci` on GitLab. The gate job runs in merge request pipelines only,
+so a red check never stands between a merge and its deploy; on a runner shared
+with the deploys a disk threshold comes before anything installs; "Pipelines
+must succeed" goes on after the first green run. What the runner has is read
+by a probe job on a throwaway branch.
+Check: checklist — "a pipeline written for `full gate: ci`"; audit §6.
+Applies to: projects with `full gate: ci` on GitLab.

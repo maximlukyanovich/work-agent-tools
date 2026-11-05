@@ -14,7 +14,8 @@ needs. A text that quotes "`templates.md`, «X»" means the file that holds X.
 | [`onboarding.md`](templates/onboarding.md) | The onboarding command | the onboarding command, the plugin set |
 | [`task.md`](templates/task.md) | A command that starts a task must offer the opening steps — with "The change sets the process"; A command that starts a task can open it in a worktree | the task command, a change's level |
 | [`design-source.md`](templates/design-source.md) | A project with a design source holds to it — with "A measurement, not an eyeball" | design rules |
-| [`merge.md`](templates/merge.md) | A command that merges must offer the closing steps | the merge command |
+| [`merge.md`](templates/merge.md) | A merge request is shown before it is opened; Waiting for CI; A command that merges must offer the closing steps | the merge command |
+| [`pipeline.md`](templates/pipeline.md) | A pipeline that runs the gate leaves the deploys alone; A probe job says what the runner has | a pipeline for `full gate: ci`, what the runner has |
 | [`review.md`](templates/review.md) | A command that reviews keeps a pass ledger — the ledger, the procedure with "Stop and ask", the rubric additions, "Review groups run on the session's model", "Run it in a fresh session" | the review command, the review agent |
 | [`review-fixes.md`](templates/review-fixes.md) | The same section, its second half — "The commit command hands the phase over" (once "…hands the review over"), "A commit the hook refuses leaves its paths staged", "A fix to a commit not yet pushed goes into that commit", "Fixing the findings has its own discipline", "A merging command reads the ledger", "Cost" | the commit command, the fix round, the merge's reading of the ledger |
 | [`testing-skill.md`](templates/testing-skill.md) | The testing skill proves a change by its risk | the testing skill, the `test` lens |

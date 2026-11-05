@@ -179,6 +179,13 @@ from the sandbox does not reach the host.
 The pull request names the growth in bytes of every plugin text it changes;
 a notable growth is explained in its body or cut.
 
+**A pull request names its review.** When the branch is ready, the agent says
+whether it needs a review before the merge and which kind — the built-in
+`/code-review <level>`, an unanchored check by a fresh agent (for a text move,
+paragraph by paragraph against `main`), or none — with the block to paste in a
+fresh session; after a fix commit, the same for its delta. The pull request's
+body names the review that ran and what it changed.
+
 One check stays with people: **the changed command or skill was run once, in a
 real repository, and did what its text says.** The pull request says where
 and how it was run. This item is not optional. A command that has never been

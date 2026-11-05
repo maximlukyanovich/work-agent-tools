@@ -24,7 +24,9 @@ cost, not the mechanism: "a change to `<file>` makes `related` run N of the
 suite's M test files". Where the full gate runs —
 `ci` when a pipeline already runs it on every merge request, recommended then;
 `local` otherwise, and the default (`reference/templates/command.md`, "The full
-gate runs once per branch"). Whether a manual step is required — a browser, a
+gate runs once per branch"). No such pipeline but a runner the project can use:
+`ci` is offered too, what the runner has read by the probe job of
+`reference/templates/pipeline.md` rather than asked. Whether a manual step is required — a browser, a
 real request, a migration. Separately: which changes need a test — the default
 risk classes are money, data written or deleted, access, merges, what lets a
 confirmation through, branching logic and a costly break where nobody looks
@@ -68,8 +70,8 @@ asked with the facts and without a recommendation, written to the profile as
 The facts come before the question, read by `setup` (step 2):
 
 - the setting's value — `gh api repos/{owner}/{repo} --jq .delete_branch_on_merge`,
-  `glab api projects/:id --jq .remove_source_branch_after_merge` (`null` reads
-  as off) and, on GitLab, `glab api version`;
+  the field `remove_source_branch_after_merge` of `glab api projects/:id` —
+  glab has no `--jq` — (`null` reads as off) and, on GitLab, `glab api version`;
 - the default branch and which branches of the chain are protected;
 - the branch the setting would delete: any branch of the chain but the last
   that is neither protected nor the default — an unprotected `staging`

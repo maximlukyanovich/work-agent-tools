@@ -129,6 +129,17 @@ does not raise it again.
    gate on every merge request — if not, a finding with a question, never an
    edit? With `ci` nothing reads the gate's record: a project needs neither
    the script nor a `record` line, and one left in place is no finding.
+   On GitLab, does the gate job keep off the deploys — merge request
+   pipelines only, and on a runner shared with them a disk threshold before anything
+   installs (`reference/templates/pipeline.md`) — and does
+   `only_allow_merge_if_pipeline_succeeds` read true? A mismatch is a finding
+   with a question, never an edit.
+   Does the merge command wait by `reference/templates/merge.md`, "Waiting
+   for CI" — the status from the merge request, on GitLab only a
+   `merge_request_event` pipeline of the pushed head (`push` for a gate in
+   branch pipelines), bounded in time, its
+   errors visible, only `success` green — and does the review read its head
+   the same way?
    With `local`: do the review and the push run the full gate once per
    branch, skipping it when `gate_record.py check` says so; does a merge
    count the paths it brought; where the project has a sync command, does a
@@ -176,6 +187,8 @@ does not raise it again.
    question to the user, never an edit. A command that merges and stops is how
    issues end up delivered but undocumented and untracked, and the gap is
    invisible precisely because the code shipped.
+   Does a command that opens a merge request show its title and description
+   in the chat as a code block before the confirmation of the push?
    The mirror check: does the command that starts a task offer the opening
    steps — the in-progress transition, the assignee, the parent's status —
    when a tracker is reachable, hold the issue's description against its
