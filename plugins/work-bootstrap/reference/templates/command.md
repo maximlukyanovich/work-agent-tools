@@ -83,7 +83,9 @@ one rule, and the record behind it is kept by the project's
   path had its row, green, on a clean tree after
   the commit, is recorded `targeted`. The paths are the whole commit's
   (`git show --name-only HEAD`): an amend counts what the commit already
-  held, not only the round's. Several groups of one run are recorded after
+  held, not only the round's. A merge's are what it brought
+  (`git diff --name-only HEAD^1 HEAD`): `git show` lists none for a clean
+  one, and every path of nothing has its row. Several groups of one run are recorded after
   the last, with `--commits <n>`.
 - **A hub file takes the tests of its areas.** The tests related to a file
   most of the code imports — the route registry, a shared config, shared

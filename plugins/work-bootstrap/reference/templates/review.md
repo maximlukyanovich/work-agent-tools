@@ -128,8 +128,8 @@ update it stays empty.
   (`--small` for a small change) says skip — with `full gate: ci`, the
   pipeline's status on the head instead, the commits' targeted checks not
   rerun ("The full gate runs once per branch"). A
-  red gate is one finding; what the linter and the git hooks catch is not
-  repeated as judgement.
+  red gate is one finding, a run "Red under load" calls green is not; what
+  the linter and the git hooks catch is not repeated as judgement.
 - Async code and stateful hooks: walk the lifecycle transitions (A→B mid-event,
   A→none→A) and a misbehaving peer (a 200 that closes at once). Check a type's
   documentation against the code instead of trusting it.

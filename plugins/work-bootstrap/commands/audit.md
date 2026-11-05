@@ -111,10 +111,11 @@ does not raise it again.
    of the changed paths, with the full gate only for a path no row covers,
    which `full gate: ci` leaves to the pipeline —
    and do the review and the push run the full gate once per branch,
-   skipping it when `gate_record.py check` says so? Does a sync the rule
-   sends to the full gate record it, and does a run red by timeouts alone
-   count as green only once its failing files pass alone and nothing is left
-   unrun? Is
+   skipping it when `gate_record.py check` says so? Does a merge count the
+   paths it brought? Where the project has a sync command, does a sync the
+   rule sends to the full gate record it? Does a run red by timeouts alone on
+   a busy machine count as green only once its failing files pass alone and
+   nothing is left unrun? Is
    `scripts/gate_record.py` the project's copy of
    `${CLAUDE_PLUGIN_ROOT}/templates/gate-record/gate_record.py` — `diff`
    against the template shows nothing, the version line included? With

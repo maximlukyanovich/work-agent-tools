@@ -739,3 +739,15 @@ The handoff reads `new` in the measure, `changed` beside it when there is
 wiring, and does not raise such a change.
 Check: checklist — the task command item; audit §8.
 Applies to: projects with a task command.
+
+## 2026-11-05 · gate-merge-paths
+
+What: a merge's paths for the gate's record are what it brought
+(`git diff --name-only HEAD^1 HEAD`), not `git show --name-only HEAD`, which
+lists none for a clean merge: every path of nothing has its row, so a sync
+recorded `targeted` let `check` skip the full gate over everything the base
+shipped. A run red by timeouts alone counts as green only on a busy machine,
+as the template says, and the review does not raise such a run as a red gate.
+The sync item is checked only in a project with a sync command.
+Check: checklist — "Deterministic layer"; audit §6.
+Applies to: projects with a commit, review, sync or merge command.

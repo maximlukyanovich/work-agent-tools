@@ -25,7 +25,9 @@ python3 scripts/gate_record.py check [<target>] [--base <branch>] [--small]
   after a commit whose every changed path had a targeted row and the rows
   passed. The
   paths are the whole commit's (`git show --name-only HEAD`): an amend counts
-  what the commit already held, not only the round's. A commit that touched
+  what the commit already held, not only the round's. A merge's are what it
+  brought (`git diff --name-only HEAD^1 HEAD`): `git show` lists none for a
+  clean one. A commit that touched
   a hub file ran only its areas' tests and is not recorded: the full gate is
   still due. A step that changed a path no row covers ran the full gate and
   records `full`, a hub file among its paths or not; under `full gate: ci` it
