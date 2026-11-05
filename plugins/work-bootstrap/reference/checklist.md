@@ -37,6 +37,11 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       remove it with its branch.
 - [ ] A command that opens a merge request shows its title and description
       in the chat as a code block before the confirmation of the push.
+- [ ] With `full gate: ci`, the merge command waits by `merge.md`, "Waiting
+      for CI": the status from the merge request, on GitLab only a
+      `merge_request_event` pipeline of the pushed head, bounded in time, its
+      errors visible, only `success` green; the review reads its head the
+      same way.
 - [ ] Any command that merges ends by offering the closing steps — result
       comment, worklog, branch deletion, anything raised for another team —
       as one question carrying the current state, and deletes the remote

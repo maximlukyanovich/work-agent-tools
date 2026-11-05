@@ -113,13 +113,13 @@ kept by the project's `scripts/gate_record.py` — a copy of
   every merge request, and its status decides — no command runs it on its
   own or reads the record, so the project needs neither
   `scripts/gate_record.py` nor a `record` line; the review reports the
-  pipeline's status on its head and does not rerun the targeted checks —
+  pipeline's status on its head, read once the way `merge.md`, "Waiting for
+  CI", reads it, and does not rerun the targeted checks —
   its commits ran them, and over a whole range "related" nears the whole
   suite; a head not yet pushed, or pushed with no merge request, rests on
   its commits' checks. The merge
-  command waits for the pipeline — `gh pr checks
-  --watch`, or `glab ci status --live` and then its status from
-  `--output json` — and never merges on red or pending. A red pipeline is
+  command waits for the pipeline by that section and never merges on red or
+  pending. A red pipeline is
   fixed by a new commit: the commit is already on the remote. Before the
   push the command offers the full gate locally as the second option, only
   with a reason — the diff touches what the targeted checks do not narrow

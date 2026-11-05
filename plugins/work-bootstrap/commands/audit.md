@@ -129,6 +129,11 @@ does not raise it again.
    gate on every merge request — if not, a finding with a question, never an
    edit? With `ci` nothing reads the gate's record: a project needs neither
    the script nor a `record` line, and one left in place is no finding.
+   Does the merge command wait by `reference/templates/merge.md`, "Waiting
+   for CI" — the status from the merge request, on GitLab only a
+   `merge_request_event` pipeline of the pushed head, bounded in time, its
+   errors visible, only `success` green — and does the review read its head
+   the same way?
    With `local`: do the review and the push run the full gate once per
    branch, skipping it when `gate_record.py check` says so; does a merge
    count the paths it brought; where the project has a sync command, does a

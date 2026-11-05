@@ -775,3 +775,17 @@ commit command shows a message. A file path or a pointer alone is not showing
 it.
 Check: checklist — "A command that opens a merge request"; audit §8.
 Applies to: projects with a merge command.
+
+## 2026-11-06 · ci-wait
+
+What: with `full gate: ci` the merge command waits by the block in
+`reference/templates/merge.md`, "Waiting for CI", which replaces the wait on
+`glab ci status`, a read by branch. The status comes from the merge request:
+on GitLab it counts only for a `merge_request_event` pipeline of the pushed
+head, since one sha carries two pipelines. The wait is bounded, an error ends
+it where it can be seen, and only `success` is green. The review reads its
+head the same way, once.
+Check: checklist — "waits by `merge.md`"; audit §6.
+Applies to: projects with `full gate: ci`.
+Supersedes: gate-per-branch — "the merge command waits for a green pipeline",
+as to how it reads the pipeline.
