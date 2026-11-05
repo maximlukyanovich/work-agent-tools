@@ -123,19 +123,20 @@ does not raise it again.
 
 6. **Where the gate runs.** Does the commit command run the targeted checks
    of the changed paths, with the full gate only for a path no row covers,
-   which `full gate: ci` leaves to the pipeline —
-   and do the review and the push run the full gate once per branch,
-   skipping it when `gate_record.py check` says so? Does a merge count the
-   paths it brought? Where the project has a sync command, does a sync the
-   rule sends to the full gate record it? Does a run red by timeouts alone on
-   a busy machine count as green only once its failing files pass alone and
-   nothing is left unrun? Is
+   which `full gate: ci` leaves to the pipeline? With `full gate: ci` in the
+   profile — `local` without the key — does the pipeline really run the full
+   gate on every merge request — if not, a finding with a question, never an
+   edit? With `ci` nothing reads the gate's record: a project needs neither
+   the script nor a `record` line, and one left in place is no finding.
+   With `local`, do the review and the push run the full gate once per
+   branch, skipping it when `gate_record.py check` says so? Does a merge
+   count the paths it brought? Where the project has a sync command, does a
+   sync the rule sends to the full gate record it? Does a run red by timeouts
+   alone on a busy machine count as green only once its failing files pass
+   alone and nothing is left unrun? Is
    `scripts/gate_record.py` the project's copy of
    `${CLAUDE_PLUGIN_ROOT}/templates/gate-record/gate_record.py` — `diff`
-   against the template shows nothing, the version line included? With
-   `full gate: ci` in the profile — `local` without the key — does the
-   pipeline really run the full gate on every merge request — if not, a
-   finding with a question, never an edit?
+   against the template shows nothing, the version line included?
    Does it list its `hub files` — a missing list asked as Q3 asks it — and
    does a change to one run the tests of its areas rather than `related`?
    Does every code path have a targeted row

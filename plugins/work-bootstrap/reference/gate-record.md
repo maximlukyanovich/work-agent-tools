@@ -2,9 +2,9 @@
 
 Keeps the record that lets a branch run its full gate once
 (`reference/templates/command.md`, "The full gate runs once per branch").
-A project runs its copy of
+A project with `full gate: local`, or no key, runs its copy of
 `${CLAUDE_PLUGIN_ROOT}/templates/gate-record/gate_record.py`; this file is its
-contract.
+contract. With `ci` nothing reads the record, and the project needs no copy.
 
 ```bash
 python3 scripts/gate_record.py record full|targeted [<target>] [--commits <n>]

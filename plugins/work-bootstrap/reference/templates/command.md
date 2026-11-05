@@ -111,8 +111,8 @@ one rule, and the record behind it is kept by the project's
 - **Where the full gate runs is the project's call** — the profile's
   `full gate`. `local`, and no key: as above. `ci`: the pipeline runs it on
   every merge request, and its status decides — no command runs it on its
-  own, a commit whose paths all have rows still records `targeted`, and a
-  local run `full`; the review reports the
+  own or reads the record, so the project needs neither
+  `scripts/gate_record.py` nor a `record` line; the review reports the
   pipeline's status on its head and does not rerun the targeted checks —
   its commits ran them, and over a whole range "related" nears the whole
   suite; a head not yet pushed, or pushed with no merge request, rests on
