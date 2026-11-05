@@ -34,7 +34,8 @@ as a change of its own.
   one that set it — say so; run nothing until the plugin is updated.
 - **`0 newer entries`** speaks of the installed plugin alone, so it is a
   result only once that plugin is known current. A `source` with a `ref`
-  stays on its tag: nothing is compared, §13 reports a newer one. Otherwise
+  stays on its tag: nothing is compared, and only a `full` audit's §13
+  reports a newer one. Otherwise
   compare the `version` in `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`
   with `main`'s —
   `curl -fsS https://raw.githubusercontent.com/maximlukyanovich/work-agent-tools/main/plugins/work-bootstrap/.claude-plugin/plugin.json`.
@@ -128,16 +129,17 @@ does not raise it again.
    gate on every merge request — if not, a finding with a question, never an
    edit? With `ci` nothing reads the gate's record: a project needs neither
    the script nor a `record` line, and one left in place is no finding.
-   With `local`, do the review and the push run the full gate once per
-   branch, skipping it when `gate_record.py check` says so? Does a merge
-   count the paths it brought? Where the project has a sync command, does a
-   sync the rule sends to the full gate record it? Does a run red by timeouts
+   With `local`: do the review and the push run the full gate once per
+   branch, skipping it when `gate_record.py check` says so; does a merge
+   count the paths it brought; where the project has a sync command, does a
+   sync the rule sends to the full gate record it; does a run red by timeouts
    alone on a busy machine count as green only once its failing files pass
-   alone and nothing is left unrun? Is
+   alone and nothing is left unrun; is
    `scripts/gate_record.py` the project's copy of
    `${CLAUDE_PLUGIN_ROOT}/templates/gate-record/gate_record.py` — `diff`
    against the template shows nothing, the version line included?
-   Does it list its `hub files` — a missing list asked as Q3 asks it — and
+   In either mode, does the profile list its `hub files` — a missing list
+   asked as Q3 asks it — and
    does a change to one run the tests of its areas rather than `related`?
    Does every code path have a targeted row
    whose command narrows, and does a gate of several parts skip a part whose

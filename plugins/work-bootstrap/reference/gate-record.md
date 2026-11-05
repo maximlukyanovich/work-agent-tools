@@ -30,8 +30,8 @@ python3 scripts/gate_record.py check [<target>] [--base <branch>] [--small]
   clean one. A commit that touched
   a hub file ran only its areas' tests and is not recorded: the full gate is
   still due. A step that changed a path no row covers ran the full gate and
-  records `full`, a hub file among its paths or not; under `full gate: ci` it
-  ran none and is not recorded. An amend whose own paths all had rows, while
+  records `full`, a hub file among its paths or not. An amend whose own paths
+  all had rows, while
   the commit already held such a path, ran only those rows: it is not
   recorded, the full gate still due. `--commits <n>`, with `targeted`, appends
   the last `n` first-parent commits: a run of several groups commits the

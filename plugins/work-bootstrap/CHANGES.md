@@ -761,5 +761,8 @@ commands, and may delete both. A decline of the copy recorded for this reason
 can go. A project back on `local` copies the script again.
 Check: checklist — "Deterministic layer"; audit §6.
 Applies to: projects with `full gate: ci`.
-Supersedes: gate-per-branch — "The record is kept by `scripts/gate_record.py`",
-for a project with `full gate: ci`.
+Supersedes: gate-per-branch — "The record is kept by `scripts/gate_record.py`"
+and what it says each step records, "its commit is not recorded" included;
+gate-merge-paths — "a merge's paths for the gate's record", "A run red by
+timeouts alone counts as green" and its sync item; each for a project with
+`full gate: ci`.

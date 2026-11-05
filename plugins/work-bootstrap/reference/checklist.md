@@ -59,15 +59,17 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       the profile records `full gate: ci` when a pipeline runs it, `local`
       without the key, and lists its `hub files`, each changed with the tests
       of its areas, not `related`; with `ci` nothing reads the gate's record,
-      so neither the script nor a `record` line is required; with `local`
-      the review and the push run the full gate once per branch and skip it
+      so neither the script nor a `record` line is required. With `local`,
+      all of this holds: the review and the push run the full gate once per
+      branch and skip it
       when `gate_record.py check` says so, from the project's copy of
       `templates/gate-record/gate_record.py`, the template's version line and
       no difference; a merge's paths are what it brought; where the project
       has a sync command, a sync sent to the full gate records it; a run red
       by timeouts alone on a busy machine is green for the record only once
-      its failing files pass alone and nothing is left unrun; no
-      git hook runs the whole gate, and lint-staged runs the formatter after
+      its failing files pass alone and nothing is left unrun. In either
+      mode no git hook runs the whole gate, and lint-staged runs the formatter
+      after
       the linter's fixes.
 - [ ] The gate is fast: one of several parts skips a part whose content is
       unchanged since its last green run — fingerprinted before and after its
