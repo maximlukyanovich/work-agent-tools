@@ -70,8 +70,8 @@ asked with the facts and without a recommendation, written to the profile as
 The facts come before the question, read by `setup` (step 2):
 
 - the setting's value — `gh api repos/{owner}/{repo} --jq .delete_branch_on_merge`,
-  `glab api projects/:id --jq .remove_source_branch_after_merge` (`null` reads
-  as off) and, on GitLab, `glab api version`;
+  the field `remove_source_branch_after_merge` of `glab api projects/:id` —
+  glab has no `--jq` — (`null` reads as off) and, on GitLab, `glab api version`;
 - the default branch and which branches of the chain are protected;
 - the branch the setting would delete: any branch of the chain but the last
   that is neither protected nor the default — an unprotected `staging`

@@ -20,8 +20,8 @@ first run caught a real defect in about three minutes on four cores.
 - **A disk threshold comes first.** The same disk serves the deploys: below
   the threshold the job fails before it installs anything.
 - **Merging on green is switched on last**, by a maintainer, after the first
-  green run — "Pipelines must succeed". Read it with
-  `glab api projects/:id --jq .only_allow_merge_if_pipeline_succeeds`. Under it
+  green run — "Pipelines must succeed", the field
+  `only_allow_merge_if_pipeline_succeeds` of `glab api projects/:id`. Under it
   a merge request with no pipeline cannot merge.
 
 The skeleton, for Node; `<project>`, `<gate>` and `<runner tag>` are the
