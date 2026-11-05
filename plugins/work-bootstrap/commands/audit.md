@@ -170,7 +170,11 @@ does not raise it again.
    carries them in. Do commit, review and merge take a target — a branch or
    a worktree path — and run their git calls and the gate in that tree?
    Does every command end with its next step as a block ready to paste, and
-   does a stop that sends to another command print that command as one?
+   does a stop that sends to another command print that command as one? A
+   command that only reports into a task under way may end without one. Is a
+   block for work in a worktree a command with its target or a prompt that
+   enters the tree, never `cd <tree> && claude`? Does `AGENTS.md` §6 carry the
+   line on a prompt offered to the developer?
 
 7. **Gaps.** Layers from the model that are absent. Absence is allowed — but it
    must be deliberate and written down, with the conditions that would fill it.

@@ -80,9 +80,15 @@ session holds.
    language; identifiers, paths and commands verbatim. The text above the
    blocks and the first block name the same step, the nearest one: while a
    commit or another step of the task is ahead, the block is for it, and a
-   review command follows only the task's last commit. A prompt longer than
-   about eight lines goes into `NEXT.md` in the task's folder in the personal
-   space, and its block becomes "Read `<path>/NEXT.md` and continue."
+   review command follows only the task's last commit. The line above each
+   block says where it runs, the words for a fresh session in bold, in any
+   case and the chat's language: **a fresh session**, в **свежей сессии**. A
+   target in a worktree follows
+   `${CLAUDE_PLUGIN_ROOT}/reference/templates/command.md`, "A block for work
+   in a worktree": a command takes the target, a prompt opens by entering the
+   tree and names `EnterWorktree`. A prompt longer than about eight lines
+   goes into `NEXT.md` in the task's folder in the personal space, and its
+   block becomes "Read `<path>/NEXT.md` and continue."
 
 5. **Say how to choose the model** when the next phase is routine — a merge,
    tracker tails: the `/model` picker with `s` switches that session only;
