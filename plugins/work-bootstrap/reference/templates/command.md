@@ -114,7 +114,8 @@ kept by the project's `scripts/gate_record.py` — a copy of
   own or reads the record, so the project needs neither
   `scripts/gate_record.py` nor a `record` line; the review reports the
   pipeline's status on its head, read once the way `merge.md`, "Waiting for
-  CI", reads it, and does not rerun the targeted checks —
+  CI", reads it — a run not finished is reported so, never as green — and
+  does not rerun the targeted checks —
   its commits ran them, and over a whole range "related" nears the whole
   suite; a head not yet pushed, or pushed with no merge request, rests on
   its commits' checks. The merge

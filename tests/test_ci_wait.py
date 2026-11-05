@@ -161,6 +161,10 @@ class GitHub(unittest.TestCase):
         self.assertEqual((result.stdout.strip(), result.returncode), ("success", 0))
         self.assertEqual(reads, 1)
 
+    def test_all_checks_skipped_is_not_green(self):
+        result, _ = self.wait(checks("skipping", "skipping"))
+        self.assertEqual((result.stdout.strip(), result.returncode), ("skipped", 1))
+
     def test_no_checks_yet_keeps_waiting(self):
         result, reads = self.wait(NO_CHECKS, checks("pass"))
         self.assertEqual((result.stdout.strip(), result.returncode), ("success", 0))

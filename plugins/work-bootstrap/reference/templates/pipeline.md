@@ -24,8 +24,8 @@ first run caught a real defect in about three minutes on four cores.
   `only_allow_merge_if_pipeline_succeeds` of `glab api projects/:id`. Under it
   a merge request with no pipeline cannot merge.
 
-The skeleton, for Node; `<project>`, `<gate>` and `<runner tag>` are the
-project's, and the threshold is a measured one:
+The skeleton, for Node, with a full version in `.nvmrc`; `<project>`, `<gate>`
+and `<runner tag>` are the project's, and the threshold is a measured one:
 
 ```yaml
 stages:
@@ -53,7 +53,7 @@ check:
         exit 1
       fi
     - |
-      node_version=$(cat .nvmrc)
+      node_version=$(sed 's/^v//' .nvmrc)
       node_dir="$TOOLS_DIR/node-v$node_version-linux-x64"
       if [ ! -x "$node_dir/bin/node" ]; then
         mkdir -p "$TOOLS_DIR"
@@ -74,7 +74,8 @@ What the runner holds is read, not asked: a throwaway branch whose
 `.gitlab-ci.yml` holds only this job, so no deploy runs. A push to the
 project's remote, on the developer's word; the branch is deleted once the log
 is read. The script stays a block: a plain YAML line holding `: ` is a
-mapping, and such a pipeline fails with no job.
+mapping, and such a pipeline fails with no job. Every line ends in `|| echo`,
+so a missing tool does not stop the lines after it.
 
 ```yaml
 probe:
@@ -84,7 +85,8 @@ probe:
       command -v node && node -v || echo 'node: none'
       command -v corepack || echo 'corepack: none'
       docker ps -q > /dev/null && echo 'docker: ok' || echo 'docker: no access'
-      command -v curl; command -v tar
+      command -v curl || echo 'curl: none'
+      command -v tar || echo 'tar: none'
       df --output=avail -k "$HOME" | tail -1
   tags:
     - <runner tag>

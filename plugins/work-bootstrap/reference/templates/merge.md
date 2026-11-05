@@ -18,8 +18,8 @@ that does not exist, its errors silenced, read nothing for ten minutes after
 the pipeline had gone green.
 
 The project's merge command carries the block of its platform, run in the
-background. `LIMIT` is the job's timeout with a margin, in seconds, and `POLL`
-the seconds between reads. The block prints `success` and exits 0, or prints
+background, with `MR` or `PR` the number, `LIMIT` the longest run's time with a
+margin, in seconds, and `POLL` the seconds between reads. The block prints `success` and exits 0, or prints
 what stopped it and exits 1: a status that is not green, `no result` when the
 limit ran out, `status not read` after an error. Only `success` is green.
 
@@ -29,7 +29,9 @@ sha carries two pipelines, and a branch pipeline without the gate job is green
 in seconds; after a repeat push `head_pipeline` can still be the last head's.
 A gate that runs in branch pipelines compares with `push` instead. `manual`
 and `skipped` are not green: a skipped pipeline blocks a merge under
-"Pipelines must succeed".
+"Pipelines must succeed". The block is written for merge request pipelines:
+merged results pipelines test a temporary merged commit and were not tried
+with it.
 
 ```bash
 deadline=$((SECONDS + LIMIT))
@@ -52,7 +54,8 @@ echo "no result"; exit 1
 
 **GitHub.** `gh pr checks --watch` does not decide: it exits 0 on a canceled
 check, and 1 both on a failed one and while no check has been reported yet. So
-the block reads each check's `bucket`.
+the block reads each check's `bucket`. Skipped checks beside a passed one are
+green; all skipped is `skipped`, not green, since the gate may not have run.
 
 ```bash
 deadline=$((SECONDS + LIMIT))
@@ -62,7 +65,7 @@ while [ "$SECONDS" -lt "$deadline" ]; do
 import json, sys
 b = [check["bucket"] for check in json.load(sys.stdin)]
 print("failed" if "fail" in b else "waiting" if "pending" in b or not b
-      else "canceled" if "cancel" in b else "success")
+      else "canceled" if "cancel" in b else "success" if "pass" in b else "skipped")
 ') || { echo "status not read"; exit 1; }
   else
     case "$out" in
@@ -72,7 +75,7 @@ print("failed" if "fail" in b else "waiting" if "pending" in b or not b
   fi
   case "$status" in
     success) echo success; exit 0 ;;
-    failed|canceled) echo "$status"; exit 1 ;;
+    failed|canceled|skipped) echo "$status"; exit 1 ;;
   esac
   sleep "$POLL"
 done
