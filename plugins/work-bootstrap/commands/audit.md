@@ -32,13 +32,28 @@ as a change of its own.
   set a real baseline at the end.
 - **Baseline not in `CHANGES.md`**: the installed plugin is older than the
   one that set it — say so; run nothing until the plugin is updated.
+- **`0 newer entries`** speaks of the installed plugin alone, so it is a
+  result only once that plugin is known current. A `source` with a `ref`
+  stays on its tag: nothing is compared, and only a `full` audit's §13
+  reports a newer one. Otherwise
+  compare the `version` in `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`
+  with `main`'s —
+  `curl -fsS https://raw.githubusercontent.com/maximlukyanovich/work-agent-tools/main/plugins/work-bootstrap/.claude-plugin/plugin.json`.
+  Older: there is no result, and an entry seen in `main` is not judged. Print
+  `claude plugin marketplace update mluk-work-agent-tools` and
+  `claude plugin update work-bootstrap@mluk-work-agent-tools --scope <scope>`
+  as a block, then this audit in a new session. No answer from `main`: say
+  the delta is unconfirmed.
 - **`full`**: every check below, then the baseline.
 
 **The efficiency journal is read in either mode** — section 14 below.
 
 **Moving the baseline is the last step, and it is asked.** Once each entry is
 applied, declined with a recorded reason, or not applicable, offer to set
-`Baseline:` to the last entry. A declined entry stays declined: its reason
+`Baseline:` to the last entry of the delta; an entry seen elsewhere — in
+`main`, in a release's notes — moves nothing. Not applicable is the result
+of the check, never of the topic: a `What:` naming several changes has each
+one checked. A declined entry stays declined: its reason
 goes into the project's own docs, not into the baseline, so the next delta
 does not raise it again.
 
@@ -109,20 +124,22 @@ does not raise it again.
 
 6. **Where the gate runs.** Does the commit command run the targeted checks
    of the changed paths, with the full gate only for a path no row covers,
-   which `full gate: ci` leaves to the pipeline —
-   and do the review and the push run the full gate once per branch,
-   skipping it when `gate_record.py check` says so? Does a merge count the
-   paths it brought? Where the project has a sync command, does a sync the
-   rule sends to the full gate record it? Does a run red by timeouts alone on
-   a busy machine count as green only once its failing files pass alone and
-   nothing is left unrun? Is
+   which `full gate: ci` leaves to the pipeline? With `full gate: ci` in the
+   profile — `local` without the key — does the pipeline really run the full
+   gate on every merge request — if not, a finding with a question, never an
+   edit? With `ci` nothing reads the gate's record: a project needs neither
+   the script nor a `record` line, and one left in place is no finding.
+   With `local`: do the review and the push run the full gate once per
+   branch, skipping it when `gate_record.py check` says so; does a merge
+   count the paths it brought; where the project has a sync command, does a
+   sync the rule sends to the full gate record it; does a run red by timeouts
+   alone on a busy machine count as green only once its failing files pass
+   alone and nothing is left unrun; is
    `scripts/gate_record.py` the project's copy of
    `${CLAUDE_PLUGIN_ROOT}/templates/gate-record/gate_record.py` — `diff`
-   against the template shows nothing, the version line included? With
-   `full gate: ci` in the profile — `local` without the key — does the
-   pipeline really run the full gate on every merge request — if not, a
-   finding with a question, never an edit?
-   Does it list its `hub files` — a missing list asked as Q3 asks it — and
+   against the template shows nothing, the version line included?
+   In either mode, does the profile list its `hub files` — a missing list
+   asked as Q3 asks it — and
    does a change to one run the tests of its areas rather than `related`?
    Does every code path have a targeted row
    whose command narrows, and does a gate of several parts skip a part whose
@@ -279,7 +296,11 @@ does not raise it again.
 
 ## Report
 
-A table: finding → layer → severity → proposed action. What the developer
+A table: finding → what goes wrong if it stays → layer → severity → proposed
+action. The second column is what earns a row: someone acts wrongly or spends
+an extra cycle. A difference with no such answer — "nothing serious", a spare
+line — is cosmetic: named in one line under the table, no action proposed. The delta keeps its row per entry
+whatever the answer: the baseline moves on them. What the developer
 must decide is asked with the questionnaire tool, never as a list in the
 report's text: load the `work-bootstrap:kickoff` skill first — its
 questionnaire rules apply, a closing "anything to add?" included. Apply

@@ -64,8 +64,8 @@ commit command and then the review ran a six-minute gate on the same tree,
 and an amend of six files took half an hour; on another, a half-hour task's
 merge ran the full gate again after a review fix that had passed its
 targeted checks. So the commands that commit, review, sync and merge share
-one rule, and the record behind it is kept by the project's
-`scripts/gate_record.py` — a copy of
+one rule, and with `full gate: local`, or no key, the record behind it is
+kept by the project's `scripts/gate_record.py` — a copy of
 `${CLAUDE_PLUGIN_ROOT}/templates/gate-record/gate_record.py`, its contract
 `${CLAUDE_PLUGIN_ROOT}/reference/gate-record.md`:
 
@@ -76,11 +76,11 @@ one rule, and the record behind it is kept by the project's
   runs the rows of the paths it changed; a path no row covers — shared
   configuration among them: the lockfile, the linter's, type-checker's or
   test runner's config — runs the full gate. With `full gate: ci` it goes to
-  the pipeline instead: the step runs no full gate, and such a commit is not
-  recorded. A sync the rule sends to the full gate records `full` when it is
-  green on a clean tree. A filter that silently runs the whole suite is not a targeted
-  check; it is tried once before it is written down. A commit whose every
-  path had its row, green, on a clean tree after
+  the pipeline instead: the step runs no full gate. With `local`, a sync the
+  rule sends to the full gate records `full` when it is green on a clean
+  tree. A filter that silently runs the whole suite is not a targeted
+  check; it is tried once before it is written down. With `local`, a commit whose
+  every path had its row, green, on a clean tree after
   the commit, is recorded `targeted`. The paths are the whole commit's
   (`git show --name-only HEAD`): an amend counts what the commit already
   held, not only the round's. A merge's are what it brought
@@ -111,8 +111,8 @@ one rule, and the record behind it is kept by the project's
 - **Where the full gate runs is the project's call** — the profile's
   `full gate`. `local`, and no key: as above. `ci`: the pipeline runs it on
   every merge request, and its status decides — no command runs it on its
-  own, a commit whose paths all have rows still records `targeted`, and a
-  local run `full`; the review reports the
+  own or reads the record, so the project needs neither
+  `scripts/gate_record.py` nor a `record` line; the review reports the
   pipeline's status on its head and does not rerun the targeted checks —
   its commits ran them, and over a whole range "related" nears the whole
   suite; a head not yet pushed, or pushed with no merge request, rests on

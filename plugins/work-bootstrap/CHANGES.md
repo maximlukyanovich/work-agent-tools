@@ -751,3 +751,18 @@ as the template says, and the review does not raise such a run as a red gate.
 The sync item is checked only in a project with a sync command.
 Check: checklist — "Deterministic layer"; audit §6.
 Applies to: projects with a commit, review, sync or merge command.
+
+## 2026-11-05 · gate-record-local-only
+
+What: the gate's record is needed only with `full gate: local`, or no key.
+With `ci` no command runs `gate_record.py check`, so nothing reads the record:
+the project needs neither `scripts/gate_record.py` nor a `record` line in its
+commands, and may delete both. A decline of the copy recorded for this reason
+can go. A project back on `local` copies the script again.
+Check: checklist — "Deterministic layer"; audit §6.
+Applies to: projects with `full gate: ci`.
+Supersedes: gate-per-branch — "The record is kept by `scripts/gate_record.py`"
+and what it says each step records, "its commit is not recorded" included;
+gate-merge-paths — "a merge's paths for the gate's record", "A run red by
+timeouts alone counts as green" and its sync item; each for a project with
+`full gate: ci`.
