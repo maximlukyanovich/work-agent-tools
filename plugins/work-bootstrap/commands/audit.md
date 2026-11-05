@@ -279,7 +279,11 @@ does not raise it again.
 
 ## Report
 
-A table: finding → layer → severity → proposed action. What the developer
+A table: finding → what goes wrong if it stays → layer → severity → proposed
+action. The second column is what earns a row: someone acts wrongly or spends
+an extra cycle. A difference with no such answer — "nothing serious", a spare
+line — is cosmetic: named in one line under the table, no action proposed. The delta keeps its row per entry
+whatever the answer: the baseline moves on them. What the developer
 must decide is asked with the questionnaire tool, never as a list in the
 report's text: load the `work-bootstrap:kickoff` skill first — its
 questionnaire rules apply, a closing "anything to add?" included. Apply
