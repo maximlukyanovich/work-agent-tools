@@ -789,3 +789,14 @@ Check: checklist — "waits by `merge.md`"; audit §6.
 Applies to: projects with `full gate: ci`.
 Supersedes: gate-per-branch — "the merge command waits for a green pipeline",
 as to how it reads the pipeline.
+
+## 2026-11-06 · ci-pipeline-template
+
+What: `reference/templates/pipeline.md` is the skeleton of a pipeline for
+`full gate: ci` on GitLab. The gate job runs in merge request pipelines only,
+so a red check never stands between a merge and its deploy; on a runner shared
+with the deploys a disk threshold comes before anything installs; "Pipelines
+must succeed" goes on after the first green run. What the runner has is read
+by a probe job on a throwaway branch.
+Check: checklist — "A pipeline written for `full gate: ci`"; audit §6.
+Applies to: projects with `full gate: ci`.

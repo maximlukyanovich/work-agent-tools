@@ -24,7 +24,9 @@ cost, not the mechanism: "a change to `<file>` makes `related` run N of the
 suite's M test files". Where the full gate runs —
 `ci` when a pipeline already runs it on every merge request, recommended then;
 `local` otherwise, and the default (`reference/templates/command.md`, "The full
-gate runs once per branch"). Whether a manual step is required — a browser, a
+gate runs once per branch"). No such pipeline but a runner the project can use:
+`ci` is offered too, what the runner has read by the probe job of
+`reference/templates/pipeline.md` rather than asked. Whether a manual step is required — a browser, a
 real request, a migration. Separately: which changes need a test — the default
 risk classes are money, data written or deleted, access, merges, what lets a
 confirmation through, branching logic and a costly break where nobody looks

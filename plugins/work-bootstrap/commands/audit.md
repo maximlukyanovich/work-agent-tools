@@ -129,6 +129,11 @@ does not raise it again.
    gate on every merge request — if not, a finding with a question, never an
    edit? With `ci` nothing reads the gate's record: a project needs neither
    the script nor a `record` line, and one left in place is no finding.
+   Does the gate job keep off the deploys — merge request pipelines only,
+   and on a runner shared with them a disk threshold before anything
+   installs (`reference/templates/pipeline.md`) — and does
+   `only_allow_merge_if_pipeline_succeeds` read true? A mismatch is a finding
+   with a question, never an edit.
    Does the merge command wait by `reference/templates/merge.md`, "Waiting
    for CI" — the status from the merge request, on GitLab only a
    `merge_request_event` pipeline of the pushed head, bounded in time, its

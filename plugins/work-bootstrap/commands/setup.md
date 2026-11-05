@@ -53,6 +53,9 @@ The order is fixed. Steps are not reordered or skipped.
    with `${CLAUDE_PLUGIN_ROOT}/templates/gate-record/gate_record.py`, each copied
    unchanged into the project's scripts folder — a project command cannot
    reach the plugin's own files.
+   `full gate: ci` with no pipeline yet: the job from
+   `${CLAUDE_PLUGIN_ROOT}/reference/templates/pipeline.md`, after its probe
+   job — a push, so on the developer's word.
 
    Order: `AGENTS.md` first — everything else references it — then `CLAUDE.md`,
    the profile, skills, commands, agents, hooks, MCP, docs —
