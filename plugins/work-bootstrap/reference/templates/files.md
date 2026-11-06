@@ -26,14 +26,17 @@ about the agent's speed, cost or quality of work goes as a row into
 `docs/local/efficiency-remarks.md` in the same session — date, task, the
 quote, context, a link, no judgement; `/work-bootstrap:audit` reads it.
 
-§6 also carries a habit, in a line or two: a prompt or command the agent
-recommends to continue the work, in any message, goes in a code block of its
-own, ready to copy; there may be several. A block names a step that can run
-now: a step that waits on an earlier one shows the earlier step's block
-first. The line above it says where it runs, the words for a fresh session in
-bold. It is a format of output, not a duty to end on a block (`command.md`, "A
-command ends with its next step"), and it stays here rather than in a skill:
-it applies to any message, and a skill loads only for its own topic.
+§6 also carries a habit: a prompt or command the agent recommends to continue
+the work, in any message, goes in a code block of its own, ready to copy; there
+may be several. A block names a step that can run now: a step that waits on an
+earlier one shows the earlier step's block first. The line above it says where
+it runs, the words for a fresh session in bold. A block for a worktree runs in
+a session opened in the main repository, so it is never `cd <tree> && claude`:
+a prompt enters the tree by its absolute path with `EnterWorktree`, leaves with
+`ExitWorktree`, `keep`, before writing to the main tree, and enters again. The
+habit is a format of output, not a duty to end on a block (`command.md`, "A
+command ends with its next step"), and it stays here rather than in a skill: it
+applies to any message, and a skill loads only for its own topic.
 
 A generator may have written some of these files first — `create-next-app`
 writes `AGENTS.md`, most generators a `.gitignore`. They are

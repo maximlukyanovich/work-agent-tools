@@ -173,8 +173,10 @@ does not raise it again.
    does a stop that sends to another command print that command as one? A
    command that only reports into a task under way may end without one. Is a
    block for work in a worktree a command with its target or a prompt that
-   enters the tree, never `cd <tree> && claude`? Does `AGENTS.md` §6 carry the
-   line on a prompt offered to the developer?
+   enters the tree and says to leave before writing to the main tree, then
+   enter again, never `cd <tree> && claude`? Does `AGENTS.md` §6 carry the
+   line on a prompt offered to the developer, with a worktree prompt's
+   entering, leaving and entering again?
 
 7. **Gaps.** Layers from the model that are absent. Absence is allowed — but it
    must be deliberate and written down, with the conditions that would fill it.
