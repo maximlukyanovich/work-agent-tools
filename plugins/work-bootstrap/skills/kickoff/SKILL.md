@@ -37,8 +37,8 @@ its yes is the approval this skill asks for.
    report locates, it is not the source. Any contract wording the plan's
    logic rests on — an API field, an event's semantics, a rule in the spec —
    is read in the source and quoted in the plan with its path; a neighbouring
-   repository's after `git fetch`, at its remote branch
-   (`git show origin/<branch>:<path>`), with the commit named.
+   repository's at its remote head, by the review command's rule, with the
+   commit named.
    Check library APIs against their docs, not memory. When the task has a
    design source, read the whole screen it touches, not only the component,
    and put a table in the plan: each element → the code that draws it, or
