@@ -127,7 +127,7 @@ test. A hook that fires on ordinary edits gets ignored and then removed.
   takes minutes in `pre-push` is bypassed within a week, and a bypassed check
   is worse than none. The full gate runs in CI or in the review and merge
   commands, once per branch, by the profile's `full gate`
-  (`command.md`, "The full gate runs once per branch").
+  (`gate.md`, "The full gate runs once per branch").
 - **lint-staged: the linter's fixes first, the formatter last** —
   `['eslint --fix', 'prettier --write']`. The reverse order leaves the linter's
   edits unformatted while the hook reports success, and the gate fails a commit
