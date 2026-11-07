@@ -113,6 +113,9 @@ On a free tree a worktree only adds setup, and is not offered.
   same for both stacks even then, and collides or is shared: a host port, a
   `container_name`, a network or volume with its own `name:` or marked
   `external`.
+- **What it hands over goes to a session in the main repository.** The
+  command's closing block and every next step after it follow `command.md`,
+  "A block for work in a worktree".
 - **A worktree is temporary.** The command that merges removes it with its
   branch (closing steps below); a folder deleted by hand leaves a stale entry
   that `git worktree prune` clears.

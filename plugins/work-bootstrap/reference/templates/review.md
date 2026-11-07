@@ -111,12 +111,12 @@ update it stays empty.
    ledger's path, the plan and the target — never the report: the fix
    session reads the ledger. Ready closes the range, not the task: first read
    the plan and the task's notes — work the branch has not done yet makes the
-   block "continue the task" (`Read <NEXT.md> and continue`, or the plan's
-   next step), and the merge waits. The task done → with `fix-now` ids open
-   or techdebt rows to write, the fix prompt for them: the round's commit
-   hands over the review of its delta, and that review the merge. Without
-   them, the merge command with the target. The merge command comes first
-   only on the developer's word to ship now.
+   block "continue the task" (`Read <absolute path>/NEXT.md and continue`, or
+   the plan's next step), and the merge waits. The task done → with `fix-now`
+   ids open or techdebt rows to write, the fix prompt for them: the round's
+   commit hands over the review of its delta, and that review the merge.
+   Without them, the merge command with the target. The merge command comes
+   first only on the developer's word to ship now.
    Observed on a live project: a clean repeat pass in the middle of a task
    would have printed the merge command with two slices and the live check
    still ahead.

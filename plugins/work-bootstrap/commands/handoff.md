@@ -66,9 +66,9 @@ session holds.
    **Ready closes the range, not the task.** A verdict speaks for the commits
    the review read. Before the merge command, read the plan and the task's
    notes: work the branch has not done yet — a slice, a live check — makes
-   the block "continue the task" (`Read <path>/NEXT.md and continue`, or the
-   plan's next step), and the merge waits for the task's end. A review after
-   the task's last commit, the usual case, goes to the merge as before.
+   the block "continue the task" (`Read <absolute path>/NEXT.md and continue`,
+   or the plan's next step), and the merge waits for the task's end. A review
+   after the task's last commit, the usual case, goes to the merge as before.
 
    **The review prints what follows it.** When the next step is a review,
    the block is the review command. It may name what comes after, but the
@@ -80,9 +80,18 @@ session holds.
    language; identifiers, paths and commands verbatim. The text above the
    blocks and the first block name the same step, the nearest one: while a
    commit or another step of the task is ahead, the block is for it, and a
-   review command follows only the task's last commit. A prompt longer than
-   about eight lines goes into `NEXT.md` in the task's folder in the personal
-   space, and its block becomes "Read `<path>/NEXT.md` and continue."
+   review command follows only the task's last commit. The line above each
+   block says where it runs, the words for a fresh session in bold, in any
+   case and the chat's language: **a fresh session**, в **свежей сессии**. A
+   target in a worktree follows
+   `${CLAUDE_PLUGIN_ROOT}/reference/templates/command.md`, "A block for work
+   in a worktree": a command takes the target; a prompt, the fix prompt and
+   "continue the task" included, opens by entering the tree, names
+   `EnterWorktree` and says to leave before writing to the main tree, then
+   enter again. A prompt longer than about eight lines goes into `NEXT.md` in
+   the task's folder in the personal space — an entered session leaves to
+   write it — and its block holds the prompt's words on the tree, then "Read
+   `<absolute path>/NEXT.md` and continue."
 
 5. **Say how to choose the model** when the next phase is routine — a merge,
    tracker tails: the `/model` picker with `s` switches that session only;

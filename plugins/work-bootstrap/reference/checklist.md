@@ -133,7 +133,11 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       when it reads ready too, while `fix-now` ids or techdebt rows are left
       — and otherwise the merge command, once the plan and the task's notes
       show no work left, and "continue the task" while they do; the merge's
-      is the next task.
+      is the next task. A command that only reports into a task under way may
+      end without one.
+- [ ] A block for work in a worktree is a command with its target or a prompt
+      that enters the tree and says to leave before writing to the main tree,
+      then enter again, never `cd <tree> && claude`.
 - [ ] A fix to a commit not yet pushed goes into that commit — `--amend`, or
       `--fixup` and `--autosquash`; review fixes go into one fix commit on
       top, made by the first round and amended by the later ones; a pushed
@@ -173,7 +177,9 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       works.
 - [ ] `docs/README.md` and `docs/local/README.md` exist; `docs/local/` is fully
       ignored except its README. `docs/local/efficiency-remarks.md` exists,
-      and `AGENTS.md` §6 has the line that fills it.
+      and `AGENTS.md` §6 has the line that fills it, and the line on a
+      prompt offered to the developer, with a worktree prompt's entering,
+      leaving and entering again.
 - [ ] `.claude/README.md` is a map with links; the command index is in
       `.claude/COMMANDS.md`; nothing inside `commands/` is not a command.
 - [ ] `.claude/project-profile.md` exists if any shared plugin is installed.

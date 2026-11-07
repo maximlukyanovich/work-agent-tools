@@ -801,3 +801,20 @@ must succeed" goes on after the first green run. What the runner has is read
 by a probe job on a throwaway branch.
 Check: checklist — "a pipeline written for `full gate: ci`"; audit §6.
 Applies to: projects with `full gate: ci` on GitLab.
+
+## 2026-11-06 · handoff-prompts
+
+What: a block for work in a worktree runs in a session opened in the main
+repository: a command takes the tree as its target, and a prompt opens by
+entering it with `EnterWorktree`, never `cd <tree> && claude`. The prompt also
+says to leave with `ExitWorktree`, `keep`, before writing what lives in the
+main tree, then enter again, and any other path it names is absolute.
+`AGENTS.md` §6 gets a line: a prompt offered to the developer, in any message,
+is a code block of its own that names a step able to run now, and the line
+above it says where it runs, the words for a fresh session in bold; a block for
+a worktree is never `cd <tree> && claude`, in any message: a prompt enters the
+tree by its absolute path with `EnterWorktree`, leaves with `ExitWorktree`,
+`keep`, before writing to the main tree, and enters again. A command that only
+reports into a task under way may end without a block.
+Check: checklist — "A block for work in a worktree", `AGENTS.md` §6; audit §6.
+Applies to: every project.
