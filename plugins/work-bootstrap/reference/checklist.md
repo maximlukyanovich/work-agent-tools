@@ -109,7 +109,9 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       only techdebt — so none is `open` at the merge. A ready verdict with
       `fix-now` ids or techdebt rows to write offers the fix round first, the
       review of its delta next and the merge last; the merge first only on
-      the developer's word.
+      the developer's word. A contract from a neighbouring repository is read
+      after `git fetch`, at the remote branch it lives on, and the pass names
+      the commit.
 - [ ] Review groups above the delegation threshold go to
       `.claude/agents/review-group.md` (`model: inherit`, read-only tools,
       findings only), un-ignored in `.gitignore`; the review command passes

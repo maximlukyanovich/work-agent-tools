@@ -841,3 +841,12 @@ branch keeps one fix commit on top. The project's commit and review-fix
 commands say so.
 Check: checklist — "A fix to a commit not yet pushed"; audit §6.
 Applies to: projects whose commit command places review fixes.
+
+## 2026-11-07 · neighbour-at-remote-head
+
+What: the review command's rubric reads a contract from a neighbouring
+repository after `git fetch`, at the remote branch it lives on, and the pass
+names the commit: the local checkout lags.
+Check: checklist — "A review command"; audit §5.
+Applies to: projects with a review command whose code repeats another
+repository's contract.

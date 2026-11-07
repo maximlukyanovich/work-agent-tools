@@ -34,20 +34,21 @@ its yes is the approval this skill asks for.
    history, the issue and its links, and the design source is not a question.
    Use exploration subagents for broad sweeps (one per area, at most three in
    parallel); read the critical files yourself afterwards. A subagent's
-   report locates; it does not stand in for the source. Any contract wording
-   the plan's logic rests on — an API field, an event's semantics, a rule in
-   the spec — is read in the source and quoted in the plan with its path.
+   report locates, it is not the source. Any contract wording the plan's
+   logic rests on — an API field, an event's semantics, a rule in the spec —
+   is read in the source and quoted in the plan with its path; a neighbouring
+   repository's after `git fetch`, at its remote branch
+   (`git show origin/<branch>:<path>`), with the commit named.
    Check library APIs against their docs, not memory. When the task has a
    design source, read the whole screen it touches, not only the component,
-   and put a table in the plan: each element of the screen → the code that
-   draws it, or why it is left out. Read each element's states (hover, focus,
+   and put a table in the plan: each element → the code that draws it, or
+   why it is left out. Read each element's states (hover, focus,
    pressed, selected, disabled, invalid) and the design's global stylesheet
-   from the source as well — they are requirements, and memory of "how such
-   a component usually looks" is not a source. Check each screen's design
+   from the source — they are requirements, memory of such a component is
+   not. Check each screen's design
    status too — by the per-screen statuses the profile's `## Sources of
    truth` names, or a designer's word quoted with its date in the decisions
-   file. A screen not ready goes into the last slice and a risk line of
-   the plan.
+   file. A screen not ready goes into the last slice and a risk line.
 
 3. **Ask what the code cannot answer** — with the questionnaire tool, not as
    prose in chat:

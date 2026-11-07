@@ -108,7 +108,8 @@ does not raise it again.
    by it, a removed guard and a false claim of coverage `major`?
    Does the rubric ask the four questions — pairs that must agree, a new
    path doing all the old one did, empty against unset and a repeat, new
-   text true in every outcome?
+   text true in every outcome? Does it read a neighbouring repository's
+   contract after `git fetch`, at the remote branch, and name the commit?
    Does a ready verdict read the plan and the task's notes before the merge
    command, and print "continue the task" while work is left? Does the
    review command say that no new work lands on a branch while its fix round
