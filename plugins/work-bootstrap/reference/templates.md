@@ -10,7 +10,7 @@ needs. A text that quotes "`templates.md`, «X»" means the file that holds X.
 | File | Sections | Read for |
 | --- | --- | --- |
 | [`files.md`](templates/files.md) | `AGENTS.md`, `README.md` — Deployment, `CLAUDE.md`, `SKILL.md`, `.mcp.json.example`, Hook contract, Git hooks, `docs/local/README.md`, `docs/local/efficiency-remarks.md` | the harness's files other than commands |
-| [`command.md`](templates/command.md) | A command; A command acts on a target, wherever it is checked out; A command ends with its next step — with "`model:` in a command's frontmatter" | any command |
+| [`command.md`](templates/command.md) | A command — with "`model:` in a command's frontmatter"; A command acts on a target, wherever it is checked out; A command ends with its next step — with "A block for work in a worktree" | any command |
 | [`gate.md`](templates/gate.md) | The full gate runs once per branch — with "A hub file takes the tests of its areas" and "A gate of several parts picks them by content" | the gate of any command |
 | [`onboarding.md`](templates/onboarding.md) | The onboarding command | the onboarding command, the plugin set |
 | [`task.md`](templates/task.md) | A command that starts a task must offer the opening steps — with "The change sets the process"; A command that starts a task can open it in a worktree | the task command, a change's level |

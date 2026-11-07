@@ -51,8 +51,8 @@ pushed commit takes a new commit, never a force push. A round of review
 fixes is placed differently: the first round after a review is one new
 commit on top of the series, and every later round goes into that fix commit
 while it is unpushed — amended, or folded with `--fixup` when it is not
-`HEAD`. A branch of one commit no remote holds has no series to lay out: its
-first round is amended into that commit. Otherwise the series' own commits
+`HEAD`. A branch of one commit no remote holds has no series to lay out: each
+round is amended into that commit. Otherwise the series' own commits
 are not rewritten for a review fix. A branch
 merges with its history, and "fix", then "fix the fix" tells a later reader
 nothing the corrected commit does not; the review's story is in the ledger,

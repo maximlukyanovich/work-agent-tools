@@ -821,7 +821,7 @@ Applies to: every project.
 
 ## 2026-11-07 · pnpm-warm-tree
 
-What: with pnpm 11, a missing `allowBuilds` entry fails `pnpm add` and every
+What: with pnpm 11, a missing `allowBuilds` entry fails `pnpm add` and the first
 install, warm tree or clean; only a dependency the tree has already built
 hides it, the install failing once and passing when repeated. A text of the
 project saying that only a clean install fails is corrected. The
@@ -835,7 +835,7 @@ until the server's install failed".
 
 ## 2026-11-07 · one-commit-review-fix
 
-What: on a branch of one commit no remote holds, the first round of review
+What: on a branch of one commit no remote holds, each round of review
 fixes is amended into that commit: there is no series to lay out. Every other
 branch keeps one fix commit on top. The project's commit and review-fix
 commands say so.
