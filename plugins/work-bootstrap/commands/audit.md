@@ -159,8 +159,8 @@ does not raise it again.
    in a comment beside the rule — a command such as `tsc --listFilesOnly`
    or a search for imports and disk reads — rather than lean on the tool's
    `include`? Does a fix to a commit not yet pushed go into that
-   commit, do review fixes go into one fix commit that later rounds amend,
-   and does the review command read a head rewritten that way as
+   commit, do review fixes go into one fix commit that later rounds amend —
+   on a branch of one unpushed commit, into that commit — and does the review command read a head rewritten that way as
    `git diff <last head> HEAD`? Is a git hook running the whole gate —
    minutes per push, soon bypassed? Does lint-staged run the formatter after
    the linter's fixes? The wrong order leaves linter edits unformatted while

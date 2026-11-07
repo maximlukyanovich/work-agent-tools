@@ -832,3 +832,12 @@ Check: checklist — "A fresh checkout installs"; audit §12.
 Applies to: projects on pnpm 11.
 Supersedes: clean-install-deploy — "a warm `node_modules` hid a missing entry
 until the server's install failed".
+
+## 2026-11-07 · one-commit-review-fix
+
+What: on a branch of one commit no remote holds, the first round of review
+fixes is amended into that commit: there is no series to lay out. Every other
+branch keeps one fix commit on top. The project's commit and review-fix
+commands say so.
+Check: checklist — "A fix to a commit not yet pushed"; audit §6.
+Applies to: projects whose commit command places review fixes.

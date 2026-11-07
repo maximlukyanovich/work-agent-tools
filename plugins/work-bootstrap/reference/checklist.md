@@ -140,8 +140,9 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       then enter again, never `cd <tree> && claude`.
 - [ ] A fix to a commit not yet pushed goes into that commit — `--amend`, or
       `--fixup` and `--autosquash`; review fixes go into one fix commit on
-      top, made by the first round and amended by the later ones; a pushed
-      commit takes a new commit. The review command reads a head rewritten
+      top, made by the first round and amended by the later ones, or on a
+      branch of one unpushed commit into that commit; a pushed commit takes a
+      new commit. The review command reads a head rewritten
       that way as `git diff <last head> HEAD`.
 - [ ] The commit command compares the staged paths with its proposed list
       right before `git commit`, and after a commit the hook refused commits
