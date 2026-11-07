@@ -46,11 +46,13 @@ dirty. The stack's recipe in `reference/scaffold/` names the block.
 
 With pnpm 11, §2 says next to how a dependency is added that one with a build
 script — direct or transitive — needs an `allowBuilds` entry in
-`pnpm-workspace.yaml`. A missing entry fails the install with
-`ERR_PNPM_IGNORED_BUILDS`, but only a clean one: a warm `node_modules` hides
-it, and the first to see it is the server. The file's header gives each entry
-its reason and says to prove a new dependency with
-`pnpm install --frozen-lockfile` on a fresh checkout.
+`pnpm-workspace.yaml`. A missing entry fails `pnpm add` and every install with
+`ERR_PNPM_IGNORED_BUILDS`, warm tree or clean. Only a dependency the tree has
+already built hides it: the install fails once and passes when repeated, so a
+warm tree proves nothing, and the first to see the gap is a clean install — in
+CI on a merge request, else on the server. The file's header gives each entry
+its reason; a project with no such CI has it say to prove a new dependency
+with `pnpm install --frozen-lockfile` on a fresh checkout.
 
 ## README.md — Deployment
 

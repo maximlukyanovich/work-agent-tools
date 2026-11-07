@@ -818,3 +818,17 @@ tree by its absolute path with `EnterWorktree`, leaves with `ExitWorktree`,
 reports into a task under way may end without a block.
 Check: checklist — "A block for work in a worktree", `AGENTS.md` §6; audit §6.
 Applies to: every project.
+
+## 2026-11-07 · pnpm-warm-tree
+
+What: with pnpm 11, a missing `allowBuilds` entry fails `pnpm add` and every
+install, warm tree or clean; only a dependency the tree has already built
+hides it, the install failing once and passing when repeated. A text of the
+project saying that only a clean install fails is corrected. The
+`pnpm-workspace.yaml` header's proof on a fresh checkout stays for a project
+with no clean install in CI on a merge request; one with it may drop the
+line.
+Check: checklist — "A fresh checkout installs"; audit §12.
+Applies to: projects on pnpm 11.
+Supersedes: clean-install-deploy — "a warm `node_modules` hid a missing entry
+until the server's install failed".
