@@ -36,7 +36,7 @@ task's six files staged, the following commit for another task swept them in,
 and the pair had to be split with `git reset --soft` before the push.
 
 **A fix to a commit not yet pushed goes into that commit; review fixes go
-into one fix commit.** A bug found while the work goes on, whose cause is a
+into one fix commit, or into a lone unpushed commit.** A bug found while the work goes on, whose cause is a
 commit no remote holds yet (`git branch -r --contains <sha>` prints
 nothing), is fixed inside it:
 `git commit --amend` when it is `HEAD`, otherwise `git commit --fixup=<sha>`
@@ -51,7 +51,9 @@ pushed commit takes a new commit, never a force push. A round of review
 fixes is placed differently: the first round after a review is one new
 commit on top of the series, and every later round goes into that fix commit
 while it is unpushed — amended, or folded with `--fixup` when it is not
-`HEAD`. The series' own commits are not rewritten for a review fix. A branch
+`HEAD`. A branch of one commit no remote holds has no series to lay out: each
+round is amended into that commit. Otherwise the series' own commits
+are not rewritten for a review fix. A branch
 merges with its history, and "fix", then "fix the fix" tells a later reader
 nothing the corrected commit does not; the review's story is in the ledger,
 which reads a rewritten head (step 1 above). So the push waits for the

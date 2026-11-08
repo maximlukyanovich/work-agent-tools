@@ -108,7 +108,10 @@ does not raise it again.
    by it, a removed guard and a false claim of coverage `major`?
    Does the rubric ask the four questions — pairs that must agree, a new
    path doing all the old one did, empty against unset and a repeat, new
-   text true in every outcome?
+   text true in every outcome? Does it read a neighbouring repository's
+   contract at its remote head — the remote whose URL names it, fetched with
+   `--prune`, its base branch unless the task names another, a failed fetch
+   named stale — and name the commit?
    Does a ready verdict read the plan and the task's notes before the merge
    command, and print "continue the task" while work is left? Does the
    review command say that no new work lands on a branch while its fix round
@@ -159,8 +162,9 @@ does not raise it again.
    in a comment beside the rule — a command such as `tsc --listFilesOnly`
    or a search for imports and disk reads — rather than lean on the tool's
    `include`? Does a fix to a commit not yet pushed go into that
-   commit, do review fixes go into one fix commit that later rounds amend,
-   and does the review command read a head rewritten that way as
+   commit, do review fixes go into one fix commit that later rounds amend —
+   on a branch of one unpushed commit, into that commit — and does the
+   review command read a head rewritten that way as
    `git diff <last head> HEAD`? Is a git hook running the whole gate —
    minutes per push, soon bypassed? Does lint-staged run the formatter after
    the linter's fixes? The wrong order leaves linter edits unformatted while
@@ -235,12 +239,16 @@ does not raise it again.
     when it is not?
 
 12. **A server's first install.** Does `pnpm install --frozen-lockfile` pass
-    on a fresh checkout — not in the developer's tree, where a warm
-    `node_modules` hides a build script missing from `allowBuilds` — and does
-    the type-check pass there, where no generated types exist yet? Once the
-    project is deployed, does the root README's Deployment section name the
-    production commands, the pinned versions and every variable the build and
-    the start need — and does a fresh checkout without an env file agree?
+    on a fresh checkout — not in the developer's tree, where a dependency
+    already built fails one install over a build script missing from
+    `allowBuilds` and passes the next — and does the type-check pass there,
+    where no generated types exist yet? Does no text of the project say that
+    only a clean install fails, and does the `pnpm-workspace.yaml` header ask
+    for a fresh-checkout proof when CI runs no clean install on a merge
+    request? Once the project is deployed, does the root README's Deployment
+    section name the production commands, the pinned versions and every
+    variable the build and the start need — and does a fresh checkout without
+    an env file agree?
 
 13. **A fresh clone gets its plugins.** Does the settings file declare
     every marketplace `enabledPlugins` names, the library's with `autoUpdate`?

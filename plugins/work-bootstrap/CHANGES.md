@@ -818,3 +818,38 @@ tree by its absolute path with `EnterWorktree`, leaves with `ExitWorktree`,
 reports into a task under way may end without a block.
 Check: checklist — "A block for work in a worktree", `AGENTS.md` §6; audit §6.
 Applies to: every project.
+
+## 2026-11-07 · pnpm-warm-tree
+
+What: with pnpm 11, a missing `allowBuilds` entry fails `pnpm add`, and every
+install of a dependency the tree has not built, warm tree or clean; one the
+tree has already built fails one install and passes when repeated. A text of the
+project saying that only a clean install fails is corrected. The
+`pnpm-workspace.yaml` header's proof on a fresh checkout stays for a project
+with no clean install in CI on a merge request; one with it may drop the
+line.
+Check: checklist — "A fresh checkout installs"; audit §12.
+Applies to: projects on pnpm 11.
+Supersedes: clean-install-deploy — "a warm `node_modules` hid a missing entry
+until the server's install failed".
+
+## 2026-11-07 · one-commit-review-fix
+
+What: on a branch of one commit no remote holds, each round of review
+fixes is amended into that commit: there is no series to lay out. Every other
+branch keeps one fix commit on top. The project's commit and review-fix
+commands say so.
+Check: checklist — "A fix to a commit not yet pushed"; audit §6.
+Applies to: projects whose commit command places review fixes.
+
+## 2026-11-07 · neighbour-at-remote-head
+
+What: the review command's rubric reads a contract from a neighbouring
+repository at its remote head, and the pass names the commit: the local
+checkout lags, and its `origin` may be a fork. The remote whose URL names the
+repository is fetched with `--prune`; the branch is the neighbour's base branch
+unless the task names another, asked once when neither does; a failed fetch
+leaves the old ref readable, so that read is named stale.
+Check: checklist — "A review command"; audit §5.
+Applies to: projects with a review command whose code repeats another
+repository's contract.

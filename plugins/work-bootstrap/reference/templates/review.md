@@ -131,6 +131,15 @@ update it stays empty.
   once per branch"). A
   red gate is one finding, a run "Red under load" calls green is not; what
   the linter and the git hooks catch is not repeated as judgement.
+- A contract from a neighbouring repository is read at its remote head: the
+  local checkout lags, and its `origin` may be a fork. Take the remote whose
+  URL names the repository, `git fetch --prune <remote>`, then
+  `git show <remote>/<branch>:<path>` — `<branch>` is the neighbour's base
+  branch unless the task names another, asked once when neither does. A
+  failed fetch leaves the old ref readable, so that read is named stale. The
+  pass names the commit. Observed on a live project: a
+  plan and a review both judged the logic right against a lagging checkout,
+  and the head had already changed the rule.
 - Async code and stateful hooks: walk the lifecycle transitions (A→B mid-event,
   A→none→A) and a misbehaving peer (a 200 that closes at once). Check a type's
   documentation against the code instead of trusting it.

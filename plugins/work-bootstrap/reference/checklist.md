@@ -109,7 +109,10 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       only techdebt — so none is `open` at the merge. A ready verdict with
       `fix-now` ids or techdebt rows to write offers the fix round first, the
       review of its delta next and the merge last; the merge first only on
-      the developer's word.
+      the developer's word. A contract from a neighbouring repository is read
+      at its remote head — the remote whose URL names it, fetched with
+      `--prune`, its base branch unless the task names another, a failed
+      fetch named stale — and the pass names the commit.
 - [ ] Review groups above the delegation threshold go to
       `.claude/agents/review-group.md` (`model: inherit`, read-only tools,
       findings only), un-ignored in `.gitignore`; the review command passes
@@ -140,8 +143,9 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       then enter again, never `cd <tree> && claude`.
 - [ ] A fix to a commit not yet pushed goes into that commit — `--amend`, or
       `--fixup` and `--autosquash`; review fixes go into one fix commit on
-      top, made by the first round and amended by the later ones; a pushed
-      commit takes a new commit. The review command reads a head rewritten
+      top, made by the first round and amended by the later ones, or on a
+      branch of one unpushed commit into that commit; a pushed commit takes a
+      new commit. The review command reads a head rewritten
       that way as `git diff <last head> HEAD`.
 - [ ] The commit command compares the staged paths with its proposed list
       right before `git commit`, and after a commit the hook refused commits
@@ -168,8 +172,11 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       remove.
 - [ ] A fresh checkout installs: with pnpm 11, `allowBuilds` lists every
       dependency build script with its reason, `AGENTS.md` §2 says a new one
-      needs an entry, and `pnpm install --frozen-lockfile` passes — and so
-      does the type-check, there, with no generated types left over.
+      needs an entry — never that only a clean install fails — and the
+      `pnpm-workspace.yaml` header asks for a fresh-checkout proof unless CI
+      runs a clean install on a merge request; `pnpm install
+      --frozen-lockfile` passes there — and so does the type-check, with no
+      generated types left over.
 - [ ] Once deployed anywhere: the root README has a Deployment section —
       production commands from a frozen install, pinned versions, every
       variable the build and the start need — proven on a fresh checkout.

@@ -1,7 +1,7 @@
 # gate_record.py
 
 Keeps the record that lets a branch run its full gate once
-(`reference/templates/command.md`, "The full gate runs once per branch").
+(`reference/templates/gate.md`, "The full gate runs once per branch").
 A project with `full gate: local`, or no key, runs its copy of
 `${CLAUDE_PLUGIN_ROOT}/templates/gate-record/gate_record.py`; this file is its
 contract. With `ci` nothing reads the record, and the project needs no copy.

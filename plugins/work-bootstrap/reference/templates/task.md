@@ -64,7 +64,7 @@ diff yet:
   how it is proven — and the developer's yes before code take the place of
   the questionnaire and plan mode; the targeted checks stand for the full
   gate, unless a commit touched a hub file or a path no row covers
-  (`command.md`, "The full gate runs once per branch"); the review and the
+  (`gate.md`, "The full gate runs once per branch"); the review and the
   merge run in the same session;
 - **critical** — money, access, a migration, deleted data. Its review runs
   only in a fresh session;
