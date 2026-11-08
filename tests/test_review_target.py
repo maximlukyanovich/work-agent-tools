@@ -37,11 +37,11 @@ class ReviewTargetTest(unittest.TestCase):
         git(self.repo, "commit", "-q", "-m", name)
         return git(self.repo, "rev-parse", "--short=7", "HEAD")
 
-    def passes(self, *heads):
+    def passes(self, *heads, marked=()):
         lines = ["# Review ledger — PROJ-1", "Trajectory: " + " · ".join(f"P{n} {h} 0/0/0/0 ready" for n, h in enumerate(heads, 1)),
                  "## Open"]
-        lines += [f"## Pass {n} — 2026-10-31 — head {h} · base {self.base} · delta — ready to merge"
-                  for n, h in enumerate(heads, 1)]
+        lines += [f"## Pass {n} — 2026-10-31 — head {h} · base {self.base} · delta — changes requested"
+                  + (" · next: full" if n in marked else "") for n, h in enumerate(heads, 1)]
         self.ledger.write_text("\n".join(lines) + "\n")
 
     def target(self, *args):
@@ -67,6 +67,14 @@ class ReviewTargetTest(unittest.TestCase):
         self.assertEqual(self.target()[1],
                          f"target: delta · git diff {self.first}..{second} — the last head is an ancestor of HEAD")
 
+    def test_a_fix_round_line_is_not_a_pass(self):
+        self.passes(self.first)
+        second = self.commit("second")
+        with self.ledger.open("a", encoding="utf-8") as ledger:
+            ledger.write(f"## Fix round — 2026-10-31 — head {second} · closes R1\n")
+        self.assertEqual(self.target()[1],
+                         f"target: delta · git diff {self.first}..{second} — the last head is an ancestor of HEAD")
+
     def test_trajectory_when_no_pass_header_parses(self):
         self.ledger.write_text(f"# Review ledger — PROJ-1\nTrajectory: P1 {self.base} 0/1/0/0 changes\n")
         self.assertEqual(self.target()[1],
@@ -83,6 +91,32 @@ class ReviewTargetTest(unittest.TestCase):
     def test_a_last_head_the_repository_lost(self):
         self.passes("0123abc")
         self.assertEqual(self.target()[1], "target: whole — the last head 0123abc is not in the repository")
+
+    def test_the_last_pass_asked_for_full(self):
+        self.passes(self.base, self.first, marked=(2,))
+        self.commit("second")
+        self.assertEqual(self.target()[1], "target: whole — the last pass asked for full")
+
+    def test_asked_for_full_with_no_new_commits(self):
+        self.passes(self.first, marked=(1,))
+        self.assertEqual(self.target()[1], f"target: none · head {self.first} — the ledger's last head is HEAD")
+
+    def test_asked_for_full_outranks_a_rewritten_head(self):
+        self.passes(self.first, marked=(1,))
+        git(self.repo, "commit", "-q", "--amend", "-m", "first again")
+        self.assertEqual(self.target()[1], "target: whole — the last pass asked for full")
+
+    def test_explicit_range_outranks_asked_for_full(self):
+        self.passes(self.first, marked=(1,))
+        second = self.commit("second")
+        self.assertEqual(self.target("--range", f"{self.first}..{second}")[1],
+                         f"target: range · git diff {self.first}..{second} — explicit range")
+
+    def test_a_pass_after_the_full_one_is_a_delta_again(self):
+        self.passes(self.base, self.first, marked=(1,))
+        second = self.commit("second")
+        self.assertEqual(self.target()[1],
+                         f"target: delta · git diff {self.first}..{second} — the last head is an ancestor of HEAD")
 
     def test_full_ignores_the_ledger(self):
         self.passes(self.first)

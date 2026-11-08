@@ -853,3 +853,55 @@ leaves the old ref readable, so that read is named stale.
 Check: checklist — "A review command"; audit §5.
 Applies to: projects with a review command whose code repeats another
 repository's contract.
+
+## 2026-11-08 · ledger-fix-round
+
+What: after a round of review fixes the commit command appends
+`## Fix round — <date> — head <sha> · closes <ids> · left <ids>` to the
+ledger, once the commit exists; it changes no status. The review's reconcile
+step reads it and makes an id `fixed` only when its defect is gone at its
+anchor and angles B and C over the fix's lines find nothing; when they find
+something, the id stays `open`, tagged `fix-critique`, its line naming what
+they found, with no new id; a blind finding on a fix's lines joins that id.
+An id still `open` with its defect in place and one `disputed` are counted in
+the report's table, and a techdebt place keeps its status; an id a round
+names under `left`, and one `disputed`, goes to the open questions. A pass
+writes each id's tag after its class and rewrites the id's `Open` line to its
+line of this pass; an id leaves `Open` once it is not `open`, not `disputed`
+and not a techdebt place without its row. The handoff sends a round's commit
+to the review, not to another fix prompt for the ids the line names, and
+leaves the ids any round left and those `disputed` out of a fix prompt until
+the developer's word on them.
+Check: checklist — "A review command, if there is one, keeps a pass ledger";
+audit §5.
+Applies to: projects with a review command and a pass ledger.
+
+## 2026-11-08 · stop-rule-outcome
+
+What: `escalated` plus `fix-critique` over half the findings but `nit`, two
+passes running, on a verdict short of ready, no longer stops to ask: the pass
+header ends `· next: full`, and `scripts/review_target.py`, copied again from
+the template (v2), prints `whole — the last pass asked for full` for the next
+pass; the handoff and the commit command hand over the review with `full`
+instead of a range. A ready verdict never carries the marker.
+Check: checklist — "A review command, if there is one, keeps a pass ledger",
+the copy of `review_target.py` with no difference; audit §5.
+Applies to: projects with a review command and a pass ledger.
+
+## 2026-11-08 · diff-reading-angles
+
+What: the review command's rubric reads every diff by three angles, on every
+pass and over the changed lines on a delta: A, each hunk and its enclosing
+function; B, what each removed or replaced line held and where it is
+restored; C, the callers and callees of each changed function.
+Check: templates — the review command's rubric additions; audit §5.
+Applies to: projects with a review command.
+
+## 2026-11-08 · red-output-whole
+
+What: a command that runs a check reads its exit code first and a red output
+whole, or from its end back to the cause; `head` and `tail` trim only a green
+run, and a trimmed output proves neither green nor a finding.
+Check: templates — `gate.md`, "Red output is read whole"; audit §6.
+Applies to: projects with a command that runs the gate — commit, review,
+sync or merge.

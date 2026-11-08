@@ -188,8 +188,9 @@ a removal can be the point; the body says which lines are rewritten and which
 are dropped on purpose.
 
 **A pull request names its review.** When the branch is ready, the agent says
-whether it needs a review before the merge and which kind — the built-in
-`/code-review <level>`, an unanchored check by a fresh agent (for a text move,
+whether it needs a review before the merge and which kind —
+`/mluk-repo:review`, the pass-ledger review this repository's branches get,
+the built-in `/code-review <level>`, an unanchored check by a fresh agent (for a text move,
 the list of `scripts/text_moves.py` against the new text), or none — with the
 block to paste in a fresh session; after a fix commit, the same for its delta.
 The pull request's body names the review that ran and what it changed.

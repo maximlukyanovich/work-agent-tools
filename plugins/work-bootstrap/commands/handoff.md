@@ -37,7 +37,8 @@ session holds.
 
 2. **Collect pointers, not content.** The files the next phase reads, those
    that exist: the plan (the session's plan file, `~/.claude/plans/` unless
-   the settings move it), the review ledger with its last pass and open ids
+   the settings move it), the review ledger with its last pass, open ids and
+   any `## Fix round` after that pass
    (`docs/local/reviews/<key>.md` unless the project's review command puts it
    elsewhere), the task's notes and decisions in the personal space. A report
    is never pasted into a prompt — the next session reads the file it lives
@@ -48,9 +49,9 @@ session holds.
    | Boundary | Fresh session | `/compact` here |
    |---|---|---|
    | uncommitted changes | none — the project's commit command with the target, as a block to run here; it hands off after | — |
-   | a task's last commit, or a fix round's | the review command with its range, flags and what to skip — and no prompt for what follows it | no — a review runs fresh |
+   | a task's last commit, or a fix round's | the review command with its range, flags and what to skip — `full` instead of the range when the ledger's last pass header ends `· next: full` — and no prompt for what follows it | no — a review runs fresh |
    | the same, for a change step 1 left small | none — the review command with its range, as a block to run here; the merge follows here too | — |
-   | a review with an open `blocker` or `major` | "Fix the open findings of pass N from `<ledger>` (R…) by the testing skill's fix round. Plan — `<path>`. Target — `<branch or worktree>`." | no |
+   | a review with an open `blocker` or `major`, which no `## Fix round` after the last pass names under `closes` or `left` — one that does is a fix round's commit, the row "a task's last commit, or a fix round's" | "Fix the open findings of pass N from `<ledger>` (R…) by the testing skill's fix round. Plan — `<path>`. Target — `<branch or worktree>`." — the ids but those a `## Fix round` of any pass names under `left` and those `disputed`, until the developer's word on them: they wait on it, and another round would not close them. None else → no prompt, the open question of what each waits on | no |
    | a review that reads ready | the task done: with `fix-now` ids open or techdebt rows to write, the fix prompt for them — the round's commit hands over the review of its delta, and that review the merge; without them, the merge command with the target. The merge command first only on the developer's word to ship now. Work left in the plan: "continue the task" | no |
    | before promoting | the merge command with the target | no |
    | after a merge | the start of the next task — `/work-tracker:next` or the project's start command. Findings are not listed: by now each has its place; only a gap is named — an id still `open`, or a techdebt place whose row the file lacks | no |

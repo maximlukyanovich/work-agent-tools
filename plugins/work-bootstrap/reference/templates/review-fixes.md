@@ -12,7 +12,8 @@ command carries:
   a pass exists: an explicit range outranks the ledger's delta, and a fix
   round of six files then gets a review of the whole branch — observed on a
   live project, a pass over 120 files that found nine old minors, which read
-  as bugs of the fixes;
+  as bugs of the fixes. The one exception: `full` instead of a range, when
+  the last pass asked for it (`review.md`, step 5);
 - what to skip — merge commits, other people's commits;
 - one code block per branch;
 - no prompt for what follows the review: the fix round or the merge is the
@@ -23,6 +24,19 @@ Left to the agent's memory, this step is skipped precisely when a task ends
 well. Observed on a live project: a finished task was reported done with
 commits, questions and a library merge request all proposed, and the review
 was not. The rule was already a saved preference.
+
+**The commit command records a round of review fixes in the ledger.** Once
+the round's commit exists — a call of its own, so a refused commit leaves no
+line — it appends
+`## Fix round — <date> — head <short sha> · closes <ids> · left <ids>`:
+`left` holds the ids the round took and could not close, and `left` or
+`closes` goes when it has no ids. Both come from the round's report in this
+session; without one, `closes` holds the open ids whose anchors the commit
+answers, the reply names them, and nobody is asked. A later round that
+amends the fix commit adds its own line. No status changes here: that is the
+next review's, in its reconcile step. The handoff reads the line, so a
+round's commit hands over the review rather than another fix prompt for the
+same ids.
 
 **A commit the hook refuses leaves its paths staged.** A `commit-msg` hook
 that turns the message down — a header over the length limit, a missing task

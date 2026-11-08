@@ -16,11 +16,13 @@ appears later is added to `Aliases:`; the file is not renamed.
 ```
 # Review ledger — PROJ-12
 Aliases: MR !34, feat/PROJ-12-orders-list
-Trajectory: P1 a1b2c3d 0/2/5/5 changes · P2 e4f5a6b 0/0/1/2 ready
+Trajectory: P1 a1b2c3d 0/2/5/5 changes · P2 e4f5a6b 0/1/1/1 changes · P3 7c8d9e0 0/1/1/0 changes
 ## Open
-- R3 minor bug fix-now src/api/client.ts:114 — error body lost when it is not JSON
-## Pass 2 — <date> — head e4f5a6b · base a1b2c3d · delta — ready to merge
-- R9 minor fix-critique src/api/client.ts:83 — helper duplicated — open
+- R3 minor bug fix-now fix-critique src/api/client.ts:114 — text body kept, its status code dropped
+- R9 major bug fix-critique src/api/client.ts:83 — retry resends a body already read
+## Pass 3 — <date> — head 7c8d9e0 · base e4f5a6b · delta — changes requested · next: full
+- R3 minor bug fix-now fix-critique src/api/client.ts:114 — text body kept, its status code dropped — open
+- R9 major bug fix-critique src/api/client.ts:83 — retry resends a body already read — open
 ```
 
 Ids `R<n>` never change. A `minor` or `nit` worth fixing before the merge
@@ -29,7 +31,12 @@ carries `fix-now` after its class. Status: `open`, `fixed`,
 `false-positive (<mechanism>)`, `disputed`. Every other `minor` and `nit`
 gets one of the two `deferred` places in the pass that raises it, and none
 is `open` at the merge (step 5). By default only `Trajectory` and
-`Open` are read; pass sections are appended, never rewritten. The command
+`Open` are read, and the last pass section when step 5 needs its tags; pass
+sections are appended, never rewritten. After a round of fixes the commit
+command appends `## Fix round — <date> — head <sha> · closes <ids> · left
+<ids>` (`review-fixes.md`), for the handoff and step 4; it is no pass and
+changes no status. A last pass header's `next: full` (step 5) is read by
+`review_target.py`. The command
 writes the ledger itself, without asking — a ledger that waits for a human to
 update it stays empty.
 
@@ -51,18 +58,32 @@ update it stays empty.
    the subagents never receive the ledger.
 3. **Refute before keeping.** Every `blocker` / `major` is checked against the
    code for a guard or a caller that makes it impossible.
-4. **Reconcile.** Each finding is tagged `new` (code after the last head),
+4. **Reconcile.** Now the ledger is read, with any `## Fix round` after the
+   last pass. An `Open` id is `fixed` when its defect is gone at its anchor
+   and angles B and C over the fix's lines find nothing (the rubric
+   additions below): a round's `closes` says where to look and proves
+   nothing. When they find something, the id stays `open`, tagged
+   `fix-critique`, its line naming what they found at that severity — no new
+   id: `fixed` would close a defect the fix only moved, and a new id would
+   leave the next pass checking a defect already gone. An id still `open`
+   with its defect in place stays `open`, and one `disputed` stays
+   `disputed`, both counted in the report's table, which the verdict comes
+   from; a techdebt place keeps its status. One a round names under `left`,
+   and one `disputed`, goes to the open questions, for the developer to set
+   its status or give what it waited on.
+   Each finding is tagged `new` (code after the last head),
    `missed` (older code, never raised — honest severity, marked as missed),
    `escalated` (a deferred finding raised higher — only with a named new cause),
-   or `fix-critique` (aimed at a fix a previous pass requested). A recorded
-   false positive is not raised again without a new mechanism. A finding whose
-   mechanism a ledger already holds — this target's or another's — ends the
-   report with one line proposing to move it upstream (the `layers` skill,
+   or `fix-critique` (aimed at a fix a previous pass requested — a blind
+   finding on a fix's lines joins that fix's id, as above, not a new one).
+   A recorded false positive is not raised again without a new mechanism.
+   A finding whose mechanism a ledger already holds — this target's or
+   another's — ends the report with one line proposing to move it upstream (the `layers` skill,
    "A finding that comes back"). On a delta pass, a `missed` finding in lines
    the delta does not change is written out only at `major` and above; the
    rest are counted in the opening block and the pass, not listed. They
    survived the passes that read them, and listing them is what kept a large
-   range from converging. The first pass and `full` list everything.
+   range from converging. A `whole` target lists everything.
 5. **The report opens with the same block, every pass, zeros included** —
    the developer compares passes by it, and counts named in a sentence came
    and went between passes:
@@ -94,8 +115,14 @@ update it stays empty.
    Observed on a live project: eight passes over one branch, each full one
    finding ten to twenty-two old minors and nits, while the only delta pass
    found three. Stop and ask what a further pass should add when it is
-   pass 3+ with no new commits, when findings grew while the delta is small,
-   or when `escalated` plus `fix-critique` exceed half the findings. A ready
+   pass 3+ with no new commits, or when findings grew while the delta is
+   small. `escalated` plus `fix-critique` over half the findings but `nit`,
+   two passes running — the last pass section's lines carry their tags
+   (step 6) — on a verdict short of ready → the pass header ends
+   `· next: full`, and one report line says the next pass reads the whole
+   target. The script reads the marker, so every session gets the same
+   target; a ready verdict never carries it, since its next pass reads the
+   fix round's delta alone. A ready
    verdict with `fix-now` ids open, or techdebt rows still to write, offers
    one fix round on them first, a pass over that round's delta alone next,
    and the merge last; without them, the merge. The merge goes first only on
@@ -105,13 +132,21 @@ update it stays empty.
    `missed` findings in code older than the delta, the range closes that way
    — not with another full pass, which on a large range finds a fresh batch
    of old nits every time.
-6. **Append the pass.**
+6. **Append the pass.** The statuses of step 4 and those the developer
+   stated, as lines of the new pass, each with its tag of step 4, when it
+   has one, after its class and any `fix-now`. An id leaves `Open` once it
+   is not `open`, not `disputed` and not a techdebt place without its row:
+   those stay there with their status, each `Open` line rewritten to its
+   line of this pass — severity, tags and text, so a `fix-critique` id
+   names what the critique found.
 7. **Hand the next step over** through `/work-bootstrap:handoff`. An open
    `blocker` or `major` → a prompt for the fix round naming the pass, the ids, the
    ledger's path, the plan and the target — never the report: the fix
-   session reads the ledger. Ready closes the range, not the task: first read
-   the plan and the task's notes — work the branch has not done yet makes the
-   block "continue the task" (`Read <absolute path>/NEXT.md and continue`, or
+   session reads the ledger. An id a round left and one `disputed` stay out
+   of it until the developer's word on them: they are the open questions of
+   step 4. Ready closes the range,
+   not the task: first read the plan and the task's notes — work the
+   branch has not done yet makes the block "continue the task" (`Read <absolute path>/NEXT.md and continue`, or
    the plan's next step), and the merge waits. The task done → with `fix-now`
    ids open or techdebt rows to write, the fix prompt for them: the round's
    commit hands over the review of its delta, and that review the merge.
@@ -123,6 +158,16 @@ update it stays empty.
 
 **The rubric additions that repeated passes showed were missing:**
 
+- Three angles say how the diff is read, on every pass; on a delta they run
+  over the changed lines. A — each hunk line by line, and its enclosing
+  function whole: which input, state, order or platform makes the line
+  wrong. B — for each removed or replaced line, the invariant it held and
+  where it is restored; restored nowhere is a finding. C — the callers and
+  callees of each changed function: a new precondition, another shape of
+  answer, a new exception, another order; a parallel edit elsewhere in the
+  same diff. Lenses alone let a delta pass check that a fix was done as
+  asked and never look for what it broke. Observed on a live project: two
+  `major` consequences of fixes under a ready verdict.
 - Run the gate once on the target, in the background while the rubric runs,
   unless `python3 scripts/gate_record.py check <tree> --base <base>`
   (`--small` for a small change) says skip — with `full gate: ci`, the

@@ -111,7 +111,17 @@ does not raise it again.
    text true in every outcome? Does it read a neighbouring repository's
    contract at its remote head — the remote whose URL names it, fetched with
    `--prune`, its base branch unless the task names another, a failed fetch
-   named stale — and name the commit?
+   named stale — and name the commit? Does it read every diff by three
+   angles — each hunk and its function, what a removed line held and where
+   it is restored, the callers and callees of a changed function?
+   After a round of fixes, does the commit command append a `## Fix round`
+   line to the ledger, does the reconcile make an id `fixed` only when
+   angles B and C over the fix's lines find nothing — `open` and
+   `fix-critique` otherwise, no new id — and does the handoff keep the ids a
+   round left and those `disputed` out of a fix prompt until the developer's
+   word on them? Does a pass short of ready, with `escalated` plus
+   `fix-critique` over half its findings but `nit`, two passes running, end
+   its header `· next: full`, and a ready one never?
    Does a ready verdict read the plan and the task's notes before the merge
    command, and print "continue the task" while work is left? Does the
    review command say that no new work lands on a branch while its fix round
@@ -152,6 +162,9 @@ does not raise it again.
    `scripts/gate_record.py` the project's copy of
    `${CLAUDE_PLUGIN_ROOT}/templates/gate-record/gate_record.py` — `diff`
    against the template shows nothing, the version line included?
+   In either mode, does a command that runs a check read its exit code
+   first, and a red output whole or from its end back to the cause —
+   `head` and `tail` only on a green run?
    In either mode, does the profile list its `hub files` — a missing list
    asked as Q3 asks it — and
    does a change to one run the tests of its areas rather than `related`?
