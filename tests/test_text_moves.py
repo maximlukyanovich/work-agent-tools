@@ -25,7 +25,8 @@ class TextMovesTest(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory()
         self.repo = Path(self.tmp.name)
         run(self.repo, "git", "init", "-q", "-b", "main")
-        for key, value in (("user.name", "T"), ("user.email", "t@example.com"), ("commit.gpgsign", "false")):
+        for key, value in (("user.name", "T"), ("user.email", "t@example.com"), ("commit.gpgsign", "false"),
+                           ("core.quotePath", "true")):
             run(self.repo, "git", "config", key, value)
         self.write("plugins/p/commands/review.md",
                    f"---\ndescription: Review the branch\n---\n\n# Review\n\n{KEPT} {MOVED}\n"
@@ -94,6 +95,33 @@ class TextMovesTest(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("0 sentence(s) left their plugin text, 0 found elsewhere, 0 not found.", result.stdout)
         self.assertEqual(len(result.stdout.splitlines()), 1)
+
+    def test_a_sentence_a_longer_one_holds_is_not_found(self):
+        # The rule survives as a substring, weakened by the clause after it.
+        self.write("plugins/p/commands/review.md",
+                   f"{KEPT} {MOVED}\n"
+                   "Nothing is pushed without an explicit instruction on the current turn, "
+                   "unless the owner said so earlier.\n\n"
+                   f"- {DROPPED}\n- {REWORDED}\n")
+        self.commit("weaken")
+
+        result = self.check()
+        self.assertIn("1 sentence(s) left their plugin text, 0 found elsewhere, 1 not found.", result.stdout)
+        self.assertIn("review.md:8  " + TO_AGENTS.lower().rstrip("."), result.stdout)
+        self.assertRegex(result.stdout, r"≈ 0\.\d\d plugins/p/commands/review.md  nothing is pushed .* unless")
+
+    def test_a_path_git_would_quote_is_read(self):
+        run(self.repo, "git", "switch", "-q", "main")
+        self.write("plugins/p/reference/größe.md", "A file with an umlaut in its name is read like any other.\n")
+        self.commit("non-ASCII name")
+        run(self.repo, "git", "switch", "-q", "-c", "feat/drop-umlaut")
+        (self.repo / "plugins/p/reference/größe.md").unlink()
+        self.commit("drop it")
+
+        result = self.check()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("plugins/p/reference/größe.md:1  a file with an umlaut in its name is read like any other",
+                      result.stdout)
 
     def test_a_missing_ref_stops(self):
         result = self.check("--head", "no-such-branch")

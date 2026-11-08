@@ -4,13 +4,16 @@
 A pull request that moves text — a rule split out to a reference file, a section folded into a
 template — can lose a paragraph on the way, and neither the gate, the tests, the evals nor a review
 of the diff compares what was removed with where it went. This script does: every sentence of a
-plugin text the merge base had and the head's version of that file lacks is looked up in every
-tracked *.md of the head's tree, and only those found nowhere are printed — each with the closest
-sentence of a changed file when one is similar enough, so "rewritten" reads apart from "lost".
+plugin text the merge base had and the head's version of that file lacks is looked up, as a whole
+sentence, in every tracked *.md of the head's tree, and only those found nowhere are printed — each
+with the closest sentence of a changed file when one is similar enough, so "rewritten" reads apart
+from "lost".
 
 Text is compared normalised: whitespace and hard wraps collapsed, Markdown emphasis, code ticks,
 link targets, list, heading and quote markers dropped, case folded. A line inside a fenced block is
-a unit of its own; a unit of fewer than four words is skipped.
+a unit of its own; a unit of fewer than four words is skipped. A sentence that a longer one now
+holds — a clause added before or after it, a full stop turned into a comma — counts as not found,
+since a rule weakened by an "unless" reads exactly so.
 
 A warning, never a failure — removing a rule can be the point of the change — so the exit code is
 0 whatever is found, and 2 only when a ref is missing. The pull request attaches the output.
@@ -114,10 +117,6 @@ def sentences(text):
     return out
 
 
-def searchable(text):
-    return "\n".join(normalise(raw) for _, raw in blocks(text))
-
-
 def main():
     parser = argparse.ArgumentParser(description="Text-move check; see the module docstring.")
     parser.add_argument("--base", default="origin/main", help="the ref the branch forks from (default origin/main)")
@@ -134,25 +133,25 @@ def main():
     def show(ref, path):
         return git("show", f"{ref}:{path}")
 
-    tree = [p for p in git("ls-tree", "-r", "--name-only", args.head).splitlines() if p.endswith(".md")]
-    new_text = {p: show(args.head, p) for p in tree}
-    haystack = "\n".join(searchable(t) for t in new_text.values())
+    tree = [p for p in git("ls-tree", "-r", "-z", "--name-only", args.head).split("\0") if p.endswith(".md")]
+    new_units = {p: {unit for _, unit in sentences(show(args.head, p))} for p in tree}
+    everywhere = set().union(*new_units.values())
 
-    changed = git("diff", "--name-status", "--no-renames", old, args.head).splitlines()
-    touched = [line.split("\t", 1)[1] for line in changed]
-    removed_from = [path for status, path in (line.split("\t", 1) for line in changed)
+    fields = git("diff", "--name-status", "-z", "--no-renames", old, args.head).split("\0")
+    changed = list(zip(fields[0::2], fields[1::2]))
+    removed_from = [path for status, path in changed
                     if status in ("M", "D") and path.startswith("plugins/") and path.endswith(".md")]
-    candidates = sorted({(p, s) for p in touched if p in new_text for _, s in sentences(new_text[p])})
+    candidates = sorted({(p, unit) for _, p in changed if p in new_units for unit in new_units[p]})
 
     removed = lost = 0
     report = []
     for path in removed_from:
-        same_file = searchable(new_text.get(path, ""))
+        same_file = new_units.get(path, set())
         for number, unit in sentences(show(old, path)):
             if unit in same_file:
                 continue
             removed += 1
-            if unit in haystack:
+            if unit in everywhere:
                 continue
             lost += 1
             report.append(f"{path}:{number}  {unit}")

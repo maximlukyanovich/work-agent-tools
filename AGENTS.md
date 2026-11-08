@@ -182,17 +182,17 @@ a notable growth is explained in its body or cut.
 
 A pull request that removes text from a plugin — a move, a split, a rewrite —
 attaches the output of `python3 scripts/text_moves.py` (`--base` as for the
-gate): the removed sentences that no tracked `*.md` holds any more, each with
-its closest rewrite when one is similar. It warns and never fails, since a
-removal can be the point; the body says which lines are rewritten and which
+gate): the removed sentences that no tracked `*.md` holds whole any more, each
+with its closest rewrite when one is similar. It warns and never fails, since
+a removal can be the point; the body says which lines are rewritten and which
 are dropped on purpose.
 
 **A pull request names its review.** When the branch is ready, the agent says
 whether it needs a review before the merge and which kind — the built-in
 `/code-review <level>`, an unanchored check by a fresh agent (for a text move,
-the list of `scripts/text_moves.py` against the new text), or none — with the block to paste in a
-fresh session; after a fix commit, the same for its delta. The pull request's
-body names the review that ran and what it changed.
+the list of `scripts/text_moves.py` against the new text), or none — with the
+block to paste in a fresh session; after a fix commit, the same for its delta.
+The pull request's body names the review that ran and what it changed.
 
 One check stays with people: **the changed command or skill was run once, in a
 real repository, and did what its text says.** The pull request says where
