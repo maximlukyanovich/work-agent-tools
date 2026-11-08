@@ -74,10 +74,11 @@ update it stays empty.
    Each finding is tagged `new` (code after the last head),
    `missed` (older code, never raised — honest severity, marked as missed),
    `escalated` (a deferred finding raised higher — only with a named new cause),
-   or `fix-critique` (aimed at a fix a previous pass requested). A recorded
-   false positive is not raised again without a new mechanism. A finding whose
-   mechanism a ledger already holds — this target's or another's — ends the
-   report with one line proposing to move it upstream (the `layers` skill,
+   or `fix-critique` (aimed at a fix a previous pass requested — a blind
+   finding on a fix's lines joins that fix's id, as above, not a new one).
+   A recorded false positive is not raised again without a new mechanism.
+   A finding whose mechanism a ledger already holds — this target's or
+   another's — ends the report with one line proposing to move it upstream (the `layers` skill,
    "A finding that comes back"). On a delta pass, a `missed` finding in lines
    the delta does not change is written out only at `major` and above; the
    rest are counted in the opening block and the pass, not listed. They
@@ -141,9 +142,11 @@ update it stays empty.
 7. **Hand the next step over** through `/work-bootstrap:handoff`. An open
    `blocker` or `major` → a prompt for the fix round naming the pass, the ids, the
    ledger's path, the plan and the target — never the report: the fix
-   session reads the ledger. Ready closes the range, not the task: first read
-   the plan and the task's notes — work the branch has not done yet makes the
-   block "continue the task" (`Read <absolute path>/NEXT.md and continue`, or
+   session reads the ledger. An id a round left and one `disputed` stay out
+   of it until the developer's word on them: they are the open questions of
+   step 4. Ready closes the range,
+   not the task: first read the plan and the task's notes — work the
+   branch has not done yet makes the block "continue the task" (`Read <absolute path>/NEXT.md and continue`, or
    the plan's next step), and the merge waits. The task done → with `fix-now`
    ids open or techdebt rows to write, the fix prompt for them: the round's
    commit hands over the review of its delta, and that review the merge.

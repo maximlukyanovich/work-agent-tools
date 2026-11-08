@@ -112,7 +112,20 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       the developer's word. A contract from a neighbouring repository is read
       at its remote head — the remote whose URL names it, fetched with
       `--prune`, its base branch unless the task names another, a failed
-      fetch named stale — and the pass names the commit.
+      fetch named stale — and the pass names the commit. Every diff is read
+      by three angles, over the changed lines on a delta: each hunk and its
+      function, what a removed line held and where it is restored, the
+      callers and callees of a changed function. After a round of fixes the
+      commit command appends a `## Fix round` line — its head, the ids it
+      closes and those it left; the reconcile makes an id `fixed` only when its
+      defect is gone at its anchor and angles B and C over the fix's lines
+      find nothing — `open`, tagged `fix-critique`, with no new id otherwise
+      — and the handoff gives no fix prompt for an id a round left or one
+      `disputed` before the developer's word on it. `escalated` plus
+      `fix-critique` over half the findings but `nit`, two passes running,
+      short of ready, ends the pass header
+      `· next: full`, which `review_target.py` reads; a ready verdict never
+      carries it.
 - [ ] Review groups above the delegation threshold go to
       `.claude/agents/review-group.md` (`model: inherit`, read-only tools,
       findings only), un-ignored in `.gitignore`; the review command passes

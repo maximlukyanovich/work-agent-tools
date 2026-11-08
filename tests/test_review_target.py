@@ -67,6 +67,14 @@ class ReviewTargetTest(unittest.TestCase):
         self.assertEqual(self.target()[1],
                          f"target: delta · git diff {self.first}..{second} — the last head is an ancestor of HEAD")
 
+    def test_a_fix_round_line_is_not_a_pass(self):
+        self.passes(self.first)
+        second = self.commit("second")
+        with self.ledger.open("a", encoding="utf-8") as ledger:
+            ledger.write(f"## Fix round — 2026-10-31 — head {second} · closes R1\n")
+        self.assertEqual(self.target()[1],
+                         f"target: delta · git diff {self.first}..{second} — the last head is an ancestor of HEAD")
+
     def test_trajectory_when_no_pass_header_parses(self):
         self.ledger.write_text(f"# Review ledger — PROJ-1\nTrajectory: P1 {self.base} 0/1/0/0 changes\n")
         self.assertEqual(self.target()[1],
