@@ -161,7 +161,8 @@ descriptions add up to more than 2 KB — they are in every session the plugin i
 on — and about a plugin text above 10 KB — any `*.md`
 under `plugins/` but a README: splitting it is a decision, not drift.
 
-The tests under `tests/` pin what the plugins' scripts do, and CI runs them
+The tests under `tests/` pin what the scripts do — the plugins' and
+`scripts/text_moves.py` — and CI runs them
 after the gate: every test passes — `python3 -m unittest discover -s tests`.
 They live outside the plugins, so a change to a test raises no plugin's
 version.
@@ -179,12 +180,19 @@ from the sandbox does not reach the host.
 The pull request names the growth in bytes of every plugin text it changes;
 a notable growth is explained in its body or cut.
 
+A pull request that removes text from a plugin — a move, a split, a rewrite —
+attaches the output of `python3 scripts/text_moves.py` (`--base` as for the
+gate): the removed sentences that no tracked `*.md` holds whole any more, each
+with its closest rewrite when one is similar. It warns and never fails, since
+a removal can be the point; the body says which lines are rewritten and which
+are dropped on purpose.
+
 **A pull request names its review.** When the branch is ready, the agent says
 whether it needs a review before the merge and which kind — the built-in
 `/code-review <level>`, an unanchored check by a fresh agent (for a text move,
-paragraph by paragraph against `main`), or none — with the block to paste in a
-fresh session; after a fix commit, the same for its delta. The pull request's
-body names the review that ran and what it changed.
+the list of `scripts/text_moves.py` against the new text), or none — with the
+block to paste in a fresh session; after a fix commit, the same for its delta.
+The pull request's body names the review that ran and what it changed.
 
 One check stays with people: **the changed command or skill was run once, in a
 real repository, and did what its text says.** The pull request says where
@@ -211,6 +219,7 @@ CONTRIBUTING.md                   for outside contributors; points here
 LICENSE                           MIT
 scripts/check.py                  the pull-request gate, run by CI
 scripts/release_notes.py          a release's notes: plugin versions, action needed
+scripts/text_moves.py             what a branch removed from plugin texts and lost
 tests/                            the scripts' tests, stdlib unittest, run by CI
 .github/workflows/check.yml       runs the gate and the tests
 ```
