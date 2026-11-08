@@ -890,3 +890,11 @@ function; B, what each removed or replaced line held and where it is
 restored; C, the callers and callees of each changed function.
 Check: templates — the review command's rubric additions; audit §5.
 Applies to: projects with a review command.
+
+## 2026-11-08 · red-output-whole
+
+What: a command that runs a check reads its exit code first and a red output
+whole, or from its end back to the cause; `head` and `tail` trim only a green
+run, and a trimmed output proves neither green nor a finding.
+Check: templates — `gate.md`, "Red output is read whole"; audit §6.
+Applies to: projects with a commit or review command.

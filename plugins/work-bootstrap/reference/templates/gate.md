@@ -81,6 +81,12 @@ kept by the project's `scripts/gate_record.py` — a copy of
   other failure keeps it red. A dev server or stack the session started is
   stopped before a test run wider than a few files; one the developer runs
   is named in the report.
+- **Red output is read whole.** The exit code is read first — a pipe into
+  `tail` reports the exit code of `tail`, without `pipefail`. `head` and
+  `tail` trim only a green run; a red one is read whole, or from its end
+  back to the cause. A trimmed output proves neither green nor a finding.
+  Observed on a live project: two failing end-to-end tests hidden by a
+  truncated gate output, found only by another review.
 - **A gate of several parts picks them by content.** A part whose content is
   unchanged since its last green run is skipped — a fingerprint of the part's
   tree, kept in the git common directory so every worktree shares it, taken
