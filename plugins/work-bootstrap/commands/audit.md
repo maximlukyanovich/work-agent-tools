@@ -163,7 +163,8 @@ does not raise it again.
    or a search for imports and disk reads — rather than lean on the tool's
    `include`? Does a fix to a commit not yet pushed go into that
    commit, do review fixes go into one fix commit that later rounds amend —
-   on a branch of one unpushed commit, into that commit — and does the review command read a head rewritten that way as
+   on a branch of one unpushed commit, into that commit — and does the
+   review command read a head rewritten that way as
    `git diff <last head> HEAD`? Is a git hook running the whole gate —
    minutes per push, soon bypassed? Does lint-staged run the formatter after
    the linter's fixes? The wrong order leaves linter edits unformatted while
@@ -239,11 +240,15 @@ does not raise it again.
 
 12. **A server's first install.** Does `pnpm install --frozen-lockfile` pass
     on a fresh checkout — not in the developer's tree, where a dependency
-    already built hides a build script missing from `allowBuilds` — and does
-    the type-check pass there, where no generated types exist yet? Once the
-    project is deployed, does the root README's Deployment section name the
-    production commands, the pinned versions and every variable the build and
-    the start need — and does a fresh checkout without an env file agree?
+    already built fails one install over a build script missing from
+    `allowBuilds` and passes the next — and does the type-check pass there,
+    where no generated types exist yet? Does no text of the project say that
+    only a clean install fails, and does the `pnpm-workspace.yaml` header ask
+    for a fresh-checkout proof when CI runs no clean install on a merge
+    request? Once the project is deployed, does the root README's Deployment
+    section name the production commands, the pinned versions and every
+    variable the build and the start need — and does a fresh checkout without
+    an env file agree?
 
 13. **A fresh clone gets its plugins.** Does the settings file declare
     every marketplace `enabledPlugins` names, the library's with `autoUpdate`?

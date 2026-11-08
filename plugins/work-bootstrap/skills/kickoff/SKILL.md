@@ -17,13 +17,13 @@ the developer's decisions — recorded, not remembered.
 
 Any task whose answer is not obvious from one file: a feature, an integration,
 a refactor across modules, a workflow change. A typo, a one-line fix or a
-rename does not need this. When the project has a command that starts a task (`/my-task`), it collects
-the issue, offers its status transition and prepares the branch (see
-`reference/templates/task.md`); this skill governs the planning
-around it. The task command names the change's level first — small, normal
-or critical ("The change sets the process" there): a small change takes a
-short plan in chat and the developer's yes instead of steps 1, 3 and 6, and
-its yes is the approval this skill asks for.
+rename does not need this. When the project has a command that starts a task
+(`/my-task`), it collects the issue, offers its status transition and prepares
+the branch (see `reference/templates/task.md`); this skill plans around it.
+The task command names the change's level first — small, normal or critical
+("The change sets the process" there): a small change takes a short plan in
+chat instead of steps 1, 3 and 6, and the developer's yes to it is this
+skill's approval.
 
 ## How to do it
 
@@ -37,8 +37,8 @@ its yes is the approval this skill asks for.
    report locates, it is not the source. Any contract wording the plan's
    logic rests on — an API field, an event's semantics, a rule in the spec —
    is read in the source and quoted in the plan with its path; a neighbouring
-   repository's at its remote head, by the review command's rule, with the
-   commit named.
+   repository's at its remote head — `git fetch --prune` the remote that
+   names it, `git show <remote>/<base branch>:<path>` — the commit named.
    Check library APIs against their docs, not memory. When the task has a
    design source, read the whole screen it touches, not only the component,
    and put a table in the plan: each element → the code that draws it, or

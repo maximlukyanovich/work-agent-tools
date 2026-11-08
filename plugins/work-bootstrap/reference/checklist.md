@@ -172,8 +172,11 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       remove.
 - [ ] A fresh checkout installs: with pnpm 11, `allowBuilds` lists every
       dependency build script with its reason, `AGENTS.md` §2 says a new one
-      needs an entry, and `pnpm install --frozen-lockfile` passes — and so
-      does the type-check, there, with no generated types left over.
+      needs an entry — never that only a clean install fails — and the
+      `pnpm-workspace.yaml` header asks for a fresh-checkout proof unless CI
+      runs a clean install on a merge request; `pnpm install
+      --frozen-lockfile` passes there — and so does the type-check, with no
+      generated types left over.
 - [ ] Once deployed anywhere: the root README has a Deployment section —
       production commands from a frozen install, pinned versions, every
       variable the build and the start need — proven on a fresh checkout.

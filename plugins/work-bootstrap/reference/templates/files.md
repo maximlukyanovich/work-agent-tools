@@ -50,8 +50,8 @@ script — direct or transitive — needs an `allowBuilds` entry in
 dependency the tree has not built, with `ERR_PNPM_IGNORED_BUILDS`, warm tree or
 clean. A dependency the tree has already built fails one install and passes when
 it is repeated, so a warm tree proves nothing: past `pnpm add`, a clean install
-shows the gap — in CI on a merge request, else on the server. The file's header gives each entry
-its reason; a project with no such CI has it say to prove a new dependency
+shows the gap — in CI on a merge request, else on the server. The file's
+header gives each entry its reason; a project with no such CI has it say to prove a new dependency
 with `pnpm install --frozen-lockfile` on a fresh checkout.
 
 ## README.md — Deployment

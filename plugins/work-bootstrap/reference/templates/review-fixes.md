@@ -36,7 +36,7 @@ task's six files staged, the following commit for another task swept them in,
 and the pair had to be split with `git reset --soft` before the push.
 
 **A fix to a commit not yet pushed goes into that commit; review fixes go
-into one fix commit.** A bug found while the work goes on, whose cause is a
+into one fix commit, or into a lone unpushed commit.** A bug found while the work goes on, whose cause is a
 commit no remote holds yet (`git branch -r --contains <sha>` prints
 nothing), is fixed inside it:
 `git commit --amend` when it is `HEAD`, otherwise `git commit --fixup=<sha>`
