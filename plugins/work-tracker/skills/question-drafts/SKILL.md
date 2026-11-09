@@ -76,6 +76,10 @@ have reached since, is checked again.
 
 - Asking what a screen elsewhere in the bundle, the backend or an earlier
   answer already settles.
+- Reading "simpler" as "more explained". A draft asked to be simpler gets
+  shorter and closer to the facts — fewer points, no preamble, no analogies or
+  lay explanations, never longer than before; when unsure which was meant,
+  ask.
 
 ## How it is verified
 
