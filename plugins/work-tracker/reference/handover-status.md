@@ -25,13 +25,15 @@ table below — never a `Known limitations` line under the testing status.
 
 The option is always asked, the recommended one first. The hours are a
 separate question, with the numbers before any change — original estimate,
-time logged, new estimate, new remaining, the budget moved.
+time logged, new estimate, new remaining, the budget moved, and the reserve
+each issue is left with when the project keeps one.
 
 | Cause | Options, recommended first | Hours |
 | --- | --- | --- |
 | A state of a drawn screen is not drawn; a placeholder meets the criteria; the item was in the issue and in the estimate's row, if only as an unknown | The issue waits for the answer in the in-progress status, the blocking question goes to the team's chat. Not a change request | No re-estimate. A change request only if the answer departs from what was built, estimated by what is then drawn |
 | A whole screen or a function the summary or the scope names is not drawn — the code holds a stub | Carve it into its own issue with its questions, `is blocked by` the cause and flagged; the rest goes to testing. The question is a blocker, not a `Known limitations` line | The estimate contained it → cut from the original, the total stays (recommended); it did not → new hours, with why the scope grew |
 | The backend has no data or endpoint for it | Carve it out, blocked by the backend issue, the rest to testing (recommended) / keep it, the issue waits for the backend / ship the layout without data, dashes in its place | As above |
+| A drawn part with its backend ready waits for an outside resource — a key, access, an account — and a stub does not meet the criteria | Carve it into its own issue, flagged, the question to the resource's owner its blocker, the rest to testing (recommended) / keep the issue in progress when the resource is due soon | As above |
 
 ## The move
 

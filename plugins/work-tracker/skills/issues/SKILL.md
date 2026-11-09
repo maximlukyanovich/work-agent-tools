@@ -243,7 +243,8 @@ one it did not contain gets new hours, with why the scope grew. The new
 issue is linked to the original with `Issue split` (`split_from` in a batch
 node) — the original `split to` the new one — and to its cause with `is
 blocked by`. Show the numbers — original estimate, time logged, new estimate,
-new remaining, carved budget — before changing anything.
+new remaining, carved budget, the reserve each issue is left with when the
+project keeps one — before changing anything.
 
 ## Labels
 
