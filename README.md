@@ -8,8 +8,9 @@ ready to paste.
   as a block to copy, and says whether it belongs in a fresh session.
 - **Sources, not memory.** The agent works from the issue, the spec, the
   design and the code; what they leave open becomes a question to you.
-- **Reviews that prove their findings and know when to stop.** They check the
-  code against the design, not only itself; zero findings is a valid result.
+- **Reviews that back their findings with evidence and know when to stop.**
+  They check the code against the design, not only itself; zero findings is a
+  valid result.
 - **The tracker kept on the way.** The next issue to take is the one nothing
   blocks, ranked by what it unblocks; issues to one standard, statuses, the
   result comment and the worklog are steps of the chain, not afterthoughts.
@@ -38,8 +39,9 @@ project's own, so none hides a built-in command — and the plugins supply the
 shared half. Each arrow is a block the agent prints at the end of a command,
 pointing at the plan, the branch and the review ledger instead of retelling
 them, so the next session reads the sources again rather than a summary of
-the last one. A small change — by its size and risk — runs whole in one
-session.
+the last one — a fix round in an old session spent three quarters of its
+price re-reading that session's context. A small change — by its size and
+risk — runs whole in one session.
 
 A task starts by reading before it plans: the issue, the code, the project
 profile, the spec and the design, the library's documentation instead of the
@@ -58,8 +60,8 @@ flowchart TB
   L -->|no progress| A["stop and ask you"]
 ```
 
-- **A serious finding is proved.** A `blocker` or `major` names the line and the
-  scenario, and the reviewer tries to refute it in the code before reporting.
+- **A serious finding comes with evidence.** A `blocker` or `major` names the
+  line and the scenario, and the reviewer tries to refute it in the code before reporting.
 - **A finding keeps its id.** A recorded false positive is not raised again
   without a new mechanism; an incomplete fix stays the same finding.
 - **The design is measured, not eyeballed.** In a project built against a
@@ -80,13 +82,14 @@ On live projects, against the built-in `/code-review` at `high` — 14 branches,
 about 40 passes, 2026-11-08:
 
 - **Full pass.** On one project's 8 branches the built-in review found no
-  `major` that ours missed, and ours found 7 that it missed; on the other's 6,
-  3 to 3.
+  `major` that ours missed, and ours found 7 that it missed; on the other
+  project's 6, each found 3 that the other missed.
 - **False findings.** One in about 40 passes, dropped before the report;
   the built-in raised 9 on one project and one or two per pass on half of
   the other's.
-- **Price.** A full pass costs about three built-in runs and finds as many
-  more confirmed findings: per confirmed finding the two are about even.
+- **Price.** A full pass costs about three built-in runs and finds about
+  three times as many confirmed findings: per confirmed finding the two are
+  about even.
 - **Sessions.** On a team project, 84 % of 320 sessions over 40 merged tasks
   started with a command or a block the agent had printed.
 
