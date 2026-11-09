@@ -18,10 +18,14 @@ recounted on 2026-11-08.
 - **False findings.** Ours raised one in about 40 passes, dropped before the
   report; the built-in, 9 on one project and one or two per pass in half of
   the other's.
-- **Delta pass — the weak side.** Over 6 repeat passes on fix deltas, ours
-  found nothing of its own and the built-in found 37, two of them `major`
-  consequences of fixes that ours had called ready. The rubric now reads
-  every diff by three angles, one of them what a removed line held.
+- **Delta pass, before 2026-11-08.** Ours reads the fix round's delta and
+  checks that each fix closed its finding; the built-in re-reads the whole
+  branch each time, older code included, at the same price or more. Over 6
+  repeat passes on fix deltas, ours found nothing of its own and the
+  built-in found 37, two of them `major` consequences of fixes that ours had
+  called ready. 2026-11-09: the rubric has since read every diff by three
+  angles, one of them what a removed line held, and the passes changed on
+  2026-11-08; the delta pass has not been measured again.
 - **Cost.** A full pass of ours costs about three built-in runs — its price
   includes the gate, the refutation and the ledger; per confirmed finding
   the two are about even.

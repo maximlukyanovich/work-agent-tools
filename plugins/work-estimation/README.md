@@ -8,7 +8,7 @@ Estimate a project from a spec and a design handoff.
 claude plugin install work-estimation --marketplace maximlukyanovich/work-agent-tools --scope project
 ```
 
-Other scopes and updating: [Quick start](../../README.md#quick-start).
+Other scopes and updating: [`docs/updates.md`](../../docs/updates.md).
 
 ## Commands
 
