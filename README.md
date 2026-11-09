@@ -1,61 +1,114 @@
 # work-agent-tools
 
-Claude Code plugins for a software project run by a team through a tracker:
-setting up the agent harness with the project's own workflow commands, tracker
-work to one standard — Jira the recommended tracker — and estimates from a spec and a design. One author's toolkit,
-grown on commercial projects and open to anyone — the rules are opinionated,
-and each project tunes them through its own profile.
+Claude Code plugins that take a team's task from the board to the merge as a
+chain of commands written for the project — each ending with the next one,
+ready to paste.
 
-With the harness it writes, a task runs from the board to the merge as a chain
-of commands, each ending with the next one ready to paste: the developer picks
-and approves, the agent does the rest — plan, code, checks, review, commit, the
-tracker's comment and worklog.
+- **The next prompt, ready.** Every workflow command ends with the next step
+  as a block to copy, and says whether it belongs in a fresh session.
+- **Sources, not memory.** The agent works from the issue, the spec, the
+  design and the code; what they leave open becomes a question to you.
+- **Reviews that prove their findings and know when to stop.** They check the
+  code against the design, not only itself; zero findings is a valid result.
+- **The tracker kept on the way.** The next issue to take is the one nothing
+  blocks, ranked by what it unblocks; issues to one standard, statuses, the
+  result comment and the worklog are steps of the chain, not afterthoughts.
+- **The method reaches every project.** The workflow commands are the
+  project's own, shaped to its branches, forge and tracker; a change of the
+  method arrives as an edit `audit` proposes.
 
-One repository: it is both the marketplace (`mluk-work-agent-tools`) and the
-home of the plugins.
+For a team on a tracker — Jira recommended — and GitHub or GitLab, including
+self-hosted. A solo GitHub project without a tracker fits
+[agent-tools](https://github.com/maximlukyanovich/agent-tools).
 
-Why it exists: the method must not live as copies in every repository. Estimation
-rules, the shape of an issue and the order of project bootstrap are the same
-everywhere; only keys, rates and the domain differ, and those stay in the project.
+## How a task runs
 
-## Does it fit your project
+```mermaid
+flowchart LR
+  N["/work-tracker:next<br/>what to take"] --> T["/my-task PROJ-12<br/>plan and questions"]
+  T -->|your yes| W["the work, slice by slice<br/>/my-commit"]
+  W --> R["/my-review<br/>fresh session"]
+  R -->|findings| F["fix round"]
+  F --> R
+  R -->|ready| P["/my-promote<br/>merge, comment, worklog"]
+```
+
+`setup` writes the `my-` commands into the project — the prefix is the
+project's own, so none hides a built-in command — and the plugins supply the
+shared half. Each arrow is a block the agent prints at the end of a command,
+pointing at the plan, the branch and the review ledger instead of retelling
+them, so the next session reads the sources again rather than a summary of
+the last one. A small change — by its size and risk — runs whole in one
+session.
+
+A task starts by reading before it plans: the issue, the code, the project
+profile, the spec and the design, the library's documentation instead of the
+model's memory of it. What these do not answer is asked — in the chat or as
+questions on the issue — and no code is written before you approve the plan.
+
+## Why the review is different
+
+```mermaid
+flowchart TB
+  B["blind read of the diff"] --> E["each finding: file:line, evidence,<br/>then an attempt to refute it"]
+  E --> L["ledger: one id per finding<br/>across passes"]
+  L -->|open findings| X["fix round"]
+  X -->|"the next pass reads<br/>the fixes' delta"| B
+  L -->|ready| M["merge"]
+  L -->|no progress| A["stop and ask you"]
+```
+
+- **A serious finding is proved.** A `blocker` or `major` names the line and the
+  scenario, and the reviewer tries to refute it in the code before reporting.
+- **A finding keeps its id.** A recorded false positive is not raised again
+  without a new mechanism; an incomplete fix stays the same finding.
+- **The design is measured, not eyeballed.** In a project built against a
+  design, the review's `layout` mode compares the app's computed styles with
+  the design's screen, and a value off the design's scale is a finding.
+- **Repeat passes read what changed** — the fixes and what they removed —
+  instead of the whole branch again.
+- **It converges.** `minor` and `nit` get a decision, not another pass; a pass
+  that makes no progress stops and asks.
+
+The built-in `/code-review` of Claude Code 2.1.319 asks for a minimum number
+of findings and does not verify its candidates. A review here is a check, not
+a quota: zero findings is a valid result.
+
+## Measured
+
+On live projects, against the built-in `/code-review` at `high` — 14 branches,
+about 40 passes, 2026-11-08:
+
+- **Full pass.** On one project's 8 branches the built-in review found no
+  `major` that ours missed, and ours found 7 that it missed; on the other's 6,
+  3 to 3.
+- **False findings.** One in about 40 passes, dropped before the report;
+  the built-in raised 9 on one project and one or two per pass on half of
+  the other's.
+- **Price.** A full pass costs about three built-in runs and finds as many
+  more confirmed findings: per confirmed finding the two are about even.
+- **Sessions.** On a team project, 84 % of 320 sessions over 40 merged tasks
+  started with a command or a block the agent had printed.
+
+Conditions, the repeat passes on fixes and the cost of a fix round in an old
+session: [`docs/measured.md`](docs/measured.md).
+
+## Plugins
 
 Each plugin is enabled on its own, so a project takes only what fits.
 
-- `work-bootstrap` — any repository, any stack: frontend, backend, monorepo,
-  library, CLI. It writes the harness into the project, including workflow
-  commands shaped to its branch chain, its forge (GitHub, or GitLab including
-  self-hosted) and its tracker, and keeps it current with the method.
-- `work-tracker` — work tracked in an issue tracker: issues created to one
-  standard, statuses, comments, worklog. Jira Cloud is the recommended tracker
-  and its adapter ships with the plugin; another tracker gets an adapter here,
-  written to the plugin's contract. It replaced `work-jira`: in a project that
-  still enables the old name the catalogue's `renames` rewrites the key; the
-  project installs `work-tracker` once and moves over with
-  `/work-bootstrap:audit`.
-- `work-estimation` — a project estimated before it starts, from a spec and a
-  design handoff.
-
-A solo project on GitHub without a tracker fits
-[agent-tools](https://github.com/maximlukyanovich/agent-tools) better: there the
-workflow commands ship in a plugin instead of being written into the project.
-
-## Requirements
-
-- Claude Code; 2.1.292 or later for the one-line start from scratch.
-- `git`, and `gh` or `glab` signed in for the steps that open a pull or merge
-  request.
-- `python3` in `PATH` — Linux, macOS or WSL — for the plugins' scripts and the
-  `work-bootstrap` session-start hook. Without it the hook fails as a
-  non-blocking error and the session starts without the reminder.
-- For `work-tracker` on Jira: a Jira Cloud site and a working `.mcp.json` with
-  its credentials; without one the commands stop and say what is missing.
-- For `/work-estimation:export`: the `.xlsx` workbook template to fill; its map
-  is proposed on the first export.
-- For `/work-tracker:check-actuals`: an adapter with the `worked` operation —
-  Jira today.
+| Plugin | For | What it does |
+| --- | --- | --- |
+| [`work-bootstrap`](plugins/work-bootstrap/README.md) | any repository, any stack | Creates a project or writes its harness — `AGENTS.md`, the profile, the workflow commands, hooks — and audits it against the method; a session-start hook says when it falls behind. |
+| [`work-tracker`](plugins/work-tracker/README.md) | issues in a tracker | `plan`, `create`, `questions`, `status`, `comment`, `next`: hierarchy, description shape, statuses, worklog. Jira Cloud ships as the adapter; another tracker gets one by the plugin's contract. |
+| [`work-estimation`](plugins/work-estimation/README.md) | estimated before it starts | An estimate from a spec and a design handoff, every figure traced to its source: a markdown report and the estimate workbook. |
 
 ## Quick start
+
+You need Claude Code — 2.1.292 or later for the one-line start in an empty
+folder — `git`, `gh` or `glab` signed in, and `python3` for the
+scripts and the session-start hook. Per-plugin needs — a Jira `.mcp.json`, the
+estimate workbook — are in each plugin's README.
 
 Once per machine — it adds the source and loads nothing into sessions:
 
@@ -63,208 +116,43 @@ Once per machine — it adds the source and loads nothing into sessions:
 claude plugin marketplace add maximlukyanovich/work-agent-tools
 ```
 
-The add declares the marketplace in your user settings — skip it on a machine
-that works in a project pinned to a release, see
-[Pinning a release](#pinning-a-release).
+Skip it on a machine that works in a project pinned to a release: see
+[Pinning a release](docs/updates.md#pinning-a-release).
 
-In an existing repository — install, then run `setup`:
+In an existing repository:
 
 ```bash
 claude plugin install work-bootstrap@mluk-work-agent-tools --scope project
 claude "/work-bootstrap:setup"
 ```
 
-`setup` looks at the code, asks only what the code cannot answer — including
-which other plugins the project uses — shows a plan and, once you approve it,
-writes the harness: `AGENTS.md`, the project profile, the workflow commands, and
-the plugins in `.claude/settings.json`.
-
-`--scope project` records a plugin in `.claude/settings.json`, which is
-committed, so the team runs the same tooling; a teammate's clone runs the same
-command once, and the file does not change. `--scope local` writes the
-gitignored `.claude/settings.local.json` instead, for a project whose rules keep
-AI settings out of git. `--scope user` works too, at a price: the plugins'
-descriptions join every session on the machine, in unrelated projects as well.
-
-From scratch, in an empty folder — `--marketplace` adds the marketplace when it
-is not there yet:
+`setup` looks at the code, asks only what it cannot answer — the other plugins
+included — shows a plan and, on your yes, writes the harness — `AGENTS.md`,
+the project profile, the workflow commands — and records the plugins in
+`.claude/settings.json`, which is committed, so the team runs the same tooling.
+In an empty folder, `/work-bootstrap:new` creates the project first:
 
 ```bash
 mkdir my-app && cd my-app
 claude plugin install work-bootstrap --marketplace maximlukyanovich/work-agent-tools --scope project && claude "/work-bootstrap:new"
 ```
 
-`new` asks the stack, runs its generator, pins the versions, and makes the first
-commit and the remote on your yes; `setup` follows in a fresh session.
+Every plugin introduces itself, read-only: `/work-bootstrap:help`,
+`/work-tracker:help`, `/work-estimation:help ru`.
 
-Which plugins to enable:
-
-| Project | Plugins |
-| --- | --- |
-| any repository | `work-bootstrap` |
-| issues in a tracker — Jira recommended | + `work-tracker` |
-| estimated before it starts | + `work-estimation` |
-
-How a new version arrives is in [Versions and updates](#versions-and-updates).
-
-## Where to start
-
-Every plugin can introduce itself — read-only, safe to run at any time:
-
-```bash
-/work-bootstrap:help          what it can do for a repository's harness
-/work-tracker:help            what it can do with issues
-/work-estimation:help  ru     what it can do with estimates, in Russian
-```
-
-Language follows the conversation; pass a language code to override. The help
-commands are hidden from the model (`disable-model-invocation`), so they cost
-no context until typed.
-
-## Everyday use
-
-The workflow commands are the project's own — `setup` writes them, and their
-steps differ between repositories; their names carry the project's prefix,
-`my-` here, so none hides a built-in command. The plugins supply the shared
-half. A task in a project with a tracker typically runs in phases, each in a fresh
-session; a small change runs whole in one:
-
-```bash
-/work-tracker:next       what to take next from the board
-/my-task PROJ-12         the project's command: branch, plan, open questions; no code before your yes
-/my-commit               the project's command: stage, check what changed, message by its convention
-/my-review               the project's command: findings by severity, each with file:line
-/my-promote              the project's command: merge along the branch chain, then the result comment and the worklog
-```
-
-Every command ends with the next step as a block ready to copy;
-`/work-bootstrap:handoff` prints it at a phase boundary — for a fresh session,
-or here for a small change. An estimate starts with
-`/work-estimation:project`, with the spec and the design handoff at hand.
-
-## Plugins
-
-| Plugin | Kind | What it does |
-| --- | --- | --- |
-| [`work-bootstrap`](plugins/work-bootstrap/README.md) | generator + audit | Start a project in an empty folder; initialise or audit a repository's agent harness: `AGENTS.md`, the project profile, workflow commands, skills, hooks, MCP, docs. A session-start hook says when a set-up project is behind the method. |
-| [`work-tracker`](plugins/work-tracker/README.md) | library | Tracker work to one standard: `plan`, `create`, `questions`, `status`, `comment`, `next` — hierarchy, description shape, statuses, comments, worklog. Jira is its recommended adapter; another tracker gets an adapter by its contract. Reads the project profile. |
-| [`work-estimation`](plugins/work-estimation/README.md) | library | Estimate a project from a spec and a design handoff: `project`, `update`, `export` — decomposition, provenance audit, a markdown report and the estimate workbook. |
-
-## Versions and updates
-
-Every plugin carries a `version` in its `plugin.json`, and `claude plugin list`
-shows the one you have. A major means your project must act, a minor brings a
-new rule, command or template section, a patch rewords or fixes; the rule is
-in [`AGENTS.md`](AGENTS.md) §2.
-
-An installed plugin is a copy in `~/.claude/plugins/cache/`, replaced only when
-the plugin's version changes. A project set up by `setup` declares the
-marketplace with `autoUpdate` and follows `main`: every raised version arrives
-by itself, up to ten minutes after an interactive session's first message, and
-`/reload-plugins` applies it to an open session. Without that declaration,
-turn it on in `/plugin` → **Marketplaces** → `mluk-work-agent-tools` →
-**Enable auto-update**. The repository is public, so the background check
-needs no credential. By hand:
-
-```bash
-claude plugin marketplace update mluk-work-agent-tools
-claude plugin update work-tracker@mluk-work-agent-tools --scope project   # each installed plugin at its scope, then /reload-plugins
-```
-
-Updating delivers the method; it never edits a project. When a set-up project
-falls behind, `work-bootstrap`'s session-start hook says so and
-`/work-bootstrap:audit` proposes the edits.
-
-### Releases
-
-Each merged batch is released: an annotated tag `vYYYY.MM.DD` on `main` — the
-merge's date, `.2` for a second batch that day — and a GitHub
-[release](https://github.com/maximlukyanovich/work-agent-tools/releases) whose
-notes list every plugin's version against the previous release, then what a
-project must do — a major, a removed plugin, the `CHANGES.md` entries
-`/work-bootstrap:audit` applies — then the merged pull requests. The date says
-which release you run; a plugin's version says whether you must act. A released
-tag is never moved.
-
-### Pinning a release
-
-A project that follows `main` gets every raised version as it lands. A team
-that moves between releases deliberately pins a tag instead — `ref` inside
-`source`, `autoUpdate` kept:
-
-```json
-"extraKnownMarketplaces": {
-  "mluk-work-agent-tools": {
-    "source": { "source": "github", "repo": "maximlukyanovich/work-agent-tools", "ref": "vYYYY.MM.DD" },
-    "autoUpdate": true
-  }
-}
-```
-
-The latest tag is the first line of
-`git ls-remote --tags --refs --sort=-v:refname https://github.com/maximlukyanovich/work-agent-tools 'v*'`.
-`setup` asks whether a project follows `main` or pins a release, and writes
-the latest tag itself.
-
-A pin holds on a machine under two conditions:
-
-- **The user settings do not declare the marketplace.** The once-per-machine
-  `claude plugin marketplace add` writes it into `~/.claude/settings.json`
-  without `ref`, and that declaration wins: a session in the pinned project
-  either registers no marketplace at all or installs the plugins from `main`.
-  Skip the add on a machine that works in a pinned project — trusting the
-  folder registers the marketplace from the project's settings — or delete the
-  `mluk-work-agent-tools` entry under `extraKnownMarketplaces` in
-  `~/.claude/settings.json`; a project set up by `setup` declares it in its own
-  settings.
-- **The plugins update in the project's own session.** The catalogue is one
-  clone per machine, and a session in another project fetches it from that
-  project's source. A session start in the pinned project fetches its tag
-  back, and `autoUpdate` then works from it; `claude plugin update` takes the
-  clone as the machine's last session left it, so after a session elsewhere it
-  moves the pinned project to that source.
-
-Moving to the next tag:
-
-1. A pull request in the project changes `ref`; its reviewer reads the
-   releases between the two tags.
-2. After the merge, each developer starts an interactive session at the
-   repository root: the session fetches the catalogue from the new tag.
-3. The plugins follow through `autoUpdate`, up to ten minutes after that
-   session's first message, and `/reload-plugins` applies them. To move at
-   once, run `claude plugin update <plugin>@mluk-work-agent-tools --scope <scope>`
-   for each installed plugin right after that start, before a session in
-   another project.
-4. When the releases list `CHANGES.md` entries, `work-bootstrap`'s
-   session-start hook says the project is behind: `/work-bootstrap:audit`.
-
-Rolling back is the same move to an older tag; going back to `main` is
-removing `ref`. Two commands look right and do not do it:
-`claude plugin marketplace update` does not see a changed `ref` — only a
-session start does — and `claude plugin marketplace add` replaces the declared
-source, its `ref` included.
-
-## Measured
-
-How the review command this method writes compares with the built-in
-`/code-review`, and how the workflow plays out across sessions on a team
-project, measured on live projects: [`docs/measured.md`](docs/measured.md).
+A project that `setup` wrote receives new versions by itself. Elsewhere, turn
+that on once: `/plugin` → **Marketplaces** → `mluk-work-agent-tools` →
+**Enable auto-update**. Scopes, updates, releases and pinning a project to one:
+[`docs/updates.md`](docs/updates.md).
 
 ## How it's built
 
-`work-bootstrap` generates: what `setup` writes, the workflow commands included,
-becomes the project's own code, and a method change reaches it as an entry in
+`work-bootstrap` generates: what `setup` writes becomes the project's own code,
+and a method change reaches it as an entry in
 [`CHANGES.md`](plugins/work-bootstrap/CHANGES.md) that `audit` applies.
-`work-tracker` and `work-estimation` are libraries: the procedure stays here, and
-the project contributes a profile, `.claude/project-profile.md`, that every
-command reads first. The model — generator versus library, what lives here and
-what in the project, precedence, command naming — is in
-[`docs/design.md`](docs/design.md).
+`work-tracker` and `work-estimation` are libraries: the procedure stays here,
+and the project contributes a profile, `.claude/project-profile.md`, that every
+command reads first — [`docs/design.md`](docs/design.md).
 
-## Contributing
-
-Issues and pull requests are welcome — see [`CONTRIBUTING.md`](CONTRIBUTING.md).
-
-## License
-
+Issues and pull requests are welcome — [`CONTRIBUTING.md`](CONTRIBUTING.md).
 [MIT](LICENSE).

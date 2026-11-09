@@ -9,7 +9,12 @@ harness. Stack-agnostic: frontend, backend, monorepo, library, CLI.
 claude plugin install work-bootstrap --marketplace maximlukyanovich/work-agent-tools --scope project
 ```
 
-Other scopes and updating: [Quick start](../../README.md#quick-start).
+`--marketplace` (Claude Code 2.1.292 or later) adds the marketplace when it
+is not there yet. The scripts and the session-start hook need `python3` in
+`PATH` — Linux, macOS or WSL; without it the hook fails as a non-blocking
+error and the session starts without the reminder.
+
+Other scopes and updating: [`docs/updates.md`](../../docs/updates.md).
 
 ## Commands
 

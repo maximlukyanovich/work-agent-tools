@@ -15,7 +15,7 @@ project still on `work-jira` has its key rewritten by the catalogue's
 claude plugin install work-tracker --marketplace maximlukyanovich/work-agent-tools --scope project
 ```
 
-Other scopes and updating: [Quick start](../../README.md#quick-start).
+Other scopes and updating: [`docs/updates.md`](../../docs/updates.md).
 
 ## Commands
 
@@ -76,6 +76,8 @@ Why the script writes and MCP reads: [the Jira adapter](reference/adapters/jira.
 
 ## The one hard prerequisite
 
-Access to the tracker, as its adapter names it — for Jira, a working
-`.mcp.json`. Without it the commands stop and say what to do rather than
-failing with "no tools found".
+Access to the tracker, as its adapter names it — for Jira, a Jira Cloud site
+and a working `.mcp.json` with its credentials. Without it the commands stop
+and say what to do rather than failing with "no tools found".
+`/work-tracker:check-actuals` also needs an adapter with the `worked`
+operation — Jira today.

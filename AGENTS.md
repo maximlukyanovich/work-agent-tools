@@ -217,6 +217,7 @@ plugins/<name>/
 plugins/work-bootstrap/CHANGES.md method changes a set-up project carries over
 docs/design.md                    the model behind the plugins
 docs/measured.md                  figures from live projects, in dated sections
+docs/updates.md                   scopes, versions, releases, pinning a release
 CONTRIBUTING.md                   for outside contributors; points here
 LICENSE                           MIT
 scripts/check.py                  the pull-request gate, run by CI
