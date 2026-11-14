@@ -905,3 +905,19 @@ run, and a trimmed output proves neither green nor a finding.
 Check: templates — `gate.md`, "Red output is read whole"; audit §6.
 Applies to: projects with a command that runs the gate — commit, review,
 sync or merge.
+
+## 2026-11-14 · machine-share
+
+What: outside CI the test runner and the gate run below normal priority,
+and the worker count is the runner's default, a machine's own from an
+ignored local file. When the developer says runs go slow or red as sessions
+on one machine overlap, the step that takes every core — the whole suite,
+alone or inside the gate — also takes the machine-wide lock
+`/tmp/heavy-run.lock` (`flock`) and, holding it, stops with an exit code of
+its own while something else keeps most of the cores busy, unless a flag
+passed down from the gate says to run anyway. The gate's commands wait for
+the lock and leave the flag to the developer.
+Check: checklist — "A heavy local run leaves the machine usable"; templates —
+`gate.md`, "Red under load is not red by code"; audit §6.
+Applies to: projects whose gate or tests run locally; the lock only on the
+developer's yes, a no recorded as advice, not a finding.
