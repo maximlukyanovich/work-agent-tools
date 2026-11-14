@@ -91,6 +91,29 @@ Run it and show the result. Anything unchecked is reported, not quietly skipped.
       parallel only where they share no outside state, the linter keeps a
       cache when no rule needs type information, the type-check is
       incremental. CI runs without these caches.
+- [ ] A heavy local run leaves the machine usable. Outside CI the test
+      runner and the gate run below normal priority (`nice`,
+      `os.setPriority`, inherited by the workers), and the worker count is
+      the runner's default, a machine's own from an ignored local file; CI
+      runs on defaults. Whether runs also queue is the developer's answer,
+      not the agent's guess: asked whether runs go slow or red when sessions
+      on one machine overlap, a yes adds a lock around the step that takes
+      every core — the test runner over the whole suite, alone or inside
+      the gate — `/tmp/heavy-run.lock` in every project, so the machine runs
+      one at a time and a waiting run says so: a kernel lock that its
+      process's exit drops (`flock`), never a marker file; without `flock`
+      the run goes unqueued and says so. A run filtered to some files and
+      the single-threaded parts — lint, type-check, format — take no lock:
+      queued, they would leave cores idle. Holding the lock, the step does
+      not start while something else keeps most of the cores busy: their
+      share over a few seconds against the project's threshold, which a
+      machine may override — not the load average, which lags a minute and
+      still counts a run that just ended. The step then names the busiest
+      processes and exits with a code of its own, not red's, unless a flag
+      passed down from the gate says to run anyway. A no leaves the lock as
+      advice to the developer, not a finding. Observed on one machine:
+      three sessions' runs at once each took about as long as three single
+      runs add up to, and all went red.
 - [ ] A review command, if there is one, keeps a pass ledger in the personal
       space: reviews the delta since the last reviewed head — its target
       from the project's copy of `templates/review-target/review_target.py`,
